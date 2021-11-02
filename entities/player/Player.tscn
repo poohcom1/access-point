@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/green.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Entity
+
+var ACCEL_PERCENT := 0.5
+
+const Bullet = preload(\"res://entities/player/Bullet.tscn\")
+
+func _physics_process(_delta):
+	var up := Input.is_action_pressed(\"ui_up\")
+	var down := Input.is_action_pressed(\"ui_down\")
+	var left := Input.is_action_pressed(\"ui_left\")
+	var right := Input.is_action_pressed(\"ui_right\")
+	
+	var vert_mov := int(down) - int(up)
+	var hor_mov := int(right) - int(left)
+	
+	mv.x = lerp(mv.x, speed * hor_mov, ACCEL_PERCENT)
+	mv.y = lerp(mv.y, speed * vert_mov, ACCEL_PERCENT)
+	
+	_attack()
+	
+func _attack():
+	if Input.is_action_just_pressed(\"shoot\"):
+		var bullet = Bullet.instance()
+		var angle = get_global_mouse_position().angle_to_point(get_parent().to_global(position))
+		var bullet_position = get_parent().to_global(position)
+		
+		bullet.init(angle, bullet_position)
+		
+		get_tree().root.add_child(bullet)
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 3 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Player" type="KinematicBody2D"]
+script = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 4 )
