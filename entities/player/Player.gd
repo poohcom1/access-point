@@ -2,9 +2,12 @@ extends Entity
 class_name Player
 
 # Exports
-export var ACCEL_PERCENT := 0.5
+export(float, 0.0, 1.0) var ACCEL_PERCENT := 0.5
+export var MAX_HP := 10
 
 # Fields
+var hp := MAX_HP
+
 var take_input := true
 
 # Nodes and scenes
@@ -35,10 +38,9 @@ func _physics_process(_delta):
 	
 func _attack():
 	if Input.is_action_just_pressed("shoot"):
-		var bullet = Bullet.instance()
-		var angle = get_global_mouse_position().angle_to_point(get_parent().to_global(position))
-		var bullet_position = get_parent().to_global(position)
-		
-		bullet.init(angle, bullet_position)
-		
-		get_tree().root.add_child(bullet)
+		# warning-ignore: return_value_discarded
+		Projectile.create_bullet_here(Bullet, self, get_global_mouse_position())
+
+# States
+func on_hit(damage):
+	hp -= damage

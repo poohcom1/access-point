@@ -1,21 +1,21 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/fonts/clacon2.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://assets/fonts/Caskaydia Cove Nerd Font Complete Mono.ttf" type="DynamicFontData" id=1]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 20
 font_data = ExtResource( 1 )
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends TextEdit
+[sub_resource type="GDScript" id=2]
+script/source = "extends LineEdit
 
 onready var gm = $\"/root/GameManager\"
 onready var parser = $\"/root/CommandParser\"
 
 func _ready():
-	
+	# warning-ignore: return_value_discarded
 	connect(\"focus_entered\", self, \"_prompt_entered\")
-	
+	# warning-ignore: return_value_discarded	
 	connect(\"focus_exited\", self, \"_prompt_exited\")
 	
 
@@ -25,12 +25,11 @@ func _prompt_entered():
 func _prompt_exited():
 	gm.player.take_input = true
 
-func _input(event):
+func _input(_event):
 	if Input.is_key_pressed(KEY_ENTER):
 		parser.parse_command(text)
 		text = \"\"
 		get_tree().set_input_as_handled()
-		exit_prompt()
 	elif Input.is_key_pressed(KEY_ESCAPE):
 		exit_prompt()
 		
@@ -39,17 +38,18 @@ func exit_prompt():
 	release_focus()
 "
 
-[node name="TextEdit" type="TextEdit"]
+[node name="TextEdit" type="LineEdit"]
 show_behind_parent = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -382.0
-margin_top = -36.0
-custom_fonts/font = SubResource( 2 )
-custom_colors/member_variable_color = Color( 0, 0, 0, 0.670588 )
-script = SubResource( 1 )
+margin_top = -31.0
+custom_fonts/font = SubResource( 1 )
+caret_blink = true
+caret_blink_speed = 0.5
+script = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

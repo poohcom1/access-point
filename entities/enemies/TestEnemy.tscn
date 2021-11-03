@@ -5,6 +5,27 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Enemy
 
+export var shoot_interval = 3
+
+onready var shoot_timer: Timer = $ShootTimer
+
+const BulletScn = preload(\"res://entities/projectiles/EnemyBullet.tscn\")
+
+func _ready():
+	shoot_timer.wait_time = shoot_interval
+	
+	# warning-ignore: return_value_discarded
+	shoot_timer.connect(\"timeout\", self, \"shoot\")
+	
+
+func shoot():
+	if $\"/root/GameManager\".player == null: return
+	
+	# warning-ignore: return_value_discarded
+	Projectile.create_bullet_here(BulletScn, self, 
+		$\"/root/GameManager\".player.position, 1000)
+	
+	shoot_timer.start()
 
 func on_death():
 	queue_free()
@@ -33,3 +54,6 @@ shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 4 )
+
+[node name="ShootTimer" type="Timer" parent="."]
+autostart = true

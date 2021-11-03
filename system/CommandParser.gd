@@ -8,7 +8,7 @@ func parse_command(command):
 			_list_files(command)
 			
 
-func _list_files(command: String):
+func _list_files(_command: String):
 	var enemies: Array = get_tree().get_nodes_in_group(Enemy.group)
 	
 	print(len(enemies))

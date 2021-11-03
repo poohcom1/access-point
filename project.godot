@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://entities/player/Player.gd"
+}, {
+"base": "Area2D",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://entities/projectiles/Projectile.gd"
 } ]
 _global_script_class_icons={
 "Enemy": "",
 "Entity": "",
-"Player": ""
+"Player": "",
+"Projectile": ""
 }
 
 [application]
