@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Entity",
 "language": "GDScript",
 "path": "res://entities/Entity.gd"
+}, {
+"base": "Entity",
+"class": "Player",
+"language": "GDScript",
+"path": "res://entities/player/Player.gd"
 } ]
 _global_script_class_icons={
 "Enemy": "",
-"Entity": ""
+"Entity": "",
+"Player": ""
 }
 
 [application]
@@ -29,6 +35,11 @@ _global_script_class_icons={
 config/name="bug-game"
 run/main_scene="res://stages/TestStage.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GameManager="*res://system/GameManager.gd"
+CommandParser="*res://system/CommandParser.gd"
 
 [input]
 

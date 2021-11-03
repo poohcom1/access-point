@@ -3,8 +3,13 @@ class_name Enemy
 
 export var health := 10
 
+const group = "enemy"
+
 signal on_damage(dmg)
 signal on_death()
+
+func _ready():
+	add_to_group(group)
 
 func on_hit(dmg):
 	health -= dmg
