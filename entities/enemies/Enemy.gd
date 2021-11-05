@@ -10,6 +10,8 @@ signal on_death()
 
 func _ready():
 	add_to_group(group)
+	set_collision_layer_bit(ProjectSettings.get("global/TILEMAP_COL_BIT"), false)
+	set_collision_layer_bit(ProjectSettings.get("global/PLAYER_BULLET_COL_BIT"), true)
 
 func on_hit(dmg):
 	health -= dmg

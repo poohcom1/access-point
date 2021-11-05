@@ -1,48 +1,79 @@
-tool
-extends Area2D
+extends KinematicBody2D
 class_name Projectile
 
 export var damage: int = 1
-var angle: float = 0.0
-var speed: float = 500
+export var angle: float = 0.0
+export var speed: float = 10
+export var MAX_BOUNCES: int = 3
+
+var bounce_count := 0
 
 var pass_through := false
 
-onready var sprites := $AnimatedSprite
+# Field
+var _direction_vector := Vector2.ZERO
+
+
+
 
 # Factory
-static func create_bullet(BulletScn: PackedScene, parent: Node2D, start: Vector2, target: Vector2, _speed=500) -> Projectile:
+"""
+	Creates a bullet given a scene, and attaches it to the tree root
+"""
+static func create_bullet(BulletScn: PackedScene, parent: Node2D, start: Vector2, target: Vector2, override_speed=null) -> Projectile:
 	var bullet = BulletScn.instance()
 	
 	bullet.angle = target.angle_to_point(start)
 	bullet.position = start
-	bullet.speed = _speed
+	if override_speed != null:
+		bullet.speed = override_speed
 	
 	parent.get_tree().root.add_child(bullet)
 	
 	return bullet
 
-static func create_bullet_here(BulletScn: PackedScene, parent: Node2D, target: Vector2, _speed=500) -> Projectile:
-	var bullet = BulletScn.instance()
-	var start = parent.get_parent().to_global(parent.position)
+"""
+	Creates a bullet at the parent location
+"""
+static func create_bullet_here(BulletScn: PackedScene, parent: Node2D, target: Vector2, override_speed=null) -> Projectile:
+	var start = parent.global_position
 	
-	bullet.angle = target.angle_to_point(start)
-	bullet.position = start
-	bullet.speed = _speed
-	
-	parent.get_tree().root.add_child(bullet)
-	
-	return bullet
+	return create_bullet(BulletScn, parent, start, target, override_speed)
+
+
+
+
 
 func _ready():
-	# warning-ignore: return_value_discarded
-	connect("body_entered", self, "on_hit")
+	_direction_vector = Vector2(cos(angle), sin(angle))
+	set_collision_mask_bit(ProjectSettings.get_setting("global/TILEMAP_COL_BIT"), true)
 	
-	sprites.rotation = angle
+func _physics_process(_delta):
+	var collision := move_and_collide(_direction_vector * speed)
 	
-func _physics_process(delta):
-	position += Vector2(cos(angle), sin(angle)) * speed * delta
+	if collision:
+		_on_hit(collision)
+		
 
+func _on_hit(col: KinematicCollision2D):
+	# On Wall hit
+	if col.collider is TileMap:
+		# Bounce using the collision normal
+		_direction_vector = _direction_vector.bounce(col.normal)
+		# Record bount
+		bounce_count += 1
+		
+		if bounce_count	>= MAX_BOUNCES:
+			on_wall_hit()
+	else:
+		# On entity hit
+		on_hit(col.collider)
+
+# Virtual function for implemented classes
 func on_hit(_other: Node2D):
 	pass
+	
+# Virtual function for implemented classes
+func on_wall_hit():
+	queue_free()
 

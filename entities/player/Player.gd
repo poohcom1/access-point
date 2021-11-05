@@ -11,12 +11,13 @@ var hp := MAX_HP
 var take_input := true
 
 # Nodes and scenes
-const Bullet = preload("res://entities/projectiles/Bullet.tscn")
+const Bullet = preload("res://entities/projectiles/PlayerBullet.tscn")
 
 onready var gm := $"/root/GameManager"
 
 func _ready():
 	gm.player = self
+	set_collision_layer_bit(ProjectSettings.get_setting("global/ENEMY_BULLET_COL_BIT"), true)
 
 func _physics_process(_delta):
 	var vert_mov := 0
@@ -37,7 +38,7 @@ func _physics_process(_delta):
 	_attack()
 	
 func _attack():
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot") or Input.is_action_just_pressed("ui_accept"):
 		# warning-ignore: return_value_discarded
 		Projectile.create_bullet_here(Bullet, self, get_global_mouse_position())
 
