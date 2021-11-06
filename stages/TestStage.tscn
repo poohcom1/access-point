@@ -56,7 +56,9 @@ texture = ExtResource( 6 )
 texture_scale = 0.5
 
 [node name="TestEnemy" parent="." instance=ExtResource( 5 )]
-position = Vector2( 161.575, 293.053 )
+modulate = Color( 0.137255, 0.184314, 0.678431, 1 )
+position = Vector2( 171.475, 295.174 )
 
 [node name="TestEnemy2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 255.232, 370.836 )
+modulate = Color( 0.137255, 0.184314, 0.678431, 1 )
+position = Vector2( 242.504, 365.886 )

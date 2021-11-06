@@ -4,7 +4,7 @@ class_name Projectile
 export var damage: int = 1
 export var angle: float = 0.0
 export var speed: float = 10
-export var MAX_BOUNCES: int = 3
+export var MAX_BOUNCES: int = 2
 
 var bounce_count := 0
 
@@ -60,11 +60,12 @@ func _on_hit(col: KinematicCollision2D):
 	if col.collider is TileMap:
 		# Bounce using the collision normal
 		_direction_vector = _direction_vector.bounce(col.normal)
-		# Record bount
-		bounce_count += 1
 		
 		if bounce_count	>= MAX_BOUNCES:
 			on_wall_hit()
+			
+		# Record bounce
+		bounce_count += 1
 	else:
 		# On entity hit
 		on_hit(col.collider)

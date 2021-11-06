@@ -7,7 +7,8 @@ var speed := BASE_SPEED
 
 var floor_vector := Vector2.UP
 
-# Fields
+## Fields
+# Vector for current movement
 var mv := Vector2.ZERO
 
 func _physics_process(delta):
