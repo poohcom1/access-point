@@ -12,7 +12,9 @@ func _ready():
 func _process(_delta):
 	if gm.player == null: return
 	
-	text = \"HP: %d\" % gm.player.hp
+	text = \"HP: %d\\n\" % gm.player.hp
+	text += \"Weapon: %s\\n\" % gm.player.weapons[gm.player.weapon_ind].weapon_name
+	text += \"Back: Q, Next: E\"
 "
 
 [node name="Debug" type="CanvasLayer"]

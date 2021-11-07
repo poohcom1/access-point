@@ -10,13 +10,39 @@ var hp := MAX_HP
 
 var take_input := true
 
+var weapons := []
+var weapon_ind := 0
+
 # Nodes and scenes
 onready var gm := $"/root/GameManager"
-onready var weapon
+
+const Nailgun = preload("res://weapons/nailgun/Nailgun.tscn")
+const LaserPistol = preload("res://weapons/laser_pistol/LaserPistol.tscn")
 
 func _ready():
 	gm.player = self
 	set_collision_layer_bit(ProjectSettings.get_setting("global/ENEMY_BULLET_COL_BIT"), true)
+
+	_init_weapons()
+
+func _init_weapons():
+	var nailgun = Nailgun.instance()
+	add_child(nailgun)
+	var laser_pistol = LaserPistol.instance()
+	add_child(laser_pistol)
+	
+	weapons = [nailgun, laser_pistol]
+	
+func switch_weapon(direction := 1):
+	weapons[weapon_ind].active = false
+	weapon_ind += direction
+	
+	if weapon_ind >= len(weapons):
+		weapon_ind = 0
+	if weapon_ind < 0:
+		weapon_ind = len(weapons) - 1
+		
+	weapons[weapon_ind].active = true
 
 func _physics_process(_delta):
 	var vert_mov := 0
@@ -30,6 +56,9 @@ func _physics_process(_delta):
 	
 		vert_mov = int(down) - int(up)
 		hor_mov = int(right) - int(left)
+		
+		switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
+					- int(Input.is_action_just_pressed("previous_weapon")))
 	
 	mv.x = lerp(mv.x, speed * hor_mov, ACCEL_PERCENT)
 	mv.y = lerp(mv.y, speed * vert_mov, ACCEL_PERCENT)

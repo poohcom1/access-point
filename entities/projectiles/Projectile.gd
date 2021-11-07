@@ -65,10 +65,10 @@ func _on_hit(col: KinematicCollision2D):
 		bounce_count += 1
 	else:
 		# On entity hit
-		on_hit(col.collider)
+		on_hit(col.collider, angle)
 
 # Virtual function for implemented classes
-func on_hit(_other: Node2D):
+func on_hit(_other: Node2D, _angle: float):
 	pass
 	
 # Virtual function for implemented classes

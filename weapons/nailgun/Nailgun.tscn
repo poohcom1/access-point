@@ -1,12 +1,15 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Node2D
+script/source = "extends Weapon
 
-const Bullet = preload(\"res://weapons/pistol/Bullet.tscn\")
+const Bullet = preload(\"res://weapons/nailgun/Bullet.tscn\")
+
+func _ready():
+	weapon_name = \"Nailgun\"
 
 func _process(delta):
-	if Input.is_action_just_released(\"shoot\") or Input.is_action_just_pressed(\"ui_accept\"):
+	if active and Input.is_action_just_released(\"shoot\") or Input.is_action_just_pressed(\"ui_accept\"):
 		# warning-ignore: return_value_discarded
 		Projectile.create_bullet_here(Bullet, self, get_global_mouse_position())
 "
