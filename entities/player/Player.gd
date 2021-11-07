@@ -11,9 +11,8 @@ var hp := MAX_HP
 var take_input := true
 
 # Nodes and scenes
-const Bullet = preload("res://entities/projectiles/PlayerBullet.tscn")
-
 onready var gm := $"/root/GameManager"
+onready var weapon
 
 func _ready():
 	gm.player = self
@@ -34,13 +33,6 @@ func _physics_process(_delta):
 	
 	mv.x = lerp(mv.x, speed * hor_mov, ACCEL_PERCENT)
 	mv.y = lerp(mv.y, speed * vert_mov, ACCEL_PERCENT)
-	
-	_attack()
-	
-func _attack():
-	if Input.is_action_just_pressed("shoot") or Input.is_action_just_pressed("ui_accept"):
-		# warning-ignore: return_value_discarded
-		Projectile.create_bullet_here(Bullet, self, get_global_mouse_position())
 
 # States
 func on_hit(damage):

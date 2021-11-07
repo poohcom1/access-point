@@ -55,10 +55,24 @@ visible = false
 texture = ExtResource( 6 )
 texture_scale = 0.5
 
-[node name="TestEnemy" parent="." instance=ExtResource( 5 )]
-modulate = Color( 0.137255, 0.184314, 0.678431, 1 )
-position = Vector2( 171.475, 295.174 )
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2( 210.486, 333.889 )
 
-[node name="TestEnemy2" parent="." instance=ExtResource( 5 )]
+[node name="TestEnemy" parent="Node2D" instance=ExtResource( 5 )]
 modulate = Color( 0.137255, 0.184314, 0.678431, 1 )
-position = Vector2( 242.504, 365.886 )
+position = Vector2( -68.4586, -66.9701 )
+
+[node name="TestEnemy2" parent="Node2D" instance=ExtResource( 5 )]
+modulate = Color( 0.137255, 0.184314, 0.678431, 1 )
+position = Vector2( 61.7766, 68.2361 )
+
+[node name="Node2D2" type="Node2D" parent="."]
+position = Vector2( 513.487, 276.505 )
+
+[node name="TestEnemy" parent="Node2D2" instance=ExtResource( 5 )]
+modulate = Color( 0.137255, 0.184314, 0.678431, 1 )
+position = Vector2( 70.548, -53.9394 )
+
+[node name="TestEnemy2" parent="Node2D2" instance=ExtResource( 5 )]
+modulate = Color( 0.137255, 0.184314, 0.678431, 1 )
+position = Vector2( -79.1442, 55.136 )
