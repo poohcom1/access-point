@@ -4,24 +4,45 @@
 script/source = "extends Weapon
 
 # Properties
-
+export var SHOOT_INTERVAL = 0.15
 
 # Fields
-
+var shooting := false
 
 # Nodes
+const Bullet = preload(\"res://weapons/tools/RailgunProjectile.tscn\")
 
+onready var shoot_timer := Timer.new()
 
 # Signals
 
-
 func _ready():
-	pass
+	add_child(shoot_timer)
+	shoot_timer.start(SHOOT_INTERVAL)
+	shoot_timer.connect(\"timeout\", self, \"on_shoot\")
+	
+	weapon_name = \"Mini-Railgun\"
 
+func on_shoot():
+	if not shooting: return
+	
+	ammo -= 1
+	
+	# warning-ignore:return_value_discarded
+	Projectile.create_bullet_here(Bullet, self, get_global_mouse_position())
+	
+	shoot_timer.start()
 
 func on_active():
-	pass
+	if Input.is_action_just_pressed(\"shoot\"):
+		shooting = true
+	elif Input.is_action_just_released(\"shoot\"):
+		shooting = false
+		
+
+func on_switch_out():
+	shooting = false
 "
 
-[node name="Node2D" type="Node2D"]
+[node name="Railgun" type="Node2D"]
 script = SubResource( 1 )

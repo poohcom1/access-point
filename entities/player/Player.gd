@@ -17,7 +17,7 @@ var weapon_ind := 0
 onready var gm := $"/root/GameManager"
 
 const MachineGun = preload("res://weapons/MachineGun.tscn")
-#const LaserPistol = preload("res://weapons/laser_pistol/LaserPistol.tscn")
+const Railgun = preload("res://weapons/MiniRailgun.tscn")
 
 func _ready():
 	gm.player = self
@@ -28,14 +28,17 @@ func _ready():
 func _init_weapons():
 	var machine_gun = MachineGun.instance()
 	add_child(machine_gun)
-	#var laser_pistol = LaserPistol.instance()
-	#add_child(laser_pistol)
+	var railgun = Railgun.instance()
+	add_child(railgun)
 	
-	weapons = [machine_gun]
+	weapons = [machine_gun, railgun]
 	pass
 	
 func switch_weapon(direction := 1):
+	if direction == 0: return
+	
 	weapons[weapon_ind].active = false
+	weapons[weapon_ind].on_switch_out()
 	weapon_ind += direction
 	
 	if weapon_ind >= len(weapons):
@@ -44,6 +47,7 @@ func switch_weapon(direction := 1):
 		weapon_ind = len(weapons) - 1
 		
 	weapons[weapon_ind].active = true
+	weapons[weapon_ind].on_switch()
 
 func _physics_process(_delta):
 	var vert_mov := 0

@@ -3,18 +3,20 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Weapon
 
-export var SHOOT_INTERVAL := 0.01
-export var DAMAGE = 5
+export var SHOOT_INTERVAL := 0.05
+export var DAMAGE = 1
 export var KNOCKBACK = 5
 
 # Fields
 var shooting := false
+var wall_hit := false
 
 # Nodes
 const ShootArea = preload(\"res://weapons/tools/ShootArea.tscn\")
 
 var shoot_collider: Area2D
 
+onready var line_of_sight := $LineOfSight
 onready var shoot_interval := Timer.new()
 
 func _ready():
@@ -29,6 +31,9 @@ func _ready():
 	shoot_collider = ShootArea.instance()
 	add_child(shoot_collider)
 	
+	## Line of sight check
+	line_of_sight.exclude_parent
+	
 	## Name
 	weapon_name = \"Submachine-gun\"
 
@@ -36,6 +41,15 @@ func _physic_process(_delta):
 	pass
 	
 func _on_shoot():
+	line_of_sight.cast_to = (get_global_mouse_position() - global_position)
+	
+	if line_of_sight.is_colliding() and line_of_sight.get_collider() is TileMap:
+		shoot_collider.global_position = line_of_sight.get_collision_point()
+		wall_hit = true
+		return
+		
+	wall_hit = false
+	
 	for body in shoot_collider.get_overlapping_bodies():
 		if body is Enemy:
 			body.on_hit(DAMAGE)
@@ -45,7 +59,7 @@ func _on_hit():
 	pass
 
 func on_active():
-	shoot_collider.global_position = get_global_mouse_position()
+	if not wall_hit: shoot_collider.global_position = get_global_mouse_position()
 	
 	if Input.is_action_just_pressed(\"shoot\"):
 		shooting = true
@@ -64,11 +78,15 @@ func on_active():
 	if shooting:
 		pass
 		
-		
-		
+func on_switch_out():
+	shoot_collider.get_node(\"Particles\").emitting = false
 		
 		
 "
 
 [node name="MachineGun" type="Node2D"]
 script = SubResource( 1 )
+
+[node name="LineOfSight" type="RayCast2D" parent="."]
+enabled = true
+collision_mask = 524288

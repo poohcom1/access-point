@@ -14,5 +14,5 @@ var mv := Vector2.ZERO
 func _ready():
 	speed = BASE_SPEED
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	pass

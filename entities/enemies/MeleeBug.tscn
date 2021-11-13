@@ -20,13 +20,15 @@ var pathfinding_timer := Timer.new()
 func _ready():
 	pathfinding_timer.autostart = true
 	add_child(pathfinding_timer)
-	pathfinding_timer.start(0.5)
+	pathfinding_timer.start(0.3)
+	# warning-ignore:return_value_discarded
 	pathfinding_timer.connect(\"timeout\", self, \"get_path\")
 
 
 func _physics_process(_delta):
+	$Debug.text = str(health)
 	$Line2D.global_position = Vector2.ZERO
-	#navigate()
+	navigate()
 	
 	mv = move_and_slide(mv)
 	
@@ -82,4 +84,16 @@ position = Vector2( -0.0662114, 0.0662174 )
 shape = SubResource( 3 )
 
 [node name="Line2D" type="Line2D" parent="."]
+visible = false
+points = PoolVector2Array( 5.99099, -16.108 )
 width = 1.0
+
+[node name="Debug" type="Label" parent="."]
+margin_left = -10.7705
+margin_top = -6.56123
+margin_right = 13.2295
+margin_bottom = 7.43877
+text = "200"
+__meta__ = {
+"_edit_use_anchors_": false
+}

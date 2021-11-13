@@ -9,7 +9,7 @@ export var enemy_class := ""
 const group := "enemy"
 
 # Fields
-var health := MAX_HEALTH
+var health := 0 # Set in ready from max_health
 var state: int = State.Passive
 
 # States
@@ -22,6 +22,7 @@ signal on_death()
 
 # Setup
 func _ready():
+	health = MAX_HEALTH
 	add_to_group(group)
 	#set_collision_layer_bit(ProjectSettings.get("global/TILEMAP_COL_BIT"), true)
 	set_collision_layer_bit(ProjectSettings.get("global/PLAYER_BULLET_COL_BIT"), true)
@@ -36,8 +37,6 @@ func _process(_delta):
 # Events
 
 func on_hit(dmg: int):
-	modulate = Color(1, 1, 0, 1)
-	
 	if health <= 0:
 		return
 	
