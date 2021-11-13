@@ -3,7 +3,7 @@ class_name Entity
 
 export var BASE_SPEED := 200
 
-var speed := BASE_SPEED
+var speed := 0
 
 var floor_vector := Vector2.UP
 
@@ -11,8 +11,8 @@ var floor_vector := Vector2.UP
 # Vector for current movement
 var mv := Vector2.ZERO
 
-func _physics_process(delta):
-	on_update(delta)
+func _ready():
+	speed = BASE_SPEED
 
-func on_update(_delta):
-	mv = move_and_slide(mv, floor_vector)
+func _physics_process(delta):
+	pass

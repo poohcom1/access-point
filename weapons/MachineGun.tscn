@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Weapon
+
+export var SHOOT_INTERVAL := 0.01
+export var DAMAGE = 5
+export var KNOCKBACK = 5
+
+# Fields
+var shooting := false
+
+# Nodes
+const ShootArea = preload(\"res://weapons/tools/ShootArea.tscn\")
+
+var shoot_collider: Area2D
+
+onready var shoot_interval := Timer.new()
+
+func _ready():
+	## Timer
+	
+	# warning-ignore:return_value_discarded
+	shoot_interval.connect(\"timeout\", self, \"_on_shoot\")
+	shoot_interval.autostart = true
+	add_child(shoot_interval)
+	
+	## Hit-scan
+	shoot_collider = ShootArea.instance()
+	add_child(shoot_collider)
+	
+	## Name
+	weapon_name = \"Submachine-gun\"
+
+func _physic_process(_delta):
+	pass
+	
+func _on_shoot():
+	for body in shoot_collider.get_overlapping_bodies():
+		if body is Enemy:
+			body.on_hit(DAMAGE)
+			body.on_hit_knockback(global_position.direction_to(body.position) * KNOCKBACK)
+	
+func _on_hit():
+	pass
+
+func on_active():
+	shoot_collider.global_position = get_global_mouse_position()
+	
+	if Input.is_action_just_pressed(\"shoot\"):
+		shooting = true
+		shoot_interval.start(SHOOT_INTERVAL)
+		
+		_on_shoot()
+		shoot_collider.get_node(\"Particles\").emitting = true
+		
+	elif Input.is_action_just_released(\"shoot\"):
+		shooting = false
+		
+		shoot_interval.stop()
+		shoot_collider.get_node(\"Particles\").emitting = false
+		
+
+	if shooting:
+		pass
+		
+		
+		
+		
+		
+"
+
+[node name="MachineGun" type="Node2D"]
+script = SubResource( 1 )

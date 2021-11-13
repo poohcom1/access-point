@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "KinematicBody2D",
 "class": "Projectile",
 "language": "GDScript",
-"path": "res://entities/projectiles/Projectile.gd"
+"path": "res://entities/Projectile.gd"
 }, {
 "base": "Node2D",
 "class": "Weapon",
@@ -52,6 +52,11 @@ config/icon="res://icon.png"
 
 GameManager="*res://system/GameManager.gd"
 CommandParser="*res://system/CommandParser.gd"
+
+[display]
+
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [global]
 

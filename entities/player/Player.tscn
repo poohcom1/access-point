@@ -4,6 +4,7 @@
 [ext_resource path="res://entities/player/Player.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7.90374, 7.86542 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4

@@ -13,9 +13,6 @@ var pass_through := false
 # Field
 var _direction_vector := Vector2.ZERO
 
-
-
-
 # Factory
 """
 	Creates a bullet given a scene, and attaches it to the tree root

@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 5.0
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 1, 0.966064, 0.457031, 1, 1, 1, 1, 0.32549 )
+
+[node name="ShootArea" type="Area2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+amount = 7
+lifetime = 0.3
+explosiveness = 0.43
+randomness = 0.35
+local_coords = false
+emission_shape = 1
+emission_sphere_radius = 8.15
+gravity = Vector2( 0, 0 )
+scale_amount = 3.0
+scale_amount_random = 0.37
+color_ramp = SubResource( 2 )

@@ -16,8 +16,8 @@ var weapon_ind := 0
 # Nodes and scenes
 onready var gm := $"/root/GameManager"
 
-const Nailgun = preload("res://weapons/nailgun/Nailgun.tscn")
-const LaserPistol = preload("res://weapons/laser_pistol/LaserPistol.tscn")
+const MachineGun = preload("res://weapons/MachineGun.tscn")
+#const LaserPistol = preload("res://weapons/laser_pistol/LaserPistol.tscn")
 
 func _ready():
 	gm.player = self
@@ -26,12 +26,13 @@ func _ready():
 	_init_weapons()
 
 func _init_weapons():
-	var nailgun = Nailgun.instance()
-	add_child(nailgun)
-	var laser_pistol = LaserPistol.instance()
-	add_child(laser_pistol)
+	var machine_gun = MachineGun.instance()
+	add_child(machine_gun)
+	#var laser_pistol = LaserPistol.instance()
+	#add_child(laser_pistol)
 	
-	weapons = [nailgun, laser_pistol]
+	weapons = [machine_gun]
+	pass
 	
 func switch_weapon(direction := 1):
 	weapons[weapon_ind].active = false
@@ -62,6 +63,10 @@ func _physics_process(_delta):
 	
 	mv.x = lerp(mv.x, speed * hor_mov, ACCEL_PERCENT)
 	mv.y = lerp(mv.y, speed * vert_mov, ACCEL_PERCENT)
+	
+	mv = move_and_slide(mv)
+	
+	weapons[weapon_ind].on_active()
 
 # States
 func on_hit(damage):
