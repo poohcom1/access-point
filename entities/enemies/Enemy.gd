@@ -2,14 +2,14 @@ extends Entity
 class_name Enemy
 
 # Properties
-export var MAX_HEALTH := 20
+export var MAX_HEALTH := 20.0
 export var value := 0
 export var enemy_class := ""
 
 const groups := ["enemy", "map"]
 
 # Fields
-var health := 0 # Set in ready from max_health
+var health := 0.0 # Set in ready from max_health
 var state: int = State.Passive
 var path: PoolVector2Array = []
 

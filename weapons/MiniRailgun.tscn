@@ -31,8 +31,11 @@ func on_shoot():
 	
 	ammo -= 1
 	
-	var bullet = Projectile.create_bullet_here(Bullet, self, get_global_mouse_position())
-	bullet.pierce_count = PIERCE_COUNT
+	var bullet = Projectile.create_bullet_here(Bullet, 
+		self, 
+		get_global_mouse_position())
+		
+	bullet.pierce_count = PIERCE_COUNT + 1 # Add one so 0 is the baseline for no pierce
 	bullet.damage = DAMAGE
 	
 	shoot_timer.start()
@@ -40,9 +43,11 @@ func on_shoot():
 func on_active():
 	if Input.is_action_pressed(\"shoot\"):
 		shooting = true
+		if Input.is_action_just_pressed(\"shoot\"):
+			on_shoot()
 	elif Input.is_action_just_released(\"shoot\"):
 		shooting = false
-		
+
 
 func on_switch_out():
 	shooting = false

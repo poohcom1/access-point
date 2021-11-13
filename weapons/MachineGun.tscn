@@ -8,7 +8,6 @@ export var DAMAGE = 1
 export var KNOCKBACK = 5
 
 # Fields
-var shooting := false
 var wall_hit := false
 
 # Nodes
@@ -40,6 +39,8 @@ func _physic_process(_delta):
 	
 func _on_shoot():
 	line_of_sight.cast_to = (get_global_mouse_position() - global_position)
+	
+	shoot_collider.shoot()
 	
 	if line_of_sight.is_colliding() and line_of_sight.get_collider() is TileMap:
 		shoot_collider.global_position = line_of_sight.get_collision_point()
@@ -73,24 +74,17 @@ func on_active():
 	if Input.is_action_just_pressed(\"shoot\"):
 		shoot_interval.start(SHOOT_INTERVAL)
 		_on_shoot()
-		shoot_collider.get_node(\"Particles\").emitting = true
-		shooting = true
-	elif Input.is_action_pressed(\"shoot\"):
-		shooting = true
-		shoot_collider.get_node(\"Particles\").emitting = true
-		
+		#shoot_collider.get_node(\"Particles\").emitting = true
 	elif Input.is_action_just_released(\"shoot\"):
-		shooting = false
-		
-		shoot_interval.stop()
-		shoot_collider.get_node(\"Particles\").emitting = false
-		
+		on_switch_out()
+		#shoot_collider.get_node(\"Particles\").emitting = false
 
-	if shooting:
-		pass
-		
+func on_switch():
+	shoot_interval.start(SHOOT_INTERVAL)		
+
 func on_switch_out():
-	shoot_collider.get_node(\"Particles\").emitting = false
+	shoot_interval.stop()
+	pass #shoot_collider.get_node(\"Particles\").emitting = false
 		
 		
 "

@@ -1,4 +1,30 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://assets/gun_effect.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends Area2D
+
+export var EFFECT_RAND_OFFSET := Vector2(10, 10)
+
+var _shooting = false
+
+func shoot():
+	randomize()
+	var offset = Vector2(
+		rand_range(-EFFECT_RAND_OFFSET.x, EFFECT_RAND_OFFSET.x),
+		rand_range(-EFFECT_RAND_OFFSET.y, EFFECT_RAND_OFFSET.y)		
+		)
+	var alpha = rand_range(0.35, 1.0)
+
+
+	var effect: AnimatedSprite = $Effect.duplicate()
+	get_tree().root.add_child(effect)
+	effect.global_position = global_position + offset
+	effect.visible = true
+	effect.modulate = Color(1, 1, 1, alpha)
+	effect.play()
+"
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 7.0
@@ -6,7 +32,43 @@ radius = 7.0
 [sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 1, 0.966064, 0.457031, 1, 1, 1, 1, 0.32549 )
 
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
+"loop": false,
+"name": "default",
+"speed": 24.0
+} ]
+
+[sub_resource type="GDScript" id=9]
+script/source = "extends AnimatedSprite
+
+func _ready():
+	# warning-ignore:return_value_discarded
+	connect(\"animation_finished\", self, \"destroy\")
+
+func destroy():
+	queue_free()
+"
+
 [node name="ShootArea" type="Area2D"]
+script = SubResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -24,3 +86,8 @@ gravity = Vector2( 0, 0 )
 scale_amount = 3.0
 scale_amount_random = 0.37
 color_ramp = SubResource( 2 )
+
+[node name="Effect" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 7 )
+script = SubResource( 9 )

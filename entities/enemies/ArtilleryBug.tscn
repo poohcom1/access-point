@@ -3,7 +3,7 @@
 [ext_resource path="res://assets/artillery_placeholder.png" type="Texture" id=1]
 [ext_resource path="res://entities/enemies/Debug.tscn" type="PackedScene" id=2]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=4]
 script/source = "extends Enemy
 
 # Properties
@@ -12,6 +12,7 @@ export var FRIENDLY_DAMAGE := 15
 export var PROJECTILE_SPEED = 10
 export var SHOOT_INTERVAL := 2
 export var RANGE := 175
+export var EXPLOSION_FRAMES := 1
 
 # Fields
 var _range = RANGE * RANGE
@@ -58,6 +59,7 @@ func on_shoot():
 		projectile.friendly_damage = FRIENDLY_DAMAGE
 		projectile.target = $\"/root/GameManager\".player.position
 		projectile.shot_from = self
+		projectile.explosion_frames = EXPLOSION_FRAMES
 		
 		get_parent().add_child(projectile)
 		
@@ -70,7 +72,7 @@ func on_hit_knockback(_vector):
 	pass
 "
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 1 ) ],
 "loop": true,
@@ -83,12 +85,11 @@ radius = 5.46062
 height = 20.9391
 
 [node name="ArtilleryBug" type="KinematicBody2D"]
-script = SubResource( 1 )
-MAX_HEALTH = 50
+script = SubResource( 4 )
 value = 2
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 2 )
+frames = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.834274, 16.0181 )

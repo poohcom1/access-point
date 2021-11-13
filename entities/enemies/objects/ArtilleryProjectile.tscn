@@ -2,7 +2,61 @@
 
 [ext_resource path="res://assets/artillery_projectile_placeholder.png" type="Texture" id=1]
 [ext_resource path="res://assets/explosion_ph.png" type="Texture" id=2]
-[ext_resource path="res://entities/enemies/objects/ArtilleryProjectile.gd" type="Script" id=3]
+
+[sub_resource type="GDScript" id=9]
+script/source = "extends Node2D
+
+# Properties
+var target: Vector2
+var damage: float
+var friendly_damage: float
+var speed: int
+var shot_from: Enemy
+var explosion_frames: int
+
+# Fields
+var has_exploded = false
+var has_hit_player = false
+
+var enemies_hit = []
+
+# Nodes
+
+func _ready():
+	# warning-ignore:return_value_discarded
+	$AnimatedSprite.connect(\"animation_finished\", self, \"_on_anim_finished\")
+
+
+func _physics_process(_delta):
+	if not has_exploded:
+		if global_position.distance_to(target) <= speed:
+			has_exploded = true
+			on_explode()
+		else:
+			global_position += global_position.direction_to(target) * speed
+	else:
+		if $AnimatedSprite.frame >= explosion_frames:
+			$ExplosionArea/CollisionShape2D.disabled = true
+		
+		for body in $ExplosionArea.get_overlapping_bodies():
+			if body is Player and not has_hit_player:
+				_on_player_hit()
+				has_hit_player = true
+			elif body is Enemy and body != shot_from and not body in enemies_hit:
+				body.on_hit(friendly_damage)
+				enemies_hit.append(body)
+
+			
+func on_explode():
+	$AnimatedSprite.play(\"explosion\")
+	
+func _on_player_hit():
+	$\"/root/GameManager\".player.on_hit(damage)
+	
+func _on_anim_finished():
+	if has_exploded:
+		queue_free()
+"
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
@@ -43,7 +97,7 @@ animations = [ {
 radius = 31.565
 
 [node name="ArtilleryProjectile" type="Node2D"]
-script = ExtResource( 3 )
+script = SubResource( 9 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )

@@ -3,7 +3,7 @@
 [ext_resource path="res://entities/enemies/Debug.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/green.png" type="Texture" id=2]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=5]
 script/source = "extends Enemy
 
 # Properties
@@ -44,12 +44,15 @@ func _ready():
 func _physics_process(_delta):
 	var player = $\"/root/GameManager\".player
 	
-	if (player != null 
-	and player.global_position.distance_squared_to(global_position) 
-		> _distance_to_player):
-		navigate()
-	else:
-		mv = player.global_position.direction_to(global_position) * speed
+	navigate()
+	
+	## This was for avoidance, but it tends to cause them to block other bugs
+	#if (player != null 
+	#and player.global_position.distance_squared_to(global_position) 
+	#	> _distance_to_player):
+	#	navigate()
+	#else:
+	#	mv = player.global_position.direction_to(global_position) * speed
 	
 	mv = move_and_slide(mv)
 	
@@ -71,22 +74,21 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=6]
 
 [sub_resource type="CircleShape2D" id=4]
 radius = 24.2103
 
 [node name="HealerBug" type="KinematicBody2D"]
-script = SubResource( 1 )
-BASE_SPEED = 150
-MAX_HEALTH = 30
+script = SubResource( 5 )
+BASE_SPEED = 125
 value = 1
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 3 )
+shape = SubResource( 6 )
 
 [node name="Control" parent="." instance=ExtResource( 1 )]
 
