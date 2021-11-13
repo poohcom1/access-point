@@ -1,58 +1,70 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/red.png" type="Texture" id=1]
+[ext_resource path="res://entities/enemies/Debug.tscn" type="PackedScene" id=2]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Enemy
 
 # Properties
+export var PATHFIND_INTERVAL = 0.3
 
+export var DAMAGE = 5
+export var ATTACK_INTERVAL = 0.5
 
 # Fields
-var path: Array = []
+var was_touching := false # If touching player on the previous frame
+var is_attacking := false # Attack flag set from timer
 
 # Nodes
-var pathfinding_timer := Timer.new()
+var pathfind_timer := Timer.new()
+var attack_timer := Timer.new()
 
 # Signals
 
 
 func _ready():
-	pathfinding_timer.autostart = true
-	add_child(pathfinding_timer)
-	pathfinding_timer.start(0.3)
+	add_child(attack_timer)
+	attack_timer.start(ATTACK_INTERVAL)
 	# warning-ignore:return_value_discarded
-	pathfinding_timer.connect(\"timeout\", self, \"get_path\")
+	attack_timer.connect(\"timeout\", self, \"_on_attack\")
+	
+	# Wait for idle frame to get player
+	yield(get_tree(), \"idle_frame\")
+	
+	add_child(pathfind_timer)
+	pathfind_timer.start(PATHFIND_INTERVAL)
+	# warning-ignore:return_value_discarded
+	pathfind_timer.connect(\"timeout\", self, \"generate_path\", [$\"/root/GameManager\".player])
+	
 
 
 func _physics_process(_delta):
-	$Debug.text = str(health)
+	## Debug
 	$Line2D.global_position = Vector2.ZERO
+	
+	## Pathfinding
 	navigate()
 	
 	mv = move_and_slide(mv)
 	
-func navigate():
-	if path.size() <= 1: return
+	## Attack
+	for i in get_slide_count():
+		var collision = get_slide_collision(i)
+		if collision.collider is Player:
+			if not was_touching or is_attacking:
+				collision.collider.on_hit(DAMAGE)
+				is_attacking = false
+				was_touching = true
+			
+				attack_timer.start()
+			break
+
 	
-	mv = global_position.direction_to(path[1]) * speed
-	
-	if global_position == path[0]:
-		path.pop_front()
-	
-var previous_player_position = null
-	
-func get_path():
-	var player = $\"/root/GameManager\".player
-	var navigation = $\"/root/GameManager\".navigation
-	
-	if player == null or navigation == null: return
-	
-	if previous_player_position != player.global_position:
-		path = navigation.get_simple_path(global_position, player.global_position, true)
-		$Line2D.points = path
-		previous_player_position = player.global_position
-		
+func _on_attack():
+	is_attacking = true
+
+
 
 func on_death():
 	queue_free()
@@ -71,7 +83,6 @@ radius = 8.48656
 
 [node name="MeleeBug" type="KinematicBody2D"]
 script = SubResource( 1 )
-MAX_HEALTH = 20
 enemy_class = "melee"
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -88,12 +99,6 @@ visible = false
 points = PoolVector2Array( 5.99099, -16.108 )
 width = 1.0
 
-[node name="Debug" type="Label" parent="."]
-margin_left = -10.7705
-margin_top = -6.56123
-margin_right = 13.2295
-margin_bottom = 7.43877
-text = "200"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Control" parent="." instance=ExtResource( 2 )]
+margin_right = 8.43193
+margin_bottom = 8.42906

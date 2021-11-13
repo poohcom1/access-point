@@ -1,0 +1,97 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://entities/enemies/Debug.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/green.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Enemy
+
+# Properties
+export var PATHFIND_INTERVAL := 0.3
+
+export var HEAL_INTERVAL := 0.2
+export var HEAL_AMOUNT := 1
+
+export var DISTANCE_TO_PLAYER := 50.0
+
+# Fields
+var _distance_to_player = DISTANCE_TO_PLAYER * DISTANCE_TO_PLAYER
+
+# Nodes
+var pathfind_timer := Timer.new()
+onready var heal_timer := Timer.new()
+onready var heal_area := $HealingArea
+
+# Signals
+
+
+func _ready():
+	## Healing timer
+	add_child(heal_timer)
+	heal_timer.start(HEAL_INTERVAL)
+	# warning-ignore:return_value_discarded
+	heal_timer.connect(\"timeout\", self, \"_on_heal\")
+	
+	yield(get_tree(), \"idle_frame\")
+	
+	## Pathfind timer
+	add_child(pathfind_timer)
+	pathfind_timer.start(PATHFIND_INTERVAL)
+	# warning-ignore:return_value_discarded
+	pathfind_timer.connect(\"timeout\", self, \"generate_path\", [$\"/root/GameManager\".player])
+
+
+func _physics_process(_delta):
+	var player = $\"/root/GameManager\".player
+	
+	if (player != null 
+	and player.global_position.distance_squared_to(global_position) 
+		> _distance_to_player):
+		navigate()
+	else:
+		mv = player.global_position.direction_to(global_position) * speed
+	
+	mv = move_and_slide(mv)
+	
+func _on_heal():
+	for body in heal_area.get_overlapping_bodies():
+		if body is Enemy and not body == self:
+			body.health += HEAL_AMOUNT
+			body.health = min(body.health, body.MAX_HEALTH)
+
+func on_death():
+	queue_free()
+"
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=3]
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 24.2103
+
+[node name="HealerBug" type="KinematicBody2D"]
+script = SubResource( 1 )
+BASE_SPEED = 150
+MAX_HEALTH = 30
+value = 1
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )
+
+[node name="Control" parent="." instance=ExtResource( 1 )]
+
+[node name="HealingArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HealingArea"]
+position = Vector2( 0.0834274, 0 )
+shape = SubResource( 4 )

@@ -5,12 +5,14 @@ script/source = "extends Weapon
 
 # Properties
 export var SHOOT_INTERVAL = 0.15
+export var PIERCE_COUNT = 1
+export var DAMAGE = 5
 
 # Fields
 var shooting := false
 
 # Nodes
-const Bullet = preload(\"res://weapons/tools/RailgunProjectile.tscn\")
+const Bullet = preload(\"res://weapons/objects/RailgunProjectile.tscn\")
 
 onready var shoot_timer := Timer.new()
 
@@ -19,6 +21,7 @@ onready var shoot_timer := Timer.new()
 func _ready():
 	add_child(shoot_timer)
 	shoot_timer.start(SHOOT_INTERVAL)
+	# warning-ignore:return_value_discarded
 	shoot_timer.connect(\"timeout\", self, \"on_shoot\")
 	
 	weapon_name = \"Mini-Railgun\"
@@ -28,13 +31,14 @@ func on_shoot():
 	
 	ammo -= 1
 	
-	# warning-ignore:return_value_discarded
-	Projectile.create_bullet_here(Bullet, self, get_global_mouse_position())
+	var bullet = Projectile.create_bullet_here(Bullet, self, get_global_mouse_position())
+	bullet.pierce_count = PIERCE_COUNT
+	bullet.damage = DAMAGE
 	
 	shoot_timer.start()
 
 func on_active():
-	if Input.is_action_just_pressed(\"shoot\"):
+	if Input.is_action_pressed(\"shoot\"):
 		shooting = true
 	elif Input.is_action_just_released(\"shoot\"):
 		shooting = false

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 5.0
+radius = 7.0
 
 [sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 1, 0.966064, 0.457031, 1, 1, 1, 1, 0.32549 )

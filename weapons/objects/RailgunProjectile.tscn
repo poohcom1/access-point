@@ -2,11 +2,11 @@
 
 [ext_resource path="res://assets/white.png" type="Texture" id=1]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends RayCast2D
 
-export var pierce_count = 1
-export var damage = 5
+var pierce_count = 1
+var damage = 5
 
 var angle: float
 var speed: float = 20
@@ -42,7 +42,7 @@ func on_destroy():
 [node name="Projectile" type="RayCast2D"]
 modulate = Color( 1, 0.964706, 0.0470588, 1 )
 enabled = true
-script = SubResource( 2 )
+script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -0.0701542, 0 )

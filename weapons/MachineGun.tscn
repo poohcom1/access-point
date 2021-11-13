@@ -12,7 +12,7 @@ var shooting := false
 var wall_hit := false
 
 # Nodes
-const ShootArea = preload(\"res://weapons/tools/ShootArea.tscn\")
+const ShootArea = preload(\"res://weapons/objects/ShootArea.tscn\")
 
 var shoot_collider: Area2D
 
@@ -31,8 +31,6 @@ func _ready():
 	shoot_collider = ShootArea.instance()
 	add_child(shoot_collider)
 	
-	## Line of sight check
-	line_of_sight.exclude_parent
 	
 	## Name
 	weapon_name = \"Submachine-gun\"
@@ -50,10 +48,21 @@ func _on_shoot():
 		
 	wall_hit = false
 	
+	## Calculate nearest enemy to the mouse of all the colliding ones
+	var nearest_enemy = null
+	var nearest_distance = INF
+	
 	for body in shoot_collider.get_overlapping_bodies():
 		if body is Enemy:
-			body.on_hit(DAMAGE)
-			body.on_hit_knockback(global_position.direction_to(body.position) * KNOCKBACK)
+			var distance = body.global_position.distance_to(get_global_mouse_position())
+			if distance < nearest_distance:
+				nearest_enemy = body
+				nearest_distance = distance
+	
+	if not nearest_enemy == null:
+		nearest_enemy.on_hit(DAMAGE)
+		nearest_enemy.on_hit_knockback(
+			global_position.direction_to(nearest_enemy.global_position) * KNOCKBACK)
 	
 func _on_hit():
 	pass
@@ -62,10 +71,12 @@ func on_active():
 	if not wall_hit: shoot_collider.global_position = get_global_mouse_position()
 	
 	if Input.is_action_just_pressed(\"shoot\"):
-		shooting = true
 		shoot_interval.start(SHOOT_INTERVAL)
-		
 		_on_shoot()
+		shoot_collider.get_node(\"Particles\").emitting = true
+		shooting = true
+	elif Input.is_action_pressed(\"shoot\"):
+		shooting = true
 		shoot_collider.get_node(\"Particles\").emitting = true
 		
 	elif Input.is_action_just_released(\"shoot\"):

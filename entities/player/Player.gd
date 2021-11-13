@@ -3,7 +3,7 @@ class_name Player
 
 # Exports
 export(float, 0.0, 1.0) var ACCEL_PERCENT := 0.5
-export var MAX_HP := 10
+export var MAX_HP := 100
 
 # Fields
 var hp := MAX_HP

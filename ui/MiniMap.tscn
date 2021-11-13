@@ -1,0 +1,99 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/black.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Control
+
+var tilemap: TileMap
+var scale: float
+var offset: Vector2 # Offset to center the map. Set in _tilemap_init()
+
+# Colors
+export var PLAYER_COLOR: Color
+export var ENEMY_COLOR: Color
+export var TILECOLOR: Color
+
+func _ready():
+	yield(get_tree(), \"idle_frame\")
+	
+	tilemap = get_tree().get_nodes_in_group(\"tilemap\")[0]
+	_tilemap_init()
+	
+func _tilemap_init():
+	var bounds: Rect2 = tilemap.get_used_rect()
+	
+	
+	if bounds.size.x > bounds.size.y:
+		scale = get_size().x / (bounds.size.x)
+		
+		offset = -get_size()/2 + Vector2(0, (get_size().y-bounds.size.y*scale) / 2)
+	else:
+		scale = get_size().y / (bounds.size.x)
+		
+		offset = -get_size()/2 + Vector2((get_size().x-bounds.size.x*scale) / 2, 0)
+
+
+func _draw():
+	if tilemap == null: return
+	
+	_draw_tilemap()
+	_draw_objects()
+	
+func _draw_objects():
+	var objects = get_tree().get_nodes_in_group(\"map\")
+	
+	for object in objects:
+		var pos = tilemap.world_to_map(tilemap.to_local(object.position))
+		if object is Player:
+			draw_rect(Rect2(pos * scale + offset, Vector2.ONE * scale * 2), PLAYER_COLOR)
+		elif object is Enemy:
+			draw_rect(Rect2(pos * scale + offset, Vector2.ONE * scale), ENEMY_COLOR)
+	
+func _draw_tilemap():
+	draw_set_transform(rect_size / 2, 0, Vector2.ONE)
+	
+	# Find all tiles that has collision
+	for tile in tilemap.tile_set.get_tiles_ids():
+
+		# This assumes that tiles have a single collision shape
+		if tilemap.tile_set.tile_get_shape(tile, 0) != null:
+			var color = TILECOLOR
+			var cells = tilemap.get_used_cells_by_id(tile)
+			for cell in cells:
+				draw_rect(Rect2(cell * scale + offset, Vector2.ONE * scale), color)
+
+
+func _process(_delta):
+	update()
+"
+
+[node name="MiniMap" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -825.0
+margin_bottom = -416.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Grid" type="MarginContainer" parent="."]
+margin_right = 199.0
+margin_bottom = 184.0
+
+[node name="TextureRect" type="TextureRect" parent="Grid"]
+margin_right = 199.0
+margin_bottom = 184.0
+texture = ExtResource( 1 )
+stretch_mode = 2
+
+[node name="Control" type="Control" parent="Grid"]
+margin_right = 199.0
+margin_bottom = 184.0
+script = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+PLAYER_COLOR = Color( 1, 1, 1, 1 )
+ENEMY_COLOR = Color( 0.0588235, 1, 0.00392157, 1 )
+TILECOLOR = Color( 0.164706, 0.364706, 0.141176, 1 )

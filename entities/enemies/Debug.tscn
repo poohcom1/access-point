@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Label
+
+func _physics_process(_d):
+	text = str(get_parent().health)
+"
+
+[node name="Control" type="Label"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -7.56807
+margin_top = -5.57094
+margin_right = -7.56805
+margin_bottom = -5.57092
+text = "20"
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

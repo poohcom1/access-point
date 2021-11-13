@@ -1,0 +1,107 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/artillery_placeholder.png" type="Texture" id=1]
+[ext_resource path="res://entities/enemies/Debug.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Enemy
+
+# Properties
+export var DAMAGE := 30
+export var FRIENDLY_DAMAGE := 15
+export var PROJECTILE_SPEED = 10
+export var SHOOT_INTERVAL := 2
+export var RANGE := 175
+
+# Fields
+var _range = RANGE * RANGE
+
+# Nodes
+const Projectile = preload(\"res://entities/enemies/objects/ArtilleryProjectile.tscn\")
+
+onready var shoot_timer := Timer.new()
+onready var aim_beam = $AimBeam
+
+# Signals
+
+
+func _ready():
+	add_child(shoot_timer)
+	shoot_timer.start(SHOOT_INTERVAL)
+	# warning-ignore:return_value_discarded
+	shoot_timer.connect(\"timeout\", self, \"on_shoot\")
+
+
+func _physics_process(_delta):
+	## Attack
+	var player = $\"/root/GameManager\".player
+	
+	aim_beam.points = []
+	
+	var point_offset = Vector2(0, 16)
+
+	if (player != null 
+	and player.global_position.distance_squared_to(global_position) < _range):
+		
+		aim_beam.points = [
+			to_local(aim_beam.global_position) + point_offset, 
+			to_local(player.global_position) + point_offset]
+
+func on_shoot():
+	if aim_beam.points.size() > 0:
+		var projectile = Projectile.instance()
+		
+		projectile.position = aim_beam.global_position
+		
+		projectile.speed = PROJECTILE_SPEED
+		projectile.damage = DAMAGE
+		projectile.friendly_damage = FRIENDLY_DAMAGE
+		projectile.target = $\"/root/GameManager\".player.position
+		projectile.shot_from = self
+		
+		get_parent().add_child(projectile)
+		
+
+func on_death():
+	queue_free()
+		
+		
+func on_hit_knockback(_vector):
+	pass
+"
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 5.46062
+height = 20.9391
+
+[node name="ArtilleryBug" type="KinematicBody2D"]
+script = SubResource( 1 )
+MAX_HEALTH = 50
+value = 2
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.834274, 16.0181 )
+shape = SubResource( 3 )
+
+[node name="AimBeam" type="Line2D" parent="."]
+modulate = Color( 1, 1, 1, 0.4 )
+position = Vector2( -0.982155, -14.9893 )
+width = 2.0
+default_color = Color( 1, 0.4, 0.4, 1 )
+
+[node name="Control" parent="." instance=ExtResource( 2 )]
+margin_left = -8.89241
+margin_top = 18.7967
+margin_right = 7.10759
+margin_bottom = 32.7967
