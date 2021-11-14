@@ -1,0 +1,60 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+# Properties
+export var value: String = \"\"
+export var max_value: String = \"\"
+
+export var progress_color := Color.green
+export var background_color := Color.black
+
+export var height: float = 3
+export var scale: float = 1.0
+
+export var hide_if_full := true
+
+
+# Field
+var parent: Node2D
+var width: float
+
+func _ready():
+	parent = get_parent()
+	
+	if value == \"\" or max_value == \"\": 
+		return
+		
+	width = float(parent.get(max_value))
+	
+	set_size(Vector2(width, height))
+	margin_left = -(width/2) * scale
+	
+func _process(_delta):
+	update()
+
+func _draw():
+	if value == \"\": 
+		return
+	
+	var value_amt = float(parent.get(value))
+	
+	if hide_if_full and value_amt == width: return
+	
+	# Background
+	draw_rect(Rect2(0, 0, width*scale, get_size().y), background_color)
+	
+	if value_amt < 0: return
+
+	draw_rect(Rect2(0, 0, width*scale*(value_amt/width), 
+		get_size().y), progress_color)
+"
+
+[node name="ValueBar" type="Control"]
+margin_bottom = 3.0
+grow_horizontal = 2
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

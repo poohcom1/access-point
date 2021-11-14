@@ -4,19 +4,16 @@ class_name Structure
 
 # Properties
 export var MAX_HEALTH: float = 100
-export var MAX_BATTERY: int = 100
+export var MAX_BATTERY: float = 4
 
 # Fields
 var bugged := false
 
 var health: float
-var battery: int
+var battery: float
 var destroyed := false
 
-# Nodes
-
-
-# Signals
+var mouse_hover := false
 
 
 func _ready():
@@ -28,10 +25,20 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	$ClickArea.connect("mouse_entered", self, "_on_mouse_enter")
 	# warning-ignore:return_value_discarded
-	$ClickArea.connect("mouse_exited", self, "_on_mouse_enter")
+	$ClickArea.connect("mouse_exited", self, "_on_mouse_exit")
 
-func on_add_battery():
-	pass
+## Mouse Check
+func _on_mouse_enter():
+	mouse_hover = true
+	
+func _on_mouse_exit():
+	mouse_hover = false
+
+func _unhandled_input(event):
+	if event.is_action_pressed("shoot", false) and mouse_hover:
+		if $"/root/GameManager".player.battery > 0 and battery < MAX_BATTERY:
+			battery += 1.0
+			$"/root/GameManager".player.battery -= 1
 
 func on_hit(damage):
 	health -= damage
@@ -44,7 +51,8 @@ func on_destroyed():
 	pass
 
 
-func _process(_delta):
+func _process(_delta):	
+	## Editor hints
 	if Engine.editor_hint:
 		update_configuration_warning()
 

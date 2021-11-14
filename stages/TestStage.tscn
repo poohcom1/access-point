@@ -95,6 +95,7 @@ RANGE = 175.0
 
 [node name="Radar" parent="." instance=ExtResource( 10 )]
 position = Vector2( 97, 123 )
+MAX_BATTERY = 100
 
 [node name="Debug" parent="." instance=ExtResource( 4 )]
 

@@ -7,6 +7,7 @@ export var MAX_HP := 100
 
 # Fields
 var hp := MAX_HP
+var battery := 400
 
 var take_input := true
 
@@ -76,6 +77,3 @@ func _physics_process(_delta):
 func on_hit(damage):
 	hp -= damage
 	
-	
-class Inventory:
-	var batteries: int = 0
