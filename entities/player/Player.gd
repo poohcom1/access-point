@@ -75,3 +75,7 @@ func _physics_process(_delta):
 # States
 func on_hit(damage):
 	hp -= damage
+	
+	
+class Inventory:
+	var batteries: int = 0

@@ -42,7 +42,7 @@ func _ready():
 
 
 func _physics_process(_delta):
-	var player = $\"/root/GameManager\".player
+	#var player = $\"/root/GameManager\".player
 	
 	navigate()
 	

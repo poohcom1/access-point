@@ -6,7 +6,7 @@ script/source = "extends Weapon
 # Properties
 export var SHOOT_INTERVAL = 0.15
 export var PIERCE_COUNT = 1
-export var DAMAGE = 5
+export var DAMAGE = 4
 
 # Fields
 var shooting := false
@@ -55,3 +55,4 @@ func on_switch_out():
 
 [node name="Railgun" type="Node2D"]
 script = SubResource( 1 )
+SHOOT_INTERVAL = 0.2

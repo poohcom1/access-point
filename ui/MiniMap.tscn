@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/black.png" type="Texture" id=1]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
 var tilemap: TileMap
@@ -11,14 +11,26 @@ var offset: Vector2 # Offset to center the map. Set in _tilemap_init()
 
 # Colors
 export var PLAYER_COLOR: Color
+export var STRUCTURE_COLOR: Color
+export var RADAR_COLOR: Color
 export var ENEMY_COLOR: Color
 export var TILECOLOR: Color
+
+# Fields
+
+var radars := []
 
 func _ready():
 	yield(get_tree(), \"idle_frame\")
 	
 	tilemap = get_tree().get_nodes_in_group(\"tilemap\")[0]
 	_tilemap_init()
+	
+	# Init radar tilemap positions
+	radars = get_tree().get_nodes_in_group(\"radar\")
+	
+	for radar in radars:
+		radar.tilemap_position = world_to_tilemap(radar.global_position)
 	
 func _tilemap_init():
 	var bounds: Rect2 = tilemap.get_used_rect()
@@ -40,16 +52,34 @@ func _draw():
 	_draw_tilemap()
 	_draw_objects()
 	
+	
+func in_range(pos: Vector2) -> bool:
+	for radar in radars:
+		# Squaring is faster than squareroot... so I assume this is more optimized
+		if ( pos.distance_squared_to(radar.tilemap_position) 
+				< radar.radar_range*radar.radar_range ):
+			return true
+		
+	return false
+	
 func _draw_objects():
 	var objects = get_tree().get_nodes_in_group(\"map\")
 	
 	for object in objects:
-		var pos = tilemap.world_to_map(tilemap.to_local(object.position))
+		var tilemap_pos = world_to_tilemap(object.global_position)
+		var pos = tilemap_to_minimap(tilemap_pos)
 		if object is Player:
-			draw_rect(Rect2(pos * scale + offset, Vector2.ONE * scale * 2), PLAYER_COLOR)
-		elif object is Enemy:
-			draw_rect(Rect2(pos * scale + offset, Vector2.ONE * scale), ENEMY_COLOR)
-	
+			draw_rect(Rect2(pos, Vector2.ONE * scale * 2), PLAYER_COLOR)
+		elif in_range(tilemap_pos):
+			if object is Structure:
+				draw_rect(Rect2(pos, Vector2.ONE * scale * 2), STRUCTURE_COLOR)
+				if object in radars:
+					draw_circle(pos, object.radar_range * scale + 1, Color(0, 0, 1, 0.5))
+			
+			elif object is Enemy:
+				draw_rect(Rect2(pos, Vector2.ONE * scale), ENEMY_COLOR)
+
+
 func _draw_tilemap():
 	draw_set_transform(rect_size / 2, 0, Vector2.ONE)
 	
@@ -61,11 +91,17 @@ func _draw_tilemap():
 			var color = TILECOLOR
 			var cells = tilemap.get_used_cells_by_id(tile)
 			for cell in cells:
-				draw_rect(Rect2(cell * scale + offset, Vector2.ONE * scale), color)
-
+				draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale), color)
 
 func _process(_delta):
 	update()
+	
+	
+func world_to_tilemap(position: Vector2) -> Vector2:
+	return tilemap.world_to_map(tilemap.to_local(position))
+
+func tilemap_to_minimap(position: Vector2) -> Vector2:
+	return position * scale + offset
 "
 
 [node name="MiniMap" type="MarginContainer"]
@@ -87,13 +123,15 @@ margin_bottom = 184.0
 texture = ExtResource( 1 )
 stretch_mode = 2
 
-[node name="Control" type="Control" parent="Grid"]
+[node name="Map" type="Control" parent="Grid"]
 margin_right = 199.0
 margin_bottom = 184.0
-script = SubResource( 2 )
+script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 PLAYER_COLOR = Color( 1, 1, 1, 1 )
+STRUCTURE_COLOR = Color( 0, 0.741176, 1, 1 )
+RADAR_COLOR = Color( 0.192157, 0.141176, 0.607843, 1 )
 ENEMY_COLOR = Color( 0.0588235, 1, 0.00392157, 1 )
-TILECOLOR = Color( 0.164706, 0.364706, 0.141176, 1 )
+TILECOLOR = Color( 0.247059, 0.247059, 0.247059, 1 )

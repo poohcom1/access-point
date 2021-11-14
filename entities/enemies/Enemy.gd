@@ -35,9 +35,12 @@ func _ready():
 
 # Events
 
-func on_hit(dmg: int):
+"""
+	Returns whether or not the enemy was killed
+"""
+func on_hit(dmg: int) -> bool:
 	if health <= 0:
-		return
+		return true
 	
 	health -= dmg
 	health = min(health, MAX_HEALTH)
@@ -46,8 +49,9 @@ func on_hit(dmg: int):
 	
 	if health <= 0:
 		emit_signal("on_death")
-
-	#on_hit_knockback(angle)
+		return true
+		
+	return false
 
 
 func on_hit_knockback(vector: Vector2):

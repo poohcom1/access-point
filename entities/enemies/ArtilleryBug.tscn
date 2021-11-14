@@ -86,6 +86,7 @@ height = 20.9391
 
 [node name="ArtilleryBug" type="KinematicBody2D"]
 script = SubResource( 4 )
+MAX_HEALTH = 40.0
 value = 2
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

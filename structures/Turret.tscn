@@ -1,0 +1,130 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/white.png" type="Texture" id=1]
+[ext_resource path="res://weapons/objects/ShootArea.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "tool
+extends Structure
+
+# Properties
+export var DAMAGE = 1
+export var SHOOT_INTERVAL = 0.05
+export var RANGE := 125.0 setget _set_range
+
+# Fields
+var enemies_in_range := []
+var target: Enemy = null
+
+# Nodes
+onready var shoot_timer := $ShootTimer
+onready var range_area := $RangeArea
+onready var shoot_area := $ShootArea
+
+
+func _ready():
+	# warning-ignore:return_value_discarded
+	range_area.connect(\"body_entered\", self, \"_on_body_entered\")
+	
+	# warning-ignore:return_value_discarded
+	range_area.connect(\"body_exited\", self, \"_on_body_exited\")
+	
+	# warning-ignore:return_value_discarded
+	shoot_timer.connect(\"timeout\", self, \"_on_shoot\")
+	shoot_timer.start(SHOOT_INTERVAL)
+	
+	shoot_area.get_node(\"Effect\").modulate = Color(1.0, 0.4, 0.4)
+	
+func _on_shoot():
+	
+	if target == null or not is_instance_valid(target) or not target in enemies_in_range:
+		target = find_nearest_target()
+		
+	if target == null or not is_instance_valid(target): return
+
+	shoot_area.global_position = target.global_position
+	shoot_area.shoot()
+
+	# on_hit returns true if the enemy is killed
+	if (target.on_hit(DAMAGE)):
+		enemies_in_range.erase(target)
+	
+func find_nearest_target():
+	var nearest = null
+	var min_dist = INF
+	
+	for enemy in enemies_in_range:
+		# TODO: Line of sight check. This below doesn't seem to work
+		#$LineOfSight.cast_to = to_local(enemy.global_position)
+		#if $LineOfSight.is_colliding(): 
+		#	continue
+		#
+		var dist = global_position.distance_squared_to(enemy.global_position)
+
+		if dist < min_dist:
+			nearest = enemy
+			min_dist = dist
+			
+	return nearest
+
+func _on_body_entered(body):
+	if body is Enemy:
+		enemies_in_range.append(body)
+	
+func _on_body_exited(body):
+	if body is Enemy:
+		enemies_in_range.erase(body)
+
+func _set_range(val):
+	RANGE = val
+	$RangeArea/CollisionShape2D.shape.radius = val
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 12.4308, 12.883 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 175.0
+
+[sub_resource type="RectangleShape2D" id=5]
+
+[node name="Turret" type="StaticBody2D"]
+script = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource( 2 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
+position = Vector2( -0.176781, -0.176777 )
+scale = Vector2( 1.50823, 1.50823 )
+frames = SubResource( 3 )
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 0.05
+
+[node name="ShootArea" parent="." instance=ExtResource( 2 )]
+modulate = Color( 0.309804, 1, 0.933333, 1 )
+
+[node name="RangeArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+shape = SubResource( 4 )
+
+[node name="LineOfSight" type="RayCast2D" parent="."]
+enabled = true
+collision_mask = 524288
+
+[node name="ClickArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
+shape = SubResource( 5 )

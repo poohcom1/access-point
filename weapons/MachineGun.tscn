@@ -5,7 +5,9 @@ script/source = "extends Weapon
 
 export var SHOOT_INTERVAL := 0.05
 export var DAMAGE = 1
-export var KNOCKBACK = 5
+export var KNOCKBACK = 10
+
+export var AOE = false
 
 # Fields
 var wall_hit := false
@@ -47,30 +49,36 @@ func _on_shoot():
 		wall_hit = true
 		return
 		
+	shoot_collider.global_position = get_global_mouse_position()
+		
 	wall_hit = false
 	
-	## Calculate nearest enemy to the mouse of all the colliding ones
+	for body in shoot_collider.get_overlapping_bodies():
+		if body is Enemy:
+			body.on_hit(DAMAGE)
+			body.on_hit_knockback(
+				global_position.direction_to(body.global_position) * KNOCKBACK)
+			if not AOE: break
+			
+	
+# Unused
+func get_nearest_enemy(bodies):
 	var nearest_enemy = null
 	var nearest_distance = INF
 	
-	for body in shoot_collider.get_overlapping_bodies():
+	for body in bodies:
 		if body is Enemy:
 			var distance = body.global_position.distance_to(get_global_mouse_position())
 			if distance < nearest_distance:
 				nearest_enemy = body
 				nearest_distance = distance
-	
-	if not nearest_enemy == null:
-		nearest_enemy.on_hit(DAMAGE)
-		nearest_enemy.on_hit_knockback(
-			global_position.direction_to(nearest_enemy.global_position) * KNOCKBACK)
-	
+			
+	return nearest_enemy
+
 func _on_hit():
 	pass
 
 func on_active():
-	if not wall_hit: shoot_collider.global_position = get_global_mouse_position()
-	
 	if Input.is_action_just_pressed(\"shoot\"):
 		shoot_interval.start(SHOOT_INTERVAL)
 		_on_shoot()
