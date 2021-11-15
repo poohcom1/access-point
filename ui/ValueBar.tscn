@@ -9,6 +9,7 @@ export var max_value: String = \"\"
 
 export var progress_color := Color.green
 export var background_color := Color.black
+export var overload_color := Color.green
 
 export var height: float = 3
 export var scale: float = 1.0
@@ -47,8 +48,11 @@ func _draw():
 	
 	if value_amt < 0: return
 
-	draw_rect(Rect2(0, 0, width*scale*(value_amt/width), 
+	draw_rect(Rect2(0, 0, width*scale*(min(value_amt/width, 1.0)), 
 		get_size().y), progress_color)
+		
+	draw_rect(Rect2(0, 0, width*scale*(max(value_amt/width - 1.0, 0.0)), 
+		get_size().y), overload_color)
 "
 
 [node name="ValueBar" type="Control"]
