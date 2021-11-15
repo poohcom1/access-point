@@ -141,6 +141,7 @@ func on_switch_out():
 [node name="MachineGun" type="Node2D"]
 script = SubResource( 1 )
 MAX_AMMO = 1000
+KNOCKBACK = 0
 AOE = true
 
 [node name="LineOfSight" type="RayCast2D" parent="."]
