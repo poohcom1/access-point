@@ -87,11 +87,9 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 
 [node name="Turret" parent="." instance=ExtResource( 9 )]
 position = Vector2( 310, 245 )
-revealed = false
 
 [node name="Turret2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 278, 453 )
-revealed = false
 
 [node name="Radar" parent="." instance=ExtResource( 10 )]
 position = Vector2( 109, 108 )

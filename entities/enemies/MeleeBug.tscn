@@ -7,7 +7,7 @@
 script/source = "extends Enemy
 
 # Properties
-export var PATHFIND_INTERVAL = 0.5
+export var PATHFIND_INTERVAL = 0.1
 
 export var DAMAGE = 5
 export var ATTACK_INTERVAL = 0.2
@@ -16,11 +16,9 @@ export var ATTACK_INTERVAL = 0.2
 var was_touching := false # If touching player on the previous frame
 var is_attacking := false # Attack flag set from timer
 
-var pathfind_timer := 0.0
-
 # Nodes
 var attack_timer := Timer.new()
-
+var pathfind_timer := Timer.new()
 # Signals
 
 
@@ -33,27 +31,14 @@ func _ready():
 	# Wait for idle frame to get player
 	yield(get_tree(), \"idle_frame\")
 	
+	# warning-ignore:return_value_discarded	
+	pathfind_timer.connect(\"timeout\", self, \"generate_path\", [$\"/root/GameManager\".player])
+	add_child(pathfind_timer)
+	pathfind_timer.start(PATHFIND_INTERVAL)
 
-func _physics_process(_delta):
-	## Pathfinding (doesn't use timer node because some extra logic is required)
-	var player = $\"/root/GameManager\".player
-	
-	if player != null:
-		
-		# If close to the player, update path every frame
-		if global_position.distance_squared_to(player.global_position) < 5000:
-			generate_path(player)
-		else:
-			pathfind_timer += _delta
-			if pathfind_timer > PATHFIND_INTERVAL:
-				pathfind_timer = 0
-				generate_path(player)
-	
-	## Debug
-	$Line2D.global_position = Vector2.ZERO
-	
+func _physics_process(_delta):	
 	## Pathfinding
-	navigate()
+	mv = navigate()
 	
 	mv = move_and_slide(mv)
 	
@@ -110,7 +95,3 @@ frames = SubResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.0662114, 0.0662174 )
 shape = SubResource( 3 )
-
-[node name="Line2D" type="Line2D" parent="."]
-points = PoolVector2Array( 5.99099, -16.108 )
-width = 1.0

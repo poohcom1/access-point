@@ -76,7 +76,8 @@ func _draw_objects():
 			draw_rect(Rect2(pos, Vector2.ONE * scale * 2), PLAYER_COLOR)
 		elif in_range(tilemap_pos) or object.revealed:
 			if object is Structure:
-				draw_rect(Rect2(pos, Vector2.ONE * scale * 2), STRUCTURE_COLOR)
+				draw_rect(Rect2(pos, Vector2.ONE * scale * 2), 
+					RADAR_COLOR if object in radars else STRUCTURE_COLOR)
 			elif object is Enemy:
 				draw_rect(Rect2(pos, Vector2.ONE * scale), ENEMY_COLOR)
 
@@ -134,6 +135,6 @@ __meta__ = {
 }
 PLAYER_COLOR = Color( 1, 1, 1, 1 )
 STRUCTURE_COLOR = Color( 0, 0.741176, 1, 1 )
-RADAR_COLOR = Color( 0.192157, 0.141176, 0.607843, 1 )
+RADAR_COLOR = Color( 0.917647, 0.901961, 0.486275, 1 )
 ENEMY_COLOR = Color( 0.921569, 0.0862745, 0.0862745, 1 )
-TILECOLOR = Color( 0.247059, 0.247059, 0.247059, 1 )
+TILECOLOR = Color( 0.184314, 0.184314, 0.184314, 1 )

@@ -7,7 +7,7 @@
 script/source = "extends Enemy
 
 # Properties
-export var PATHFIND_INTERVAL := 1.0
+export var PATHFIND_INTERVAL := 0.5
 
 export var HEAL_INTERVAL := 0.2
 export var HEAL_AMOUNT := 2
@@ -25,8 +25,6 @@ onready var heal_timer := Timer.new()
 onready var heal_area := $HealingArea
 
 # Signals
-
-
 func _ready():
 	add_to_group(HEALER_GROUP)
 	
@@ -42,22 +40,13 @@ func _ready():
 	add_child(pathfind_timer)
 	pathfind_timer.start(PATHFIND_INTERVAL)
 	# warning-ignore:return_value_discarded
+	#generate_path($\"/root/GameManager\".player)
 	pathfind_timer.connect(\"timeout\", self, \"generate_path\", [$\"/root/GameManager\".player])
 
 
 func _physics_process(_delta):
-	#var player = $\"/root/GameManager\".player
-	
-	navigate()
-	
-	## This was for avoidance, but it tends to cause them to block other bugs
-	#if (player != null 
-	#and player.global_position.distance_squared_to(global_position) 
-	#	> _distance_to_player):
-	#	navigate()
-	#else:
-	#	mv = player.global_position.direction_to(global_position) * speed
-	
+	mv = navigate()
+
 	mv = move_and_slide(mv)
 	
 	

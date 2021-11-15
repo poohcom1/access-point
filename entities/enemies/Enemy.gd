@@ -8,12 +8,15 @@ export var enemy_class := ""
 
 export var revealed := false
 
+export var DEBUG_PATH := false
+var debug_path: Line2D
+
 const groups := ["enemy", "map"]
 
 # Fields
 var health := 0.0 # Set in ready from max_health
 var state: int = State.Passive
-var path: PoolVector2Array = []
+var path := []
 
 var post_hit := false # Flag for the frame after hit
 
@@ -27,6 +30,16 @@ signal on_death()
 
 # Setup
 func _ready():
+	## DEBUG
+	if DEBUG_PATH:
+		debug_path = Line2D.new()
+		debug_path.width = 1
+		debug_path.global_position = Vector2.ZERO
+		debug_path.z_index = 10
+		add_child(debug_path)
+	
+	## DEBUG_END
+	
 	health = MAX_HEALTH
 	
 	for group in groups:
@@ -38,7 +51,9 @@ func _ready():
 	connect("on_death", self, "on_death")
 
 # Events
-
+func _physics_process(_delta):
+	if DEBUG_PATH:
+		debug_path.global_position = Vector2.ZERO
 
 func on_hit(dmg: int):
 	if health <= 0:
@@ -60,18 +75,21 @@ func on_death():
 	pass
 	
 ## Pathfinding
-
-func navigate():
-	if path.size() <= 1: return
+func navigate() -> Vector2:
+	if path.size() <= 1: return Vector2.ZERO
 	
-	mv = global_position.direction_to(path[1]) * speed
+	var mv = global_position.direction_to(path[1]) * speed
 	
-	if global_position == path[0]:
-		path.remove(0)
+	if global_position.distance_squared_to(path[0]) < speed:
+		path.pop_front()
+		
+	return mv
 	
 func generate_path(target: Node2D):
 	var navigation = $"/root/GameManager".navigation
 	
 	if target == null or navigation == null: return
 	
-	path = navigation.get_simple_path(global_position, target.global_position, true)
+	path = navigation.get_simple_path(global_position, target.global_position, false)
+	if DEBUG_PATH:
+		debug_path.points = path

@@ -68,6 +68,7 @@ animations = [ {
 extents = Vector2( 7.97558, 7.86629 )
 
 [sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 17.0946, 16.4503 )
 
 [node name="Radar" type="StaticBody2D"]
 script = SubResource( 1 )
@@ -92,6 +93,7 @@ shape = SubResource( 3 )
 [node name="ClickArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
+visible = false
 shape = SubResource( 4 )
 
 [node name="BatteryTimer" type="Timer" parent="."]

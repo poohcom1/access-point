@@ -109,7 +109,7 @@ extents = Vector2( 19.7339, 20.6122 )
 "turret",
 ]]
 script = SubResource( 1 )
-revealed = null
+DAMAGE = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
