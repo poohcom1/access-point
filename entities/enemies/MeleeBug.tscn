@@ -7,17 +7,18 @@
 script/source = "extends Enemy
 
 # Properties
-export var PATHFIND_INTERVAL = 0.3
+export var PATHFIND_INTERVAL = 0.5
 
 export var DAMAGE = 5
-export var ATTACK_INTERVAL = 0.5
+export var ATTACK_INTERVAL = 0.2
 
 # Fields
 var was_touching := false # If touching player on the previous frame
 var is_attacking := false # Attack flag set from timer
 
+var pathfind_timer := 0.0
+
 # Nodes
-var pathfind_timer := Timer.new()
 var attack_timer := Timer.new()
 
 # Signals
@@ -32,14 +33,22 @@ func _ready():
 	# Wait for idle frame to get player
 	yield(get_tree(), \"idle_frame\")
 	
-	add_child(pathfind_timer)
-	pathfind_timer.start(PATHFIND_INTERVAL)
-	# warning-ignore:return_value_discarded
-	pathfind_timer.connect(\"timeout\", self, \"generate_path\", [$\"/root/GameManager\".player])
-	
-
 
 func _physics_process(_delta):
+	## Pathfinding (doesn't use timer node because some extra logic is required)
+	var player = $\"/root/GameManager\".player
+	
+	if player != null:
+		
+		# If close to the player, update path every frame
+		if global_position.distance_squared_to(player.global_position) < 5000:
+			generate_path(player)
+		else:
+			pathfind_timer += _delta
+			if pathfind_timer > PATHFIND_INTERVAL:
+				pathfind_timer = 0
+				generate_path(player)
+	
 	## Debug
 	$Line2D.global_position = Vector2.ZERO
 	
@@ -63,7 +72,7 @@ func _physics_process(_delta):
 	
 func _on_attack():
 	is_attacking = true
-
+	
 
 
 func on_death():

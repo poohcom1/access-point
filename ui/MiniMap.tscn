@@ -20,6 +20,9 @@ export var TILECOLOR: Color
 
 var radars := []
 
+var radar_count = 0 # For caching purposes
+var in_range_tiles = [] # For caching
+
 func _ready():
 	yield(get_tree(), \"idle_frame\")
 	
@@ -28,6 +31,7 @@ func _ready():
 	
 	# Init radar tilemap positions
 	radars = get_tree().get_nodes_in_group(\"radar\")
+	radar_count = len(radars)
 	
 	for radar in radars:
 		radar.tilemap_position = world_to_tilemap(radar.global_position)
@@ -52,7 +56,10 @@ func _draw():
 	_draw_tilemap()
 	_draw_objects()
 	
-	
+
+\"\"\"
+	Check if an object's tilemap position is in range of a radar
+\"\"\"
 func in_range(pos: Vector2) -> bool:
 	for radar in radars:
 		# Squaring is faster than squareroot... so I assume this is more optimized
@@ -73,9 +80,6 @@ func _draw_objects():
 		elif in_range(tilemap_pos):
 			if object is Structure:
 				draw_rect(Rect2(pos, Vector2.ONE * scale * 2), STRUCTURE_COLOR)
-				if object in radars:
-					draw_circle(pos, object.radar_range * scale + 1, Color(0, 0, 1, 0.5))
-			
 			elif object is Enemy:
 				draw_rect(Rect2(pos, Vector2.ONE * scale), ENEMY_COLOR)
 
@@ -91,7 +95,8 @@ func _draw_tilemap():
 			var color = TILECOLOR
 			var cells = tilemap.get_used_cells_by_id(tile)
 			for cell in cells:
-				draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale), color)
+				if in_range(cell):
+					draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale), color)
 
 func _process(_delta):
 	update()

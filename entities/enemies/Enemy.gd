@@ -13,6 +13,8 @@ var health := 0.0 # Set in ready from max_health
 var state: int = State.Passive
 var path: PoolVector2Array = []
 
+var post_hit := false # Flag for the frame after hit
+
 # States
 enum State { Passive, Search, Aggro, Dead }
 
@@ -35,12 +37,10 @@ func _ready():
 
 # Events
 
-"""
-	Returns whether or not the enemy was killed
-"""
-func on_hit(dmg: int) -> bool:
+
+func on_hit(dmg: int):
 	if health <= 0:
-		return true
+		return
 	
 	health -= dmg
 	health = min(health, MAX_HEALTH)
@@ -49,9 +49,6 @@ func on_hit(dmg: int) -> bool:
 	
 	if health <= 0:
 		emit_signal("on_death")
-		return true
-		
-	return false
 
 
 func on_hit_knockback(vector: Vector2):

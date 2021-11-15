@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/artillery_placeholder.png" type="Texture" id=1]
-[ext_resource path="res://entities/enemies/Debug.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=2]
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Enemy
 
 # Properties
@@ -15,7 +15,7 @@ export var RANGE := 175
 export var EXPLOSION_FRAMES := 1
 
 # Fields
-var _range = RANGE * RANGE
+var _range = 0
 
 # Nodes
 const Projectile = preload(\"res://entities/enemies/objects/ArtilleryProjectile.tscn\")
@@ -27,6 +27,8 @@ onready var aim_beam = $AimBeam
 
 
 func _ready():
+	_range = RANGE * RANGE
+	
 	add_child(shoot_timer)
 	shoot_timer.start(SHOOT_INTERVAL)
 	# warning-ignore:return_value_discarded
@@ -72,7 +74,7 @@ func on_hit_knockback(_vector):
 	pass
 "
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 1 ) ],
 "loop": true,
@@ -85,12 +87,13 @@ radius = 5.46062
 height = 20.9391
 
 [node name="ArtilleryBug" type="KinematicBody2D"]
-script = SubResource( 4 )
+script = SubResource( 1 )
 MAX_HEALTH = 40.0
 value = 2
+RANGE = 225
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 5 )
+frames = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.834274, 16.0181 )
@@ -102,8 +105,8 @@ position = Vector2( -0.982155, -14.9893 )
 width = 2.0
 default_color = Color( 1, 0.4, 0.4, 1 )
 
-[node name="Control" parent="." instance=ExtResource( 2 )]
-margin_left = -8.89241
-margin_top = 18.7967
-margin_right = 7.10759
-margin_bottom = 32.7967
+[node name="ValueBar" parent="." instance=ExtResource( 2 )]
+margin_top = 34.3721
+margin_bottom = 37.3721
+value = "health"
+max_value = "MAX_HEALTH"

@@ -7,7 +7,7 @@
 script/source = "extends Enemy
 
 # Properties
-export var PATHFIND_INTERVAL := 0.3
+export var PATHFIND_INTERVAL := 1.0
 
 export var HEAL_INTERVAL := 0.2
 export var HEAL_AMOUNT := 1
@@ -55,6 +55,7 @@ func _physics_process(_delta):
 	#	mv = player.global_position.direction_to(global_position) * speed
 	
 	mv = move_and_slide(mv)
+	
 	
 func _on_heal():
 	for body in heal_area.get_overlapping_bodies():

@@ -53,15 +53,24 @@ func _on_shoot():
 		
 	wall_hit = false
 	
-	for body in shoot_collider.get_overlapping_bodies():
-		if body is Enemy:
-			body.on_hit(DAMAGE)
-			body.on_hit_knockback(
-				global_position.direction_to(body.global_position) * KNOCKBACK)
-			if not AOE: break
+	var enemies = shoot_collider.get_overlapping_bodies()
+	
+	var nearest = get_nearest_enemy(enemies)
+	
+	if nearest != null:
+		nearest.on_hit(DAMAGE)
+		nearest.on_hit_knockback(
+			global_position.direction_to(nearest.global_position) * KNOCKBACK)
+				
+		
+	if AOE: 
+		for body in enemies:
+			if body is Enemy and body != nearest:
+				body.on_hit(DAMAGE)
+				body.on_hit_knockback(
+					global_position.direction_to(body.global_position) * KNOCKBACK)
 			
 	
-# Unused
 func get_nearest_enemy(bodies):
 	var nearest_enemy = null
 	var nearest_distance = INF
@@ -99,6 +108,7 @@ func on_switch_out():
 
 [node name="MachineGun" type="Node2D"]
 script = SubResource( 1 )
+AOE = true
 
 [node name="LineOfSight" type="RayCast2D" parent="."]
 enabled = true

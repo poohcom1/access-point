@@ -35,7 +35,7 @@ func _on_mouse_exit():
 	mouse_hover = false
 
 func _unhandled_input(event):
-	if event.is_action_pressed("shoot", false) and mouse_hover:
+	if event.is_action_pressed("interact", false) and mouse_hover:
 		if $"/root/GameManager".player.battery > 0 and battery < MAX_BATTERY:
 			battery += 1.0
 			$"/root/GameManager".player.battery -= 1

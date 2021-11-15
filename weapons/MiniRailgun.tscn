@@ -55,4 +55,4 @@ func on_switch_out():
 
 [node name="Railgun" type="Node2D"]
 script = SubResource( 1 )
-SHOOT_INTERVAL = 0.2
+DAMAGE = 3
