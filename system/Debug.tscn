@@ -15,6 +15,7 @@ func _process(_delta):
 	text = \"HP: %d\\n\" % gm.player.hp
 	text += \"Batteries: %d\\n\" % gm.player.battery
 	text += \"Weapon: %s\\n\" % gm.player.weapons[gm.player.weapon_ind].weapon_name
+	text += \"Amm0: %d\\n\" % gm.player.weapons[gm.player.weapon_ind].ammo
 	text += \"Back: Q, Next: E\"
 "
 

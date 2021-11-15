@@ -6,6 +6,8 @@ export var MAX_HEALTH := 20.0
 export var value := 0
 export var enemy_class := ""
 
+export var revealed := false
+
 const groups := ["enemy", "map"]
 
 # Fields

@@ -94,7 +94,7 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=8]
 
 [sub_resource type="CircleShape2D" id=9]
-radius = 24.0806
+radius = 21.8001
 
 [node name="ArtilleryProjectile" type="Node2D"]
 script = SubResource( 1 )

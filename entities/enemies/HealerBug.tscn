@@ -10,9 +10,11 @@ script/source = "extends Enemy
 export var PATHFIND_INTERVAL := 1.0
 
 export var HEAL_INTERVAL := 0.2
-export var HEAL_AMOUNT := 1
+export var HEAL_AMOUNT := 2
 
 export var DISTANCE_TO_PLAYER := 50.0
+
+const HEALER_GROUP = \"healer\"
 
 # Fields
 var _distance_to_player = DISTANCE_TO_PLAYER * DISTANCE_TO_PLAYER
@@ -26,6 +28,8 @@ onready var heal_area := $HealingArea
 
 
 func _ready():
+	add_to_group(HEALER_GROUP)
+	
 	## Healing timer
 	add_child(heal_timer)
 	heal_timer.start(HEAL_INTERVAL)
@@ -59,7 +63,7 @@ func _physics_process(_delta):
 	
 func _on_heal():
 	for body in heal_area.get_overlapping_bodies():
-		if body is Enemy and not body == self:
+		if body is Enemy and not body.is_in_group(HEALER_GROUP) and not body == self:
 			body.health += HEAL_AMOUNT
 			body.health = min(body.health, body.MAX_HEALTH)
 
@@ -78,7 +82,7 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=3]
 
 [sub_resource type="CircleShape2D" id=4]
-radius = 24.2103
+radius = 34.7918
 
 [node name="HealerBug" type="KinematicBody2D"]
 script = SubResource( 1 )

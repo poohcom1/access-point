@@ -94,6 +94,7 @@ radius = 8.48656
 script = SubResource( 1 )
 MAX_HEALTH = 15.0
 enemy_class = "melee"
+DAMAGE = 3
 
 [node name="ValueBar" parent="." instance=ExtResource( 2 )]
 margin_top = -12.8603

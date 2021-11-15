@@ -7,6 +7,7 @@ script/source = "extends Weapon
 export var SHOOT_INTERVAL = 0.15
 export var PIERCE_COUNT = 1
 export var DAMAGE = 4
+export var KNOCKBACK = 5
 
 # Fields
 var shooting := false
@@ -27,7 +28,7 @@ func _ready():
 	weapon_name = \"Mini-Railgun\"
 
 func on_shoot():
-	if not shooting: return
+	if not shooting or ammo <= 0: return
 	
 	ammo -= 1
 	
@@ -37,15 +38,16 @@ func on_shoot():
 		
 	bullet.pierce_count = PIERCE_COUNT + 1 # Add one so 0 is the baseline for no pierce
 	bullet.damage = DAMAGE
+	bullet.knockback = KNOCKBACK
 	
 	shoot_timer.start()
 
 func on_active():
-	if Input.is_action_pressed(\"shoot\"):
+	if Input.is_action_pressed(\"shoot\") and ammo > 0:
 		shooting = true
 		if Input.is_action_just_pressed(\"shoot\"):
 			on_shoot()
-	elif Input.is_action_just_released(\"shoot\"):
+	else:
 		shooting = false
 
 
@@ -55,4 +57,4 @@ func on_switch_out():
 
 [node name="Railgun" type="Node2D"]
 script = SubResource( 1 )
-DAMAGE = 3
+DAMAGE = 2

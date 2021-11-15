@@ -12,7 +12,7 @@ var damage
 var angle: float
 var speed: float = 20
 
-var knockback = 10
+var knockback = 0
 
 # Fields
 var _direction: Vector2

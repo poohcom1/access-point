@@ -1,7 +1,7 @@
 extends Node2D
 class_name Weapon
 
-export var MAX_AMMO = 300
+export var MAX_AMMO = 500
 
 # Properties
 var weapon_name: String

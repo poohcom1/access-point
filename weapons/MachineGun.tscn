@@ -39,19 +39,10 @@ func _ready():
 func _physic_process(_delta):
 	pass
 	
-func _on_shoot():
-	line_of_sight.cast_to = (get_global_mouse_position() - global_position)
-	
+func _on_shoot():		
 	shoot_collider.shoot()
-	
-	if line_of_sight.is_colliding() and line_of_sight.get_collider() is TileMap:
-		shoot_collider.global_position = line_of_sight.get_collision_point()
-		wall_hit = true
-		return
 		
-	shoot_collider.global_position = get_global_mouse_position()
-		
-	wall_hit = false
+	ammo -= 1
 	
 	var enemies = shoot_collider.get_overlapping_bodies()
 	
@@ -88,11 +79,20 @@ func _on_hit():
 	pass
 
 func on_active():
-	if Input.is_action_just_pressed(\"shoot\"):
-		shoot_interval.start(SHOOT_INTERVAL)
-		_on_shoot()
+	if Input.is_action_pressed(\"shoot\") and ammo > 0:
+		line_of_sight.cast_to = (get_global_mouse_position() - global_position)
+	
+		if line_of_sight.is_colliding() and line_of_sight.get_collider() is TileMap:
+			shoot_collider.global_position = line_of_sight.get_collision_point()
+		else:
+			shoot_collider.global_position = get_global_mouse_position()
+			
+		if Input.is_action_just_pressed(\"shoot\"):
+			shoot_interval.start(SHOOT_INTERVAL)
+			_on_shoot()
+			
 		#shoot_collider.get_node(\"Particles\").emitting = true
-	elif Input.is_action_just_released(\"shoot\"):
+	else:
 		on_switch_out()
 		#shoot_collider.get_node(\"Particles\").emitting = false
 
@@ -108,6 +108,7 @@ func on_switch_out():
 
 [node name="MachineGun" type="Node2D"]
 script = SubResource( 1 )
+MAX_AMMO = 1000
 AOE = true
 
 [node name="LineOfSight" type="RayCast2D" parent="."]
