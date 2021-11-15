@@ -57,3 +57,4 @@ func on_switch_out():
 
 [node name="Railgun" type="Node2D"]
 script = SubResource( 1 )
+PIERCE_COUNT = 2

@@ -7,19 +7,15 @@
 script/source = "extends Enemy
 
 # Properties
-export var PATHFIND_INTERVAL := 0.5
-
 export var HEAL_INTERVAL := 0.2
 export var HEAL_AMOUNT := 2
 
 export var REGEN_AMOUNT := 0.25
 
-export var DISTANCE_TO_PLAYER := 50.0
+export var PATHFIND_INTERVAL := 0.5
+export var OFF_SCREEN_PATHFIND_INTERVAL := 2.0
 
 const HEALER_GROUP = \"healer\"
-
-# Fields
-var _distance_to_player = DISTANCE_TO_PLAYER * DISTANCE_TO_PLAYER
 
 # Nodes
 var pathfind_timer := Timer.new()
@@ -44,7 +40,7 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	#generate_path($\"/root/GameManager\".player)
 	navigation_target = $\"/root/GameManager\".player
-	pathfind_timer.connect(\"timeout\", self, \"generate_path\")
+	pathfind_timer.connect(\"timeout\", self, \"_on_generate_path\")
 
 
 func _physics_process(_delta):
@@ -52,6 +48,18 @@ func _physics_process(_delta):
 
 	mv = move_and_slide(mv)
 	
+func _on_generate_path():
+	generate_path()
+	
+	var player = $\"/root/GameManager\".player
+	
+	if player != null:
+		pathfind_timer.start(
+			PATHFIND_INTERVAL 
+				if global_position.distance_squared_to(player.global_position) 
+					< OFF_SCREEN * OFF_SCREEN else
+			OFF_SCREEN_PATHFIND_INTERVAL)
+
 	
 func _on_heal():
 	health = min(health + REGEN_AMOUNT, MAX_HEALTH)
@@ -80,7 +88,7 @@ radius = 34.7918
 
 [node name="HealerBug" type="KinematicBody2D"]
 script = SubResource( 1 )
-BASE_SPEED = 75
+BASE_SPEED = 125
 value = 1
 
 [node name="ValueBar" parent="." instance=ExtResource( 1 )]

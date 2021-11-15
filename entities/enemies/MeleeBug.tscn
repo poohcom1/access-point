@@ -8,24 +8,35 @@ script/source = "extends Enemy
 
 # Properties
 export var PATHFIND_INTERVAL = 0.1
+export var OFF_SCREEN_PATHFIND_INTERVAL = 1.0
 
 export var DAMAGE = 5
 export var ATTACK_INTERVAL = 0.2
+
+export(float, 0.0, 1.0) var ATTACK_HEALTH = 0.75
+export(float, 0.0, 1.0) var RETREAT_HEALTH = 0.5
+
+export var RETREAT_TIMER := 10.0
+var retreat_timer := 0.0
+
+export var USE_AI := true
 
 # Fields
 var was_touching := false # If touching player on the previous frame
 var is_attacking := false # Attack flag set from timer
 
 # Navigation
-enum NavigationStates { Attack, Retreat }
-var nav_state = NavigationStates.Attack
+enum NavStates { Attack, Retreat }
+var nav_state = NavStates.Attack
 
 # Nodes
 var attack_timer := Timer.new()
 var pathfind_timer := Timer.new()
 
+
 # Signals
 func _ready():
+	# Attack timer
 	add_child(attack_timer)
 	attack_timer.start(ATTACK_INTERVAL)
 	# warning-ignore:return_value_discarded
@@ -35,27 +46,38 @@ func _ready():
 	yield(get_tree(), \"idle_frame\")
 	
 	navigation_target = $\"/root/GameManager\".player
+	
 	# warning-ignore:return_value_discarded	
-	pathfind_timer.connect(\"timeout\", self, \"generate_path\")
+	pathfind_timer.connect(\"timeout\", self, \"_on_generate_path\")
+	pathfind_timer.autostart = false
 	add_child(pathfind_timer)
-	pathfind_timer.start(PATHFIND_INTERVAL)
+	
+	# Randomize start to stagger pathfinding to prevent lag spike at the
+	#	beginning of the stage.
+	# Might have to be conditionally removed for enemies spawned mid game
+	pathfind_timer.start(rand_range(0, 2))
+	
 
 func _physics_process(_delta):	
-	# AI
-	if not is_instance_valid(navigation_target):
-		nav_state = NavigationStates.Attack
+# warning-ignore:unused_variable
+	var player = $\"/root/GameManager\".player
+
 	
-	if health > MAX_HEALTH * 0.5 and nav_state != NavigationStates.Attack:
-		navigation_target = $\"/root/GameManager\".player
-		nav_state = NavigationStates.Attack
-	elif health <= MAX_HEALTH * 0.5 and nav_state != NavigationStates.Retreat:
+	# AI
+	if USE_AI:
 		var healers = get_tree().get_nodes_in_group(\"healer\")
 		
-		if healers.size() > 0:
-			navigation_target = MathHelper.get_nearest_node(self, healers)
-			nav_state = NavigationStates.Retreat	
-		
-	
+		match nav_state:
+			NavStates.Attack:
+				if health <= MAX_HEALTH * RETREAT_HEALTH:
+					if healers.size() > 0:
+						navigation_target = MathHelper.get_nearest_node(self, healers)
+						nav_state = NavStates.Retreat	
+			NavStates.Retreat:
+				if not is_instance_valid(navigation_target) or (health > MAX_HEALTH * ATTACK_HEALTH or healers.size() == 0):
+					navigation_target = $\"/root/GameManager\".player
+					nav_state = NavStates.Attack
+
 	## Pathfinding
 	mv = navigate()
 	
@@ -72,6 +94,20 @@ func _physics_process(_delta):
 			
 				attack_timer.start()
 			break
+
+func _on_generate_path(offset = 0.0):
+	generate_path()
+	
+	var player = $\"/root/GameManager\".player
+	
+	# Optimizing for pathfinding: bugs further away will call 
+	# 	this function less by setting the timer higher
+	if player != null:
+		pathfind_timer.start(offset + 
+			PATHFIND_INTERVAL 
+				if global_position.distance_squared_to(player.global_position) 
+					< OFF_SCREEN * OFF_SCREEN else
+			OFF_SCREEN_PATHFIND_INTERVAL)
 
 func _on_attack():
 	is_attacking = true
@@ -93,7 +129,6 @@ radius = 8.48656
 
 [node name="MeleeBug" type="KinematicBody2D"]
 script = SubResource( 1 )
-MAX_HEALTH = 15.0
 enemy_class = "melee"
 DAMAGE = 3
 

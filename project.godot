@@ -63,7 +63,6 @@ config/icon="res://icon.png"
 [autoload]
 
 GameManager="*res://system/GameManager.gd"
-CommandParser="*res://system/CommandParser.gd"
 
 [display]
 

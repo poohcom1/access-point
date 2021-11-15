@@ -12,6 +12,7 @@ export var DEBUG_PATH := false
 var debug_path: Line2D
 
 const groups := ["enemy", "map"]
+const OFF_SCREEN = 250
 
 # Fields
 var health := 0.0 # Set in ready from max_health
