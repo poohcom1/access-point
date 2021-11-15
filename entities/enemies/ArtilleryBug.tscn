@@ -90,6 +90,7 @@ height = 20.9391
 script = SubResource( 1 )
 MAX_HEALTH = 40.0
 value = 2
+FRIENDLY_DAMAGE = 30
 RANGE = 250
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

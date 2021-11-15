@@ -16,13 +16,17 @@ const groups := ["enemy", "map"]
 # Fields
 var health := 0.0 # Set in ready from max_health
 var state: int = State.Passive
-var path := []
 
 var post_hit := false # Flag for the frame after hit
 
+# Navigation
+var path := []
+
+var navigation: Navigation2D
+var navigation_target: Node2D
+
 # States
 enum State { Passive, Search, Aggro, Dead }
-
 
 # Signals
 signal on_damage(dmg)
@@ -49,6 +53,9 @@ func _ready():
 
 	# warning-ignore:return_value_discarded
 	connect("on_death", self, "on_death")
+	
+	yield(get_tree(), "idle_frame")
+	navigation = $"/root/GameManager".navigation
 
 # Events
 func _physics_process(_delta):
@@ -85,11 +92,9 @@ func navigate() -> Vector2:
 		
 	return mv
 	
-func generate_path(target: Node2D):
-	var navigation = $"/root/GameManager".navigation
+func generate_path():
+	if not is_instance_valid(navigation_target) or navigation_target == null or navigation == null: return
 	
-	if target == null or navigation == null: return
-	
-	path = navigation.get_simple_path(global_position, target.global_position, false)
+	path = navigation.get_simple_path(global_position, navigation_target.global_position, false)
 	if DEBUG_PATH:
 		debug_path.points = path

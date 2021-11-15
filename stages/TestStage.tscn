@@ -87,9 +87,15 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 
 [node name="Turret" parent="." instance=ExtResource( 9 )]
 position = Vector2( 310, 245 )
+custom_stats = true
+health = 100.0
+battery = 0.0
 
 [node name="Turret2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 278, 453 )
+custom_stats = true
+health = 100.0
+battery = 0.0
 
 [node name="Radar" parent="." instance=ExtResource( 10 )]
 position = Vector2( 109, 108 )
@@ -219,6 +225,15 @@ position = Vector2( 826.373, 253.589 )
 
 [node name="HealerBug2" parent="Enemies" instance=ExtResource( 6 )]
 position = Vector2( 825.695, 223.025 )
+
+[node name="HealerBug5" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 840.695, 304.525 )
+
+[node name="HealerBug6" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 786.195, 426.525 )
+
+[node name="HealerBug7" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 709.195, 448.025 )
 
 [node name="MeleeBug25" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 507.967, 474.123 )

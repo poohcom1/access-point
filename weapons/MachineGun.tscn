@@ -5,12 +5,16 @@ script/source = "extends Weapon
 
 export var SHOOT_INTERVAL := 0.05
 export var DAMAGE = 1
-export var KNOCKBACK = 10
+export var KNOCKBACK = 5
 
+export var RAMP_UP_DAMAGE = 4
+export var RAMP_UP_FRAMES = 30
 export var AOE = false
 
 # Fields
 var wall_hit := false
+
+var hit_targets := {} # For damage rampup
 
 # Nodes
 const ShootArea = preload(\"res://weapons/objects/ShootArea.tscn\")
@@ -48,20 +52,47 @@ func _on_shoot():
 	
 	var nearest = get_nearest_enemy(enemies)
 	
+	# Clear targets marked for rampup
+	for target in hit_targets:
+		hit_targets[target].hit = false
+	
 	if nearest != null:
-		nearest.on_hit(DAMAGE)
-		nearest.on_hit_knockback(
-			global_position.direction_to(nearest.global_position) * KNOCKBACK)
+		damage_enemy(nearest)
 				
-		
 	if AOE: 
 		for body in enemies:
 			if body is Enemy and body != nearest:
-				body.on_hit(DAMAGE)
-				body.on_hit_knockback(
-					global_position.direction_to(body.global_position) * KNOCKBACK)
-			
+				damage_enemy(body)
 	
+	# Erase target not marked
+	for target in hit_targets:
+		if not hit_targets[target].hit:
+			# warning-ignore:return_value_discarded
+			hit_targets.erase(target)
+				
+func damage_enemy(enemy: Enemy):
+	var damage = DAMAGE
+	
+	## Rampup syste,
+	if not hit_targets.has(enemy):
+		hit_targets[enemy] = {
+			\"frames\": 1,
+			\"hit\": true
+		}
+	else:
+		hit_targets[enemy].frames += 1
+		hit_targets[enemy].hit = true
+		
+		damage = floor(lerp(
+			DAMAGE, 
+			RAMP_UP_DAMAGE, 
+			min(hit_targets[enemy][\"frames\"], RAMP_UP_FRAMES)/float(RAMP_UP_FRAMES)
+			))
+	
+	enemy.on_hit(damage)
+	enemy.on_hit_knockback( global_position.direction_to(enemy.global_position) 
+																* KNOCKBACK )
+		
 func get_nearest_enemy(bodies):
 	var nearest_enemy = null
 	var nearest_distance = INF
@@ -100,6 +131,7 @@ func on_switch():
 	shoot_interval.start(SHOOT_INTERVAL)		
 
 func on_switch_out():
+	hit_targets.clear()
 	shoot_interval.stop()
 	pass #shoot_collider.get_node(\"Particles\").emitting = false
 		

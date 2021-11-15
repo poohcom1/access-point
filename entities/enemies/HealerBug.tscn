@@ -12,6 +12,8 @@ export var PATHFIND_INTERVAL := 0.5
 export var HEAL_INTERVAL := 0.2
 export var HEAL_AMOUNT := 2
 
+export var REGEN_AMOUNT := 0.25
+
 export var DISTANCE_TO_PLAYER := 50.0
 
 const HEALER_GROUP = \"healer\"
@@ -41,7 +43,8 @@ func _ready():
 	pathfind_timer.start(PATHFIND_INTERVAL)
 	# warning-ignore:return_value_discarded
 	#generate_path($\"/root/GameManager\".player)
-	pathfind_timer.connect(\"timeout\", self, \"generate_path\", [$\"/root/GameManager\".player])
+	navigation_target = $\"/root/GameManager\".player
+	pathfind_timer.connect(\"timeout\", self, \"generate_path\")
 
 
 func _physics_process(_delta):
@@ -51,6 +54,8 @@ func _physics_process(_delta):
 	
 	
 func _on_heal():
+	health = min(health + REGEN_AMOUNT, MAX_HEALTH)
+	
 	for body in heal_area.get_overlapping_bodies():
 		if body is Enemy and not body.is_in_group(HEALER_GROUP) and not body == self:
 			body.health += HEAL_AMOUNT
@@ -75,7 +80,7 @@ radius = 34.7918
 
 [node name="HealerBug" type="KinematicBody2D"]
 script = SubResource( 1 )
-BASE_SPEED = 125
+BASE_SPEED = 75
 value = 1
 
 [node name="ValueBar" parent="." instance=ExtResource( 1 )]

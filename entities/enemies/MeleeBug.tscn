@@ -16,12 +16,15 @@ export var ATTACK_INTERVAL = 0.2
 var was_touching := false # If touching player on the previous frame
 var is_attacking := false # Attack flag set from timer
 
+# Navigation
+enum NavigationStates { Attack, Retreat }
+var nav_state = NavigationStates.Attack
+
 # Nodes
 var attack_timer := Timer.new()
 var pathfind_timer := Timer.new()
+
 # Signals
-
-
 func _ready():
 	add_child(attack_timer)
 	attack_timer.start(ATTACK_INTERVAL)
@@ -31,12 +34,28 @@ func _ready():
 	# Wait for idle frame to get player
 	yield(get_tree(), \"idle_frame\")
 	
+	navigation_target = $\"/root/GameManager\".player
 	# warning-ignore:return_value_discarded	
-	pathfind_timer.connect(\"timeout\", self, \"generate_path\", [$\"/root/GameManager\".player])
+	pathfind_timer.connect(\"timeout\", self, \"generate_path\")
 	add_child(pathfind_timer)
 	pathfind_timer.start(PATHFIND_INTERVAL)
 
 func _physics_process(_delta):	
+	# AI
+	if not is_instance_valid(navigation_target):
+		nav_state = NavigationStates.Attack
+	
+	if health > MAX_HEALTH * 0.5 and nav_state != NavigationStates.Attack:
+		navigation_target = $\"/root/GameManager\".player
+		nav_state = NavigationStates.Attack
+	elif health <= MAX_HEALTH * 0.5 and nav_state != NavigationStates.Retreat:
+		var healers = get_tree().get_nodes_in_group(\"healer\")
+		
+		if healers.size() > 0:
+			navigation_target = MathHelper.get_nearest_node(self, healers)
+			nav_state = NavigationStates.Retreat	
+		
+	
 	## Pathfinding
 	mv = navigate()
 	
@@ -54,12 +73,9 @@ func _physics_process(_delta):
 				attack_timer.start()
 			break
 
-	
 func _on_attack():
 	is_attacking = true
 	
-
-
 func on_death():
 	queue_free()
 "
