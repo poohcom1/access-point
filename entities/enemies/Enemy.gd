@@ -24,7 +24,7 @@ var post_hit := false # Flag for the frame after hit
 var path := []
 
 var navigation: Navigation2D
-var navigation_target: Node2D
+var navigation_target: WeakRef
 
 # States
 enum State { Passive, Search, Aggro, Dead }
@@ -82,11 +82,12 @@ func on_hit_knockback(vector: Vector2):
 func on_death():
 	pass
 	
+	
 ## Pathfinding
 func navigate() -> Vector2:
 	if path.size() <= 1: return Vector2.ZERO
 	
-	var mv = global_position.direction_to(path[1]) * speed
+	var mv = global_position.direction_to(path[1])
 	
 	if global_position.distance_squared_to(path[0]) < speed:
 		path.pop_front()
@@ -94,8 +95,10 @@ func navigate() -> Vector2:
 	return mv
 	
 func generate_path():
-	if not is_instance_valid(navigation_target) or navigation_target == null or navigation == null: return
+	var target = navigation_target.get_ref()
 	
-	path = navigation.get_simple_path(global_position, navigation_target.global_position, false)
+	if not target or navigation == null: return
+	
+	path = navigation.get_simple_path(global_position, target.global_position, false)
 	if DEBUG_PATH:
 		debug_path.points = path

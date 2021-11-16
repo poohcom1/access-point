@@ -75,12 +75,11 @@ script = SubResource( 1 )
 MAX_BATTERY = 1.0
 
 [node name="ValueBar" parent="." instance=ExtResource( 2 )]
-margin_top = 9.43874
-margin_bottom = 12.4387
+position = Vector2( -0.078743, 9.52816 )
 value = "battery"
 max_value = "MAX_BATTERY"
 progress_color = Color( 0.509804, 0.941176, 1, 1 )
-scale = 20.0
+x_scale = 30.0
 hide_if_full = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

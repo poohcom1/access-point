@@ -7,14 +7,16 @@
 script/source = "extends Enemy
 
 # Properties
+
 export var PATHFIND_INTERVAL = 0.1
-export var OFF_SCREEN_PATHFIND_INTERVAL = 1.0
+export var OFF_SCREEN_PATHFIND_INTERVAL = 4.0
 
 export var DAMAGE = 5
 export var ATTACK_INTERVAL = 0.2
 
 export(float, 0.0, 1.0) var ATTACK_HEALTH = 0.75
 export(float, 0.0, 1.0) var RETREAT_HEALTH = 0.5
+export var RETREAT_SPEED := 150
 
 export var RETREAT_TIMER := 10.0
 var retreat_timer := 0.0
@@ -28,6 +30,8 @@ var is_attacking := false # Attack flag set from timer
 # Navigation
 enum NavStates { Attack, Retreat }
 var nav_state = NavStates.Attack
+
+var player_in_range
 
 # Nodes
 var attack_timer := Timer.new()
@@ -45,7 +49,8 @@ func _ready():
 	# Wait for idle frame to get player
 	yield(get_tree(), \"idle_frame\")
 	
-	navigation_target = $\"/root/GameManager\".player
+	navigation_target = weakref($\"/root/GameManager\".player)
+
 	
 	# warning-ignore:return_value_discarded	
 	pathfind_timer.connect(\"timeout\", self, \"_on_generate_path\")
@@ -59,9 +64,16 @@ func _ready():
 	
 
 func _physics_process(_delta):	
-# warning-ignore:unused_variable
 	var player = $\"/root/GameManager\".player
 
+	if player:
+		var current_player_in_range = (global_position.distance_squared_to(
+			player.global_position) < OFF_SCREEN * OFF_SCREEN)
+			
+		if not player_in_range and current_player_in_range:
+			generate_path()
+			pathfind_timer.start(PATHFIND_INTERVAL)
+		player_in_range = current_player_in_range
 	
 	# AI
 	if USE_AI:
@@ -69,19 +81,21 @@ func _physics_process(_delta):
 		
 		match nav_state:
 			NavStates.Attack:
+				speed = BASE_SPEED
 				if health <= MAX_HEALTH * RETREAT_HEALTH:
 					if healers.size() > 0:
-						navigation_target = MathHelper.get_nearest_node(self, healers)
+						navigation_target = weakref(MathHelper.get_nearest_node(self, healers))
 						nav_state = NavStates.Retreat	
 			NavStates.Retreat:
-				if not is_instance_valid(navigation_target) or (health > MAX_HEALTH * ATTACK_HEALTH or healers.size() == 0):
-					navigation_target = $\"/root/GameManager\".player
+				speed = RETREAT_SPEED
+				if not navigation_target.get_ref() or (health > MAX_HEALTH * ATTACK_HEALTH or healers.size() == 0):
+					navigation_target = weakref($\"/root/GameManager\".player)
 					nav_state = NavStates.Attack
 
 	## Pathfinding
 	mv = navigate()
 	
-	mv = move_and_slide(mv)
+	mv = move_and_slide(mv * speed)
 	
 	## Attack
 	for i in get_slide_count():
@@ -133,8 +147,7 @@ enemy_class = "melee"
 DAMAGE = 3
 
 [node name="ValueBar" parent="." instance=ExtResource( 2 )]
-margin_top = -12.8603
-margin_bottom = -9.86029
+position = Vector2( -0.0371628, 9.81096 )
 value = "health"
 max_value = "MAX_HEALTH"
 

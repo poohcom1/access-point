@@ -36,13 +36,17 @@ func _ready():
 	shoot_timer.connect(\"timeout\", self, \"_on_shoot\")
 	shoot_timer.start(SHOOT_INTERVAL)
 	
-	shoot_area.get_node(\"Effect\").modulate = Color(1.0, 0.4, 0.4)
+	shoot_area.get_node(\"Effect\").modulate = Color(1.0, 0.7, 0.7)
+	shoot_area.get_node(\"Effect\").transform.scaled(Vector2(1.5, 1.5))
 	
 func _on_shoot():
 	if battery <= 0: return
 	
-	if target == null or not is_instance_valid(target) or not target in enemies_in_range:
-		target = find_nearest_target()
+	if not bugged:
+		#if target == null or not is_instance_valid(target) or not target in enemies_in_range:
+		target = find_weakest_target()
+	else:
+		target = find_healthiest_target()
 		
 	if target == null or not is_instance_valid(target): return
 	
@@ -57,23 +61,6 @@ func _on_shoot():
 	if not is_instance_valid(target) or target.health < 0:
 		enemies_in_range.erase(target)
 	
-func find_nearest_target():
-	var nearest = null
-	var min_dist = INF
-	
-	for enemy in enemies_in_range:
-		# TODO: Line of sight check. This below doesn't seem to work
-		#$LineOfSight.cast_to = to_local(enemy.global_position)
-		#if $LineOfSight.is_colliding(): 
-		#	continue
-		#
-		var dist = global_position.distance_squared_to(enemy.global_position)
-
-		if dist < min_dist:
-			nearest = enemy
-			min_dist = dist
-			
-	return nearest
 
 func _on_body_entered(body):
 	if body is Enemy:
@@ -86,6 +73,35 @@ func _on_body_exited(body):
 func _set_range(val):
 	RANGE = val
 	$RangeArea/CollisionShape2D.shape.radius = val
+	
+# AI
+func find_weakest_target():
+	var weakest = null
+	var min_health = INF
+	
+	for enemy in enemies_in_range:
+		# TODO: Line of sight check. This below doesn't seem to work
+		#$LineOfSight.cast_to = to_local(enemy.global_position)
+		#if $LineOfSight.is_colliding(): 
+		#	continue
+		#
+		if enemy.health < min_health:
+			weakest = enemy
+			min_health = enemy.health
+			
+	return weakest
+
+# Bugged AI
+func find_healthiest_target():
+	var healthiest = null
+	var max_health = -1
+	
+	for enemy in enemies_in_range:
+		if enemy.health > max_health:
+			healthiest = enemy
+			max_health = enemy.health
+			
+	return healthiest
 "
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -109,6 +125,9 @@ extents = Vector2( 19.7339, 20.6122 )
 "turret",
 ]]
 script = SubResource( 1 )
+MAX_BATTERY = 8.0
+DAMAGE = 2
+SHOOT_INTERVAL = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
@@ -121,10 +140,9 @@ scale = Vector2( 1.50823, 1.50823 )
 frames = SubResource( 3 )
 
 [node name="ShootTimer" type="Timer" parent="."]
-wait_time = 0.05
+wait_time = 0.15
 
 [node name="ShootArea" parent="." instance=ExtResource( 2 )]
-modulate = Color( 0.309804, 1, 0.933333, 1 )
 
 [node name="RangeArea" type="Area2D" parent="."]
 
@@ -142,10 +160,9 @@ visible = false
 shape = SubResource( 5 )
 
 [node name="ValueBar" parent="." instance=ExtResource( 3 )]
-margin_top = 13.6568
-margin_bottom = 16.6568
+position = Vector2( 0, 14.7609 )
 value = "battery"
 max_value = "MAX_BATTERY"
-progress_color = Color( 0, 0.439216, 1, 1 )
-overload_color = Color( 0.909804, 0.419608, 0.937255, 1 )
-scale = 10.0
+progress_color = Color( 0, 0.34902, 0.792157, 1 )
+overload_color = Color( 0.419608, 0.780392, 0.937255, 1 )
+x_scale = 5.0

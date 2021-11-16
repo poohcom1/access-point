@@ -25,6 +25,8 @@ func _ready():
 	set_collision_layer_bit(ProjectSettings.get_setting("global/ENEMY_BULLET_COL_BIT"), true)
 
 	_init_weapons()
+	# Cursor
+	Input.set_custom_mouse_cursor(load("res://assets/crosshair.png"), 0, Vector2(24, 24))
 
 func _init_weapons():
 	var machine_gun = MachineGun.instance()
@@ -33,7 +35,7 @@ func _init_weapons():
 	add_child(railgun)
 	
 	weapons = [machine_gun, railgun]
-	pass
+	weapons[weapon_ind].on_switch()
 	
 func switch_weapon(direction := 1):
 	if direction == 0: return

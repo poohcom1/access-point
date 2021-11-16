@@ -67,6 +67,7 @@ func on_shoot():
 		
 
 func on_death():
+	yield(get_tree(), \"idle_frame\")
 	queue_free()
 		
 		
@@ -84,12 +85,12 @@ animations = [ {
 
 [sub_resource type="CapsuleShape2D" id=3]
 radius = 5.46062
-height = 20.9391
 
 [node name="ArtilleryBug" type="KinematicBody2D"]
 script = SubResource( 1 )
 MAX_HEALTH = 40.0
 value = 2
+enemy_class = "Artillery"
 FRIENDLY_DAMAGE = 30
 RANGE = 250
 
@@ -107,7 +108,6 @@ width = 2.0
 default_color = Color( 1, 0.4, 0.4, 1 )
 
 [node name="ValueBar" parent="." instance=ExtResource( 2 )]
-margin_top = 34.3721
-margin_bottom = 37.3721
+position = Vector2( 0, 35.5401 )
 value = "health"
 max_value = "MAX_HEALTH"

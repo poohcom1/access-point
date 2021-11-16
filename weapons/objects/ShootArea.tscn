@@ -27,7 +27,7 @@ func shoot():
 "
 
 [sub_resource type="CircleShape2D" id=2]
-radius = 11.1005
+radius = 8.0043
 
 [sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 1, 0.966064, 0.457031, 1, 1, 1, 1, 0.32549 )

@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Control
+script/source = "extends Node2D
 
 # Properties
 export var value: String = \"\"
@@ -11,8 +11,8 @@ export var progress_color := Color.green
 export var background_color := Color.black
 export var overload_color := Color.green
 
-export var height: float = 3
-export var scale: float = 1.0
+export var x_scale: float = 1.0
+export var y_scale: float = 3
 
 export var hide_if_full := true
 
@@ -29,8 +29,8 @@ func _ready():
 		
 	width = float(parent.get(max_value))
 	
-	set_size(Vector2(width, height))
-	margin_left = -(width/2) * scale
+	#set_size(Vector2(width, height))
+	position.x = -(width/2) * x_scale
 	
 func _process(_delta):
 	update()
@@ -44,21 +44,17 @@ func _draw():
 	if hide_if_full and value_amt == width: return
 	
 	# Background
-	draw_rect(Rect2(0, 0, width*scale, get_size().y), background_color)
+	draw_rect(Rect2(0, 0, width*x_scale, y_scale), background_color)
 	
 	if value_amt < 0: return
 
-	draw_rect(Rect2(0, 0, width*scale*(min(value_amt/width, 1.0)), 
-		get_size().y), progress_color)
+	draw_rect(Rect2(0, 0, width*x_scale*(min(value_amt/width, 1.0)), 
+		y_scale), progress_color)
 		
-	draw_rect(Rect2(0, 0, width*scale*(max(value_amt/width - 1.0, 0.0)), 
-		get_size().y), overload_color)
+	draw_rect(Rect2(0, 0, width*x_scale*(max(value_amt/width - 1.0, 0.0)), 
+		y_scale), overload_color)
 "
 
-[node name="ValueBar" type="Control"]
-margin_bottom = 3.0
-grow_horizontal = 2
+[node name="ValueBar" type="Node2D"]
+z_index = 50
 script = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}

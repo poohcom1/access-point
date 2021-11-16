@@ -75,8 +75,9 @@ func set_battery(val):
 		
 	battery = val
 	
-	if battery == 0:
+	if battery <= 0:
 		emit_signal("on_deactivate")
+		battery = 0
 		
 func add_battery(val):
 	set_battery(battery + val)
