@@ -144,6 +144,7 @@ radius = 8.48656
 [node name="MeleeBug" type="KinematicBody2D"]
 script = SubResource( 1 )
 enemy_class = "melee"
+DEBUG_PATH = true
 DAMAGE = 3
 
 [node name="ValueBar" parent="." instance=ExtResource( 2 )]
