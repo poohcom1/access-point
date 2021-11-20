@@ -92,7 +92,7 @@ health = 100.0
 battery = 0.0
 
 [node name="Turret2" parent="." instance=ExtResource( 9 )]
-position = Vector2( 278, 453 )
+position = Vector2( 278, 453.472 )
 custom_stats = true
 health = 100.0
 battery = 0.0

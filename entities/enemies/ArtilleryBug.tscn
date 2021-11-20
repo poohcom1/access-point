@@ -13,6 +13,7 @@ export var PROJECTILE_SPEED = 10
 export var SHOOT_INTERVAL := 2
 export var RANGE := 175
 export var EXPLOSION_FRAMES := 1
+export var EXPLODE_ON_WALL := false
 
 # Fields
 var _range = 0
@@ -62,8 +63,9 @@ func on_shoot():
 		projectile.target = $\"/root/GameManager\".player.position
 		projectile.shot_from = self
 		projectile.explosion_frames = EXPLOSION_FRAMES
+		projectile.explode_on_wall = EXPLODE_ON_WALL
 		
-		get_parent().add_child(projectile)
+		get_tree().root.add_child(projectile)
 		
 
 func on_death():
@@ -93,6 +95,7 @@ value = 2
 enemy_class = "Artillery"
 FRIENDLY_DAMAGE = 30
 RANGE = 250
+EXPLODE_ON_WALL = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 2 )

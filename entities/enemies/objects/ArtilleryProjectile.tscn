@@ -11,6 +11,8 @@ var target: Vector2
 var damage: float
 var friendly_damage: float
 var speed: int
+var explode_on_wall: bool
+
 var shot_from: Enemy
 var explosion_frames: int
 
@@ -34,6 +36,12 @@ func _physics_process(_delta):
 			on_explode()
 		else:
 			global_position += global_position.direction_to(target) * speed
+			
+			if explode_on_wall:
+				for body in $HitboxArea.get_overlapping_bodies():
+					if body is TileMap:
+						has_exploded = true
+						on_explode()
 	else:
 		if $AnimatedSprite.frame >= explosion_frames:
 			$ExplosionArea/CollisionShape2D.disabled = true

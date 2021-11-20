@@ -1,24 +1,24 @@
 [gd_scene load_steps=69 format=2]
 
 [ext_resource path="res://assets/white.png" type="Texture" id=1]
-[ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=2]
-[ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=3]
-[ext_resource path="res://structures/Turret.tscn" type="PackedScene" id=4]
-[ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=5]
-[ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=6]
-[ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=7]
-[ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=8]
-[ext_resource path="res://system/Debug.tscn" type="PackedScene" id=9]
-[ext_resource path="res://assets/blue.png" type="Texture" id=10]
-[ext_resource path="res://assets/tiles/cracked_mud_tilemapping.png" type="Texture" id=11]
-[ext_resource path="res://assets/tiles/cracked_mud2.png" type="Texture" id=12]
-[ext_resource path="res://assets/tiles/sand1.png" type="Texture" id=13]
-[ext_resource path="res://assets/tiles/sand2.png" type="Texture" id=14]
-[ext_resource path="res://assets/props/artillery_placeholder.png" type="Texture" id=15]
-[ext_resource path="res://assets/props/rock_texture2.png" type="Texture" id=16]
-[ext_resource path="res://assets/props/rock_texture..png" type="Texture" id=17]
-[ext_resource path="res://assets/props/sandstone_wall.png" type="Texture" id=18]
-[ext_resource path="res://assets/props/sandstone_tops.png" type="Texture" id=19]
+[ext_resource path="res://assets/blue.png" type="Texture" id=2]
+[ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=3]
+[ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=4]
+[ext_resource path="res://structures/Turret.tscn" type="PackedScene" id=5]
+[ext_resource path="res://system/Debug.tscn" type="PackedScene" id=6]
+[ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=7]
+[ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=8]
+[ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=9]
+[ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/props/artillery_placeholder.png" type="Texture" id=11]
+[ext_resource path="res://assets/props/rock_texture2.png" type="Texture" id=12]
+[ext_resource path="res://assets/props/sandstone_wall.png" type="Texture" id=13]
+[ext_resource path="res://assets/props/sandstone_tops.png" type="Texture" id=14]
+[ext_resource path="res://assets/tiles/sand1.png" type="Texture" id=15]
+[ext_resource path="res://assets/props/rock_texture..png" type="Texture" id=16]
+[ext_resource path="res://assets/tiles/cracked_mud_tilemapping.png" type="Texture" id=17]
+[ext_resource path="res://assets/tiles/cracked_mud2.png" type="Texture" id=18]
+[ext_resource path="res://assets/tiles/sand2.png" type="Texture" id=19]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Navigation2D
@@ -193,7 +193,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 
 [sub_resource type="TileSet" id=49]
 0/name = "blue.png 0"
-0/texture = ExtResource( 10 )
+0/texture = ExtResource( 2 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 16, 16 )
@@ -229,7 +229,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 1/shapes = [  ]
 1/z_index = 0
 2/name = "sand1.png 2"
-2/texture = ExtResource( 13 )
+2/texture = ExtResource( 15 )
 2/tex_offset = Vector2( 0, 0 )
 2/modulate = Color( 1, 1, 1, 1 )
 2/region = Rect2( 0, 0, 16, 16 )
@@ -244,7 +244,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 2/shapes = [  ]
 2/z_index = 0
 3/name = "sand2.png 3"
-3/texture = ExtResource( 14 )
+3/texture = ExtResource( 19 )
 3/tex_offset = Vector2( 0, 0 )
 3/modulate = Color( 1, 1, 1, 1 )
 3/region = Rect2( 0, 0, 16, 16 )
@@ -259,7 +259,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 3/shapes = [  ]
 3/z_index = 0
 4/name = "cracked_mud_tilemapping.png 4"
-4/texture = ExtResource( 11 )
+4/texture = ExtResource( 17 )
 4/tex_offset = Vector2( 0, 0 )
 4/modulate = Color( 1, 1, 1, 1 )
 4/region = Rect2( 0, 0, 96, 48 )
@@ -282,7 +282,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 4/shapes = [  ]
 4/z_index = 0
 5/name = "cracked_mud2.png 5"
-5/texture = ExtResource( 12 )
+5/texture = ExtResource( 18 )
 5/tex_offset = Vector2( 0, 0 )
 5/modulate = Color( 1, 1, 1, 1 )
 5/region = Rect2( 0, 0, 16, 16 )
@@ -297,7 +297,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 5/shapes = [  ]
 5/z_index = 0
 6/name = "sand1.png 6"
-6/texture = ExtResource( 13 )
+6/texture = ExtResource( 15 )
 6/tex_offset = Vector2( 0, 0 )
 6/modulate = Color( 1, 1, 1, 1 )
 6/region = Rect2( 0, 0, 16, 16 )
@@ -312,7 +312,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 6/shapes = [  ]
 6/z_index = 0
 7/name = "artillery_placeholder.png 7"
-7/texture = ExtResource( 15 )
+7/texture = ExtResource( 11 )
 7/tex_offset = Vector2( 0, 0 )
 7/modulate = Color( 1, 1, 1, 1 )
 7/region = Rect2( 0, 0, 32, 32 )
@@ -333,7 +333,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 } ]
 7/z_index = 0
 8/name = "rock_texture..png 8"
-8/texture = ExtResource( 17 )
+8/texture = ExtResource( 16 )
 8/tex_offset = Vector2( 0, 0 )
 8/modulate = Color( 1, 1, 1, 1 )
 8/region = Rect2( 0, 0, 16, 16 )
@@ -354,7 +354,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 } ]
 8/z_index = 0
 9/name = "rock_texture2.png 9"
-9/texture = ExtResource( 16 )
+9/texture = ExtResource( 12 )
 9/tex_offset = Vector2( 0, 0 )
 9/modulate = Color( 1, 1, 1, 1 )
 9/region = Rect2( 0, 0, 96, 32 )
@@ -375,7 +375,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 } ]
 9/z_index = 0
 10/name = "sandstone_wall.png 10"
-10/texture = ExtResource( 18 )
+10/texture = ExtResource( 13 )
 10/tex_offset = Vector2( 0, 0 )
 10/modulate = Color( 1, 1, 1, 1 )
 10/region = Rect2( 0, 0, 16, 32 )
@@ -396,7 +396,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 } ]
 10/z_index = 0
 11/name = "sandstone_tops.png 11"
-11/texture = ExtResource( 19 )
+11/texture = ExtResource( 14 )
 11/tex_offset = Vector2( 0, 0 )
 11/modulate = Color( 1, 1, 1, 1 )
 11/region = Rect2( 16, 16, 16, 16 )
@@ -417,7 +417,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 } ]
 11/z_index = 0
 12/name = "sandstone_tops.png 12"
-12/texture = ExtResource( 19 )
+12/texture = ExtResource( 14 )
 12/tex_offset = Vector2( 0, 0 )
 12/modulate = Color( 1, 1, 1, 1 )
 12/region = Rect2( 32, 16, 16, 16 )
@@ -431,7 +431,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 12/shapes = [  ]
 12/z_index = 0
 13/name = "sandstone_tops.png 13"
-13/texture = ExtResource( 19 )
+13/texture = ExtResource( 14 )
 13/tex_offset = Vector2( 0, 0 )
 13/modulate = Color( 1, 1, 1, 1 )
 13/region = Rect2( 0, 16, 16, 16 )
@@ -445,7 +445,7 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 13/shapes = [  ]
 13/z_index = 0
 14/name = "sandstone_tops.png 14"
-14/texture = ExtResource( 19 )
+14/texture = ExtResource( 14 )
 14/tex_offset = Vector2( 0, 0 )
 14/modulate = Color( 1, 1, 1, 1 )
 14/region = Rect2( 0, 0, 96, 48 )
@@ -580,15 +580,6 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 [node name="Stage" type="Navigation2D"]
 script = SubResource( 1 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="MiniMap" parent="CanvasLayer" instance=ExtResource( 2 )]
-anchor_top = 1.0
-anchor_right = 0.0
-margin_top = -149.0
-margin_right = 156.0
-margin_bottom = 0.0
-
 [node name="Wall" type="TileMap" parent="." groups=[
 "tilemap",
 ]]
@@ -611,37 +602,42 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Turret" parent="." instance=ExtResource( 4 )]
+[node name="Turret" parent="." instance=ExtResource( 5 )]
 position = Vector2( 653.263, -633.536 )
 custom_stats = true
 health = 100.0
 battery = 0.0
 
-[node name="Radar" parent="." instance=ExtResource( 5 )]
+[node name="Radar" parent="." instance=ExtResource( 9 )]
 position = Vector2( 700.094, 440.032 )
 custom_stats = true
 next_radars = [ NodePath("../Radar2") ]
 health = 100.0
 battery = 0.0
 
-[node name="Radar2" parent="." instance=ExtResource( 5 )]
+[node name="Radar2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 604.617, -71.4372 )
 custom_stats = true
 next_radars = [ NodePath("../Radar3") ]
 health = 100.0
 battery = 0.0
 
-[node name="Radar3" parent="." instance=ExtResource( 5 )]
+[node name="Radar3" parent="." instance=ExtResource( 9 )]
 position = Vector2( 968.537, -274.21 )
+custom_stats = true
+next_radars = [ NodePath("../Radar4") ]
+health = 100.0
+battery = 0.0
+
+[node name="Radar4" parent="." instance=ExtResource( 9 )]
+position = Vector2( 685.357, -635.302 )
 custom_stats = true
 health = 100.0
 battery = 0.0
 
-[node name="Debug" parent="." instance=ExtResource( 9 )]
-
 [node name="Player" parent="." groups=[
 "map",
-] instance=ExtResource( 8 )]
+] instance=ExtResource( 7 )]
 position = Vector2( 667.747, 506.23 )
 BASE_SPEED = 150
 
@@ -652,118 +648,129 @@ zoom = Vector2( 0.5, 0.5 )
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="MeleeBug11" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug11" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 995.341, -183.95 )
 BASE_SPEED = 150
 
-[node name="MeleeBug12" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug12" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 698.813, -171.552 )
 BASE_SPEED = 150
 
-[node name="MeleeBug13" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug13" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1061.63, -186.544 )
 BASE_SPEED = 150
 
-[node name="MeleeBug14" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug14" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 711.573, -139.65 )
 BASE_SPEED = 150
 
-[node name="MeleeBug15" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug15" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 565.008, -132.691 )
 BASE_SPEED = 150
 
-[node name="MeleeBug16" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug16" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1076.47, -145.317 )
 BASE_SPEED = 150
 
-[node name="MeleeBug17" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug17" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1029.42, -187.294 )
 BASE_SPEED = 150
 
-[node name="MeleeBug18" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug18" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1044.26, -146.067 )
 BASE_SPEED = 150
 
-[node name="MeleeBug21" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug21" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1102.22, -117.642 )
 BASE_SPEED = 150
 
-[node name="MeleeBug22" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug22" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1094.4, -157.588 )
 BASE_SPEED = 150
 
-[node name="MeleeBug23" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug23" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 854.604, -373.468 )
 BASE_SPEED = 150
 
-[node name="MeleeBug24" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug24" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 869.443, -332.241 )
 BASE_SPEED = 150
 
-[node name="MeleeBug19" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug19" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1039.72, -127.775 )
 BASE_SPEED = 150
 
-[node name="MeleeBug20" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug20" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 568.811, -140.52 )
 BASE_SPEED = 150
 
-[node name="MeleeBug26" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug26" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 362.648, -226.372 )
 BASE_SPEED = 150
 
-[node name="MeleeBug28" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug28" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 639.512, -155.148 )
 BASE_SPEED = 150
 
-[node name="MeleeBug27" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug27" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 725.215, -819.406 )
 BASE_SPEED = 150
 
-[node name="MeleeBug29" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug29" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1141.06, -97.5336 )
 BASE_SPEED = 150
 
-[node name="MeleeBug30" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug30" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1181.64, -103.197 )
 BASE_SPEED = 150
 
-[node name="MeleeBug32" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug32" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1159.67, -119.547 )
 BASE_SPEED = 150
 
-[node name="MeleeBug33" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug33" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1138.23, -120.187 )
 BASE_SPEED = 150
 
-[node name="MeleeBug31" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug31" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1144.57, -78.9597 )
 BASE_SPEED = 150
 
-[node name="HealerBug" parent="Enemies" instance=ExtResource( 6 )]
+[node name="HealerBug" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 863.685, -148.61 )
 
-[node name="HealerBug2" parent="Enemies" instance=ExtResource( 6 )]
+[node name="HealerBug2" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 799.296, -146.61 )
 
-[node name="HealerBug5" parent="Enemies" instance=ExtResource( 6 )]
+[node name="HealerBug5" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 718.021, -93.8987 )
 
-[node name="HealerBug6" parent="Enemies" instance=ExtResource( 6 )]
+[node name="HealerBug6" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 473.373, -280.721 )
 
-[node name="HealerBug7" parent="Enemies" instance=ExtResource( 6 )]
+[node name="HealerBug7" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 974.029, -81.0587 )
 
-[node name="MeleeBug25" parent="Enemies" instance=ExtResource( 3 )]
+[node name="MeleeBug25" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 394.307, -60.3821 )
 BASE_SPEED = 150
 
-[node name="HealerBug3" parent="Enemies" instance=ExtResource( 6 )]
+[node name="HealerBug3" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 350.213, -23.569 )
 
-[node name="HealerBug4" parent="Enemies" instance=ExtResource( 6 )]
+[node name="HealerBug4" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 364.689, -136.073 )
 
-[node name="ArtilleryBug" parent="Enemies" instance=ExtResource( 7 )]
+[node name="ArtilleryBug" parent="Enemies" instance=ExtResource( 10 )]
 position = Vector2( 763.934, -265.428 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MiniMap" parent="CanvasLayer" instance=ExtResource( 4 )]
+anchor_top = 1.0
+anchor_right = 0.0
+margin_top = -149.0
+margin_right = 156.0
+margin_bottom = 0.0
+
+[node name="Debug" parent="." instance=ExtResource( 6 )]

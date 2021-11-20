@@ -13,6 +13,7 @@ var offset: Vector2 # Offset to center the map. Set in _tilemap_init()
 export var PLAYER_COLOR: Color
 export var STRUCTURE_COLOR: Color
 export var RADAR_COLOR: Color
+export var RADAR_PATH_COLOR: Color
 export var ENEMY_COLOR: Color
 export var TILECOLOR: Color
 
@@ -40,11 +41,13 @@ func _tilemap_init():
 	var bounds: Rect2 = tilemap.get_used_rect()
 	
 	if bounds.size.x > bounds.size.y:
+		print(\"Horizontal Map\")		
 		scale = get_size().x / (bounds.size.x)
 		offset = -get_size()/2 + Vector2(0, (get_size().y-bounds.size.y*scale) / 2)
 	else:
+		print(\"Vertical Map\")
 		scale = get_size().y / (bounds.size.x)
-		offset = -get_size()/2 + Vector2((get_size().x-bounds.size.x*scale) / 2, 0)
+		offset = Vector2(-get_size().x/2, 0) + Vector2((get_size().x-bounds.size.x*scale) / 2, 0)
 
 
 func _draw():
@@ -76,8 +79,16 @@ func _draw_objects():
 			draw_rect(Rect2(pos, Vector2.ONE * scale * 2), PLAYER_COLOR)
 		elif in_range(tilemap_pos) or object.revealed:
 			if object is Structure:
-				draw_rect(Rect2(pos, Vector2.ONE * scale * 2), 
-					RADAR_COLOR if object in radars else STRUCTURE_COLOR)
+				if object in radars:
+					draw_rect(Rect2(pos, Vector2.ONE * scale * 3), RADAR_COLOR)
+					# Get waypoints
+					for next in object.next_radars:
+						var next_radar = object.get_node(next)
+						if next_radar.revealed:
+							var next_pos = tilemap_to_minimap(world_to_tilemap(next_radar.global_position))
+							draw_line(pos + Vector2.ONE * scale * 1.5, next_pos + Vector2.ONE * scale * 1.5, RADAR_PATH_COLOR, 1)
+				else:
+					draw_rect(Rect2(pos, Vector2.ONE * scale * 2), STRUCTURE_COLOR)
 			elif object is Enemy:
 				draw_rect(Rect2(pos, Vector2.ONE * scale), ENEMY_COLOR)
 
@@ -136,5 +147,6 @@ __meta__ = {
 PLAYER_COLOR = Color( 1, 1, 1, 1 )
 STRUCTURE_COLOR = Color( 0, 0.741176, 1, 1 )
 RADAR_COLOR = Color( 0.917647, 0.901961, 0.486275, 1 )
+RADAR_PATH_COLOR = Color( 0.980392, 0.996078, 0.768627, 1 )
 ENEMY_COLOR = Color( 0.921569, 0.0862745, 0.0862745, 1 )
 TILECOLOR = Color( 0.184314, 0.184314, 0.184314, 1 )
