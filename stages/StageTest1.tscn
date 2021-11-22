@@ -651,354 +651,90 @@ zoom = Vector2( 0.5, 0.5 )
 [node name="MeleeBug11" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 995.341, -183.95 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug12" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 698.813, -171.552 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug13" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1061.63, -186.544 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug14" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 711.573, -139.65 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug15" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 565.008, -132.691 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug16" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1076.47, -145.317 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug17" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1029.42, -187.294 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug18" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1044.26, -146.067 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug21" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1102.22, -117.642 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug22" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1094.4, -157.588 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug23" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 854.604, -373.468 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug24" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 869.443, -332.241 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug19" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1039.72, -127.775 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug20" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 568.811, -140.52 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug26" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 362.648, -226.372 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug28" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 639.512, -155.148 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug27" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 725.215, -819.406 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug29" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1141.06, -97.5336 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug30" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1181.64, -103.197 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug32" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1159.67, -119.547 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug33" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1138.23, -120.187 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="MeleeBug31" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 1144.57, -78.9597 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="HealerBug" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 863.685, -148.61 )
@@ -1018,18 +754,6 @@ position = Vector2( 974.029, -81.0587 )
 [node name="MeleeBug25" parent="Enemies" instance=ExtResource( 8 )]
 position = Vector2( 394.307, -60.3821 )
 BASE_SPEED = 150
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.1
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-USE_AI = true
 
 [node name="HealerBug3" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 350.213, -23.569 )

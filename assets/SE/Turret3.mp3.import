@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Turret3.mp3-50aa83d74eaab7f8538b01d0aaeee9aa.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/Turret3.mp3"
+dest_files=[ "res://.import/Turret3.mp3-50aa83d74eaab7f8538b01d0aaeee9aa.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

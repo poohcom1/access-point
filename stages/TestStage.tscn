@@ -134,3 +134,4 @@ zoom = Vector2( 0.5, 0.5 )
 [node name="MeleeBug11" parent="." instance=ExtResource( 3 )]
 position = Vector2( 809.368, 175.775 )
 BASE_SPEED = 150
+DEBUG_PATH = true

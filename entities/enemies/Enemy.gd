@@ -8,6 +8,7 @@ export var enemy_class := ""
 
 export var revealed := false
 
+export var PATHFIND_EPSILON = 16
 export var DEBUG_PATH := false
 var debug_path: Line2D
 
@@ -87,11 +88,11 @@ func on_death():
 	
 ## Pathfinding
 func navigate() -> Vector2:
-	if path.size() <= 1: return Vector2.ZERO
+	if path.size() <= 0: return Vector2.ZERO
 	
-	var mv = global_position.direction_to(path[1])
+	var mv = global_position.direction_to(path[0])
 	
-	if global_position.distance_squared_to(path[0]) < speed * speed:
+	if global_position.distance_to(path[0]) < PATHFIND_EPSILON:
 		path.pop_front()
 		
 	return mv

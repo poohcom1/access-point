@@ -12,7 +12,8 @@ func _ready():
 func _process(_delta):
 	if gm.player == null: return
 	
-	text = \"HP: %d\\n\" % gm.player.hp
+	text = \"FPS: %f\\n\" % Engine.get_frames_per_second()
+	text += \"HP: %d\\n\" % gm.player.hp
 	text += \"Batteries: %d\\n\" % gm.player.battery
 	text += \"Weapon: %s\\n\" % gm.player.weapons[gm.player.weapon_ind].weapon_name
 	text += \"Ammo: %d\\n\" % gm.player.weapons[gm.player.weapon_ind].ammo

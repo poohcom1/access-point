@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://assets/white.png" type="Texture" id=1]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=2]
@@ -17,6 +17,9 @@
 [ext_resource path="res://assets/props/artillery_placeholder.png" type="Texture" id=15]
 [ext_resource path="res://assets/props/rock_texture2.png" type="Texture" id=16]
 [ext_resource path="res://assets/props/rock_texture..png" type="Texture" id=17]
+[ext_resource path="res://assets/Soundtrack/Midnight Brawl.wav" type="AudioStream" id=18]
+[ext_resource path="res://assets/SE/BugDeath2.mp3" type="AudioStream" id=19]
+[ext_resource path="res://assets/SE/BugDeath1.mp3" type="AudioStream" id=20]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Navigation2D
@@ -502,6 +505,144 @@ position = Vector2( 825.695, 223.025 )
 [node name="HealerBug5" parent="Enemies" instance=ExtResource( 6 )]
 position = Vector2( 840.695, 304.525 )
 
+[node name="MeleeBug34" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 879.293, 326.219 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug35" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 862.942, 403.7 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug36" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 945.582, 323.625 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug37" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 875.701, 435.602 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug38" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 934.705, 431.449 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug39" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 960.42, 364.852 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug40" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 913.367, 322.875 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug41" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 928.208, 364.102 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug42" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 986.168, 392.527 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug43" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 978.355, 352.581 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug44" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 953.955, 391.778 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug45" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 968.794, 433.005 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="HealerBug8" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 896.298, 404.033 )
+
+[node name="HealerBug9" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 895.62, 373.469 )
+
+[node name="HealerBug10" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 910.62, 454.969 )
+
+[node name="MeleeBug46" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 724.696, 566.439 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug47" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 708.345, 643.92 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug48" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 790.985, 563.845 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug49" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 721.105, 675.822 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug50" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 780.108, 671.669 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug51" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 805.824, 605.072 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug52" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 758.771, 563.095 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug53" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 773.611, 604.322 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug54" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 831.571, 632.747 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug55" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 823.758, 592.801 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug56" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 799.358, 631.998 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="MeleeBug57" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 814.198, 673.225 )
+BASE_SPEED = 150
+DEATH_SFX = [ ExtResource( 20 ), ExtResource( 19 ) ]
+
+[node name="HealerBug11" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 741.701, 644.253 )
+
+[node name="HealerBug12" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 741.023, 613.689 )
+
+[node name="HealerBug13" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 756.023, 695.189 )
+
 [node name="HealerBug6" parent="Enemies" instance=ExtResource( 6 )]
 position = Vector2( 786.195, 426.525 )
 
@@ -526,3 +667,7 @@ position = Vector2( -163.37, 476.998 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.564706, 0.568627, 0.717647, 1 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 18 )
+autoplay = true

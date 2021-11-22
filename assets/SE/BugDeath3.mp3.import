@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/BugDeath3.mp3-6f2cc8b923b7a34b92732ba3ef95a153.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/BugDeath3.mp3"
+dest_files=[ "res://.import/BugDeath3.mp3-6f2cc8b923b7a34b92732ba3ef95a153.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

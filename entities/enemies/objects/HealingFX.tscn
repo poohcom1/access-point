@@ -6,7 +6,7 @@
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [node name="HealingFX" type="CPUParticles2D"]
-modulate = Color( 1, 1, 1, 0.352941 )
+modulate = Color( 1, 1, 1, 0.643137 )
 emitting = false
 amount = 2
 one_shot = true

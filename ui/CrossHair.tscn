@@ -73,6 +73,7 @@ func match_capsule(cap: CapsuleShape2D):
 light_mode = 1
 
 [node name="CrossHair" type="Node2D"]
+modulate = Color( 1, 1, 1, 0.54902 )
 script = SubResource( 1 )
 
 [node name="TopLeft" type="Sprite" parent="."]
