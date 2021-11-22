@@ -1,12 +1,10 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/blue.png" type="Texture" id=2]
 [ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=3]
 [ext_resource path="res://system/Debug.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/white.png" type="Texture" id=5]
-[ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=6]
-[ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=8]
 [ext_resource path="res://structures/Turret.tscn" type="PackedScene" id=9]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=10]
@@ -124,6 +122,9 @@ battery = 0.0
 ] instance=ExtResource( 1 )]
 position = Vector2( 169.852, 67.0677 )
 BASE_SPEED = 150
+ACCEL_PERCENT = 0.5
+MAX_HP = 100
+radar_range = 10
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 visible = false
@@ -133,117 +134,3 @@ zoom = Vector2( 0.5, 0.5 )
 [node name="MeleeBug11" parent="." instance=ExtResource( 3 )]
 position = Vector2( 809.368, 175.775 )
 BASE_SPEED = 150
-
-[node name="MeleeBug12" parent="." instance=ExtResource( 3 )]
-position = Vector2( 793.017, 253.256 )
-BASE_SPEED = 150
-
-[node name="MeleeBug13" parent="." instance=ExtResource( 3 )]
-position = Vector2( 875.657, 173.181 )
-BASE_SPEED = 150
-
-[node name="MeleeBug14" parent="." instance=ExtResource( 3 )]
-position = Vector2( 805.777, 285.158 )
-BASE_SPEED = 150
-
-[node name="MeleeBug15" parent="." instance=ExtResource( 3 )]
-position = Vector2( 864.78, 281.005 )
-BASE_SPEED = 150
-
-[node name="MeleeBug16" parent="." instance=ExtResource( 3 )]
-position = Vector2( 890.496, 214.408 )
-BASE_SPEED = 150
-
-[node name="MeleeBug17" parent="." instance=ExtResource( 3 )]
-position = Vector2( 843.443, 172.431 )
-BASE_SPEED = 150
-
-[node name="MeleeBug18" parent="." instance=ExtResource( 3 )]
-position = Vector2( 858.283, 213.658 )
-BASE_SPEED = 150
-
-[node name="MeleeBug21" parent="." instance=ExtResource( 3 )]
-position = Vector2( 916.243, 242.083 )
-BASE_SPEED = 150
-
-[node name="MeleeBug22" parent="." instance=ExtResource( 3 )]
-position = Vector2( 908.43, 202.137 )
-BASE_SPEED = 150
-
-[node name="MeleeBug23" parent="." instance=ExtResource( 3 )]
-position = Vector2( 884.03, 241.334 )
-BASE_SPEED = 150
-
-[node name="MeleeBug24" parent="." instance=ExtResource( 3 )]
-position = Vector2( 898.87, 282.561 )
-BASE_SPEED = 150
-
-[node name="MeleeBug19" parent="." instance=ExtResource( 3 )]
-position = Vector2( 760.495, 448.328 )
-BASE_SPEED = 150
-
-[node name="MeleeBug20" parent="." instance=ExtResource( 3 )]
-position = Vector2( 775.335, 489.555 )
-BASE_SPEED = 150
-
-[node name="MeleeBug26" parent="." instance=ExtResource( 3 )]
-position = Vector2( 628.353, 465.318 )
-BASE_SPEED = 150
-
-[node name="MeleeBug28" parent="." instance=ExtResource( 3 )]
-position = Vector2( 668.939, 459.654 )
-BASE_SPEED = 150
-
-[node name="MeleeBug27" parent="." instance=ExtResource( 3 )]
-position = Vector2( 631.866, 483.892 )
-BASE_SPEED = 150
-
-[node name="MeleeBug29" parent="." instance=ExtResource( 3 )]
-position = Vector2( 713.301, 494.578 )
-BASE_SPEED = 150
-
-[node name="MeleeBug30" parent="." instance=ExtResource( 3 )]
-position = Vector2( 753.888, 488.915 )
-BASE_SPEED = 150
-
-[node name="MeleeBug32" parent="." instance=ExtResource( 3 )]
-position = Vector2( 731.917, 472.565 )
-BASE_SPEED = 150
-
-[node name="MeleeBug33" parent="." instance=ExtResource( 3 )]
-position = Vector2( 710.47, 471.925 )
-BASE_SPEED = 150
-
-[node name="MeleeBug31" parent="." instance=ExtResource( 3 )]
-position = Vector2( 716.815, 513.152 )
-BASE_SPEED = 150
-
-[node name="HealerBug" parent="." instance=ExtResource( 6 )]
-position = Vector2( 826.373, 253.589 )
-
-[node name="HealerBug2" parent="." instance=ExtResource( 6 )]
-position = Vector2( 825.695, 223.025 )
-
-[node name="HealerBug5" parent="." instance=ExtResource( 6 )]
-position = Vector2( 840.695, 304.525 )
-
-[node name="HealerBug6" parent="." instance=ExtResource( 6 )]
-position = Vector2( 786.195, 426.525 )
-
-[node name="HealerBug7" parent="." instance=ExtResource( 6 )]
-position = Vector2( 709.195, 448.025 )
-
-[node name="MeleeBug25" parent="." instance=ExtResource( 3 )]
-position = Vector2( 507.967, 474.123 )
-BASE_SPEED = 150
-
-[node name="HealerBug3" parent="." instance=ExtResource( 6 )]
-position = Vector2( 541.323, 474.456 )
-
-[node name="HealerBug4" parent="." instance=ExtResource( 6 )]
-position = Vector2( 540.645, 443.892 )
-
-[node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
-position = Vector2( 594.66, 304.435 )
-
-[node name="Enemies" type="Node2D" parent="."]

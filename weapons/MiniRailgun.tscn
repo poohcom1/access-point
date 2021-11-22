@@ -32,7 +32,7 @@ func on_shoot():
 	
 	ammo -= 1
 	
-	var bullet = Projectile.create_bullet_here(Bullet, 
+	var bullet = ProjectileUtil.create_bullet_here(Bullet, 
 		self, 
 		get_global_mouse_position())
 		

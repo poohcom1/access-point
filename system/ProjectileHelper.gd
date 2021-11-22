@@ -1,12 +1,12 @@
 extends KinematicBody2D
-class_name Projectile
+class_name ProjectileUtil
 
 
 # Factory
 """
 	Creates a bullet given a scene, and attaches it to the tree root
 """
-static func create_bullet(BulletScn: PackedScene, parent: Node2D, start: Vector2, target: Vector2, override_speed=null) -> Projectile:
+static func create_bullet(BulletScn: PackedScene, parent: Node2D, start: Vector2, target: Vector2, override_speed=null) -> Node2D:
 	var bullet = BulletScn.instance()
 	
 	bullet.angle = target.angle_to_point(start)
@@ -21,7 +21,7 @@ static func create_bullet(BulletScn: PackedScene, parent: Node2D, start: Vector2
 """
 	Creates a bullet at the parent location
 """
-static func create_bullet_here(BulletScn: PackedScene, parent: Node2D, target: Vector2, override_speed=null) -> Projectile:
+static func create_bullet_here(BulletScn: PackedScene, parent: Node2D, target: Vector2, override_speed=null) -> Node2D:
 	var start = parent.global_position
 	
 	return create_bullet(BulletScn, parent, start, target, override_speed)

@@ -350,7 +350,7 @@ __meta__ = {
 }
 
 [node name="Turret" parent="." instance=ExtResource( 4 )]
-position = Vector2( 310, 245 )
+position = Vector2( 306.432, 289.001 )
 custom_stats = true
 health = 100.0
 battery = 0.0

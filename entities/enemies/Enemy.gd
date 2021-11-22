@@ -26,6 +26,8 @@ var path := []
 var navigation: Navigation2D
 var navigation_target: WeakRef
 
+var direction = AnimUtil.Dir.Right
+
 # States
 enum State { Passive, Search, Aggro, Dead }
 
@@ -89,7 +91,7 @@ func navigate() -> Vector2:
 	
 	var mv = global_position.direction_to(path[1])
 	
-	if global_position.distance_squared_to(path[0]) < speed:
+	if global_position.distance_squared_to(path[0]) < speed * speed:
 		path.pop_front()
 		
 	return mv

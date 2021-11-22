@@ -15,6 +15,8 @@ export var RANGE := 125.0 setget _set_range
 
 export var BATTERY_PER_BULLET := 0.05
 
+export var SE: AudioStream = preload(\"res://assets/SE/GunShot2.mp3\")
+
 # Fields
 var enemies_in_range := []
 var target: Enemy = null
@@ -60,6 +62,12 @@ func _on_shoot():
 	
 	if not is_instance_valid(target) or target.health < 0:
 		enemies_in_range.erase(target)
+		
+	var audio = OneShotAudio2D.new(SE, -10)
+	audio.volume_db = -20
+	audio.max_distance = 300
+	audio.attenuation = 0.5
+	add_child(audio)
 	
 
 func _on_body_entered(body):
@@ -126,7 +134,7 @@ extents = Vector2( 19.7339, 20.6122 )
 ]]
 script = SubResource( 1 )
 MAX_BATTERY = 8.0
-DAMAGE = 2
+DAMAGE = 3
 SHOOT_INTERVAL = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -140,7 +148,7 @@ scale = Vector2( 1.50823, 1.50823 )
 frames = SubResource( 3 )
 
 [node name="ShootTimer" type="Timer" parent="."]
-wait_time = 0.15
+wait_time = 0.1
 
 [node name="ShootArea" parent="." instance=ExtResource( 2 )]
 

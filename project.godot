@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "AnimControl",
+"language": "GDScript",
+"path": "res://system/AnimControl.gd"
+}, {
+"base": "Node",
+"class": "AnimUtil",
+"language": "GDScript",
+"path": "res://system/AnimUtil.gd"
+}, {
 "base": "Entity",
 "class": "Enemy",
 "language": "GDScript",
@@ -20,9 +30,24 @@ _global_script_classes=[ {
 "path": "res://entities/Entity.gd"
 }, {
 "base": "Reference",
-"class": "MathHelper",
+"class": "MathUtil",
 "language": "GDScript",
-"path": "res://system/MathHelper.gd"
+"path": "res://system/MathUtil.gd"
+}, {
+"base": "Node",
+"class": "Module",
+"language": "GDScript",
+"path": "res://weapons/Modules.gd"
+}, {
+"base": "AudioStreamPlayer",
+"class": "OneShotAudio",
+"language": "GDScript",
+"path": "res://system/OneShotAudio.gd"
+}, {
+"base": "AudioStreamPlayer2D",
+"class": "OneShotAudio2D",
+"language": "GDScript",
+"path": "res://system/OneShotAudio2D.gd"
 }, {
 "base": "Entity",
 "class": "Player",
@@ -30,7 +55,7 @@ _global_script_classes=[ {
 "path": "res://entities/player/Player.gd"
 }, {
 "base": "KinematicBody2D",
-"class": "Projectile",
+"class": "ProjectileUtil",
 "language": "GDScript",
 "path": "res://system/ProjectileHelper.gd"
 }, {
@@ -45,11 +70,16 @@ _global_script_classes=[ {
 "path": "res://weapons/Weapon.gd"
 } ]
 _global_script_class_icons={
+"AnimControl": "",
+"AnimUtil": "",
 "Enemy": "",
 "Entity": "",
-"MathHelper": "",
+"MathUtil": "",
+"Module": "",
+"OneShotAudio": "",
+"OneShotAudio2D": "",
 "Player": "",
-"Projectile": "",
+"ProjectileUtil": "",
 "Structure": "",
 "Weapon": ""
 }

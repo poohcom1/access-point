@@ -1,7 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=47 format=2]
 
-[ext_resource path="res://assets/red.png" type="Texture" id=1]
+[ext_resource path="res://assets/enemies/melee/run_front.png" type="Texture" id=1]
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/enemies/melee/run_side_back.png" type="Texture" id=3]
+[ext_resource path="res://assets/enemies/melee/run_back.png" type="Texture" id=4]
+[ext_resource path="res://assets/enemies/melee/run_side_front.png" type="Texture" id=5]
+[ext_resource path="res://assets/enemies/melee/run_side.png" type="Texture" id=6]
+[ext_resource path="res://assets/enemies/melee/death.png" type="Texture" id=7]
+[ext_resource path="res://entities/enemies/objects/HealingFX.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Enemy
@@ -31,12 +37,13 @@ var is_attacking := false # Attack flag set from timer
 enum NavStates { Attack, Retreat }
 var nav_state = NavStates.Attack
 
-var player_in_range
+var player_in_range := false
 
 # Nodes
 var attack_timer := Timer.new()
 var pathfind_timer := Timer.new()
 
+onready var animControl = AnimControl.new($AnimatedSprite)
 
 # Signals
 func _ready():
@@ -58,12 +65,14 @@ func _ready():
 	add_child(pathfind_timer)
 	
 	# Randomize start to stagger pathfinding to prevent lag spike at the
-	#	beginning of the stage.
-	# Might have to be conditionally removed for enemies spawned mid game
+	#	beginning of the stage. Ideally this shouldn't be necessary
+	#	as pathfinding shouldn't activate for bugs too far away from the player
 	pathfind_timer.start(rand_range(0, 2))
 	
 
 func _physics_process(_delta):	
+	if health <= 0: return
+	
 	var player = $\"/root/GameManager\".player
 
 	if player:
@@ -84,7 +93,7 @@ func _physics_process(_delta):
 				speed = BASE_SPEED
 				if health <= MAX_HEALTH * RETREAT_HEALTH:
 					if healers.size() > 0:
-						navigation_target = weakref(MathHelper.get_nearest_node(self, healers))
+						navigation_target = weakref(MathUtil.get_nearest_node(self, healers))
 						nav_state = NavStates.Retreat	
 			NavStates.Retreat:
 				speed = RETREAT_SPEED
@@ -95,7 +104,11 @@ func _physics_process(_delta):
 	## Pathfinding
 	mv = navigate()
 	
+	_set_animation()
+	
+	
 	mv = move_and_slide(mv * speed)
+	
 	
 	## Attack
 	for i in get_slide_count():
@@ -123,28 +136,250 @@ func _on_generate_path(offset = 0.0):
 					< OFF_SCREEN * OFF_SCREEN else
 			OFF_SCREEN_PATHFIND_INTERVAL)
 
+onready var previous_position := global_position
+
+func _set_animation():
+	#todo: Use idle anim when states are added
+	var moveanim = \"run\"
+	
+	if mv != Vector2.ZERO:
+		if global_position.distance_squared_to(previous_position) > 100:
+			
+			var angle = global_position.angle_to_point(previous_position)
+			previous_position = global_position
+			
+			direction = AnimUtil.get_dir(angle)
+
+		
+	var diranim = AnimUtil.Dir2Anim[direction]
+	
+	$AnimatedSprite.flip_h = abs(AnimUtil.Dir2Angle[direction]) > 90
+	$AnimatedSprite.play(\"%s_%s\" % [moveanim, diranim])
+
 func _on_attack():
 	is_attacking = true
 	
 func on_death():
+	var corpse := Node2D.new()
+	
+	get_parent().add_child(corpse)
+	corpse.global_position = global_position
+	corpse.z_index = 0
+	var sprite = $AnimatedSprite
+	
+	remove_child(sprite)
+	corpse.add_child(sprite)
+	sprite.play(\"death\")
+	
 	queue_free()
 "
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=40]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 4 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 4 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 4 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 5 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 5 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 5 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 5 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 3 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 3 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 3 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 3 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 1 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 6 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 6 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 6 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=31]
+atlas = ExtResource( 6 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 7 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 7 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 7 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=38]
+atlas = ExtResource( 7 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="SpriteFrames" id=32]
 animations = [ {
-"frames": [ ExtResource( 1 ) ],
+"frames": [ SubResource( 2 ) ],
 "loop": true,
-"name": "default",
+"name": "idle_front",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 39 ) ],
+"loop": true,
+"name": "idle_sideback",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 40 ) ],
+"loop": true,
+"name": "idle_side",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 5 ) ],
+"loop": true,
+"name": "idle_sidefront",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 6 ) ],
+"loop": true,
+"name": "idle_back",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
+"loop": true,
+"name": "run_back",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
+"loop": true,
+"name": "run_sidefront",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
+"loop": true,
+"name": "run_sideback",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
+"loop": true,
+"name": "run_front",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
+"loop": true,
+"name": "run_side",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ) ],
+"loop": false,
+"name": "death",
+"speed": 12.0
 } ]
 
-[sub_resource type="CircleShape2D" id=3]
-radius = 8.48656
+[sub_resource type="CircleShape2D" id=33]
+radius = 10.457
 
 [node name="MeleeBug" type="KinematicBody2D"]
+z_index = 3
 script = SubResource( 1 )
 enemy_class = "melee"
-DAMAGE = 3
+DAMAGE = 1
 
 [node name="ValueBar" parent="." instance=ExtResource( 2 )]
 position = Vector2( -0.0371628, 9.81096 )
@@ -154,8 +389,13 @@ max_value = "MAX_HEALTH"
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0.0271316, 0.0735059 )
 scale = Vector2( 1.04116, 1.04116 )
-frames = SubResource( 2 )
+frames = SubResource( 32 )
+animation = "idle_side"
+playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.0662114, 0.0662174 )
-shape = SubResource( 3 )
+visible = false
+position = Vector2( -0.25093, 0.0662174 )
+shape = SubResource( 33 )
+
+[node name="HealingFX" parent="." instance=ExtResource( 8 )]

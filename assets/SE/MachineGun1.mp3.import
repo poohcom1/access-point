@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/MachineGun1.mp3-e0764b1a530a17e58d482d1573430a7e.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/MachineGun1.mp3"
+dest_files=[ "res://.import/MachineGun1.mp3-e0764b1a530a17e58d482d1573430a7e.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

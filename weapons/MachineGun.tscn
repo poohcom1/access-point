@@ -1,4 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/SE/MachineGun2.mp3" type="AudioStream" id=1]
+[ext_resource path="res://assets/SE/Ricochet1.mp3" type="AudioStream" id=2]
+[ext_resource path="res://assets/SE/Ricochet2.mp3" type="AudioStream" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Weapon
@@ -13,6 +17,7 @@ export var AOE = false
 
 # Fields
 var wall_hit := false
+var shooting = false
 
 var hit_targets := {} # For damage rampup
 
@@ -31,7 +36,6 @@ func _ready():
 	
 	# warning-ignore:return_value_discarded
 	shoot_interval.connect(\"timeout\", self, \"_on_shoot\")
-	shoot_interval.autostart = true
 	add_child(shoot_interval)
 	
 	## Hit-scan
@@ -41,9 +45,7 @@ func _ready():
 	## Name
 	weapon_name = \"Submachine-gun\"
 
-func _physic_process(_delta):
-	pass
-	
+
 func _on_shoot():		
 	shoot_collider.shoot()
 		
@@ -123,9 +125,6 @@ func get_nearest_enemy(bodies):
 			
 	return nearest_enemy
 
-func _on_hit():
-	pass
-
 func on_active():
 	if Input.is_action_pressed(\"shoot\") and ammo > 0:
 		line_of_sight.cast_to = (get_global_mouse_position() - global_position)
@@ -139,21 +138,37 @@ func on_active():
 			shoot_interval.start(SHOOT_INTERVAL)
 			_on_shoot()
 			
+		if not $GunSE.playing:
+			$GunSE.play()
+			
+		shooting = true
+			
 		#shoot_collider.get_node(\"Particles\").emitting = true
 	else:
-		if cross_hair_ref.get_ref():
-			cross_hair_ref.get_ref().detach()
-		hit_targets.clear()
-		shoot_interval.stop()
-		#shoot_collider.get_node(\"Particles\").emitting = false
+		if shooting:
+			if cross_hair_ref.get_ref():
+				cross_hair_ref.get_ref().detach()
+			on_switch_out()
+			shooting = false
 
 func on_switch():
-	shoot_interval.start(SHOOT_INTERVAL)		
+	pass #shoot_interval.start(SHOOT_INTERVAL)		
 
 func on_switch_out():
+	$GunSE.stop()
+	
+	# Ricochet SFX
+	if ammo > 0:
+		# 10% chance to play
+		match randi() % 10:
+			1: $Ricochet1.play()
+			2: $Ricochet2.play()
+	
 	hit_targets.clear()
 	shoot_interval.stop()
-	pass #shoot_collider.get_node(\"Particles\").emitting = false
+	if cross_hair_ref.get_ref():
+		cross_hair_ref.get_ref().detach()
+
 		
 		
 "
@@ -167,3 +182,15 @@ AOE = true
 [node name="LineOfSight" type="RayCast2D" parent="."]
 enabled = true
 collision_mask = 524288
+
+[node name="GunSE" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 1 )
+volume_db = -16.403
+
+[node name="Ricochet1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
+volume_db = -15.389
+
+[node name="Ricochet2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+volume_db = -17.0

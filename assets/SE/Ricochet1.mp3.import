@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Ricochet1.mp3-67c514cb3f57f3b0f88c17ef46b08174.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/Ricochet1.mp3"
+dest_files=[ "res://.import/Ricochet1.mp3-67c514cb3f57f3b0f88c17ef46b08174.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0
