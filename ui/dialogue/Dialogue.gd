@@ -1,16 +1,11 @@
 extends Node2D
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 var text1 = "WOW THIS IS ANIMATED TEXT WHAT THE ACTUAL FUCK?????"
 var text2 = "Second message!!!!!"
 var text3 = "FINAL PAGE"
 
-
-
+#Signals
+signal on_trigger(key)
 
 #Constants
 const TICK_LENGTH = 0.05
@@ -57,10 +52,7 @@ func _process(delta):
 				return
 				
 			if (len(current_char) > 0 and current_char[0] == '\\'):
-				if(current_char == "\\start"):
-					onTextStart()
-				elif(current_char == "\\end"):
-					onTextEnd() 
+				emit_signal("on_trigger", current_char)
 				return
 			
 			if(current_char != " "):
@@ -71,12 +63,4 @@ func _process(delta):
 			text_buffer = ""
 			$TextField.text = text_buffer
 
-func onTextStart():
-	print("Text started")
-	
-func onTextEnd():
-	print("Text ended")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
