@@ -121,6 +121,6 @@ func generate_path():
 	#path = _navigation.get_simple_path(global_position, target.global_position, false)
 	#$"/root/GameManager".sayhi()
 	
-	$"/root/GameManager".pathfind_lazy_list.append([self, global_position, target.global_position])
+	$"/root/GameManager".add_pathfind_lazy_list([self, global_position, target.global_position])
 
 
