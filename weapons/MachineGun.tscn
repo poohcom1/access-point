@@ -184,6 +184,8 @@ func on_switch_out():
 script = SubResource( 1 )
 MAX_AMMO = 1000
 KNOCKBACK = 0
+RAMP_UP_DAMAGE = 6
+RAMP_UP_FRAMES = 40
 AOE = true
 
 [node name="LineOfSight" type="RayCast2D" parent="."]

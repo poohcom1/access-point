@@ -639,7 +639,6 @@ battery = 0.0
 "map",
 ] instance=ExtResource( 7 )]
 position = Vector2( 667.747, 506.23 )
-BASE_SPEED = 150
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 visible = false

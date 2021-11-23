@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/tiles/isotest.png" type="Texture" id=1]
 [ext_resource path="res://assets/tiles/isomud.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/tiles/sand_stone.png" type="Texture" id=5]
 [ext_resource path="res://assets/tiles/wall1.png" type="Texture" id=6]
+[ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Navigation2D
@@ -15,7 +16,7 @@ func _ready():
 
 "
 
-[sub_resource type="TileSet" id=34]
+[sub_resource type="TileSet" id=2]
 0/name = "isomud.png 0"
 0/texture = ExtResource( 2 )
 0/tex_offset = Vector2( 0, 0 )
@@ -40,65 +41,65 @@ func _ready():
 0/shapes = [  ]
 0/z_index = 0
 
-[sub_resource type="ConvexPolygonShape2D" id=32]
+[sub_resource type="ConvexPolygonShape2D" id=3]
 points = PoolVector2Array( 16, 16, 0, 8, 16, 0, 32, 8 )
 
-[sub_resource type="NavigationPolygon" id=33]
+[sub_resource type="NavigationPolygon" id=4]
 vertices = PoolVector2Array( 16, 16, 0, 8, 16, 0, 32, 8 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=19]
+[sub_resource type="NavigationPolygon" id=5]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=20]
+[sub_resource type="NavigationPolygon" id=6]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=21]
+[sub_resource type="NavigationPolygon" id=7]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=22]
+[sub_resource type="NavigationPolygon" id=8]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=23]
+[sub_resource type="NavigationPolygon" id=9]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=24]
+[sub_resource type="NavigationPolygon" id=10]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=31]
+[sub_resource type="NavigationPolygon" id=11]
 vertices = PoolVector2Array( 16, 16, 0, 8, 16, 0, 32, 8 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=26]
+[sub_resource type="NavigationPolygon" id=12]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=27]
+[sub_resource type="NavigationPolygon" id=13]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=28]
+[sub_resource type="NavigationPolygon" id=14]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=29]
+[sub_resource type="NavigationPolygon" id=15]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
-[sub_resource type="NavigationPolygon" id=30]
+[sub_resource type="NavigationPolygon" id=16]
 vertices = PoolVector2Array( 32, 8, 16, 16, 0, 8, 16, 0 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 
 [sub_resource type="ConvexPolygonShape2D" id=17]
 points = PoolVector2Array( 0, 8, 0, 8, 16, 0, 32, 8, 32, 24, 16, 32, 0, 24 )
 
-[sub_resource type="TileSet" id=12]
+[sub_resource type="TileSet" id=18]
 4/name = "wall1"
 4/texture = ExtResource( 6 )
 4/tex_offset = Vector2( 0, -16 )
@@ -109,14 +110,14 @@ points = PoolVector2Array( 0, 8, 0, 8, 16, 0, 32, 8, 32, 24, 16, 32, 0, 24 )
 4/navigation_offset = Vector2( 0, -16 )
 4/shape_offset = Vector2( 0, -16 )
 4/shape_transform = Transform2D( 1, 0, 0, 1, 0, -16 )
-4/shape = SubResource( 32 )
+4/shape = SubResource( 3 )
 4/shape_one_way = false
 4/shape_one_way_margin = 1.0
 4/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 32 ),
+"shape": SubResource( 3 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, -16 )
 } ]
 4/z_index = 0
@@ -132,7 +133,7 @@ points = PoolVector2Array( 0, 8, 0, 8, 16, 0, 32, 8, 32, 24, 16, 32, 0, 24 )
 5/autotile/tile_size = Vector2( 32, 16 )
 5/autotile/spacing = 0
 5/autotile/occluder_map = [  ]
-5/autotile/navpoly_map = [ Vector2( 0, 0 ), SubResource( 33 ), Vector2( 0, 1 ), SubResource( 19 ), Vector2( 0, 2 ), SubResource( 20 ), Vector2( 1, 0 ), SubResource( 21 ), Vector2( 1, 1 ), SubResource( 22 ), Vector2( 1, 2 ), SubResource( 23 ), Vector2( 2, 0 ), SubResource( 24 ), Vector2( 2, 1 ), SubResource( 31 ), Vector2( 2, 2 ), SubResource( 26 ), Vector2( 2, 4 ), SubResource( 27 ), Vector2( 2, 5 ), SubResource( 28 ), Vector2( 3, 4 ), SubResource( 29 ), Vector2( 3, 5 ), SubResource( 30 ) ]
+5/autotile/navpoly_map = [ Vector2( 0, 0 ), SubResource( 4 ), Vector2( 0, 1 ), SubResource( 5 ), Vector2( 0, 2 ), SubResource( 6 ), Vector2( 1, 0 ), SubResource( 7 ), Vector2( 1, 1 ), SubResource( 8 ), Vector2( 1, 2 ), SubResource( 9 ), Vector2( 2, 0 ), SubResource( 10 ), Vector2( 2, 1 ), SubResource( 11 ), Vector2( 2, 2 ), SubResource( 12 ), Vector2( 2, 4 ), SubResource( 13 ), Vector2( 2, 5 ), SubResource( 14 ), Vector2( 3, 4 ), SubResource( 15 ), Vector2( 3, 5 ), SubResource( 16 ) ]
 5/autotile/priority_map = [  ]
 5/autotile/z_index_map = [  ]
 5/occluder_offset = Vector2( 0, 0 )
@@ -170,17 +171,17 @@ script = SubResource( 1 )
 
 [node name="Props" type="TileMap" parent="."]
 mode = 1
-tile_set = SubResource( 34 )
+tile_set = SubResource( 2 )
 cell_size = Vector2( 32, 16 )
 collision_layer = 524289
 collision_mask = 524289
 format = 1
-tile_data = PoolIntArray( 196609, 0, 1, 196610, 0, 2, 196611, 0, 65538, 262145, 0, 0, 262146, 0, 262146, 262147, 0, 262147, 262148, 0, 65538, 327681, 0, 65536, 327682, 0, 65537, 327683, 0, 262146, 327684, 0, 65537, 327685, 0, 65538, 393218, 0, 0, 393219, 0, 262147, 393220, 0, 262147, 393221, 0, 131074, 458754, 0, 0, 458755, 0, 262146, 458756, 0, 327683, 458757, 0, 131074, 524290, 0, 65536, 524291, 0, 131072, 524292, 0, 131072, 524293, 0, 131073 )
+tile_data = PoolIntArray( 65538, 0, 1, 65539, 0, 65538, 131072, 0, 1, 131073, 0, 2, 131074, 0, 0, 131075, 0, 0, 131076, 0, 2, 131077, 0, 65538, 262142, 0, 0, 262143, 0, 1, 196608, 0, 0, 196609, 0, 65537, 196610, 0, 65537, 196611, 0, 65537, 196612, 0, 65537, 196613, 0, 0, 196614, 0, 65538, 327679, 0, 0, 262144, 0, 65537, 262145, 0, 65537, 262146, 0, 65537, 262147, 0, 65537, 262148, 0, 65537, 262149, 0, 65537, 262150, 0, 131074, 393215, 0, 0, 327680, 0, 65537, 327681, 0, 65537, 327682, 0, 65537, 327683, 0, 65537, 327684, 0, 65537, 327685, 0, 0, 327686, 0, 131073, 458751, 0, 0, 393216, 0, 65537, 393217, 0, 65537, 393218, 0, 65537, 393219, 0, 65537, 393220, 0, 0, 393221, 0, 131073, 524287, 0, 65536, 458752, 0, 131072, 458753, 0, 131072, 458754, 0, 131072, 458755, 0, 131072, 458756, 0, 131073 )
 
 [node name="Background" type="TileMap" parent="."]
 z_index = -1
 mode = 1
-tile_set = SubResource( 12 )
+tile_set = SubResource( 18 )
 cell_size = Vector2( 32, 16 )
 collision_layer = 524289
 collision_mask = 524289
@@ -210,3 +211,6 @@ position = Vector2( 85.6746, 113.708 )
 
 [node name="MeleeBug6" parent="." instance=ExtResource( 4 )]
 position = Vector2( -3.46478, 119.692 )
+
+[node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
+position = Vector2( 74.7266, -0.962677 )

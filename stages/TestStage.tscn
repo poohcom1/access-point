@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/blue.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://system/Debug.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/white.png" type="Texture" id=5]
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=6]
+[ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=8]
 [ext_resource path="res://structures/Turret.tscn" type="PackedScene" id=9]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=10]
@@ -134,6 +135,8 @@ current = true
 zoom = Vector2( 0.5, 0.5 )
 
 [node name="MeleeBug11" parent="." instance=ExtResource( 3 )]
-position = Vector2( 809.368, 175.775 )
+position = Vector2( 809.368, 188.775 )
 BASE_SPEED = 150
-DEBUG_PATH = true
+
+[node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
+position = Vector2( 112.837, 336.602 )
