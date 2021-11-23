@@ -129,9 +129,16 @@ func on_active():
 	if Input.is_action_pressed(\"shoot\") and ammo > 0:
 		line_of_sight.cast_to = (get_global_mouse_position() - global_position)
 	
+		# Check for wall hits
 		if line_of_sight.is_colliding() and line_of_sight.get_collider() is TileMap:
-			shoot_collider.global_position = line_of_sight.get_collision_point()
+			var offset = Vector2.ZERO
+			
+			if line_of_sight.get_collision_normal().y < 0:
+				offset += line_of_sight.get_collision_normal() * 8
+			
+			shoot_collider.global_position = line_of_sight.get_collision_point() + offset
 		else:
+			# No wall hit
 			shoot_collider.global_position = get_global_mouse_position()
 			
 		if Input.is_action_just_pressed(\"shoot\"):

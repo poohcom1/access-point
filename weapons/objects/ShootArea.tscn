@@ -96,3 +96,6 @@ visible = false
 material = SubResource( 4 )
 frames = SubResource( 9 )
 script = SubResource( 10 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+color = Color( 0.764706, 0.517647, 0.223529, 1 )
