@@ -112,8 +112,13 @@ func _physics_process(_delta):
 	
 	_set_animation()
 	
+	for i in get_slide_count():
+		var col := get_slide_collision(i)
+		
+		if col.collider is TileMap:
+			mv += col.normal * 2
+		
 	var _slide = move_and_slide(mv * speed)
-	
 	
 	## Attack
 	for i in get_slide_count():
@@ -165,7 +170,7 @@ func _on_attack():
 	is_attacking = true
 	
 func on_death():
-	mutex.lock()
+	#mutex.lock()
 	var corpse := Node2D.new()
 	
 	
@@ -190,24 +195,24 @@ func on_death():
 "
 
 [sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 1 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 4 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 6 )
@@ -250,95 +255,95 @@ atlas = ExtResource( 7 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 1 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 1 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 1 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 3 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 3 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 3 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 3 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=37]
 animations = [ {
 "frames": [ SubResource( 2 ) ],
 "loop": true,
-"name": "idle_sidefront",
+"name": "idle_back",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 3 ) ],
 "loop": true,
-"name": "idle_front",
+"name": "idle_sideback",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 4 ) ],
@@ -348,12 +353,12 @@ animations = [ {
 }, {
 "frames": [ SubResource( 5 ) ],
 "loop": true,
-"name": "idle_back",
+"name": "idle_sidefront",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 6 ) ],
 "loop": true,
-"name": "idle_sideback",
+"name": "idle_front",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
@@ -368,27 +373,26 @@ animations = [ {
 }, {
 "frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
 "loop": true,
-"name": "run_back",
+"name": "run_front",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
 "loop": true,
-"name": "run_sideback",
+"name": "run_sidefront",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
 "loop": true,
-"name": "run_front",
+"name": "run_back",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
 "loop": true,
-"name": "run_sidefront",
+"name": "run_sideback",
 "speed": 15.0
 } ]
 
-[sub_resource type="CircleShape2D" id=38]
-radius = 10.457
+[sub_resource type="RectangleShape2D" id=38]
 
 [node name="MeleeBug" type="KinematicBody2D" groups=[
 "melee_bug",
@@ -413,7 +417,6 @@ animation = "idle_side"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( -0.25093, 0.0662174 )
 shape = SubResource( 38 )
 

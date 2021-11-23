@@ -38,7 +38,7 @@ signal on_damage(dmg)
 signal on_death()
 
 # Thread
-var mutex := Mutex.new()
+#var mutex := Mutex.new()
 
 # Setup
 func _ready():
@@ -61,9 +61,7 @@ func _ready():
 
 	# warning-ignore:return_value_discarded
 	connect("on_death", self, "on_death")
-	
-	yield(get_tree(), "idle_frame")
-	navigation = $"/root/GameManager".navigation
+
 
 # Events
 func _physics_process(_delta):
@@ -93,14 +91,14 @@ func on_death():
 	
 ## Pathfinding
 func set_target(target):
-	mutex.lock()
+	#mutex.lock()
 	navigation_target = weakref(target)
-	mutex.unlock()
+	#mutex.unlock()
 
 func navigate():
-	mutex.lock()
+	#mutex.lock()
 	if path.size() <= 1: 
-		mutex.unlock()
+		#mutex.unlock()
 		return Vector2.ZERO
 
 	var mv = global_position.direction_to(path[1])
@@ -108,7 +106,7 @@ func navigate():
 	if global_position.distance_to(path[1]) < PATHFIND_EPSILON:
 		path.pop_front()
 		
-	mutex.unlock()
+	#mutex.unlock()
 		
 	return mv
 
@@ -116,8 +114,11 @@ func navigate():
 func generate_path():
 	var target = navigation_target.get_ref()
 	
-	if not target or navigation == null: return
+	var _navigation = $"/root/GameManager".navigation
+	
+	if not target or _navigation == null: return
 
-	path = navigation.get_simple_path(global_position, target.global_position, false)
+
+	path = _navigation.get_simple_path(global_position, target.global_position, false)
 
 
