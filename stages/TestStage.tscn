@@ -76,7 +76,9 @@ margin_top = -149.0
 margin_right = 156.0
 margin_bottom = 0.0
 
-[node name="Wall" type="TileMap" parent="." groups=["tilemap"]]
+[node name="Wall" type="TileMap" parent="." groups=[
+"tilemap",
+]]
 tile_set = SubResource( 4 )
 cell_size = Vector2( 16, 16 )
 collision_layer = 524289
@@ -118,9 +120,10 @@ battery = 0.0
 
 [node name="Debug" parent="." instance=ExtResource( 4 )]
 
-[node name="Player" parent="." groups=["map"] instance=ExtResource( 1 )]
+[node name="Player" parent="." groups=[
+"map",
+] instance=ExtResource( 1 )]
 position = Vector2( 169.852, 67.0677 )
-BASE_SPEED = 150
 ACCEL_PERCENT = 0.5
 MAX_HP = 100
 radar_range = 10

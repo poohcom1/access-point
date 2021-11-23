@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/wall_topconnector_right.png-706f310ae23ab5f44bbc939d40e822ae.stex"
+path="res://.import/iso_brick.png-120b1c28b5dde5bb06300c66a3fa7fd3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tiles/wall_topconnector_right.png"
-dest_files=[ "res://.import/wall_topconnector_right.png-706f310ae23ab5f44bbc939d40e822ae.stex" ]
+source_file="res://assets/tiles/archives/iso_brick.png"
+dest_files=[ "res://.import/iso_brick.png-120b1c28b5dde5bb06300c66a3fa7fd3.stex" ]
 
 [params]
 

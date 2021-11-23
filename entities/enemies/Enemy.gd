@@ -8,6 +8,7 @@ export var enemy_class := ""
 
 export var revealed := false
 
+export var MULTITHREADED_PATHFIND := false
 export var PATHFIND_EPSILON = 16
 export var DEBUG_PATH := false
 var debug_path: Line2D
@@ -25,7 +26,7 @@ var post_hit := false # Flag for the frame after hit
 var path := []
 
 var navigation: Navigation2D
-var navigation_target: WeakRef
+var navigation_target := WeakRef.new()
 
 var direction = AnimUtil.Dir.Right
 
@@ -35,6 +36,9 @@ enum State { Passive, Search, Aggro, Dead }
 # Signals
 signal on_damage(dmg)
 signal on_death()
+
+# Thread
+var mutex := Mutex.new()
 
 # Setup
 func _ready():
@@ -65,6 +69,7 @@ func _ready():
 func _physics_process(_delta):
 	if DEBUG_PATH:
 		debug_path.global_position = Vector2.ZERO
+		debug_path.points = path
 
 func on_hit(dmg: int):
 	if health <= 0:
@@ -87,21 +92,32 @@ func on_death():
 	
 	
 ## Pathfinding
-func navigate() -> Vector2:
-	if path.size() <= 0: return Vector2.ZERO
+func set_target(target):
+	mutex.lock()
+	navigation_target = weakref(target)
+	mutex.unlock()
+
+func navigate():
+	mutex.lock()
+	if path.size() <= 1: 
+		mutex.unlock()
+		return Vector2.ZERO
+
+	var mv = global_position.direction_to(path[1])
 	
-	var mv = global_position.direction_to(path[0])
-	
-	if global_position.distance_to(path[0]) < PATHFIND_EPSILON:
+	if global_position.distance_to(path[1]) < PATHFIND_EPSILON:
 		path.pop_front()
 		
+	mutex.unlock()
+		
 	return mv
+
 	
 func generate_path():
 	var target = navigation_target.get_ref()
 	
 	if not target or navigation == null: return
-	
+
 	path = navigation.get_simple_path(global_position, target.global_position, false)
-	if DEBUG_PATH:
-		debug_path.points = path
+
+
