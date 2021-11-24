@@ -18,7 +18,6 @@ const OFF_SCREEN = 250
 
 # Fields
 var health := 0.0 # Set in ready from max_health
-var state: int = State.Passive
 
 var post_hit := false # Flag for the frame after hit
 
@@ -29,9 +28,6 @@ var navigation: Navigation2D
 var navigation_target := WeakRef.new()
 
 var direction = AnimUtil.Dir.Right
-
-# States
-enum State { Passive, Search, Aggro, Dead }
 
 # Signals
 signal on_damage(dmg)
