@@ -113,13 +113,8 @@ func navigate():
 	
 func generate_path():
 	var target = navigation_target.get_ref()
-	
 	var _navigation = $"/root/GameManager".navigation
-	
 	if not target or _navigation == null: return
-
-	#path = _navigation.get_simple_path(global_position, target.global_position, false)
-	#$"/root/GameManager".sayhi()
 	
 	$"/root/GameManager".add_pathfind_lazy_list([self, global_position, target.global_position])
 
