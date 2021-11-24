@@ -15,9 +15,6 @@ const COL_ENEMY_BULLET = 4
 var player: Player
 var navigation: Navigation2D
 
-# Optimization
-var pathfind_offset := 0.0
-var pathfind_calls = 0
 # Optimization V2
 var pathfind_lazy_list = []
 var pathfind_lazy_list_done = []
@@ -44,19 +41,12 @@ func _ready():
 	lazy_path_thread.start(self, "lazy_path_function", "Wafflecopter")
 
 func _process(_delta):
-	pathfind_calls = 0
 	reinsert_path_lazy()
-
-func get_pathfind_offset():
-	pathfind_offset += 1.0/60.0
-	return pathfind_offset
 
 
 func lazy_path_function(userdata):
 	print(userdata)
 	while (true):
-		OS.delay_msec(10)
-
 		lazy_semaphore.wait()
 		
 		exiter_mutex.lock()

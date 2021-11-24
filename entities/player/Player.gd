@@ -27,8 +27,6 @@ var body_dir: int = AnimUtil.Dir.Bottom
 enum State { Default, Pause, Dead }
 
 # Nodes and scenes
-onready var gm = GameManager
-
 onready var body_anim = $Body
 onready var legs_anim = $Legs
 
@@ -49,7 +47,7 @@ const Charge = preload("res://weapons/ChargeModule.tscn")
 var module: Module
 
 func _ready():
-	gm.player = self
+	GameManager.player = self
 	set_collision_layer_bit(GameManager.COL_TILE, false)
 	set_collision_layer_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_ENEMY_BULLET, true)

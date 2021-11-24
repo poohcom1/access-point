@@ -247,137 +247,161 @@ position = Vector2( 125.154, 203.725 )
 [node name="MeleeBug16" parent="." instance=ExtResource( 4 )]
 position = Vector2( 153.622, 196.233 )
 
-[node name="MeleeBug18" parent="." instance=ExtResource( 4 )]
-position = Vector2( 285.313, 32.7114 )
-
-[node name="MeleeBug19" parent="." instance=ExtResource( 4 )]
-position = Vector2( 311.534, 56.6843 )
-
-[node name="MeleeBug20" parent="." instance=ExtResource( 4 )]
-position = Vector2( 340.001, 49.1923 )
-
-[node name="MeleeBug21" parent="." instance=ExtResource( 4 )]
-position = Vector2( 324.269, 85.1523 )
-
-[node name="MeleeBug22" parent="." instance=ExtResource( 4 )]
-position = Vector2( 352.737, 77.6603 )
-
-[node name="MeleeBug23" parent="." instance=ExtResource( 4 )]
-position = Vector2( 338.503, 127.854 )
-
-[node name="MeleeBug24" parent="." instance=ExtResource( 4 )]
-position = Vector2( 366.971, 120.362 )
-
-[node name="MeleeBug25" parent="." instance=ExtResource( 4 )]
-position = Vector2( 223.928, 52.8933 )
-
-[node name="MeleeBug26" parent="." instance=ExtResource( 4 )]
-position = Vector2( 252.396, 45.4013 )
-
-[node name="MeleeBug27" parent="." instance=ExtResource( 4 )]
-position = Vector2( 250.149, 76.8663 )
-
-[node name="MeleeBug28" parent="." instance=ExtResource( 4 )]
-position = Vector2( 278.616, 69.3743 )
-
-[node name="MeleeBug29" parent="." instance=ExtResource( 4 )]
-position = Vector2( 262.884, 105.334 )
-
-[node name="MeleeBug30" parent="." instance=ExtResource( 4 )]
-position = Vector2( 291.352, 97.8423 )
-
-[node name="MeleeBug31" parent="." instance=ExtResource( 4 )]
-position = Vector2( 277.118, 148.036 )
-
-[node name="MeleeBug32" parent="." instance=ExtResource( 4 )]
-position = Vector2( 305.586, 140.544 )
-
-[node name="MeleeBug33" parent="." instance=ExtResource( 4 )]
-position = Vector2( 463.706, -123.972 )
-
-[node name="MeleeBug34" parent="." instance=ExtResource( 4 )]
-position = Vector2( 489.927, -99.9993 )
-
-[node name="MeleeBug35" parent="." instance=ExtResource( 4 )]
-position = Vector2( 518.394, -107.491 )
-
-[node name="MeleeBug36" parent="." instance=ExtResource( 4 )]
-position = Vector2( 502.662, -71.5313 )
-
-[node name="MeleeBug37" parent="." instance=ExtResource( 4 )]
-position = Vector2( 531.13, -79.0233 )
-
-[node name="MeleeBug38" parent="." instance=ExtResource( 4 )]
-position = Vector2( 516.896, -28.8293 )
-
-[node name="MeleeBug39" parent="." instance=ExtResource( 4 )]
-position = Vector2( 545.364, -36.3213 )
-
-[node name="MeleeBug40" parent="." instance=ExtResource( 4 )]
-position = Vector2( 430.789, -111.282 )
-
-[node name="MeleeBug41" parent="." instance=ExtResource( 4 )]
-position = Vector2( 428.542, -79.8173 )
-
-[node name="MeleeBug42" parent="." instance=ExtResource( 4 )]
-position = Vector2( 457.009, -87.3093 )
-
-[node name="MeleeBug43" parent="." instance=ExtResource( 4 )]
-position = Vector2( 441.277, -51.3493 )
-
-[node name="MeleeBug44" parent="." instance=ExtResource( 4 )]
-position = Vector2( 469.745, -58.8413 )
-
-[node name="MeleeBug45" parent="." instance=ExtResource( 4 )]
-position = Vector2( 455.511, -8.64728 )
-
-[node name="MeleeBug46" parent="." instance=ExtResource( 4 )]
-position = Vector2( 483.979, -16.1393 )
-
-[node name="MeleeBug47" parent="." instance=ExtResource( 4 )]
-position = Vector2( 541.104, -258.003 )
-
-[node name="MeleeBug48" parent="." instance=ExtResource( 4 )]
-position = Vector2( 567.325, -234.03 )
-
-[node name="MeleeBug49" parent="." instance=ExtResource( 4 )]
-position = Vector2( 595.792, -241.522 )
-
-[node name="MeleeBug50" parent="." instance=ExtResource( 4 )]
-position = Vector2( 580.06, -205.562 )
-
-[node name="MeleeBug51" parent="." instance=ExtResource( 4 )]
-position = Vector2( 608.528, -213.054 )
-
-[node name="MeleeBug52" parent="." instance=ExtResource( 4 )]
-position = Vector2( 594.294, -162.86 )
-
-[node name="MeleeBug53" parent="." instance=ExtResource( 4 )]
-position = Vector2( 622.762, -170.352 )
-
-[node name="MeleeBug54" parent="." instance=ExtResource( 4 )]
-position = Vector2( 508.187, -245.313 )
-
-[node name="MeleeBug55" parent="." instance=ExtResource( 4 )]
-position = Vector2( 505.94, -213.848 )
-
-[node name="MeleeBug56" parent="." instance=ExtResource( 4 )]
-position = Vector2( 534.407, -221.34 )
-
-[node name="MeleeBug57" parent="." instance=ExtResource( 4 )]
-position = Vector2( 518.675, -185.38 )
-
-[node name="MeleeBug58" parent="." instance=ExtResource( 4 )]
-position = Vector2( 547.143, -192.872 )
-
-[node name="MeleeBug59" parent="." instance=ExtResource( 4 )]
-position = Vector2( 532.909, -142.678 )
-
-[node name="MeleeBug60" parent="." instance=ExtResource( 4 )]
-position = Vector2( 561.377, -150.17 )
-
 [node name="MeleeBug17" parent="." instance=ExtResource( 4 )]
 position = Vector2( 191.371, 53.9234 )
+
+[node name="MeleeBug18" parent="." instance=ExtResource( 4 )]
+position = Vector2( 293.808, 66.691 )
+
+[node name="MeleeBug19" parent="." instance=ExtResource( 4 )]
+position = Vector2( 322.276, 59.1995 )
+
+[node name="MeleeBug20" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320.029, 90.6639 )
+
+[node name="MeleeBug21" parent="." instance=ExtResource( 4 )]
+position = Vector2( 348.496, 83.1719 )
+
+[node name="MeleeBug22" parent="." instance=ExtResource( 4 )]
+position = Vector2( 332.764, 119.132 )
+
+[node name="MeleeBug23" parent="." instance=ExtResource( 4 )]
+position = Vector2( 361.232, 111.64 )
+
+[node name="MeleeBug24" parent="." instance=ExtResource( 4 )]
+position = Vector2( 346.998, 161.834 )
+
+[node name="MeleeBug25" parent="." instance=ExtResource( 4 )]
+position = Vector2( 375.466, 154.342 )
+
+[node name="MeleeBug26" parent="." instance=ExtResource( 4 )]
+position = Vector2( 232.422, 86.8729 )
+
+[node name="MeleeBug27" parent="." instance=ExtResource( 4 )]
+position = Vector2( 260.891, 79.3809 )
+
+[node name="MeleeBug28" parent="." instance=ExtResource( 4 )]
+position = Vector2( 258.643, 110.846 )
+
+[node name="MeleeBug29" parent="." instance=ExtResource( 4 )]
+position = Vector2( 287.111, 103.354 )
+
+[node name="MeleeBug30" parent="." instance=ExtResource( 4 )]
+position = Vector2( 271.379, 139.314 )
+
+[node name="MeleeBug31" parent="." instance=ExtResource( 4 )]
+position = Vector2( 299.847, 131.822 )
+
+[node name="MeleeBug32" parent="." instance=ExtResource( 4 )]
+position = Vector2( 285.613, 182.016 )
+
+[node name="MeleeBug33" parent="." instance=ExtResource( 4 )]
+position = Vector2( 314.081, 174.524 )
+
+[node name="MeleeBug34" parent="." instance=ExtResource( 4 )]
+position = Vector2( 351.83, 32.2143 )
+
+[node name="MeleeBug35" parent="." instance=ExtResource( 4 )]
+position = Vector2( 464.649, -128.691 )
+
+[node name="MeleeBug36" parent="." instance=ExtResource( 4 )]
+position = Vector2( 493.117, -136.183 )
+
+[node name="MeleeBug37" parent="." instance=ExtResource( 4 )]
+position = Vector2( 490.87, -104.718 )
+
+[node name="MeleeBug38" parent="." instance=ExtResource( 4 )]
+position = Vector2( 519.337, -112.21 )
+
+[node name="MeleeBug39" parent="." instance=ExtResource( 4 )]
+position = Vector2( 503.605, -76.2501 )
+
+[node name="MeleeBug40" parent="." instance=ExtResource( 4 )]
+position = Vector2( 532.073, -83.7421 )
+
+[node name="MeleeBug41" parent="." instance=ExtResource( 4 )]
+position = Vector2( 517.839, -33.5481 )
+
+[node name="MeleeBug42" parent="." instance=ExtResource( 4 )]
+position = Vector2( 546.307, -41.0401 )
+
+[node name="MeleeBug43" parent="." instance=ExtResource( 4 )]
+position = Vector2( 403.263, -108.509 )
+
+[node name="MeleeBug44" parent="." instance=ExtResource( 4 )]
+position = Vector2( 431.732, -116.001 )
+
+[node name="MeleeBug45" parent="." instance=ExtResource( 4 )]
+position = Vector2( 429.484, -84.5361 )
+
+[node name="MeleeBug46" parent="." instance=ExtResource( 4 )]
+position = Vector2( 457.952, -92.0281 )
+
+[node name="MeleeBug47" parent="." instance=ExtResource( 4 )]
+position = Vector2( 442.22, -56.0681 )
+
+[node name="MeleeBug48" parent="." instance=ExtResource( 4 )]
+position = Vector2( 470.688, -63.5601 )
+
+[node name="MeleeBug49" parent="." instance=ExtResource( 4 )]
+position = Vector2( 456.454, -13.3661 )
+
+[node name="MeleeBug50" parent="." instance=ExtResource( 4 )]
+position = Vector2( 484.922, -20.8581 )
+
+[node name="MeleeBug51" parent="." instance=ExtResource( 4 )]
+position = Vector2( 522.671, -163.168 )
+
+[node name="MeleeBug52" parent="." instance=ExtResource( 4 )]
+position = Vector2( 588.296, -238.18 )
+
+[node name="MeleeBug53" parent="." instance=ExtResource( 4 )]
+position = Vector2( 616.764, -245.672 )
+
+[node name="MeleeBug54" parent="." instance=ExtResource( 4 )]
+position = Vector2( 614.517, -214.208 )
+
+[node name="MeleeBug55" parent="." instance=ExtResource( 4 )]
+position = Vector2( 642.984, -221.7 )
+
+[node name="MeleeBug56" parent="." instance=ExtResource( 4 )]
+position = Vector2( 627.252, -185.74 )
+
+[node name="MeleeBug57" parent="." instance=ExtResource( 4 )]
+position = Vector2( 655.72, -193.232 )
+
+[node name="MeleeBug58" parent="." instance=ExtResource( 4 )]
+position = Vector2( 641.486, -143.038 )
+
+[node name="MeleeBug59" parent="." instance=ExtResource( 4 )]
+position = Vector2( 669.954, -150.53 )
+
+[node name="MeleeBug60" parent="." instance=ExtResource( 4 )]
+position = Vector2( 526.911, -217.999 )
+
+[node name="MeleeBug61" parent="." instance=ExtResource( 4 )]
+position = Vector2( 555.379, -225.491 )
+
+[node name="MeleeBug62" parent="." instance=ExtResource( 4 )]
+position = Vector2( 553.132, -194.026 )
+
+[node name="MeleeBug63" parent="." instance=ExtResource( 4 )]
+position = Vector2( 581.599, -201.518 )
+
+[node name="MeleeBug64" parent="." instance=ExtResource( 4 )]
+position = Vector2( 565.867, -165.558 )
+
+[node name="MeleeBug65" parent="." instance=ExtResource( 4 )]
+position = Vector2( 594.335, -173.05 )
+
+[node name="MeleeBug66" parent="." instance=ExtResource( 4 )]
+position = Vector2( 580.101, -122.856 )
+
+[node name="MeleeBug67" parent="." instance=ExtResource( 4 )]
+position = Vector2( 608.569, -130.348 )
+
+[node name="MeleeBug68" parent="." instance=ExtResource( 4 )]
+position = Vector2( 646.318, -272.657 )
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
 position = Vector2( 74.7266, -0.962677 )
