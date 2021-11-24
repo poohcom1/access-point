@@ -7,7 +7,7 @@ script/source = "extends Weapon
 export var SHOOT_INTERVAL = 0.15
 export var PIERCE_COUNT = 1
 export var DAMAGE = 4
-export var KNOCKBACK = 5
+export var KNOCKBACK = 25
 
 # Fields
 var shooting := false

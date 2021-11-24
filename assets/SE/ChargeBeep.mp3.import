@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/ChargeBeep.mp3-0aa128e25008f328108834cd6d68a6f5.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/ChargeBeep.mp3"
+dest_files=[ "res://.import/ChargeBeep.mp3-0aa128e25008f328108834cd6d68a6f5.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

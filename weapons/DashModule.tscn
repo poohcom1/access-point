@@ -1,0 +1,103 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Module
+
+enum Mode { ArrowKey, Mouse }
+
+export(Mode) var mode = Mode.ArrowKey
+export var DASH_SPEED := 800
+export var DASH_TIME := 0.10
+
+export var TRAIL_COLOR_START := Color(0, 1, 1)
+export var TRAIL_COLOR_END := Color(0, 1, 1, 0.2)
+
+export var TRAIL_FRAME_INTERVAL := 2
+export var TRAIL_TIME := 0.2
+
+var active = false
+var trails = []
+
+var trail_time = 0
+
+func _ready():
+	# warning-ignore:return_value_discarded
+	$DashTimer.connect(\"timeout\", self, \"_dash_finished\")
+
+func _input(event):
+	if event.is_action_pressed(\"alternative_shoot\") and $DashTimer.time_left == 0.0:
+		var dir = Vector2.ZERO
+		
+		match mode:
+			Mode.ArrowKey:
+				var up = Input.is_action_pressed(\"ui_up\")
+				var down = Input.is_action_pressed(\"ui_down\")
+				var left = Input.is_action_pressed(\"ui_left\")
+				var right = Input.is_action_pressed(\"ui_right\")
+				
+				if not up and not down and not left and not right:
+					dir = Vector2(cos(AnimUtil.Dir2Angle[player.legs_dir]),
+								  sin(AnimUtil.Dir2Angle[player.legs_dir]))
+				else:
+					dir = Vector2(int(right)-int(left), int(down)-int(up)).normalized()
+			
+			Mode.Mouse:
+				dir = player.global_position.direction_to(get_global_mouse_position())
+		
+		_dash_start(dir)
+		
+func _physics_process(_delta):
+	if active:
+		trail_time += 1
+		if trail_time >= TRAIL_FRAME_INTERVAL:
+			trail_time = 0
+			_summon_trail()
+		
+func _dash_start(direction: Vector2):
+	player.set_collision_layer_bit(GameManager.COL_ENEMY, false)
+	$DashTimer.start(DASH_TIME)
+	player.state = player.State.Pause
+	
+	player.mv = direction * DASH_SPEED
+	active = true
+	
+		
+func _dash_finished():
+	player.set_collision_layer_bit(GameManager.COL_ENEMY, true)
+	player.state = player.State.Default	
+	active = false
+
+func _summon_trail():
+	var top = player.get_node(\"Body\").duplicate()
+	var bottom = player.get_node(\"Legs\").duplicate()
+	
+	top.global_position = global_position
+	bottom.global_position = global_position
+	
+	var trail = Node2D.new()
+	trail.add_child(top)
+	trail.add_child(bottom)
+	
+	var tween = Tween.new()
+	tween.interpolate_property(trail, \"modulate\", 
+		Color(0, 0, 1), Color(0.2, 0.2, 0.9, 0.2), TRAIL_TIME)
+		
+	tween.connect(\"tween_all_completed\", self, \"_delete_trail\", [trail])
+	trail.add_child(tween)	
+	
+	get_tree().root.add_child(trail)
+	tween.start()
+	
+func _delete_trail(trail: Node2D):
+	trail.queue_free()
+"
+
+[node name="DashModule" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="DashTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Trail" type="CPUParticles2D" parent="."]
+emitting = false
+gravity = Vector2( 0, 0 )

@@ -1,19 +1,31 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=59 format=2]
 
-[ext_resource path="res://assets/artillery_placeholder.png" type="Texture" id=1]
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/enemies/artillery/segment.png" type="Texture" id=3]
+[ext_resource path="res://assets/enemies/artillery/segment_light_mask.png" type="Texture" id=4]
+[ext_resource path="res://assets/enemies/artillery/head-sheet.png" type="Texture" id=5]
+[ext_resource path="res://assets/graphics/lighting/2DLight.png" type="Texture" id=6]
+[ext_resource path="res://assets/enemies/artillery/head_light_mask.png" type="Texture" id=7]
+[ext_resource path="res://assets/SE/BugDeath1.mp3" type="AudioStream" id=8]
+[ext_resource path="res://assets/enemies/artillery/head_shoot-sheet.png" type="Texture" id=9]
+[ext_resource path="res://assets/enemies/artillery/head_death.png" type="Texture" id=10]
+[ext_resource path="res://assets/enemies/artillery/segment_death.png" type="Texture" id=11]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=49]
 script/source = "extends Enemy
 
 # Properties
 export var DAMAGE := 30
 export var FRIENDLY_DAMAGE := 15
 export var PROJECTILE_SPEED = 10
-export var SHOOT_INTERVAL := 2
+
+export var SHOOT_INTERVAL := 2.5
+export var CHARGE_COUNT = 3
+
 export var RANGE := 175
 export var EXPLOSION_FRAMES := 1
 export var EXPLODE_ON_WALL := false
+
 
 # Fields
 var _range = 0
@@ -24,89 +36,584 @@ const Projectile = preload(\"res://entities/enemies/objects/ArtilleryProjectile.
 onready var shoot_timer := Timer.new()
 onready var aim_beam = $AimBeam
 
-# Signals
-
+# States
+enum States { Start, Idle, Attack, Charge, Death }
+var state = States.Start
 
 func _ready():
 	_range = RANGE * RANGE
 	
 	add_child(shoot_timer)
 	shoot_timer.start(SHOOT_INTERVAL)
+	
 	# warning-ignore:return_value_discarded
-	shoot_timer.connect(\"timeout\", self, \"on_shoot\")
-
+	shoot_timer.connect(\"timeout\", self, \"_flash_or_attack\")
+	
+	_init_animation()
 
 func _physics_process(_delta):
-	## Attack
-	var player = $\"/root/GameManager\".player
-	
-	aim_beam.points = []
-	
-	var point_offset = Vector2(0, 16)
+	_anim_process()
 
-	if (player != null 
-	and player.global_position.distance_squared_to(global_position) < _range):
-		
-		aim_beam.points = [
-			to_local(aim_beam.global_position) + point_offset, 
-			to_local(player.global_position) + point_offset]
 
 func on_shoot():
-	if aim_beam.points.size() > 0:
-		var projectile = Projectile.instance()
+	var projectile = Projectile.instance()
+	
+	projectile.position = $Body/Head.global_position - Vector2(0, 16)
+	
+	projectile.speed = PROJECTILE_SPEED
+	projectile.damage = DAMAGE
+	projectile.friendly_damage = FRIENDLY_DAMAGE
+	projectile.target = $\"/root/GameManager\".player.position
+	projectile.shot_from = self
+	projectile.explosion_frames = EXPLOSION_FRAMES
+	projectile.explode_on_wall = EXPLODE_ON_WALL
+	
+	get_tree().root.add_child(projectile)
+			
 		
-		projectile.position = aim_beam.global_position
+func on_hit_knockback(_vector, _time=0.1):
+	pass
+
+
+#===================================================================
+#								ANIMATION
+#===================================================================
+
+export var SEGMENTS := 6
+
+export var IDLE_LOOP_TIME := 1.2
+
+export var MAX_ATLTITUDE := 7.0
+export var SWING_ALTITUDE := 5.0
+
+export var FLASH_TIME := 0.09
+
+export var SHOOT_ANIM_TIME := 0.2
+export var SHOOT_RECOVER_TIME := 0.9
+
+onready var sprite_body := $Body
+onready var prototype_segment := $Body/Segment
+onready var head := $Body/Head
+
+onready var anim_tween := $Body/AnimTween
+
+var segment_flash_ind = 0
+var flash_count = 0
+var flash_time
+
+var segments := []
+
+# Anim Properties
+var altitude := 0.0
+var side_swing := 0.0
+
+var to_shoot
+
+func _init_animation():
+	# warning-ignore:return_value_discarded
+	anim_tween.connect(\"tween_all_completed\", self, \"_anim_finished\")
+	
+	segments.append(prototype_segment)
+	
+	for _i in range(SEGMENTS):
+		var segment = prototype_segment.duplicate()
+		sprite_body.add_child(segment)
+
+		segment.get_node(\"Sprite\").flip_h = bool(randi() % 2)
+		segments.append(segment)
+	segments.append(head)
+	
+	# warning-ignore:return_value_discarded
+	$Body/Head/ChargeAnim.connect(\"animation_finished\", self, \"_charge_anim_finished\")
+	# warning-ignore:return_value_discarded
+	$Body/Head/Sprite.connect(\"animation_finished\", self, \"_head_anim_finished\")
 		
-		projectile.speed = PROJECTILE_SPEED
-		projectile.damage = DAMAGE
-		projectile.friendly_damage = FRIENDLY_DAMAGE
-		projectile.target = $\"/root/GameManager\".player.position
-		projectile.shot_from = self
-		projectile.explosion_frames = EXPLOSION_FRAMES
-		projectile.explode_on_wall = EXPLODE_ON_WALL
+	_unburrow_anim()
+
+func _anim_process():
+	for i in range(segments.size()):
+		var segment: Node2D = segments[i]
 		
-		get_tree().root.add_child(projectile)
+		segment.position.y = -altitude * i
+		segment.position.x = lerp(0, side_swing, (float(i)/segments.size()) * (float(i)/segments.size()) )
+		
+func _anim_finished():
+	match state:
+		States.Start:
+			state = States.Idle
+			_idle_anim()
+		States.Idle:
+			_idle_anim()
+		States.Charge:
+			_idle_anim()
+		States.Attack:
+			state = States.Idle
+			_idle_anim()
+			shoot_timer.start(SHOOT_INTERVAL)
+			$Body/Head/Sprite.play(\"default\")
+			
+
+# States
+func _unburrow_anim():
+	anim_tween.interpolate_property(self, \"altitude\", 0, MAX_ATLTITUDE, 1, Tween.TRANS_CUBIC, Tween.EASE_OUT)
+	anim_tween.start()
+
+func _idle_anim():
+	# Side
+	anim_tween.interpolate_property(self, \"side_swing\", 0, 5, IDLE_LOOP_TIME,
+		Tween.TRANS_QUAD, Tween.EASE_OUT)
+	anim_tween.interpolate_property(self, \"side_swing\", 5, 0, IDLE_LOOP_TIME,
+		Tween.TRANS_QUAD, Tween.EASE_IN, IDLE_LOOP_TIME)
+	anim_tween.interpolate_property(self, \"side_swing\", 0, -5, IDLE_LOOP_TIME,
+		Tween.TRANS_QUAD, Tween.EASE_OUT, IDLE_LOOP_TIME * 2)
+	anim_tween.interpolate_property(self, \"side_swing\", -5, 0, IDLE_LOOP_TIME,
+		Tween.TRANS_QUAD, Tween.EASE_IN, IDLE_LOOP_TIME * 3)
+	
+	# Alt
+	anim_tween.interpolate_property(self, \"altitude\", MAX_ATLTITUDE, SWING_ALTITUDE, IDLE_LOOP_TIME,
+		Tween.TRANS_LINEAR, Tween.EASE_IN)
+	anim_tween.interpolate_property(self, \"altitude\", SWING_ALTITUDE, MAX_ATLTITUDE, IDLE_LOOP_TIME,
+		Tween.TRANS_LINEAR, Tween.EASE_IN, IDLE_LOOP_TIME)
+	
+	anim_tween.interpolate_property(self, \"altitude\", MAX_ATLTITUDE, SWING_ALTITUDE, IDLE_LOOP_TIME,
+		Tween.TRANS_LINEAR, Tween.EASE_IN, IDLE_LOOP_TIME * 2)
+	anim_tween.interpolate_property(self, \"altitude\", SWING_ALTITUDE, MAX_ATLTITUDE, IDLE_LOOP_TIME,
+		Tween.TRANS_LINEAR, Tween.EASE_IN, IDLE_LOOP_TIME * 3)
+	
+	anim_tween.start()
+
+func shoot_anim():
+	anim_tween.remove_all()
+	
+	anim_tween.interpolate_property(self, \"altitude\", altitude + 2, 2, SHOOT_ANIM_TIME, 
+		Tween.TRANS_QUAD, Tween.EASE_OUT)
+	anim_tween.interpolate_property(self, \"side_swing\", side_swing, 0, SHOOT_ANIM_TIME, 
+		Tween.TRANS_LINEAR)
+		
+	anim_tween.interpolate_property(self, \"altitude\", 2, MAX_ATLTITUDE, SHOOT_RECOVER_TIME,
+		Tween.TRANS_CUBIC, Tween.EASE_IN, SHOOT_ANIM_TIME)
+		
+	anim_tween.start()
+	
+func charge_anim():
+	_play_charge_anim(segments[segment_flash_ind], flash_count==CHARGE_COUNT-1)
+			
+	head.get_node(\"Sprite\").speed_scale = 2.0
+	
+	segment_flash_ind += 1
+	if segment_flash_ind >= segments.size():
+		flash_time -= 0.03
+		
+		segment_flash_ind = 0
+		flash_count += 1
+		
+		if flash_count >= CHARGE_COUNT:
+			flash_count = 0
+			
+			$Body/Head/Sprite.play(\"shoot\")
+			state = States.Attack
+			
+			on_shoot()	
+			shoot_anim()
+			to_shoot = true
+			return
+			
+	shoot_timer.start(flash_time)
+	
+func on_death():
+	z_index = 0
+	$Body/FlashTimer.stop()
+	shoot_timer.stop()
+	
+	$CollisionShape2D.disabled = true
+	$ValueBar.queue_free()
+	
+	state = States.Death
+	$Death.play()
+	
+	anim_tween.remove_all()
+	anim_tween.interpolate_property(self, \"altitude\", altitude, MAX_ATLTITUDE + 1, 0.3,
+		Tween.TRANS_QUAD, Tween.EASE_OUT)
+	anim_tween.interpolate_property(self, \"altitude\", MAX_ATLTITUDE, 0, 1.5,
+		Tween.TRANS_CIRC, Tween.EASE_OUT_IN, 0.3)
+	anim_tween.start()
+	
+	for segment in segments:
+		segment.z_index = 0	
+		segment.get_node(\"ChargeAnim\").play(\"death\")
+		segment.get_node(\"Sprite\").play(\"death\")
+		
+		if segment.has_node(\"Particles\"):
+			segment.get_node(\"Particles\").emitting = true
+
+# Helpers
+
+func _flash_or_attack():
+	match state:
+		States.Idle:
+			var player = $\"/root/GameManager\".player
+			if player:
+				if global_position.distance_squared_to(player.global_position) < _range:
+					state = States.Charge
+					flash_time = FLASH_TIME
+					segment_flash_ind = 0
+					shoot_timer.start(flash_time)
+		States.Charge:
+			charge_anim()
+			
+			
+func _charge_anim_finished(_data):
+	if to_shoot:
+		head.get_node(\"Sprite\").speed_scale = 1.0
+		to_shoot = false
+		state = States.Attack
+		
+		flash_count = 0
+
+func _head_anim_finished():
+	if $Body/Head/Sprite.animation == \"shoot\":
+		$Body/Head/Sprite.play(\"default\")
 		
 
-func on_death():
-	yield(get_tree(), \"idle_frame\")
-	queue_free()
-		
-		
-func on_hit_knockback(_vector):
-	pass
+static func _play_charge_anim(segment, use_particle = false):
+	if not use_particle:
+		segment.get_node(\"ChargeAnim\").play(\"charge\")
+	else:
+		segment.get_node(\"ChargeAnim\").play(\"charge_final\")
+		if segment.has_node(\"Particles\"):
+			segment.get_node(\"Particles\").emitting = true
 "
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="CapsuleShape2D" id=50]
+radius = 13.4337
+height = 35.8964
+
+[sub_resource type="AtlasTexture" id=51]
+atlas = ExtResource( 11 )
+region = Rect2( 64, 0, 64, 32 )
+
+[sub_resource type="AtlasTexture" id=52]
+atlas = ExtResource( 11 )
+region = Rect2( 128, 0, 64, 32 )
+
+[sub_resource type="AtlasTexture" id=53]
+atlas = ExtResource( 11 )
+region = Rect2( 192, 0, 64, 32 )
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = ExtResource( 11 )
+region = Rect2( 256, 0, 64, 32 )
+
+[sub_resource type="AtlasTexture" id=55]
+atlas = ExtResource( 11 )
+region = Rect2( 320, 0, 64, 32 )
+
+[sub_resource type="AtlasTexture" id=56]
+atlas = ExtResource( 11 )
+region = Rect2( 384, 0, 64, 32 )
+
+[sub_resource type="SpriteFrames" id=57]
 animations = [ {
-"frames": [ ExtResource( 1 ) ],
+"frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
+}, {
+"frames": [ SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ) ],
+"loop": false,
+"name": "death",
+"speed": 12.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=3]
-radius = 5.46062
+[sub_resource type="Animation" id=58]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.117647, 0.45098, 0.498039, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.5, 0.0 ]
+}
+
+[sub_resource type="Animation" id=59]
+resource_name = "charge_final"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.278431, 0.858824, 0.803922, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.5, 0.0 ]
+}
+
+[sub_resource type="Animation" id=60]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.341176, 0.721569, 0.721569, 1 ), Color( 0.6, 0.0862745, 0.0862745, 1 ) ]
+}
+
+[sub_resource type="Gradient" id=61]
+offsets = PoolRealArray( 0, 0.297945, 0.993151 )
+colors = PoolColorArray( 1, 1, 1, 0.780392, 0.290196, 0.658824, 0.72549, 0.666667, 0.298039, 0.862745, 0.968627, 0 )
+
+[sub_resource type="AtlasTexture" id=62]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=63]
+atlas = ExtResource( 5 )
+region = Rect2( 64, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=64]
+atlas = ExtResource( 5 )
+region = Rect2( 128, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=65]
+atlas = ExtResource( 5 )
+region = Rect2( 192, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=66]
+atlas = ExtResource( 5 )
+region = Rect2( 256, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=67]
+atlas = ExtResource( 5 )
+region = Rect2( 320, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=68]
+atlas = ExtResource( 10 )
+region = Rect2( 0, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=69]
+atlas = ExtResource( 10 )
+region = Rect2( 64, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=70]
+atlas = ExtResource( 10 )
+region = Rect2( 128, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=71]
+atlas = ExtResource( 10 )
+region = Rect2( 192, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=72]
+atlas = ExtResource( 10 )
+region = Rect2( 256, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=73]
+atlas = ExtResource( 10 )
+region = Rect2( 320, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=74]
+atlas = ExtResource( 10 )
+region = Rect2( 384, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=75]
+atlas = ExtResource( 10 )
+region = Rect2( 448, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=76]
+atlas = ExtResource( 10 )
+region = Rect2( 512, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=77]
+atlas = ExtResource( 10 )
+region = Rect2( 576, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=78]
+atlas = ExtResource( 10 )
+region = Rect2( 640, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=79]
+atlas = ExtResource( 9 )
+region = Rect2( 128, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=80]
+atlas = ExtResource( 9 )
+region = Rect2( 256, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=81]
+atlas = ExtResource( 9 )
+region = Rect2( 320, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=82]
+atlas = ExtResource( 9 )
+region = Rect2( 384, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=83]
+atlas = ExtResource( 9 )
+region = Rect2( 448, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=84]
+atlas = ExtResource( 9 )
+region = Rect2( 512, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=85]
+atlas = ExtResource( 9 )
+region = Rect2( 576, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=86]
+atlas = ExtResource( 9 )
+region = Rect2( 640, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=87]
+atlas = ExtResource( 9 )
+region = Rect2( 704, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=88]
+atlas = ExtResource( 9 )
+region = Rect2( 768, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=89]
+atlas = ExtResource( 9 )
+region = Rect2( 832, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=90]
+atlas = ExtResource( 9 )
+region = Rect2( 896, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=91]
+atlas = ExtResource( 9 )
+region = Rect2( 960, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=92]
+atlas = ExtResource( 9 )
+region = Rect2( 1024, 0, 64, 48 )
+
+[sub_resource type="SpriteFrames" id=93]
+animations = [ {
+"frames": [ SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 66 ), SubResource( 67 ) ],
+"loop": true,
+"name": "default",
+"speed": 4.0
+}, {
+"frames": [ SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ) ],
+"loop": false,
+"name": "death",
+"speed": 12.0
+}, {
+"frames": [ SubResource( 79 ), SubResource( 80 ), SubResource( 81 ), SubResource( 82 ), SubResource( 83 ), SubResource( 84 ), SubResource( 85 ), SubResource( 86 ), SubResource( 87 ), SubResource( 88 ), SubResource( 89 ), SubResource( 90 ), SubResource( 91 ), SubResource( 92 ) ],
+"loop": false,
+"name": "shoot",
+"speed": 18.0
+} ]
+
+[sub_resource type="Animation" id=94]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.113725, 0.454902, 0.419608, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.5, 0.0 ]
+}
+
+[sub_resource type="Animation" id=48]
+resource_name = "charge_final"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Light:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.462745, 0.917647, 0.87451, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.5, 0.0 ]
+}
+
+[sub_resource type="Animation" id=95]
 
 [node name="ArtilleryBug" type="KinematicBody2D"]
-script = SubResource( 1 )
-MAX_HEALTH = 40.0
+script = SubResource( 49 )
+MAX_HEALTH = 300.0
 value = 2
 enemy_class = "Artillery"
-FRIENDLY_DAMAGE = 30
+DAMAGE = 20
+FRIENDLY_DAMAGE = 10
 RANGE = 250
 EXPLODE_ON_WALL = true
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 2 )
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -0.834274, 16.0181 )
-shape = SubResource( 3 )
+position = Vector2( -0.132736, 0.314144 )
+shape = SubResource( 50 )
 
 [node name="AimBeam" type="Line2D" parent="."]
 modulate = Color( 1, 1, 1, 0.4 )
-position = Vector2( -0.982155, -14.9893 )
+position = Vector2( -67.1008, -59.0524 )
 width = 2.0
 default_color = Color( 1, 0.4, 0.4, 1 )
 
@@ -114,3 +621,80 @@ default_color = Color( 1, 0.4, 0.4, 1 )
 position = Vector2( 0, 35.5401 )
 value = "health"
 max_value = "MAX_HEALTH"
+x_scale = 0.25
+
+[node name="Body" type="Node2D" parent="."]
+position = Vector2( 0, 22.5949 )
+
+[node name="AnimTween" type="Tween" parent="Body"]
+
+[node name="Segment" type="Node2D" parent="Body"]
+
+[node name="Light" type="Sprite" parent="Body/Segment"]
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 4 )
+
+[node name="Sprite" type="AnimatedSprite" parent="Body/Segment"]
+frames = SubResource( 57 )
+playing = true
+
+[node name="ChargeAnim" type="AnimationPlayer" parent="Body/Segment"]
+anims/charge = SubResource( 58 )
+anims/charge_final = SubResource( 59 )
+anims/death = SubResource( 60 )
+
+[node name="Light2D" type="Light2D" parent="Body/Segment"]
+position = Vector2( 0.353394, 0 )
+texture = ExtResource( 6 )
+texture_scale = 0.13
+color = Color( 0.533333, 0.839216, 0.835294, 1 )
+energy = 0.0
+
+[node name="Particles" type="CPUParticles2D" parent="Body/Segment"]
+emitting = false
+amount = 16
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.69
+emission_shape = 2
+emission_rect_extents = Vector2( 14, 1 )
+direction = Vector2( 0, 1 )
+spread = 7.68
+gravity = Vector2( 0, 0 )
+initial_velocity = 24.0
+linear_accel = -8.54
+radial_accel = 10.97
+color_ramp = SubResource( 61 )
+
+[node name="Head" type="Node2D" parent="Body"]
+z_index = 1
+
+[node name="Light2D" type="Light2D" parent="Body/Head"]
+position = Vector2( 0.353394, 0 )
+texture = ExtResource( 6 )
+texture_scale = 0.13
+color = Color( 0.533333, 0.839216, 0.835294, 1 )
+energy = 0.0
+
+[node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
+z_index = 1
+frames = SubResource( 93 )
+frame = 4
+playing = true
+offset = Vector2( 0, -2 )
+
+[node name="Light" type="Sprite" parent="Body/Head"]
+modulate = Color( 0, 0, 0, 1 )
+texture = ExtResource( 7 )
+offset = Vector2( 0, -2 )
+
+[node name="ChargeAnim" type="AnimationPlayer" parent="Body/Head"]
+anims/charge = SubResource( 94 )
+anims/charge_final = SubResource( 48 )
+anims/death = SubResource( 95 )
+
+[node name="FlashTimer" type="Timer" parent="Body"]
+one_shot = true
+
+[node name="Death" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )

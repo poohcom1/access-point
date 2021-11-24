@@ -1,21 +1,7 @@
-extends Node
+extends Node2D
 class_name Module
 
-# Properties
+onready var player: KinematicBody2D = get_parent()
 
-
-# Fields
-
-
-# Nodes
-
-
-# Signals
-
-
-func _ready():
-	pass
-
-
-func _physics_process(_delta):
+func on_active():
 	pass

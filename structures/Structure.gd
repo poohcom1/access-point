@@ -84,8 +84,8 @@ func add_battery(val):
 
 func _unhandled_input(event):
 	if event.is_action_pressed("interact", false) and mouse_hover:
-		if $"/root/GameManager".player.battery > 0 and battery < MAX_BATTERY:
-			$"/root/GameManager".player.battery -= 1
+		if GameManager.player.battery > 0 and battery < MAX_BATTERY:
+			GameManager.player.battery -= 1
 			add_battery(1)
 
 func on_hit(damage):

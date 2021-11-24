@@ -12,7 +12,7 @@
 [ext_resource path="res://assets/SE/BugDeath3.mp3" type="AudioStream" id=11]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Enemy
+script/source = "extends EnemyUnit
 
 # Properties
 
@@ -57,89 +57,95 @@ func _ready():
 		# warning-ignore:return_value_discarded
 	attack_timer.connect(\"timeout\", self, \"_on_attack\")
 	
+	
+	
 	# Wait for idle frame to get player
 	yield(get_tree(), \"idle_frame\")
 	
+	# Set navigation target
 	set_target($\"/root/GameManager\".player)
 
 		# warning-ignore:return_value_discarded	
 	pathfind_timer.connect(\"timeout\", self, \"_on_generate_path\")
 	
-	# Randomize start to stagger pathfinding to prevent lag spike at the
-	#	beginning of the stage. Ideally this shouldn't be necessary
-	#	as pathfinding shouldn't activate for bugs too far away from the player
-	if not MULTITHREADED_PATHFIND:
-		pathfind_timer.start(rand_range(0, 1))
+	_on_generate_path()
 	
 	randomize()
 	
+	# Set death sound fx on random
 	$DeathSFX.stream = DEATH_SFX[randi() % DEATH_SFX.size()]
 
 func _physics_process(_delta):	
-	if health <= 0: return
-	
-	if not MULTITHREADED_PATHFIND:
-		var player = $\"/root/GameManager\".player
+	match state:
+		State.Default:
+			if not MULTITHREADED_PATHFIND:
+				var player = $\"/root/GameManager\".player
 
-		if player:
-			var current_player_in_range = (global_position.distance_squared_to(
-				player.global_position) < OFF_SCREEN * OFF_SCREEN)
-				
-			if not player_in_range and current_player_in_range:
-				generate_path()
-				pathfind_timer.start(PATHFIND_INTERVAL)
-			player_in_range = current_player_in_range
-	
-	# AI
-	if USE_AI:
-		var healers = get_tree().get_nodes_in_group(\"healer\")
-		
-		match nav_state:
-			NavStates.Attack:
-				speed = BASE_SPEED
-				if health <= MAX_HEALTH * RETREAT_HEALTH:
-					if healers.size() > 0:
-						set_target(MathUtil.get_nearest_node(self, healers))
-						nav_state = NavStates.Retreat	
-			NavStates.Retreat:
-				speed = RETREAT_SPEED
-				if not navigation_target.get_ref() or (health > MAX_HEALTH * ATTACK_HEALTH or healers.size() == 0):
-					set_target($\"/root/GameManager\".player)
-					nav_state = NavStates.Attack
-
-	## Pathfinding
-	mv = navigate()
-	
-	_set_animation()
-	
-	var _slide = move_and_slide(mv * speed)
-	
-	
-	## Attack
-	for i in get_slide_count():
-		var collision = get_slide_collision(i)
-		if collision.collider is Player:
-			if not was_touching or is_attacking:
-				collision.collider.on_hit(DAMAGE)
-				is_attacking = false
-				was_touching = true
+				if player:
+					var current_player_in_range = (global_position.distance_squared_to(
+						player.global_position) < OFF_SCREEN * OFF_SCREEN)
+						
+					if not player_in_range and current_player_in_range:
+						generate_path()
+						pathfind_timer.start(PATHFIND_INTERVAL)
+					player_in_range = current_player_in_range
 			
-				attack_timer.start()
-			break
+			# AI
+			if USE_AI:
+				var healers = get_tree().get_nodes_in_group(\"healer\")
+				
+				match nav_state:
+					NavStates.Attack:
+						speed = BASE_SPEED
+						if health <= MAX_HEALTH * RETREAT_HEALTH:
+							if healers.size() > 0:
+								set_target(MathUtil.get_nearest_node(self, healers))
+								nav_state = NavStates.Retreat	
+					NavStates.Retreat:
+						speed = RETREAT_SPEED
+						if not navigation_target.get_ref() or (health > MAX_HEALTH * ATTACK_HEALTH or healers.size() == 0):
+							set_target($\"/root/GameManager\".player)
+							nav_state = NavStates.Attack
 
-func _on_generate_path(offset = 0.0):
+			## Pathfinding
+			mv = navigate()
+			
+			_set_animation()
+			
+			for i in get_slide_count():
+				var col := get_slide_collision(i)
+				
+				if col.collider is TileMap:
+					mv += col.normal * 2
+				
+			var _slide = move_and_slide(mv * speed)
+			
+			## Attack
+			for i in get_slide_count():
+				var collision = get_slide_collision(i)
+				if collision.collider is Player:
+					if not was_touching or is_attacking:
+						collision.collider.on_hit(DAMAGE)
+						is_attacking = false
+						was_touching = true
+					
+						attack_timer.start()
+					break
+		State.Knockback:
+			# warning-ignore:return_value_discarded
+			move_and_slide(mv)
+			
+func _on_generate_path():
 	generate_path()
 	
-	var player = $\"/root/GameManager\".player
+	pathfind_timer.start(PATHFIND_INTERVAL)	
 	
-	# Optimizing for pathfinding: bugs further away will call 
-	# 	this function less by setting the timer higher
-	if player != null:
-		pathfind_timer.start(offset + 
-			PATHFIND_INTERVAL 
-				if global_position.distance_squared_to(player.global_position) 
-					< OFF_SCREEN * OFF_SCREEN else
-			OFF_SCREEN_PATHFIND_INTERVAL)
+	#if player != null:
+	#	pathfind_timer.start(offset + 
+	#		PATHFIND_INTERVAL 
+	#			if global_position.distance_squared_to(player.global_position) 
+	#				< OFF_SCREEN * OFF_SCREEN else
+	#		OFF_SCREEN_PATHFIND_INTERVAL)
 
 onready var previous_position := global_position
 
@@ -165,7 +171,8 @@ func _on_attack():
 	is_attacking = true
 	
 func on_death():
-	mutex.lock()
+	state = State.Dead
+	#mutex.lock()
 	var corpse := Node2D.new()
 	
 	
@@ -190,123 +197,123 @@ func on_death():
 "
 
 [sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 4 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 6 )
 region = Rect2( 48, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 6 )
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 3 )
 region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 3 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 3 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 6 )
-region = Rect2( 144, 0, 48, 48 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 6 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 7 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 7 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 7 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=32]
@@ -333,7 +340,7 @@ region = Rect2( 192, 0, 48, 48 )
 animations = [ {
 "frames": [ SubResource( 2 ) ],
 "loop": true,
-"name": "idle_sidefront",
+"name": "idle_back",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 3 ) ],
@@ -343,42 +350,42 @@ animations = [ {
 }, {
 "frames": [ SubResource( 4 ) ],
 "loop": true,
-"name": "idle_side",
+"name": "idle_sidefront",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 5 ) ],
-"loop": true,
-"name": "idle_back",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 6 ) ],
-"loop": true,
-"name": "idle_sideback",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
-"loop": true,
-"name": "run_side",
-"speed": 15.0
-}, {
-"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
-"loop": false,
-"name": "death",
-"speed": 15.0
-}, {
-"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
-"loop": true,
-"name": "run_back",
-"speed": 15.0
-}, {
-"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
 "loop": true,
 "name": "run_sideback",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
+"frames": [ SubResource( 10 ) ],
+"loop": true,
+"name": "idle_side",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 11 ) ],
+"loop": true,
+"name": "idle_sideback",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
 "loop": true,
 "name": "run_front",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
+"loop": false,
+"name": "death",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
+"loop": true,
+"name": "run_side",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
+"loop": true,
+"name": "run_back",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
@@ -387,14 +394,17 @@ animations = [ {
 "speed": 15.0
 } ]
 
-[sub_resource type="CircleShape2D" id=38]
-radius = 10.457
+[sub_resource type="RectangleShape2D" id=38]
 
 [node name="MeleeBug" type="KinematicBody2D" groups=[
 "melee_bug",
 ]]
 z_index = 3
 script = SubResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ -22.4461 ],
+"_edit_vertical_guides_": [ -52.3686 ]
+}
 enemy_class = "melee"
 DAMAGE = 1
 USE_AI = false
@@ -413,14 +423,13 @@ animation = "idle_side"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( -0.25093, 0.0662174 )
 shape = SubResource( 38 )
 
 [node name="HealingFX" parent="." instance=ExtResource( 8 )]
 
 [node name="DeathSFX" type="AudioStreamPlayer2D" parent="."]
-volume_db = -8.667
+volume_db = 0.299
 max_distance = 700.0
 attenuation = 0.554785
 bus = "SFX"

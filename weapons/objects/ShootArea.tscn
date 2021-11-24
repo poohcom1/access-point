@@ -71,7 +71,7 @@ func destroy():
 "
 
 [node name="ShootArea" type="Area2D"]
-z_index = 4
+z_index = 5
 script = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -96,6 +96,3 @@ visible = false
 material = SubResource( 4 )
 frames = SubResource( 9 )
 script = SubResource( 10 )
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-color = Color( 0.764706, 0.517647, 0.223529, 1 )

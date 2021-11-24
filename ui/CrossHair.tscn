@@ -56,10 +56,10 @@ func match_circle(circle: CircleShape2D):
 	bottom_right.position = Vector2(offset, offset)
 	
 func match_rect(rect: RectangleShape2D):
-	top_left.position = Vector2(-rect.extents.x - margins, -rect.y - margins)
-	top_right.position = Vector2(rect.extents.x + margins, -rect.y - margins)
-	bottom_left.position = Vector2(-rect.extents.x - margins, rect.y + margins)
-	bottom_right.position = Vector2(rect.extents.x + margins, rect.y + margins)
+	top_left.position = Vector2(-rect.extents.x - margins, -rect.extents.y - margins)
+	top_right.position = Vector2(rect.extents.x + margins, -rect.extents.y - margins)
+	bottom_left.position = Vector2(-rect.extents.x - margins, rect.extents.y + margins)
+	bottom_right.position = Vector2(rect.extents.x + margins, rect.extents.y + margins)
 
 func match_capsule(cap: CapsuleShape2D):
 	top_left.position = Vector2(-cap.radius - margins, -cap.height - margins)
@@ -73,7 +73,6 @@ func match_capsule(cap: CapsuleShape2D):
 light_mode = 1
 
 [node name="CrossHair" type="Node2D"]
-modulate = Color( 1, 1, 1, 0.54902 )
 script = SubResource( 1 )
 
 [node name="TopLeft" type="Sprite" parent="."]
