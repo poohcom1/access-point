@@ -2,6 +2,7 @@ extends Entity
 class_name Player
 
 # Exports
+export(String, "Shield", "Dash", "Charge") var MODULE: String = "Shield"
 export(float, 0.0, 1.0) var ACCEL_PERCENT := 0.5
 export var MAX_HP := 100
 
@@ -30,6 +31,9 @@ onready var gm = GameManager
 
 onready var body_anim = $Body
 onready var legs_anim = $Legs
+
+# Signals
+signal on_damage(damage)
 
 # Weapons and modules
 const MachineGun = preload("res://weapons/MachineGun.tscn")
@@ -64,7 +68,13 @@ func _init_weapons():
 	weapons[weapon_ind].on_switch()
 	
 	# Modules
-	module = Charge.instance()
+	print(MODULE)
+	
+	module = ({
+		"Shield": Shield,
+		"Dash": Dash,
+		"Charge": Charge
+	}[MODULE]).instance()
 	
 	add_child(module)
 	
@@ -144,5 +154,6 @@ func _physics_process(_delta):
 
 # States
 func on_hit(damage: float):
+	emit_signal("on_damage", damage)
 	hp -= damage * armor
 	

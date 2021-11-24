@@ -7,6 +7,7 @@ export var MAX_DISTANCE := 80
 
 const Charge = preload(\"res://weapons/objects/KnockbackCharge.tscn\")
 
+
 func _input(event):
 	if event.is_action_pressed(\"alternative_shoot\"):
 		var vector_to_mouse = get_global_mouse_position() - global_position

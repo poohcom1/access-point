@@ -480,6 +480,7 @@ z_index = 2
 collision_layer = 0
 script = ExtResource( 2 )
 BASE_SPEED = 150
+MODULE = "Charge"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 2 )
