@@ -3,6 +3,13 @@ extends Node
 #CONSTANTS
 const PATHFIND_LIMIT_PER_FRAME = 10
 
+## Collision
+const COL_TILE = 0
+const COL_PLAYER = 1
+const COL_ENEMY = 2
+const COL_PLAYER_BULLET = 3
+const COL_ENEMY_BULLET = 4
+
 # Singleton objects
 var player: Player
 var navigation: Navigation2D
@@ -36,9 +43,9 @@ func lazy_path_function(userdata):
 	print(userdata)
 	while (true):
 		OS.delay_msec(10)
-		evalPathfindLazy()
+		eval_pathfind_lazy()
 
-func evalPathfindLazy():
+func eval_pathfind_lazy():
 	lazy_mutex.lock()
 	var pl_len = len (pathfind_lazy_list)
 	lazy_mutex.unlock()

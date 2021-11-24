@@ -12,8 +12,6 @@ This shit doesn't work when there like more than 20 enemies so its useless
 func _ready():
 	yield(get_tree(), "idle_frame")
 	
-	navigation = $"/root/GameManager".navigation
-	
 	main_thread = Thread.new()
 	# warning-ignore:return_value_discarded
 	main_thread.start(self, "_pathfind_loop")

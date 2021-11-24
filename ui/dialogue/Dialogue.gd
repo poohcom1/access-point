@@ -35,9 +35,10 @@ func encodeDialogSimple(listOfStrings):
 	return encoded
 
 func _ready():
-	var encoded = encodeDialogSimple([text1, text2, text3])
-	encoded_text = encoded
-	print(encoded_text)
+	#var encoded = encodeDialogSimple([text1, text2, text3])
+	encoded_text = [] #encoded
+	#print(encoded_text)
+	pass
 
 func _process(delta):
 	delta_time_tracker += delta

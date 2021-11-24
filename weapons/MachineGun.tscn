@@ -109,8 +109,10 @@ func damage_enemy(enemy: Enemy, rampup=1):
 			))
 	
 	enemy.on_hit(damage)
-	enemy.on_hit_knockback( global_position.direction_to(enemy.global_position) 
-																* KNOCKBACK )
+	enemy.on_hit_knockback( 
+		global_position.direction_to(enemy.global_position) * KNOCKBACK,
+		0.02
+		 )
 		
 func get_nearest_enemy(bodies):
 	var nearest_enemy = null
@@ -194,7 +196,7 @@ collision_mask = 524288
 
 [node name="GunSE" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 1 )
-volume_db = -16.403
+volume_db = -5.047
 
 [node name="Ricochet1" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 2 )

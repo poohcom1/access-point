@@ -31,5 +31,7 @@ Methods:
  For consistency and ease of change, all universal collision bit setting are set as custom settings in project settings. (Project -> ProjectSettings -> Global)
  
  - TILEMAP_COL_BIT: 0
- - PLAYER_BULLET_COL_BIT: 1
- - ENEMY_BULLET_COL_BIT: 2
+ - ENEMY_COLLISION_BIT: 1
+ - PLAYER_BULLET_COL_BIT: 2
+ - ENEMY_BULLET_COL_BIT: 3
+

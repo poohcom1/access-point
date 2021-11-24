@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/ChargeDeploy.mp3-40bdf612d505cc31003769a6bc196641.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/ChargeDeploy.mp3"
+dest_files=[ "res://.import/ChargeDeploy.mp3-40bdf612d505cc31003769a6bc196641.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

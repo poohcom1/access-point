@@ -125,9 +125,6 @@ battery = 0.0
 "map",
 ] instance=ExtResource( 1 )]
 position = Vector2( 169.852, 67.0677 )
-ACCEL_PERCENT = 0.5
-MAX_HP = 100
-radar_range = 10
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 visible = false
@@ -136,6 +133,66 @@ zoom = Vector2( 0.5, 0.5 )
 
 [node name="MeleeBug11" parent="." instance=ExtResource( 3 )]
 position = Vector2( 809.368, 188.775 )
+BASE_SPEED = 150
+
+[node name="MeleeBug12" parent="." instance=ExtResource( 3 )]
+position = Vector2( 851.413, 192.979 )
+BASE_SPEED = 150
+
+[node name="MeleeBug13" parent="." instance=ExtResource( 3 )]
+position = Vector2( 808.527, 220.729 )
+BASE_SPEED = 150
+
+[node name="MeleeBug14" parent="." instance=ExtResource( 3 )]
+position = Vector2( 850.572, 224.934 )
+BASE_SPEED = 150
+
+[node name="MeleeBug15" parent="." instance=ExtResource( 3 )]
+position = Vector2( 799.277, 256.888 )
+BASE_SPEED = 150
+
+[node name="MeleeBug16" parent="." instance=ExtResource( 3 )]
+position = Vector2( 841.322, 261.092 )
+BASE_SPEED = 150
+
+[node name="MeleeBug17" parent="." instance=ExtResource( 3 )]
+position = Vector2( 798.436, 288.842 )
+BASE_SPEED = 150
+
+[node name="MeleeBug18" parent="." instance=ExtResource( 3 )]
+position = Vector2( 840.481, 293.046 )
+BASE_SPEED = 150
+
+[node name="MeleeBug19" parent="." instance=ExtResource( 3 )]
+position = Vector2( 719.392, 224.093 )
+BASE_SPEED = 150
+
+[node name="MeleeBug20" parent="." instance=ExtResource( 3 )]
+position = Vector2( 761.437, 228.297 )
+BASE_SPEED = 150
+
+[node name="MeleeBug21" parent="." instance=ExtResource( 3 )]
+position = Vector2( 718.551, 256.047 )
+BASE_SPEED = 150
+
+[node name="MeleeBug22" parent="." instance=ExtResource( 3 )]
+position = Vector2( 760.596, 260.251 )
+BASE_SPEED = 150
+
+[node name="MeleeBug23" parent="." instance=ExtResource( 3 )]
+position = Vector2( 641.189, 222.411 )
+BASE_SPEED = 150
+
+[node name="MeleeBug24" parent="." instance=ExtResource( 3 )]
+position = Vector2( 683.234, 226.615 )
+BASE_SPEED = 150
+
+[node name="MeleeBug25" parent="." instance=ExtResource( 3 )]
+position = Vector2( 640.348, 254.365 )
+BASE_SPEED = 150
+
+[node name="MeleeBug26" parent="." instance=ExtResource( 3 )]
+position = Vector2( 682.393, 258.569 )
 BASE_SPEED = 150
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]

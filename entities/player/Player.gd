@@ -8,14 +8,13 @@ export var MAX_HP := 100
 export var radar_range := 10
 
 # Fields
-var hp := MAX_HP
+var hp: float = MAX_HP
 var battery := 400
+var module_power := 100
 
 var take_input := true
 
-var weapons := []
-var weapon_ind := 0
-
+var armor := 1.0
 
 var state: int = State.Default # Using the State enum
 
@@ -24,29 +23,32 @@ var legs_dir: int = AnimUtil.Dir.Bottom
 var body_dir: int = AnimUtil.Dir.Bottom
 
 # Enums
-enum State { Default, Dead }
-
-
-# Convert -1, 0, 1 to 1, 0, 2
-const DirDict = { -1: 1, 0: 0, 1: 2 }
-
-
-
-const dir_range = PI/8 # plus-minus each side
+enum State { Default, Pause, Dead }
 
 # Nodes and scenes
-onready var gm := $"/root/GameManager"
+onready var gm = GameManager
 
 onready var body_anim = $Body
 onready var legs_anim = $Legs
 
+# Weapons and modules
 const MachineGun = preload("res://weapons/MachineGun.tscn")
 const Railgun = preload("res://weapons/MiniRailgun.tscn")
 
+var weapons := []
+var weapon_ind := 0
+
+const Shield = preload("res://weapons/ShieldModule.tscn")
+const Dash = preload("res://weapons/DashModule.tscn")
+const Charge = preload("res://weapons/ChargeModule.tscn")
+
+var module: Module
 
 func _ready():
 	gm.player = self
-	set_collision_layer_bit(ProjectSettings.get_setting("global/ENEMY_BULLET_COL_BIT"), true)
+	set_collision_layer_bit(GameManager.COL_TILE, false)
+	set_collision_layer_bit(GameManager.COL_ENEMY, true)
+	set_collision_layer_bit(GameManager.COL_ENEMY_BULLET, true)
 
 	_init_weapons()
 	# Cursor
@@ -60,6 +62,11 @@ func _init_weapons():
 	
 	weapons = [machine_gun, railgun]
 	weapons[weapon_ind].on_switch()
+	
+	# Modules
+	module = Charge.instance()
+	
+	add_child(module)
 	
 func switch_weapon(direction := 1):
 	if direction == 0: return
@@ -109,31 +116,33 @@ func _movement_animation(v_input, h_input):
 				
 
 func _physics_process(_delta):
-	var vert_mov := 0
-	var hor_mov := 0
-	
-	if take_input:
-		var up := Input.is_action_pressed("ui_up")
-		var down := Input.is_action_pressed("ui_down")
-		var left := Input.is_action_pressed("ui_left")
-		var right := Input.is_action_pressed("ui_right")
-	
-		vert_mov = int(down) - int(up)
-		hor_mov = int(right) - int(left)
-		
-		switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
-					- int(Input.is_action_just_pressed("previous_weapon")))
-					
-	_movement_animation(vert_mov, hor_mov)
-	
-	mv.x = lerp(mv.x, speed * hor_mov, ACCEL_PERCENT)
-	mv.y = lerp(mv.y, speed * vert_mov, ACCEL_PERCENT)
-	
+	match state:
+		State.Default:
+			var vert_mov := 0
+			var hor_mov := 0
+			
+			if take_input:
+				var up := Input.is_action_pressed("ui_up")
+				var down := Input.is_action_pressed("ui_down")
+				var left := Input.is_action_pressed("ui_left")
+				var right := Input.is_action_pressed("ui_right")
+			
+				vert_mov = int(down) - int(up)
+				hor_mov = int(right) - int(left)
+				
+			_movement_animation(vert_mov, hor_mov)
+			
+			mv.x = lerp(mv.x, speed * hor_mov, ACCEL_PERCENT)
+			mv.y = lerp(mv.y, speed * vert_mov, ACCEL_PERCENT)
+			
 	mv = move_and_slide(mv)
 	
+	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
+			- int(Input.is_action_just_pressed("previous_weapon")))
+							
 	weapons[weapon_ind].on_active()
 
 # States
-func on_hit(damage):
-	hp -= damage
+func on_hit(damage: float):
+	hp -= damage * armor
 	

@@ -52,8 +52,10 @@ func _ready():
 	
 	for group in groups:
 		add_to_group(group)
-	#set_collision_layer_bit(ProjectSettings.get("global/TILEMAP_COL_BIT"), true)
-	set_collision_layer_bit(ProjectSettings.get("global/PLAYER_BULLET_COL_BIT"), true)
+	set_collision_layer_bit(GameManager.COL_TILE, false)
+	set_collision_mask_bit(GameManager.COL_ENEMY, true)
+	set_collision_layer_bit(GameManager.COL_ENEMY, true)
+	set_collision_layer_bit(GameManager.COL_PLAYER_BULLET, true)
 
 	# warning-ignore:return_value_discarded
 	connect("on_death", self, "on_death")
@@ -78,7 +80,7 @@ func on_hit(dmg: int):
 		emit_signal("on_death")
 
 
-func on_hit_knockback(vector: Vector2):
+func on_hit_knockback(vector: Vector2, _time := 0.1):
 	position += vector
 		
 func on_death():
@@ -110,13 +112,7 @@ func navigate():
 func generate_path():
 	var target = navigation_target.get_ref()
 	
-	var _navigation = $"/root/GameManager".navigation
-	
-	if not target or _navigation == null: return
+	if not target or GameManager.navigation == null: return
 
-	#path = _navigation.get_simple_path(global_position, target.global_position, false)
-	#$"/root/GameManager".sayhi()
-	
-	$"/root/GameManager".add_pathfind_lazy_list([self, global_position, target.global_position])
-
+	GameManager.add_pathfind_lazy_list([self, global_position, target.global_position])
 
