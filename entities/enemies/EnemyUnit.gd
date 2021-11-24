@@ -81,6 +81,11 @@ func on_hit(dmg: int):
 func on_death():
 	pass
 	
+func _on_state_timeout():
+	match state:
+		State.Knockback:
+			state = State.Default
+
 	
 ## Pathfinding
 func set_target(target):
@@ -106,12 +111,9 @@ func navigate():
 	
 func generate_path():
 	var target = navigation_target.get_ref()
+	var _navigation = GameManager.navigation
+	if not target or _navigation == null: return
 	
-	if not target or GameManager.navigation == null: return
-
 	GameManager.add_pathfind_lazy_list([self, global_position, target.global_position])
 
-func _on_state_timeout():
-	match state:
-		State.Knockback:
-			state = State.Default
+

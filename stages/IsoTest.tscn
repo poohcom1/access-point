@@ -1,9 +1,8 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://assets/tiles/isotest.png" type="Texture" id=1]
 [ext_resource path="res://assets/tiles/isomud.png" type="Texture" id=2]
 [ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/tiles/sand_stone.png" type="Texture" id=5]
 [ext_resource path="res://assets/tiles/wall1.png" type="Texture" id=6]
 [ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=7]
@@ -200,257 +199,26 @@ tile_data = PoolIntArray( -2555905, 4, 0, -2621440, 4, 0, -2621439, 4, 0, -26214
 current = true
 zoom = Vector2( 0.5, 0.5 )
 
-[node name="MeleeBug" parent="." instance=ExtResource( 4 )]
-position = Vector2( 9.76439, 59.8462 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 60.4762, 55.1215 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug3" parent="." instance=ExtResource( 4 )]
-position = Vector2( 49.1369, 93.2342 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug4" parent="." instance=ExtResource( 4 )]
-position = Vector2( 122.212, 86.3046 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug5" parent="." instance=ExtResource( 4 )]
-position = Vector2( 85.6746, 113.708 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug6" parent="." instance=ExtResource( 4 )]
-position = Vector2( -3.46478, 119.692 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug7" parent="." instance=ExtResource( 4 )]
-position = Vector2( 449.262, -134.286 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug8" parent="." instance=ExtResource( 4 )]
-position = Vector2( 499.973, -139.011 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug9" parent="." instance=ExtResource( 4 )]
-position = Vector2( 488.634, -100.898 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug10" parent="." instance=ExtResource( 4 )]
-position = Vector2( 561.709, -107.828 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug11" parent="." instance=ExtResource( 4 )]
-position = Vector2( 525.172, -80.4244 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug12" parent="." instance=ExtResource( 4 )]
-position = Vector2( 436.032, -74.4404 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug14" parent="." instance=ExtResource( 4 )]
-position = Vector2( 268.422, 115.351 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
-[node name="MeleeBug13" parent="." instance=ExtResource( 4 )]
-position = Vector2( 212.082, 111.146 )
-BASE_SPEED = 200
-MAX_HEALTH = 20.0
-value = 0
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-PATHFIND_INTERVAL = 0.25
-OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-ATTACK_INTERVAL = 0.2
-ATTACK_HEALTH = 0.75
-RETREAT_HEALTH = 0.5
-RETREAT_SPEED = 150
-RETREAT_TIMER = 10.0
-
 [node name="HealerBug" parent="." instance=ExtResource( 11 )]
 position = Vector2( 337, 52 )
-MAX_HEALTH = 20.0
-enemy_class = ""
-revealed = false
-MULTITHREADED_PATHFIND = false
-PATHFIND_EPSILON = 16
-DEBUG_PATH = false
-HEAL_INTERVAL = 0.2
-HEAL_AMOUNT = 2
-REGEN_AMOUNT = 0.25
-PATHFIND_INTERVAL = 0.5
-OFF_SCREEN_PATHFIND_INTERVAL = 2.0
+
+[node name="HealerBug2" parent="." instance=ExtResource( 11 )]
+position = Vector2( 337, 52 )
+
+[node name="HealerBug3" parent="." instance=ExtResource( 11 )]
+position = Vector2( 387.942, 82.7153 )
+
+[node name="HealerBug4" parent="." instance=ExtResource( 11 )]
+position = Vector2( 298.793, 6.30164 )
+
+[node name="HealerBug5" parent="." instance=ExtResource( 11 )]
+position = Vector2( 310.031, 105.19 )
+
+[node name="HealerBug6" parent="." instance=ExtResource( 11 )]
+position = Vector2( 352.732, 108.936 )
+
+[node name="HealerBug7" parent="." instance=ExtResource( 11 )]
+position = Vector2( 286.807, 72.9763 )
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
 position = Vector2( 74.7266, -0.962677 )
