@@ -41,8 +41,9 @@ func _ready():
 	
 	## Pathfind timer
 	add_child(pathfind_timer)
-	pathfind_timer.start(PATHFIND_INTERVAL + rand_range(0, 2.0))
+	pathfind_timer.start(PATHFIND_INTERVAL)
 	pathfind_timer.autostart = false
+	
 	# warning-ignore:return_value_discarded
 	navigation_target = weakref($\"/root/GameManager\".player)
 	pathfind_timer.connect(\"timeout\", self, \"_on_generate_path\")

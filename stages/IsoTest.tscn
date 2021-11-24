@@ -3,13 +3,13 @@
 [ext_resource path="res://assets/tiles/isotest.png" type="Texture" id=1]
 [ext_resource path="res://assets/tiles/isomud.png" type="Texture" id=2]
 [ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/tiles/sand_stone.png" type="Texture" id=5]
 [ext_resource path="res://assets/tiles/wall1.png" type="Texture" id=6]
 [ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
 [ext_resource path="res://system/Debug.tscn" type="PackedScene" id=10]
-[ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=11]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Navigation2D
@@ -199,26 +199,56 @@ tile_data = PoolIntArray( -2555905, 4, 0, -2621440, 4, 0, -2621439, 4, 0, -26214
 current = true
 zoom = Vector2( 0.5, 0.5 )
 
-[node name="HealerBug" parent="." instance=ExtResource( 11 )]
-position = Vector2( 337, 52 )
+[node name="MeleeBug" parent="." instance=ExtResource( 4 )]
+position = Vector2( 133.349, 88.4001 )
 
-[node name="HealerBug2" parent="." instance=ExtResource( 11 )]
-position = Vector2( 337, 52 )
+[node name="MeleeBug2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 161.817, 80.9086 )
 
-[node name="HealerBug3" parent="." instance=ExtResource( 11 )]
-position = Vector2( 387.942, 82.7153 )
+[node name="MeleeBug3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 159.57, 112.373 )
 
-[node name="HealerBug4" parent="." instance=ExtResource( 11 )]
-position = Vector2( 298.793, 6.30164 )
+[node name="MeleeBug4" parent="." instance=ExtResource( 4 )]
+position = Vector2( 188.037, 104.881 )
 
-[node name="HealerBug5" parent="." instance=ExtResource( 11 )]
-position = Vector2( 310.031, 105.19 )
+[node name="MeleeBug5" parent="." instance=ExtResource( 4 )]
+position = Vector2( 172.305, 140.841 )
 
-[node name="HealerBug6" parent="." instance=ExtResource( 11 )]
-position = Vector2( 352.732, 108.936 )
+[node name="MeleeBug6" parent="." instance=ExtResource( 4 )]
+position = Vector2( 200.773, 133.349 )
 
-[node name="HealerBug7" parent="." instance=ExtResource( 11 )]
-position = Vector2( 286.807, 72.9763 )
+[node name="MeleeBug7" parent="." instance=ExtResource( 4 )]
+position = Vector2( 186.539, 183.543 )
+
+[node name="MeleeBug8" parent="." instance=ExtResource( 4 )]
+position = Vector2( 215.007, 176.051 )
+
+[node name="MeleeBug9" parent="." instance=ExtResource( 4 )]
+position = Vector2( 71.9636, 108.582 )
+
+[node name="MeleeBug10" parent="." instance=ExtResource( 4 )]
+position = Vector2( 100.432, 101.09 )
+
+[node name="MeleeBug11" parent="." instance=ExtResource( 4 )]
+position = Vector2( 98.1846, 132.555 )
+
+[node name="MeleeBug12" parent="." instance=ExtResource( 4 )]
+position = Vector2( 126.652, 125.063 )
+
+[node name="MeleeBug13" parent="." instance=ExtResource( 4 )]
+position = Vector2( 110.92, 161.023 )
+
+[node name="MeleeBug14" parent="." instance=ExtResource( 4 )]
+position = Vector2( 139.388, 153.531 )
+
+[node name="MeleeBug15" parent="." instance=ExtResource( 4 )]
+position = Vector2( 125.154, 203.725 )
+
+[node name="MeleeBug16" parent="." instance=ExtResource( 4 )]
+position = Vector2( 153.622, 196.233 )
+
+[node name="MeleeBug17" parent="." instance=ExtResource( 4 )]
+position = Vector2( 191.371, 53.9234 )
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
 position = Vector2( 74.7266, -0.962677 )
@@ -226,6 +256,7 @@ position = Vector2( 74.7266, -0.962677 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Dialogue" parent="CanvasLayer" instance=ExtResource( 9 )]
+position = Vector2( 1.05945, 0 )
 
 [node name="MiniMap" parent="CanvasLayer" instance=ExtResource( 8 )]
 anchor_top = 1.0

@@ -68,8 +68,7 @@ func _ready():
 		# warning-ignore:return_value_discarded	
 	pathfind_timer.connect(\"timeout\", self, \"_on_generate_path\")
 	
-	if not MULTITHREADED_PATHFIND:
-		pathfind_timer.start(rand_range(0, 1))
+	_on_generate_path()
 	
 	randomize()
 	
@@ -136,19 +135,17 @@ func _physics_process(_delta):
 			# warning-ignore:return_value_discarded
 			move_and_slide(mv)
 			
-func _on_generate_path(offset = 0.0):
+func _on_generate_path():
 	generate_path()
 	
-	var player = $\"/root/GameManager\".player
+	pathfind_timer.start(PATHFIND_INTERVAL)	
 	
-	# Optimizing for pathfinding: bugs further away will call 
-	# 	this function less by setting the timer higher
-	if player != null:
-		pathfind_timer.start(offset + 
-			PATHFIND_INTERVAL 
-				if global_position.distance_squared_to(player.global_position) 
-					< OFF_SCREEN * OFF_SCREEN else
-			OFF_SCREEN_PATHFIND_INTERVAL)
+	#if player != null:
+	#	pathfind_timer.start(offset + 
+	#		PATHFIND_INTERVAL 
+	#			if global_position.distance_squared_to(player.global_position) 
+	#				< OFF_SCREEN * OFF_SCREEN else
+	#		OFF_SCREEN_PATHFIND_INTERVAL)
 
 onready var previous_position := global_position
 
@@ -212,32 +209,32 @@ atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 48, 48 )
+region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 48, 48 )
+region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 3 )
-region = Rect2( 48, 0, 48, 48 )
+region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 3 )
-region = Rect2( 96, 0, 48, 48 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 3 )
-region = Rect2( 144, 0, 48, 48 )
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 3 )
-region = Rect2( 192, 0, 48, 48 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 1 )
@@ -356,20 +353,20 @@ animations = [ {
 "name": "idle_sidefront",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 5 ) ],
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
+"loop": true,
+"name": "run_sideback",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 10 ) ],
 "loop": true,
 "name": "idle_side",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 6 ) ],
+"frames": [ SubResource( 11 ) ],
 "loop": true,
 "name": "idle_sideback",
 "speed": 5.0
-}, {
-"frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
-"loop": true,
-"name": "run_sideback",
-"speed": 15.0
 }, {
 "frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
 "loop": true,
