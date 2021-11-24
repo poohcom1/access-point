@@ -22,6 +22,7 @@ func _exit_tree():
 	exit_thread = 1
 	lazy_semaphore.post();lazy_semaphore.post();lazy_semaphore.post()
 	exiter_mutex.unlock()
+	lazy_path_thread.wait_to_finish()
 	
 
 func _ready():
