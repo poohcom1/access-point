@@ -24,6 +24,7 @@ var dmg_num
 
 # Setup
 func _ready():
+	if Engine.editor_hint: return
 	
 	health = MAX_HEALTH
 	

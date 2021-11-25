@@ -1,9 +1,9 @@
 [gd_scene load_steps=28 format=2]
 
-[ext_resource path="res://assets/weapons/charge.png" type="Texture" id=1]
-[ext_resource path="res://assets/weapons/charge_explosion.png" type="Texture" id=2]
-[ext_resource path="res://assets/SE/ChargeBeep.mp3" type="AudioStream" id=3]
-[ext_resource path="res://assets/SE/ChargeDeploy.mp3" type="AudioStream" id=4]
+[ext_resource path="res://assets/weapons/charge_explosion.png" type="Texture" id=1]
+[ext_resource path="res://assets/SE/ChargeBeep.mp3" type="AudioStream" id=2]
+[ext_resource path="res://assets/SE/ChargeDeploy.mp3" type="AudioStream" id=3]
+[ext_resource path="res://assets/weapons/charge.png" type="Texture" id=4]
 [ext_resource path="res://assets/SE/ChargeExplode.mp3" type="AudioStream" id=5]
 
 [sub_resource type="GDScript" id=1]
@@ -75,71 +75,71 @@ func on_anim_finished():
 light_mode = 1
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 16, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 64, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 128, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 256, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 320, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 384, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 448, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 512, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 576, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 640, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 704, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 768, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 832, 0, 64, 64 )
 
 [sub_resource type="SpriteFrames" id=20]
@@ -169,8 +169,8 @@ radius = 40.0
 [node name="Charge" type="KinematicBody2D"]
 collision_layer = 0
 script = SubResource( 1 )
-DeploySound = ExtResource( 4 )
-BeepSound = ExtResource( 3 )
+DeploySound = ExtResource( 3 )
+BeepSound = ExtResource( 2 )
 ExplodeSound = ExtResource( 5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

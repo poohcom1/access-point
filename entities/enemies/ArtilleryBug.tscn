@@ -15,7 +15,7 @@
 script/source = "extends Enemy
 
 # Properties
-export var DAMAGE := 30
+export var DAMAGE := 20
 export var FRIENDLY_DAMAGE := 15
 export var PROJECTILE_SPEED = 10
 
@@ -466,104 +466,104 @@ atlas = ExtResource( 5 )
 region = Rect2( 320, 0, 64, 48 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 10 )
-region = Rect2( 0, 0, 64, 48 )
+atlas = ExtResource( 9 )
+region = Rect2( 128, 0, 64, 48 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 10 )
-region = Rect2( 64, 0, 64, 48 )
+atlas = ExtResource( 9 )
+region = Rect2( 256, 0, 64, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 10 )
-region = Rect2( 128, 0, 64, 48 )
+atlas = ExtResource( 9 )
+region = Rect2( 320, 0, 64, 48 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 10 )
-region = Rect2( 192, 0, 64, 48 )
+atlas = ExtResource( 9 )
+region = Rect2( 384, 0, 64, 48 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 10 )
-region = Rect2( 256, 0, 64, 48 )
+atlas = ExtResource( 9 )
+region = Rect2( 448, 0, 64, 48 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 10 )
-region = Rect2( 320, 0, 64, 48 )
+atlas = ExtResource( 9 )
+region = Rect2( 512, 0, 64, 48 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 10 )
-region = Rect2( 384, 0, 64, 48 )
+atlas = ExtResource( 9 )
+region = Rect2( 576, 0, 64, 48 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 10 )
-region = Rect2( 448, 0, 64, 48 )
+atlas = ExtResource( 9 )
+region = Rect2( 640, 0, 64, 48 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 10 )
-region = Rect2( 512, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 10 )
-region = Rect2( 576, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 10 )
-region = Rect2( 640, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 9 )
-region = Rect2( 128, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 9 )
-region = Rect2( 256, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 9 )
-region = Rect2( 320, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 9 )
-region = Rect2( 384, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 9 )
-region = Rect2( 448, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 9 )
-region = Rect2( 512, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 9 )
-region = Rect2( 576, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=38]
-atlas = ExtResource( 9 )
-region = Rect2( 640, 0, 64, 48 )
-
-[sub_resource type="AtlasTexture" id=39]
 atlas = ExtResource( 9 )
 region = Rect2( 704, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=40]
+[sub_resource type="AtlasTexture" id=29]
 atlas = ExtResource( 9 )
 region = Rect2( 768, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=41]
+[sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 9 )
 region = Rect2( 832, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=42]
+[sub_resource type="AtlasTexture" id=31]
 atlas = ExtResource( 9 )
 region = Rect2( 896, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=43]
+[sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 9 )
 region = Rect2( 960, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=44]
+[sub_resource type="AtlasTexture" id=33]
 atlas = ExtResource( 9 )
 region = Rect2( 1024, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=34]
+atlas = ExtResource( 10 )
+region = Rect2( 0, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 10 )
+region = Rect2( 64, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 10 )
+region = Rect2( 128, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=37]
+atlas = ExtResource( 10 )
+region = Rect2( 192, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=38]
+atlas = ExtResource( 10 )
+region = Rect2( 256, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=39]
+atlas = ExtResource( 10 )
+region = Rect2( 320, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=40]
+atlas = ExtResource( 10 )
+region = Rect2( 384, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=41]
+atlas = ExtResource( 10 )
+region = Rect2( 448, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=42]
+atlas = ExtResource( 10 )
+region = Rect2( 512, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=43]
+atlas = ExtResource( 10 )
+region = Rect2( 576, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=44]
+atlas = ExtResource( 10 )
+region = Rect2( 640, 0, 64, 48 )
 
 [sub_resource type="SpriteFrames" id=45]
 animations = [ {
@@ -572,21 +572,21 @@ animations = [ {
 "name": "default",
 "speed": 4.0
 }, {
-"frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
-"loop": false,
-"name": "death",
-"speed": 8.0
-}, {
-"frames": [ SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ) ],
+"frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ) ],
 "loop": false,
 "name": "shoot",
 "speed": 12.0
+}, {
+"frames": [ SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ) ],
+"loop": false,
+"name": "death",
+"speed": 8.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=50]
+[sub_resource type="CanvasItemMaterial" id=46]
 light_mode = 1
 
-[sub_resource type="Animation" id=51]
+[sub_resource type="Animation" id=47]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
@@ -613,7 +613,7 @@ tracks/1/keys = {
 "values": [ 0.0, 0.5, 0.0 ]
 }
 
-[sub_resource type="Animation" id=52]
+[sub_resource type="Animation" id=48]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
@@ -647,7 +647,6 @@ script = SubResource( 1 )
 MAX_HEALTH = 300.0
 value = 2
 enemy_class = "Artillery"
-DAMAGE = 20
 FRIENDLY_DAMAGE = 10
 SHOOT_INTERVAL = 1.5
 RANGE = 250
@@ -713,19 +712,18 @@ energy = 0.0
 [node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
 z_index = 1
 frames = SubResource( 45 )
-frame = 2
 playing = true
 offset = Vector2( 0, -2 )
 
 [node name="Light" type="Sprite" parent="Body/Head"]
 modulate = Color( 0, 0, 0, 1 )
-material = SubResource( 50 )
+material = SubResource( 46 )
 texture = ExtResource( 7 )
 offset = Vector2( 0, -2 )
 
 [node name="ChargeAnim" type="AnimationPlayer" parent="Body/Head"]
-anims/charge = SubResource( 51 )
-anims/charge_final = SubResource( 52 )
+anims/charge = SubResource( 47 )
+anims/charge_final = SubResource( 48 )
 anims/death = SubResource( 49 )
 
 [node name="Death" type="AudioStreamPlayer2D" parent="."]

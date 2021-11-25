@@ -1,9 +1,10 @@
 extends Enemy
 class_name EnemyUnit
 
+
 # States
-enum State { Default, Knockback, Stunned, Dead }
-var state = State.Default
+enum State { Passive, Default, Knockback, Stunned, Dead }
+var state = State.Passive
 
 # Properties
 export var MULTITHREADED_PATHFIND := false
@@ -12,11 +13,20 @@ export var DEBUG_PATH := false
 var debug_path: Line2D
 
 
+export var AGGRO_RANGE = 10000
+export var SHOW_RANGE := true setget _debug_range
+
+
 # Navigation
+export var PATHFIND_INTERVAL := 0.25
+export var OFF_SCREEN_PATHFIND_INTERVAL := 2.0
+
 var path := []
 
 var navigation: Navigation2D
 var navigation_target := WeakRef.new()
+
+var pathfind_timer := Timer.new()
 
 var direction = AnimUtil.Dir.Right
 
@@ -25,6 +35,8 @@ onready var state_timer := Timer.new()
 
 # Setup
 func _ready():
+	if Engine.editor_hint: return
+	
 	state_timer.one_shot = true
 	add_child(state_timer)
 	
@@ -51,8 +63,29 @@ func _ready():
 	set_collision_layer_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_PLAYER_BULLET, true)
 
+func _init_pathfind():
+	yield(get_tree(), "idle_frame")
+	
+	# Set navigation target
+	set_target($"/root/GameManager".player)
+
+	# warning-ignore:return_value_discarded	
+	pathfind_timer.connect("timeout", self, "_on_generate_path")
+	add_child(pathfind_timer)
+	pathfind_timer.start(PATHFIND_INTERVAL)
+	
+	
+	generate_path()
 
 # States
+func check_aggro():
+	if (GameManager.player
+		and global_position.distance_squared_to(GameManager.player.global_position)
+		< AGGRO_RANGE * AGGRO_RANGE):
+		_init_pathfind()
+		state = State.Default
+	
+
 func on_hit_knockback(_dir, time = 0.1):
 	if state != State.Dead:
 		state = State.Knockback
@@ -93,8 +126,6 @@ func navigate():
 	if global_position.distance_to(path[1]) < PATHFIND_EPSILON:
 		path.pop_front()
 		
-	#mutex.unlock()
-		
 	return mv
 
 	
@@ -108,3 +139,7 @@ func generate_path():
 	else:
 		path = GameManager.navigation.get_simple_path(global_position, target.global_position, false)
 
+# Tool
+
+func _debug_range(_val):
+	print("hello")

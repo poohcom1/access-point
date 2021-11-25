@@ -19,8 +19,6 @@ var energy := 100
 
 var take_input := true
 
-var armor := 1.0
-
 var state: int = State.Default # Using the State enum
 
 # Directions
@@ -157,10 +155,9 @@ func _physics_process(_delta):
 
 # States
 func on_hit(damage: float):
-	if module.has_method("on_damage"):
-		damage = module.on_damage(damage)
+	damage = module.on_damage(damage)
 	emit_signal("on_damage", damage)
-	hp -= damage * armor
+	hp -= damage
 
 func _set_weapon(val):
 	weapon_ind = weapons.find(val)

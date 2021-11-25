@@ -201,98 +201,15 @@ MODULE = "Dash"
 current = true
 zoom = Vector2( 0.5, 0.5 )
 
-[node name="MeleeBug16" parent="." instance=ExtResource( 4 )]
-position = Vector2( 153.622, 196.233 )
-
-[node name="MeleeBug17" parent="." instance=ExtResource( 4 )]
-position = Vector2( 176, 176 )
-
-[node name="MeleeBug18" parent="." instance=ExtResource( 4 )]
-position = Vector2( 184, 212.233 )
-
-[node name="MeleeBug19" parent="." instance=ExtResource( 4 )]
-position = Vector2( 206.378, 192 )
-
-[node name="MeleeBug20" parent="." instance=ExtResource( 4 )]
-position = Vector2( 104, 236.233 )
-
-[node name="MeleeBug21" parent="." instance=ExtResource( 4 )]
-position = Vector2( 126.378, 216 )
-
-[node name="MeleeBug22" parent="." instance=ExtResource( 4 )]
-position = Vector2( 134.378, 252.233 )
-
-[node name="MeleeBug23" parent="." instance=ExtResource( 4 )]
-position = Vector2( 156.756, 232 )
-
-[node name="MeleeBug24" parent="." instance=ExtResource( 4 )]
-position = Vector2( 201.622, 228.233 )
-
-[node name="MeleeBug25" parent="." instance=ExtResource( 4 )]
-position = Vector2( 224, 208 )
-
-[node name="MeleeBug26" parent="." instance=ExtResource( 4 )]
-position = Vector2( 232, 244.233 )
-
-[node name="MeleeBug27" parent="." instance=ExtResource( 4 )]
-position = Vector2( 254.378, 224 )
-
-[node name="MeleeBug28" parent="." instance=ExtResource( 4 )]
-position = Vector2( 152, 268.233 )
-
-[node name="MeleeBug29" parent="." instance=ExtResource( 4 )]
-position = Vector2( 174.378, 248 )
-
-[node name="MeleeBug30" parent="." instance=ExtResource( 4 )]
-position = Vector2( 182.378, 284.233 )
-
-[node name="MeleeBug31" parent="." instance=ExtResource( 4 )]
-position = Vector2( 204.756, 264 )
-
 [node name="MeleeBug32" parent="." instance=ExtResource( 4 )]
 position = Vector2( 243.244, 116.233 )
+ATTACK_HEALTH = Object(Timer,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"process_mode":1,"wait_time":1.0,"one_shot":false,"autostart":false,"script":null)
+
 
 [node name="MeleeBug33" parent="." instance=ExtResource( 4 )]
 position = Vector2( 265.622, 96 )
+ATTACK_HEALTH = Object(Timer,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"process_mode":1,"wait_time":1.0,"one_shot":false,"autostart":false,"script":null)
 
-[node name="MeleeBug34" parent="." instance=ExtResource( 4 )]
-position = Vector2( 273.622, 132.233 )
-
-[node name="MeleeBug35" parent="." instance=ExtResource( 4 )]
-position = Vector2( 296, 112 )
-
-[node name="MeleeBug36" parent="." instance=ExtResource( 4 )]
-position = Vector2( 216, 136 )
-
-[node name="MeleeBug37" parent="." instance=ExtResource( 4 )]
-position = Vector2( 224, 172.233 )
-
-[node name="MeleeBug38" parent="." instance=ExtResource( 4 )]
-position = Vector2( 246.378, 152 )
-
-[node name="MeleeBug39" parent="." instance=ExtResource( 4 )]
-position = Vector2( 291.244, 148.233 )
-
-[node name="MeleeBug40" parent="." instance=ExtResource( 4 )]
-position = Vector2( 313.622, 128 )
-
-[node name="MeleeBug41" parent="." instance=ExtResource( 4 )]
-position = Vector2( 321.622, 164.233 )
-
-[node name="MeleeBug42" parent="." instance=ExtResource( 4 )]
-position = Vector2( 344, 144 )
-
-[node name="MeleeBug43" parent="." instance=ExtResource( 4 )]
-position = Vector2( 241.622, 188.233 )
-
-[node name="MeleeBug44" parent="." instance=ExtResource( 4 )]
-position = Vector2( 264, 168 )
-
-[node name="MeleeBug45" parent="." instance=ExtResource( 4 )]
-position = Vector2( 272, 204.233 )
-
-[node name="MeleeBug46" parent="." instance=ExtResource( 4 )]
-position = Vector2( 294.378, 184 )
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
 position = Vector2( 73.7827, -1.90656 )

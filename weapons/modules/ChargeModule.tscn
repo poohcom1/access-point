@@ -5,7 +5,7 @@ script/source = "extends Module
 
 export var MAX_DISTANCE := 80
 
-const Charge = preload(\"res://weapons/objects/KnockbackCharge.tscn\")
+const Charge = preload(\"res://weapons/modules/objects/KnockbackCharge.tscn\")
 
 
 func _input(event):

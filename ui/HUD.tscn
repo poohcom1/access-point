@@ -54,14 +54,13 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	player.connect(\"on_damage\", self, \"update_health\")
 	
+	hp_bar.max_value = player.MAX_HP
 	energy_bar.max_value = player.MAX_ENERGY
 	module.text = \"Module: \" + player.module.module_name	
-	
 	
 
 func _process(_delta):
 	if not player: return
-
 	
 	ammo.text = \"%s: %d [%s]\" % [\"Ammo\", player.weapon.ammo, player.weapon.weapon_name]
 	ammo_bar.value = float(player.weapon.ammo)/player.weapon.MAX_AMMO * 100
@@ -69,9 +68,10 @@ func _process(_delta):
 	update_energy()
 	
 func update_health(_dmg):
-	hp.text = \"%s: %d\" % [\"Health\", int(player.hp/player.MAX_HP  * 100)]
+	yield(get_tree(), \"idle_frame\")
+	hp.text = \"%s: %d\" % [\"Health\", player.hp]
 	
-	hp_bar.value = int(player.hp/player.MAX_HP  * 100)
+	hp_bar.value = player.hp
 	if hp_bar.value < 25:
 		hp_style.bg_color = BAR_LOW_COLOR
 	else:
