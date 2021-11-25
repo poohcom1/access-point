@@ -203,13 +203,9 @@ zoom = Vector2( 0.5, 0.5 )
 
 [node name="MeleeBug32" parent="." instance=ExtResource( 4 )]
 position = Vector2( 243.244, 116.233 )
-ATTACK_HEALTH = Object(Timer,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"process_mode":1,"wait_time":1.0,"one_shot":false,"autostart":false,"script":null)
-
 
 [node name="MeleeBug33" parent="." instance=ExtResource( 4 )]
 position = Vector2( 265.622, 96 )
-ATTACK_HEALTH = Object(Timer,"_import_path":NodePath(""),"pause_mode":0,"process_priority":0,"process_mode":1,"wait_time":1.0,"one_shot":false,"autostart":false,"script":null)
-
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
 position = Vector2( 73.7827, -1.90656 )
