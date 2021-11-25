@@ -6,7 +6,7 @@ enum State { Default, Knockback, Stunned, Dead }
 var state = State.Default
 
 # Properties
-export var MULTITHREADED_PATHFIND := false
+export var MULTITHREADED_PATHFIND := true
 export var PATHFIND_EPSILON := 16
 export var DEBUG_PATH := false
 var debug_path: Line2D
@@ -100,9 +100,11 @@ func navigate():
 	
 func generate_path():
 	var target = navigation_target.get_ref()
-	var _navigation = GameManager.navigation
-	if not target or _navigation == null: return
 	
-	GameManager.add_pathfind_lazy_list([self, global_position, target.global_position])
-
+	if not target or GameManager.navigation == null: return
+	
+	if MULTITHREADED_PATHFIND:
+		GameManager.add_pathfind_lazy_list([self, global_position, target.global_position])
+	else:
+		path = GameManager.navigation.get_simple_path(global_position, target.global_position, false)
 

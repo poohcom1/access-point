@@ -3,17 +3,15 @@
 [ext_resource path="res://assets/ui/HUDFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/ui/HUDFontSmall.tres" type="DynamicFont" id=2]
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=1]
 script/source = "extends VBoxContainer
 
 export var TEXT_COLOR := Color.green
 
-export var HEALTH_COLOR := Color.green
-export var HEALTH_LOW_COLOR := Color.red
+export var BAR_COLOR := Color.green
+export var BAR_LOW_COLOR := Color.red
+export var BAR_LOW_COLOR_2 := Color.yellow
 
-
-export var AMMO_COLOR := Color.white
-export var MODULE_COLOR := Color.yellow
 
 onready var hp := $Health
 onready var ammo := $Ammo
@@ -34,25 +32,32 @@ func _ready():
 	ammo.add_color_override(\"default_color\", TEXT_COLOR)
 	module.add_color_override(\"default_color\", TEXT_COLOR)
 	
+	
 	hp_style = StyleBoxFlat.new()
-	hp_style.bg_color = HEALTH_COLOR
+	hp_style.bg_color = BAR_COLOR
 	
 	hp_bar.add_stylebox_override(\"fg\", hp_style)
 	
 	ammo_style = StyleBoxFlat.new()
-	ammo_style.bg_color = HEALTH_COLOR
+	ammo_style.bg_color = BAR_COLOR
 	
 	module_style = StyleBoxFlat.new()
-	module_style.bg_color = HEALTH_COLOR
+	module_style.bg_color = BAR_COLOR
 	
 	ammo_bar.add_stylebox_override(\"fg\", ammo_style)
 	energy_bar.add_stylebox_override(\"fg\", module_style)
+	
 	
 	yield(get_tree(), \"idle_frame\")
 	
 	player = GameManager.player
 	# warning-ignore:return_value_discarded
 	player.connect(\"on_damage\", self, \"update_health\")
+	
+	energy_bar.max_value = player.MAX_ENERGY
+	module.text = \"Module: \" + player.module.module_name	
+	
+	
 
 func _process(_delta):
 	if not player: return
@@ -61,23 +66,28 @@ func _process(_delta):
 	ammo.text = \"%s: %d [%s]\" % [\"Ammo\", player.weapon.ammo, player.weapon.weapon_name]
 	ammo_bar.value = float(player.weapon.ammo)/player.weapon.MAX_AMMO * 100
 	
-	module.text = player.module.module_name
-	energy_bar.value = float(player.energy)/player.MAX_ENERGY  * 100
+	update_energy()
 	
 func update_health(_dmg):
 	hp.text = \"%s: %d\" % [\"Health\", int(player.hp/player.MAX_HP  * 100)]
 	
 	hp_bar.value = int(player.hp/player.MAX_HP  * 100)
 	if hp_bar.value < 25:
-		hp_style.bg_color = HEALTH_LOW_COLOR
+		hp_style.bg_color = BAR_LOW_COLOR
 	else:
-		hp_style.bg_color = HEALTH_COLOR
+		hp_style.bg_color = BAR_COLOR
 	
 func update_ammo():
 	pass
 	
-func update_enery():
-	pass
+func update_energy():
+	energy_bar.value = player.energy
+	
+	if energy_bar.value < player.module.ENERGY_COST:
+		module_style.bg_color = BAR_LOW_COLOR_2
+	else:
+		module_style.bg_color = BAR_COLOR
+	
 
 static func generate_bar(name, percent):
 	percent = max(0, percent)
@@ -93,7 +103,7 @@ static func generate_bar(name, percent):
 	
 "
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 1, 1, 1, 1 )
 
 [node name="HUD" type="Control"]
@@ -131,13 +141,14 @@ margin_right = 360.0
 margin_bottom = 98.0
 size_flags_vertical = 2
 custom_constants/separation = 0
-script = SubResource( 3 )
+script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 TEXT_COLOR = Color( 0.509804, 0.960784, 0.509804, 1 )
-HEALTH_COLOR = Color( 0.509804, 0.960784, 0.509804, 1 )
-HEALTH_LOW_COLOR = Color( 1, 0.376471, 0.376471, 1 )
+BAR_COLOR = Color( 0.509804, 0.960784, 0.509804, 1 )
+BAR_LOW_COLOR = Color( 1, 0.305882, 0.305882, 1 )
+BAR_LOW_COLOR_2 = Color( 1, 0.619608, 0.176471, 1 )
 
 [node name="Health" type="RichTextLabel" parent="MainMargins/Columns/Gauges/PlayerBars"]
 margin_right = 352.0
@@ -155,7 +166,7 @@ margin_top = 30.0
 margin_right = 352.0
 margin_bottom = 35.0
 rect_min_size = Vector2( 0, 5 )
-custom_styles/fg = SubResource( 4 )
+custom_styles/fg = SubResource( 2 )
 value = 100.0
 percent_visible = false
 
@@ -179,7 +190,7 @@ margin_top = 62.0
 margin_right = 352.0
 margin_bottom = 65.0
 rect_min_size = Vector2( 0, 3 )
-custom_styles/fg = SubResource( 4 )
+custom_styles/fg = SubResource( 2 )
 value = 100.0
 percent_visible = false
 
@@ -202,6 +213,6 @@ margin_top = 92.0
 margin_right = 352.0
 margin_bottom = 95.0
 rect_min_size = Vector2( 0, 3 )
-custom_styles/fg = SubResource( 4 )
+custom_styles/fg = SubResource( 2 )
 value = 100.0
 percent_visible = false

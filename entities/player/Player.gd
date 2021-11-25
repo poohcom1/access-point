@@ -8,7 +8,7 @@ export(float, 0.0, 1.0) var ACCEL_PERCENT := 0.5
 export var MAX_HP := 100
 export var MAX_ENERGY := 1000
 
-export var MODULE_CHARGE_SPEED := 1
+export var MODULE_CHARGE_SPEED := 2
 
 export var radar_range := 10
 

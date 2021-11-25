@@ -42,7 +42,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Module",
 "language": "GDScript",
-"path": "res://weapons/Modules.gd"
+"path": "res://weapons/modules/Modules.gd"
 }, {
 "base": "AudioStreamPlayer",
 "class": "OneShotAudio",

@@ -3,6 +3,7 @@ class_name Module
 
 onready var player: KinematicBody2D = get_parent()
 
+export var ENERGY_COST := 1
 export var module_name: String
 
 var active = false

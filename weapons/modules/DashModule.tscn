@@ -7,7 +7,6 @@ enum Mode { ArrowKey, Mouse }
 
 export(Mode) var mode = Mode.ArrowKey
 
-export var ENERGY_COST = 200
 export var DASH_SPEED := 800
 export var DASH_TIME := 0.10
 
@@ -103,6 +102,7 @@ func _delete_trail(trail: Node2D):
 
 [node name="DashModule" type="Node2D"]
 script = SubResource( 1 )
+ENERGY_COST = 200
 module_name = "Dash"
 
 [node name="DashTimer" type="Timer" parent="."]
