@@ -6,7 +6,7 @@ enum State { Default, Knockback, Stunned, Dead }
 var state = State.Default
 
 # Properties
-export var MULTITHREADED_PATHFIND := true
+export var MULTITHREADED_PATHFIND := false
 export var PATHFIND_EPSILON := 16
 export var DEBUG_PATH := false
 var debug_path: Line2D

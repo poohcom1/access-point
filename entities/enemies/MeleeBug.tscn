@@ -405,8 +405,8 @@ __meta__ = {
 "_edit_horizontal_guides_": [ -22.4461 ],
 "_edit_vertical_guides_": [ -52.3686 ]
 }
+BASE_SPEED = 250
 enemy_class = "melee"
-MULTITHREADED_PATHFIND = false
 DAMAGE = 1
 USE_AI = false
 DEATH_SFX = [ ExtResource( 10 ), ExtResource( 11 ) ]
