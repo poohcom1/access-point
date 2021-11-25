@@ -712,7 +712,7 @@ energy = 0.0
 [node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
 z_index = 1
 frames = SubResource( 45 )
-frame = 1
+frame = 4
 playing = true
 offset = Vector2( 0, -2 )
 

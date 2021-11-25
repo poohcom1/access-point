@@ -1,17 +1,21 @@
 extends Entity
-class_name Player
+class_name Player, "res://assets/player/walk_front_body.png"
 
 # Exports
 export(String, "Shield", "Dash", "Charge") var MODULE: String = "Shield"
 export(float, 0.0, 1.0) var ACCEL_PERCENT := 0.5
+
 export var MAX_HP := 100
+export var MAX_ENERGY := 1000
+
+export var MODULE_CHARGE_SPEED := 1
 
 export var radar_range := 10
 
 # Fields
-var hp: float = MAX_HP
+var hp: float
 var battery := 400
-var module_power := 100
+var energy := 100
 
 var take_input := true
 
@@ -37,6 +41,7 @@ signal on_damage(damage)
 const MachineGun = preload("res://weapons/MachineGun.tscn")
 const Railgun = preload("res://weapons/MiniRailgun.tscn")
 
+var weapon: Weapon setget _set_weapon, _get_weapon
 var weapons := []
 var weapon_ind := 0
 
@@ -47,6 +52,8 @@ const Charge = preload("res://weapons/ChargeModule.tscn")
 var module: Module
 
 func _ready():
+	hp = MAX_HP
+	energy = MAX_ENERGY
 	GameManager.player = self
 	set_collision_layer_bit(GameManager.COL_TILE, false)
 	set_collision_layer_bit(GameManager.COL_ENEMY, true)
@@ -54,7 +61,7 @@ func _ready():
 
 	_init_weapons()
 	# Cursor
-	Input.set_custom_mouse_cursor(load("res://assets/crosshair.png"), 0, Vector2(24, 24))
+	Input.set_custom_mouse_cursor(load("res://assets/ui/crosshair.png"), 0, Vector2(24, 24))
 
 func _init_weapons():
 	var machine_gun = MachineGun.instance()
@@ -156,4 +163,9 @@ func on_hit(damage: float):
 		damage = module.on_damage(damage)
 	emit_signal("on_damage", damage)
 	hp -= damage * armor
+
+func _set_weapon(val):
+	weapon_ind = weapons.find(val)
 	
+func _get_weapon():
+	return weapons[weapon_ind]

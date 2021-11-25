@@ -6,6 +6,8 @@ script/source = "extends Module
 enum Mode { ArrowKey, Mouse }
 
 export(Mode) var mode = Mode.ArrowKey
+
+export var ENERGY_COST = 200
 export var DASH_SPEED := 800
 export var DASH_TIME := 0.10
 
@@ -15,7 +17,6 @@ export var TRAIL_COLOR_END := Color(0, 1, 1, 0.2)
 export var TRAIL_FRAME_INTERVAL := 2
 export var TRAIL_TIME := 0.2
 
-var active = false
 var trails = []
 
 var trail_time = 0
@@ -25,7 +26,11 @@ func _ready():
 	$DashTimer.connect(\"timeout\", self, \"_dash_finished\")
 
 func _input(event):
+	if player.energy <= ENERGY_COST: return
+	
 	if event.is_action_pressed(\"alternative_shoot\") and $DashTimer.time_left == 0.0:
+		player.energy -= ENERGY_COST
+		
 		var dir = Vector2.ZERO
 		
 		match mode:
@@ -98,6 +103,7 @@ func _delete_trail(trail: Node2D):
 
 [node name="DashModule" type="Node2D"]
 script = SubResource( 1 )
+module_name = "Dash"
 
 [node name="DashTimer" type="Timer" parent="."]
 one_shot = true

@@ -84,7 +84,7 @@ _global_script_class_icons={
 "Module": "",
 "OneShotAudio": "",
 "OneShotAudio2D": "",
-"Player": "",
+"Player": "res://assets/player/walk_front_body.png",
 "ProjectileUtil": "",
 "Structure": "",
 "Weapon": ""
@@ -99,6 +99,10 @@ config/icon="res://icon.png"
 [autoload]
 
 GameManager="*res://system/GameManager.gd"
+
+[debug]
+
+gdscript/warnings/return_value_discarded=false
 
 [display]
 

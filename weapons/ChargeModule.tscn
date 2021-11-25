@@ -3,13 +3,17 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Module
 
+export var ENERGY_COST := 250
 export var MAX_DISTANCE := 80
 
 const Charge = preload(\"res://weapons/objects/KnockbackCharge.tscn\")
 
 
 func _input(event):
+	if player.energy <= ENERGY_COST: return
+		
 	if event.is_action_pressed(\"alternative_shoot\"):
+		player.energy -= ENERGY_COST
 		var vector_to_mouse = get_global_mouse_position() - global_position
 		var dir = vector_to_mouse.normalized()
 		
@@ -28,6 +32,7 @@ func _input(event):
 
 [node name="ChargeModule" type="Node2D"]
 script = SubResource( 1 )
+module_name = "Charge"
 
 [node name="Trail" type="CPUParticles2D" parent="."]
 emitting = false
