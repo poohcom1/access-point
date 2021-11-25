@@ -61,6 +61,7 @@ func _tilemap_init():
 	var min_neg_x = 0
 	var min_neg_y = 0
 	for cell in tilemap.get_used_cells():
+		cell = cell.rotated(PI/4)
 		min_neg_x = min(cell.x, min_neg_x)
 		min_neg_y = min(cell.y, min_neg_y)
 		
