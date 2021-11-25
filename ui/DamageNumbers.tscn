@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+
+export var HEIGHT = 5.0
+export var TIME = 0.5
+
+var time = 0
+
+var num
+
+func _ready():
+	$Label.text = str(num)
+	
+	$Tween.interpolate_property(self, \"global_position\", global_position, 
+		global_position-Vector2(0, HEIGHT), TIME)
+	$Tween.start()
+	# warning-ignore:return_value_discarded
+	$Tween.connect(\"tween_all_completed\", self, \"queue_free\")
+"
+
+[sub_resource type="CanvasItemMaterial" id=2]
+light_mode = 1
+
+[node name="DamageNumbers" type="Node2D"]
+z_index = 50
+script = SubResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+material = SubResource( 2 )
+margin_right = 28.0
+margin_bottom = 31.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]

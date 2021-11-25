@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/SE/ChargeDeploy.mp3" type="AudioStream" id=4]
 [ext_resource path="res://assets/SE/ChargeExplode.mp3" type="AudioStream" id=5]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
 
 export var DeploySound: AudioStream
@@ -47,9 +47,10 @@ func on_beep():
 	$Timer.start(charge_time)
 
 func on_explode():
-	var explode = OneShotAudio2D.new(ExplodeSound)
+	var explode = OneShotAudio2D.new(ExplodeSound, -3)
 	explode.global_position = global_position
 	get_tree().root.add_child(explode)
+	
 	z_index = 10
 	$AnimatedSprite.play(\"explode\")
 	has_exploded = true
@@ -70,7 +71,7 @@ func on_anim_finished():
 		queue_free()
 "
 
-[sub_resource type="CanvasItemMaterial" id=23]
+[sub_resource type="CanvasItemMaterial" id=2]
 light_mode = 1
 
 [sub_resource type="AtlasTexture" id=3]
@@ -167,13 +168,13 @@ radius = 40.0
 
 [node name="Charge" type="KinematicBody2D"]
 collision_layer = 0
-script = SubResource( 2 )
+script = SubResource( 1 )
 DeploySound = ExtResource( 4 )
 BeepSound = ExtResource( 3 )
 ExplodeSound = ExtResource( 5 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-material = SubResource( 23 )
+material = SubResource( 2 )
 frames = SubResource( 20 )
 playing = true
 

@@ -57,6 +57,7 @@ func lazy_path_function(userdata):
 			break
 		
 		eval_pathfind_lazy()
+		
 
 
 func eval_pathfind_lazy():

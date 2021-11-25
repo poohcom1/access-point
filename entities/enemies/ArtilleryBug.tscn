@@ -236,7 +236,7 @@ func on_death():
 	$Body/FlashTimer.stop()
 	shoot_timer.stop()
 	
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred(\"disabled\", true)
 	$ValueBar.queue_free()
 	
 	state = State.Death
@@ -575,7 +575,7 @@ animations = [ {
 "frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
 "loop": false,
 "name": "death",
-"speed": 12.0
+"speed": 8.0
 }, {
 "frames": [ SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ) ],
 "loop": false,
@@ -583,10 +583,10 @@ animations = [ {
 "speed": 12.0
 } ]
 
-[sub_resource type="CanvasItemMaterial" id=49]
+[sub_resource type="CanvasItemMaterial" id=50]
 light_mode = 1
 
-[sub_resource type="Animation" id=46]
+[sub_resource type="Animation" id=51]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
@@ -613,7 +613,7 @@ tracks/1/keys = {
 "values": [ 0.0, 0.5, 0.0 ]
 }
 
-[sub_resource type="Animation" id=47]
+[sub_resource type="Animation" id=52]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
@@ -640,7 +640,7 @@ tracks/1/keys = {
 "values": [ 0.0, 0.5, 0.0 ]
 }
 
-[sub_resource type="Animation" id=48]
+[sub_resource type="Animation" id=49]
 
 [node name="ArtilleryBug" type="KinematicBody2D"]
 script = SubResource( 1 )
@@ -712,20 +712,20 @@ energy = 0.0
 [node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
 z_index = 1
 frames = SubResource( 45 )
-frame = 3
+frame = 2
 playing = true
 offset = Vector2( 0, -2 )
 
 [node name="Light" type="Sprite" parent="Body/Head"]
 modulate = Color( 0, 0, 0, 1 )
-material = SubResource( 49 )
+material = SubResource( 50 )
 texture = ExtResource( 7 )
 offset = Vector2( 0, -2 )
 
 [node name="ChargeAnim" type="AnimationPlayer" parent="Body/Head"]
-anims/charge = SubResource( 46 )
-anims/charge_final = SubResource( 47 )
-anims/death = SubResource( 48 )
+anims/charge = SubResource( 51 )
+anims/charge_final = SubResource( 52 )
+anims/death = SubResource( 49 )
 
 [node name="Death" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 8 )

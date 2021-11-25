@@ -14,11 +14,13 @@ const OFF_SCREEN = 250
 # Fields
 var health := 0.0 # Set in ready from max_health
 
-
 # Signals
 signal on_damage(dmg)
 signal on_death()
 
+# Scenes
+const DmgNum = preload("res://ui/DamageNumbers.tscn")
+var dmg_num
 
 # Setup
 func _ready():
@@ -37,6 +39,14 @@ func _ready():
 
 
 func on_hit(dmg: int):
+	if is_instance_valid(dmg_num):
+		dmg_num.queue_free()
+	
+	dmg_num = DmgNum.instance()
+	dmg_num.num = dmg
+	dmg_num.global_position = global_position
+	get_tree().root.add_child(dmg_num)
+	
 	if health <= 0:
 		return
 	

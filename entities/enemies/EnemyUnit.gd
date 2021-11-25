@@ -65,17 +65,6 @@ func _physics_process(_delta):
 		debug_path.global_position = Vector2.ZERO
 		debug_path.points = path
 
-func on_hit(dmg: int):
-	if health <= 0:
-		return
-	
-	health -= dmg
-	health = min(health, MAX_HEALTH)
-	
-	emit_signal("on_damage", dmg)
-	
-	if health <= 0:
-		emit_signal("on_death")
 
 		
 func on_death():

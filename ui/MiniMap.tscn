@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://assets/black.png" type="Texture" id=1]
+[ext_resource path="res://assets/ui/minimap-background.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -17,6 +17,7 @@ export var RADAR_PATH_COLOR: Color
 export var ENEMY_COLOR: Color
 export var TILECOLOR: Color
 
+
 # Fields
 const EPSILON = 0.00001
 
@@ -24,6 +25,8 @@ var radars := []
 
 var radar_count = 0 # For caching purposes
 var in_range_tiles = [] # For caching
+
+var tiles_cache = []
 
 func _ready():
 	# Wait for all nodes to be ready
@@ -42,14 +45,14 @@ func _ready():
 func _tilemap_init():
 	# Get size of tilemap
 	var bounds: Rect2 = tilemap.get_used_rect()
+	var sides: float = cos(PI/4) * bounds.size.x + cos(PI/4) * bounds.size.y
+	bounds.size = Vector2.ONE * sides
 	
 	# Get scale and offset
 	if bounds.size.x > bounds.size.y:
-		print(\"Horizontal Map\")		
 		scale = get_size().x / (bounds.size.x)
 		offset = -get_size()/2 + Vector2(0, (get_size().y-bounds.size.y*scale) / 2)
 	else:
-		print(\"Vertical Map\")
 		scale = get_size().y / (bounds.size.y)
 		offset = -get_size()/2 + Vector2((get_size().x-bounds.size.x*scale) / 2, 0)
 		
@@ -85,14 +88,14 @@ func in_range(pos: Vector2) -> bool:
 				< obj.radar_range*obj.radar_range ) and obj.battery > EPSILON:
 			return true
 		
-	return false
+	return true
 	
 func _draw_objects():
 	var objects = get_tree().get_nodes_in_group(\"map\")
 	
 	for object in objects:
 		var tilemap_pos = world_to_tilemap(object.global_position)
-		var pos = tilemap_to_minimap(tilemap_pos)
+		var pos = tilemap_to_minimap(tilemap_pos.rotated(PI/4))
 		if object is Player:
 			draw_rect(Rect2(pos, Vector2.ONE * scale * 2), PLAYER_COLOR)
 		elif in_range(tilemap_pos) or object.revealed:
@@ -123,7 +126,8 @@ func _draw_tilemap():
 			var cells = tilemap.get_used_cells_by_id(tile)
 			for cell in cells:
 				if in_range(cell):
-					draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale), color)
+					cell = cell.rotated(PI/4)
+					draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale * 1.414), color)
 
 func _process(_delta):
 	update()
