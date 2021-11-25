@@ -44,6 +44,7 @@ func on_shoot():
 		
 	bullet.pierce_count = PIERCE_COUNT + 1 # Add one so 0 is the baseline for no pierce
 	bullet.damage = DAMAGE
+	#bullet.min_damage = MIN_DAMAGE
 	bullet.knockback = KNOCKBACK
 	
 	shoot_timer.start()
@@ -69,5 +70,8 @@ func on_switch_out():
 [node name="Railgun" type="Node2D"]
 script = SubResource( 1 )
 CROSS_HAIR = ExtResource( 1 )
-SHOOT_INTERVAL = 0.16
+SHOOT_INTERVAL = 0.75
+PIERCE_COUNT = 1000
+DAMAGE = 20
+MIN_DAMAGE = 20
 KNOCKBACK = 10

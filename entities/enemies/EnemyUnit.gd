@@ -1,3 +1,4 @@
+tool
 extends Enemy
 class_name EnemyUnit
 
@@ -12,9 +13,8 @@ export var PATHFIND_EPSILON := 16
 export var DEBUG_PATH := false
 var debug_path: Line2D
 
-
-export var AGGRO_RANGE = 10000
-export var SHOW_RANGE := true setget _debug_range
+export var SHOW_RANGE := false setget _debug_range
+export var AGGRO_RANGE := 300 setget _set_aggro_range
 
 
 # Navigation
@@ -26,23 +26,36 @@ var path := []
 var navigation: Navigation2D
 var navigation_target := WeakRef.new()
 
-var pathfind_timer := Timer.new()
-
 var direction = AnimUtil.Dir.Right
 
 # Nodes
+onready var pathfind_timer := Timer.new()
 onready var state_timer := Timer.new()
+
+var _aggro_area := Area2D.new()
+var _aggro_shape := CollisionShape2D.new()
+var _aggro_circle := CircleShape2D.new()
 
 # Setup
 func _ready():
+	_aggro_circle.radius = AGGRO_RANGE
+	_aggro_shape.shape = _aggro_circle
+	_aggro_area.visible = SHOW_RANGE
+	_aggro_area.add_child(_aggro_shape)
+	add_child(_aggro_area)
+	_aggro_area.connect("body_entered", self, "to_aggro")
+	
 	if Engine.editor_hint: return
 	
 	state_timer.one_shot = true
 	add_child(state_timer)
 	
 	# State timer
-		# warning-ignore:return_value_discarded
 	state_timer.connect("timeout", self, "_on_state_timeout")
+	
+	pathfind_timer.connect("timeout", self, "_on_generate_path")
+	pathfind_timer.autostart = false
+	add_child(pathfind_timer)
 	
 	## DEBUG
 	if DEBUG_PATH:
@@ -53,7 +66,6 @@ func _ready():
 		add_child(debug_path)
 	
 	## DEBUG_END
-	
 	health = MAX_HEALTH
 	
 	for group in groups:
@@ -69,21 +81,12 @@ func _init_pathfind():
 	# Set navigation target
 	set_target($"/root/GameManager".player)
 
-	# warning-ignore:return_value_discarded	
-	pathfind_timer.connect("timeout", self, "_on_generate_path")
-	add_child(pathfind_timer)
-	pathfind_timer.start(PATHFIND_INTERVAL)
-	
-	
-	generate_path()
-
 # States
-func check_aggro():
-	if (GameManager.player
-		and global_position.distance_squared_to(GameManager.player.global_position)
-		< AGGRO_RANGE * AGGRO_RANGE):
+func to_aggro(body: PhysicsBody2D):
+	if state == State.Passive and body is Player:
 		_init_pathfind()
 		state = State.Default
+		
 	
 
 func on_hit_knockback(_dir, time = 0.1):
@@ -140,6 +143,11 @@ func generate_path():
 		path = GameManager.navigation.get_simple_path(global_position, target.global_position, false)
 
 # Tool
+func _set_aggro_range(aggro_range):
+	AGGRO_RANGE = aggro_range
+	_aggro_circle.radius = aggro_range
 
-func _debug_range(_val):
-	print("hello")
+func _debug_range(show):
+	SHOW_RANGE = show
+	_aggro_shape.visible = show
+	_aggro_shape.modulate = Color(1, 0, 0, 0.25)
