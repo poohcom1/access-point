@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/ui/crosshairs/crosshair003.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Weapon
@@ -66,5 +68,6 @@ func on_switch_out():
 
 [node name="Railgun" type="Node2D"]
 script = SubResource( 1 )
+CROSS_HAIR = ExtResource( 1 )
 SHOOT_INTERVAL = 0.16
 KNOCKBACK = 10

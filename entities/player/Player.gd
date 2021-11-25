@@ -45,9 +45,9 @@ var weapon: Weapon setget _set_weapon, _get_weapon
 var weapons := []
 var weapon_ind := 0
 
-const Shield = preload("res://weapons/ShieldModule.tscn")
-const Dash = preload("res://weapons/DashModule.tscn")
-const Charge = preload("res://weapons/ChargeModule.tscn")
+const Shield = preload("res://weapons/modules/ShieldModule.tscn")
+const Dash = preload("res://weapons/modules/DashModule.tscn")
+const Charge = preload("res://weapons/modules/ChargeModule.tscn")
 
 var module: Module
 
@@ -60,8 +60,6 @@ func _ready():
 	set_collision_layer_bit(GameManager.COL_ENEMY_BULLET, true)
 
 	_init_weapons()
-	# Cursor
-	Input.set_custom_mouse_cursor(load("res://assets/ui/crosshair.png"), 0, Vector2(24, 24))
 
 func _init_weapons():
 	var machine_gun = MachineGun.instance()
@@ -70,7 +68,7 @@ func _init_weapons():
 	add_child(railgun)
 	
 	weapons = [machine_gun, railgun]
-	weapons[weapon_ind].on_switch()
+	weapons[weapon_ind].switch()
 	
 	# Modules
 	print(MODULE)
@@ -87,7 +85,7 @@ func switch_weapon(direction := 1):
 	if direction == 0: return
 	
 	weapons[weapon_ind].active = false
-	weapons[weapon_ind].on_switch_out()
+	weapons[weapon_ind].switch_out()
 	weapon_ind += direction
 	
 	if weapon_ind >= len(weapons):
@@ -96,7 +94,7 @@ func switch_weapon(direction := 1):
 		weapon_ind = len(weapons) - 1
 		
 	weapons[weapon_ind].active = true
-	weapons[weapon_ind].on_switch()
+	weapons[weapon_ind].switch()
 	
 var move_angle = 0	
 		
@@ -155,7 +153,7 @@ func _physics_process(_delta):
 	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
 			- int(Input.is_action_just_pressed("previous_weapon")))
 							
-	weapons[weapon_ind].on_active()
+	weapons[weapon_ind].use()
 
 # States
 func on_hit(damage: float):

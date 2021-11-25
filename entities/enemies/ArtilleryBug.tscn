@@ -649,6 +649,7 @@ value = 2
 enemy_class = "Artillery"
 DAMAGE = 20
 FRIENDLY_DAMAGE = 10
+SHOOT_INTERVAL = 1.5
 RANGE = 250
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -712,7 +713,7 @@ energy = 0.0
 [node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
 z_index = 1
 frames = SubResource( 45 )
-frame = 4
+frame = 2
 playing = true
 offset = Vector2( 0, -2 )
 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/SE/MachineGun2.mp3" type="AudioStream" id=1]
 [ext_resource path="res://assets/SE/Ricochet1.mp3" type="AudioStream" id=2]
 [ext_resource path="res://assets/SE/Ricochet2.mp3" type="AudioStream" id=3]
+[ext_resource path="res://assets/ui/crosshairs/crosshair010.png" type="Texture" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Weapon
@@ -186,6 +187,7 @@ func on_switch_out():
 [node name="MachineGun" type="Node2D"]
 script = SubResource( 1 )
 MAX_AMMO = 1000
+CROSS_HAIR = ExtResource( 4 )
 KNOCKBACK = 0
 RAMP_UP_DAMAGE = 6
 RAMP_UP_FRAMES = 40
