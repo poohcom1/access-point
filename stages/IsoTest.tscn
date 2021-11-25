@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://assets/tiles/isotest.png" type="Texture" id=1]
 [ext_resource path="res://assets/tiles/isomud.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=10]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=12]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Navigation2D
@@ -203,9 +204,15 @@ zoom = Vector2( 0.5, 0.5 )
 
 [node name="MeleeBug32" parent="." instance=ExtResource( 4 )]
 position = Vector2( 243.244, 116.233 )
+SHOW_RANGE = false
 
 [node name="MeleeBug33" parent="." instance=ExtResource( 4 )]
 position = Vector2( 265.622, 96 )
+SHOW_RANGE = false
+
+[node name="HealerBug" parent="." instance=ExtResource( 12 )]
+position = Vector2( 144, 264 )
+SHOW_RANGE = false
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
 position = Vector2( 73.7827, -1.90656 )

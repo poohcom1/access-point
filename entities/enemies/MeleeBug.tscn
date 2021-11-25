@@ -51,13 +51,7 @@ func _ready():
 	# Attack timer
 	add_child(attack_timer)
 	attack_timer.start(ATTACK_INTERVAL)
-		# warning-ignore:return_value_discarded
 	attack_timer.connect(\"timeout\", self, \"_on_attack\")
-		
-	# Wait for idle frame to get player
-	yield(get_tree(), \"idle_frame\")
-
-	randomize()
 	
 	# Set death sound fx on random
 	$DeathSFX.stream = DEATH_SFX[randi() % DEATH_SFX.size()]
@@ -66,18 +60,6 @@ func _physics_process(_delta):
 	if Engine.editor_hint: return
 	match state:
 		State.Default:
-			if not MULTITHREADED_PATHFIND:
-				var player = $\"/root/GameManager\".player
-
-				if player:
-					var current_player_in_range = (global_position.distance_squared_to(
-						player.global_position) < OFF_SCREEN * OFF_SCREEN)
-						
-					if not player_in_range and current_player_in_range:
-						generate_path()
-						pathfind_timer.start(PATHFIND_INTERVAL)
-					player_in_range = current_player_in_range
-			
 			# AI
 			if USE_AI:
 				var healers = get_tree().get_nodes_in_group(\"healer\")
@@ -122,18 +104,7 @@ func _physics_process(_delta):
 		State.Knockback:
 			# warning-ignore:return_value_discarded
 			move_and_slide(mv)
-			
-func _on_generate_path():
-	generate_path()
-	
-	pathfind_timer.start(PATHFIND_INTERVAL)	
-	
-	#if player != null:
-	#	pathfind_timer.start(offset + 
-	#		PATHFIND_INTERVAL 
-	#			if global_position.distance_squared_to(player.global_position) 
-	#				< OFF_SCREEN * OFF_SCREEN else
-	#		OFF_SCREEN_PATHFIND_INTERVAL)
+		
 
 onready var previous_position := global_position
 
@@ -186,28 +157,24 @@ func on_death():
 "
 
 [sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 4 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 1 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 4 )
@@ -250,23 +217,23 @@ atlas = ExtResource( 5 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 3 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
@@ -290,70 +257,70 @@ atlas = ExtResource( 6 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 1 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 1 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 1 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=37]
 animations = [ {
 "frames": [ SubResource( 2 ) ],
 "loop": true,
-"name": "idle_sideback",
+"name": "idle_side",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 3 ) ],
 "loop": true,
-"name": "idle_sidefront",
+"name": "idle_back",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 4 ) ],
 "loop": true,
-"name": "idle_side",
+"name": "idle_front",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 5 ) ],
 "loop": true,
-"name": "idle_back",
+"name": "idle_sideback",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 6 ) ],
 "loop": true,
-"name": "idle_front",
+"name": "idle_sidefront",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
@@ -367,8 +334,8 @@ animations = [ {
 "speed": 15.0
 }, {
 "frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
-"loop": false,
-"name": "death",
+"loop": true,
+"name": "run_sideback",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
@@ -377,13 +344,13 @@ animations = [ {
 "speed": 15.0
 }, {
 "frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
-"loop": true,
-"name": "run_side",
+"loop": false,
+"name": "death",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
 "loop": true,
-"name": "run_sideback",
+"name": "run_front",
 "speed": 15.0
 } ]
 
@@ -402,6 +369,7 @@ __meta__ = {
 }
 BASE_SPEED = 250
 enemy_class = "melee"
+MULTITHREADED_PATHFIND = true
 SHOW_RANGE = true
 OFF_SCREEN_PATHFIND_INTERVAL = 4.0
 DAMAGE = 1
@@ -417,7 +385,8 @@ y_scale = 2.0
 position = Vector2( 0.0271316, 0.0735059 )
 scale = Vector2( 1.04116, 1.04116 )
 frames = SubResource( 37 )
-animation = "idle_side"
+animation = "run_front"
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

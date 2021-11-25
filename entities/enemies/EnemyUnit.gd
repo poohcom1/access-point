@@ -53,7 +53,7 @@ func _ready():
 	# State timer
 	state_timer.connect("timeout", self, "_on_state_timeout")
 	
-	pathfind_timer.connect("timeout", self, "_on_generate_path")
+	pathfind_timer.connect("timeout", self, "generate_path")
 	pathfind_timer.autostart = false
 	add_child(pathfind_timer)
 	
@@ -77,6 +77,8 @@ func _ready():
 
 func _init_pathfind():
 	yield(get_tree(), "idle_frame")
+	
+	pathfind_timer.start(PATHFIND_INTERVAL)
 	
 	# Set navigation target
 	set_target($"/root/GameManager".player)
@@ -142,6 +144,8 @@ func generate_path():
 	else:
 		path = GameManager.navigation.get_simple_path(global_position, target.global_position, false)
 
+	pathfind_timer.start(PATHFIND_INTERVAL)
+	
 # Tool
 func _set_aggro_range(aggro_range):
 	AGGRO_RANGE = aggro_range
