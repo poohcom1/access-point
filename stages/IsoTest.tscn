@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://assets/tiles/isotest.png" type="Texture" id=1]
 [ext_resource path="res://assets/tiles/isomud.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
 [ext_resource path="res://system/Debug.tscn" type="PackedScene" id=10]
+[ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=11]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Navigation2D
@@ -208,20 +209,11 @@ position = Vector2( 161.817, 80.9086 )
 [node name="MeleeBug3" parent="." instance=ExtResource( 4 )]
 position = Vector2( 159.57, 112.373 )
 
-[node name="MeleeBug4" parent="." instance=ExtResource( 4 )]
-position = Vector2( 188.037, 104.881 )
-
 [node name="MeleeBug5" parent="." instance=ExtResource( 4 )]
 position = Vector2( 172.305, 140.841 )
 
-[node name="MeleeBug6" parent="." instance=ExtResource( 4 )]
-position = Vector2( 200.773, 133.349 )
-
 [node name="MeleeBug7" parent="." instance=ExtResource( 4 )]
 position = Vector2( 186.539, 183.543 )
-
-[node name="MeleeBug8" parent="." instance=ExtResource( 4 )]
-position = Vector2( 215.007, 176.051 )
 
 [node name="MeleeBug9" parent="." instance=ExtResource( 4 )]
 position = Vector2( 71.9636, 108.582 )
@@ -247,140 +239,14 @@ position = Vector2( 125.154, 203.725 )
 [node name="MeleeBug16" parent="." instance=ExtResource( 4 )]
 position = Vector2( 153.622, 196.233 )
 
-[node name="MeleeBug18" parent="." instance=ExtResource( 4 )]
-position = Vector2( 285.313, 32.7114 )
-
-[node name="MeleeBug19" parent="." instance=ExtResource( 4 )]
-position = Vector2( 311.534, 56.6843 )
-
-[node name="MeleeBug20" parent="." instance=ExtResource( 4 )]
-position = Vector2( 340.001, 49.1923 )
-
-[node name="MeleeBug21" parent="." instance=ExtResource( 4 )]
-position = Vector2( 324.269, 85.1523 )
-
-[node name="MeleeBug22" parent="." instance=ExtResource( 4 )]
-position = Vector2( 352.737, 77.6603 )
-
-[node name="MeleeBug23" parent="." instance=ExtResource( 4 )]
-position = Vector2( 338.503, 127.854 )
-
-[node name="MeleeBug24" parent="." instance=ExtResource( 4 )]
-position = Vector2( 366.971, 120.362 )
-
-[node name="MeleeBug25" parent="." instance=ExtResource( 4 )]
-position = Vector2( 223.928, 52.8933 )
-
-[node name="MeleeBug26" parent="." instance=ExtResource( 4 )]
-position = Vector2( 252.396, 45.4013 )
-
-[node name="MeleeBug27" parent="." instance=ExtResource( 4 )]
-position = Vector2( 250.149, 76.8663 )
-
-[node name="MeleeBug28" parent="." instance=ExtResource( 4 )]
-position = Vector2( 278.616, 69.3743 )
-
-[node name="MeleeBug29" parent="." instance=ExtResource( 4 )]
-position = Vector2( 262.884, 105.334 )
-
-[node name="MeleeBug30" parent="." instance=ExtResource( 4 )]
-position = Vector2( 291.352, 97.8423 )
-
-[node name="MeleeBug31" parent="." instance=ExtResource( 4 )]
-position = Vector2( 277.118, 148.036 )
-
-[node name="MeleeBug32" parent="." instance=ExtResource( 4 )]
-position = Vector2( 305.586, 140.544 )
-
-[node name="MeleeBug33" parent="." instance=ExtResource( 4 )]
-position = Vector2( 463.706, -123.972 )
-
-[node name="MeleeBug34" parent="." instance=ExtResource( 4 )]
-position = Vector2( 489.927, -99.9993 )
-
-[node name="MeleeBug35" parent="." instance=ExtResource( 4 )]
-position = Vector2( 518.394, -107.491 )
-
-[node name="MeleeBug36" parent="." instance=ExtResource( 4 )]
-position = Vector2( 502.662, -71.5313 )
-
-[node name="MeleeBug37" parent="." instance=ExtResource( 4 )]
-position = Vector2( 531.13, -79.0233 )
-
-[node name="MeleeBug38" parent="." instance=ExtResource( 4 )]
-position = Vector2( 516.896, -28.8293 )
-
-[node name="MeleeBug39" parent="." instance=ExtResource( 4 )]
-position = Vector2( 545.364, -36.3213 )
-
-[node name="MeleeBug40" parent="." instance=ExtResource( 4 )]
-position = Vector2( 430.789, -111.282 )
-
-[node name="MeleeBug41" parent="." instance=ExtResource( 4 )]
-position = Vector2( 428.542, -79.8173 )
-
-[node name="MeleeBug42" parent="." instance=ExtResource( 4 )]
-position = Vector2( 457.009, -87.3093 )
-
-[node name="MeleeBug43" parent="." instance=ExtResource( 4 )]
-position = Vector2( 441.277, -51.3493 )
-
-[node name="MeleeBug44" parent="." instance=ExtResource( 4 )]
-position = Vector2( 469.745, -58.8413 )
-
-[node name="MeleeBug45" parent="." instance=ExtResource( 4 )]
-position = Vector2( 455.511, -8.64728 )
-
-[node name="MeleeBug46" parent="." instance=ExtResource( 4 )]
-position = Vector2( 483.979, -16.1393 )
-
-[node name="MeleeBug47" parent="." instance=ExtResource( 4 )]
-position = Vector2( 541.104, -258.003 )
-
-[node name="MeleeBug48" parent="." instance=ExtResource( 4 )]
-position = Vector2( 567.325, -234.03 )
-
-[node name="MeleeBug49" parent="." instance=ExtResource( 4 )]
-position = Vector2( 595.792, -241.522 )
-
-[node name="MeleeBug50" parent="." instance=ExtResource( 4 )]
-position = Vector2( 580.06, -205.562 )
-
-[node name="MeleeBug51" parent="." instance=ExtResource( 4 )]
-position = Vector2( 608.528, -213.054 )
-
-[node name="MeleeBug52" parent="." instance=ExtResource( 4 )]
-position = Vector2( 594.294, -162.86 )
-
-[node name="MeleeBug53" parent="." instance=ExtResource( 4 )]
-position = Vector2( 622.762, -170.352 )
-
-[node name="MeleeBug54" parent="." instance=ExtResource( 4 )]
-position = Vector2( 508.187, -245.313 )
-
-[node name="MeleeBug55" parent="." instance=ExtResource( 4 )]
-position = Vector2( 505.94, -213.848 )
-
-[node name="MeleeBug56" parent="." instance=ExtResource( 4 )]
-position = Vector2( 534.407, -221.34 )
-
-[node name="MeleeBug57" parent="." instance=ExtResource( 4 )]
-position = Vector2( 518.675, -185.38 )
-
-[node name="MeleeBug58" parent="." instance=ExtResource( 4 )]
-position = Vector2( 547.143, -192.872 )
-
-[node name="MeleeBug59" parent="." instance=ExtResource( 4 )]
-position = Vector2( 532.909, -142.678 )
-
-[node name="MeleeBug60" parent="." instance=ExtResource( 4 )]
-position = Vector2( 561.377, -150.17 )
-
-[node name="MeleeBug17" parent="." instance=ExtResource( 4 )]
-position = Vector2( 191.371, 53.9234 )
-
 [node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
-position = Vector2( 74.7266, -0.962677 )
+position = Vector2( 73.7827, -1.90656 )
+
+[node name="ArtilleryBug2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 365.107, 57.7836 )
+
+[node name="ArtilleryBug3" parent="." instance=ExtResource( 7 )]
+position = Vector2( 402.524, -92.7782 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -395,3 +261,9 @@ margin_right = 156.0
 margin_bottom = 0.0
 
 [node name="Debug" parent="." instance=ExtResource( 10 )]
+
+[node name="Radar" parent="." instance=ExtResource( 11 )]
+position = Vector2( 0, 192 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0.317647, 0.329412, 0.529412, 1 )

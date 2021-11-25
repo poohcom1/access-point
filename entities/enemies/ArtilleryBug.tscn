@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=60 format=2]
 
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/enemies/artillery/segment.png" type="Texture" id=3]
@@ -11,7 +11,7 @@
 [ext_resource path="res://assets/enemies/artillery/head_death.png" type="Texture" id=10]
 [ext_resource path="res://assets/enemies/artillery/segment_death.png" type="Texture" id=11]
 
-[sub_resource type="GDScript" id=49]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Enemy
 
 # Properties
@@ -36,9 +36,9 @@ const Projectile = preload(\"res://entities/enemies/objects/ArtilleryProjectile.
 onready var shoot_timer := Timer.new()
 onready var aim_beam = $AimBeam
 
-# States
-enum States { Start, Idle, Attack, Charge, Death }
-var state = States.Start
+# State
+enum State { Start, Idle, Attack, Charge, Death }
+var state = State.Start
 
 func _ready():
 	_range = RANGE * RANGE
@@ -131,29 +131,40 @@ func _init_animation():
 	_unburrow_anim()
 
 func _anim_process():
-	for i in range(segments.size()):
-		var segment: Node2D = segments[i]
+	match state:
+		State.Death:
+			for i in range(segments.size()):
+				var segment: Node2D = segments[i]
+				
+				segment.position.y = -altitude * i
+				segment.position.x = sin(i) * side_swing
 		
-		segment.position.y = -altitude * i
-		segment.position.x = lerp(0, side_swing, (float(i)/segments.size()) * (float(i)/segments.size()) )
+		_:
+			for i in range(segments.size()):
+				var segment: Node2D = segments[i]
+				
+				segment.position.y = -altitude * i
+				segment.position.x = lerp(0, side_swing, (float(i)/segments.size()) * (float(i)/segments.size()) )
 		
 func _anim_finished():
 	match state:
-		States.Start:
-			state = States.Idle
+		State.Start:
+			state = State.Idle
 			_idle_anim()
-		States.Idle:
+		State.Idle:
 			_idle_anim()
-		States.Charge:
+		State.Charge:
 			_idle_anim()
-		States.Attack:
-			state = States.Idle
+		State.Attack:
+			state = State.Idle
 			_idle_anim()
 			shoot_timer.start(SHOOT_INTERVAL)
 			$Body/Head/Sprite.play(\"default\")
+		State.Death:
+			_create_corpse()
 			
 
-# States
+# State
 func _unburrow_anim():
 	anim_tween.interpolate_property(self, \"altitude\", 0, MAX_ATLTITUDE, 1, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	anim_tween.start()
@@ -211,7 +222,7 @@ func charge_anim():
 			flash_count = 0
 			
 			$Body/Head/Sprite.play(\"shoot\")
-			state = States.Attack
+			state = State.Attack
 			
 			on_shoot()	
 			shoot_anim()
@@ -228,15 +239,18 @@ func on_death():
 	$CollisionShape2D.disabled = true
 	$ValueBar.queue_free()
 	
-	state = States.Death
+	state = State.Death
 	$Death.play()
 	
 	anim_tween.remove_all()
 	anim_tween.interpolate_property(self, \"altitude\", altitude, MAX_ATLTITUDE + 1, 0.3,
 		Tween.TRANS_QUAD, Tween.EASE_OUT)
-	anim_tween.interpolate_property(self, \"altitude\", MAX_ATLTITUDE, 0, 1.5,
+	anim_tween.interpolate_property(self, \"altitude\", MAX_ATLTITUDE, 1, 1.7,
 		Tween.TRANS_CIRC, Tween.EASE_OUT_IN, 0.3)
 	anim_tween.start()
+	
+	anim_tween.interpolate_property(self, \"side_swing\", 0, 4, 1.8,
+		Tween.TRANS_CIRC, Tween.EASE_OUT)
 	
 	for segment in segments:
 		segment.z_index = 0	
@@ -244,29 +258,36 @@ func on_death():
 		segment.get_node(\"Sprite\").play(\"death\")
 		
 		if segment.has_node(\"Particles\"):
+			var grad = Gradient.new()
+			
+			grad.set_color(0, Color.webmaroon)
+			grad.set_color(1, Color.crimson)
+			
+			segment.get_node(\"Particles\").color = Color.crimson
+			segment.get_node(\"Particles\").color_ramp = grad
 			segment.get_node(\"Particles\").emitting = true
 
 # Helpers
 
 func _flash_or_attack():
 	match state:
-		States.Idle:
+		State.Idle:
 			var player = $\"/root/GameManager\".player
 			if player:
 				if global_position.distance_squared_to(player.global_position) < _range:
-					state = States.Charge
+					state = State.Charge
 					flash_time = FLASH_TIME
 					segment_flash_ind = 0
 					shoot_timer.start(flash_time)
-		States.Charge:
+		State.Charge:
 			charge_anim()
 			
 			
 func _charge_anim_finished(_data):
-	if to_shoot:
+	if to_shoot and state != State.Death:
 		head.get_node(\"Sprite\").speed_scale = 1.0
 		to_shoot = false
-		state = States.Attack
+		state = State.Attack
 		
 		flash_count = 0
 
@@ -274,58 +295,73 @@ func _head_anim_finished():
 	if $Body/Head/Sprite.animation == \"shoot\":
 		$Body/Head/Sprite.play(\"default\")
 		
+func _create_corpse():
+	var corpse = Node2D.new()
+	corpse.global_position = global_position
+	get_tree().root.add_child(corpse)
 
-static func _play_charge_anim(segment, use_particle = false):
-	if not use_particle:
+	for segment in segments:
+		var sprite = segment.get_node(\"Sprite\")
+		var pos = sprite.global_position
+		segment.remove_child(sprite)
+		
+		corpse.add_child(sprite)
+		sprite.global_position = pos
+	
+	queue_free()
+
+func _play_charge_anim(segment, final = false):
+	if not final:
 		segment.get_node(\"ChargeAnim\").play(\"charge\")
 	else:
 		segment.get_node(\"ChargeAnim\").play(\"charge_final\")
-		if segment.has_node(\"Particles\"):
-			segment.get_node(\"Particles\").emitting = true
 "
 
-[sub_resource type="CapsuleShape2D" id=50]
+[sub_resource type="CapsuleShape2D" id=2]
 radius = 13.4337
 height = 35.8964
 
-[sub_resource type="AtlasTexture" id=51]
+[sub_resource type="CanvasItemMaterial" id=3]
+light_mode = 1
+
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 11 )
 region = Rect2( 64, 0, 64, 32 )
 
-[sub_resource type="AtlasTexture" id=52]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 11 )
 region = Rect2( 128, 0, 64, 32 )
 
-[sub_resource type="AtlasTexture" id=53]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 11 )
 region = Rect2( 192, 0, 64, 32 )
 
-[sub_resource type="AtlasTexture" id=54]
+[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 11 )
 region = Rect2( 256, 0, 64, 32 )
 
-[sub_resource type="AtlasTexture" id=55]
+[sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 11 )
 region = Rect2( 320, 0, 64, 32 )
 
-[sub_resource type="AtlasTexture" id=56]
+[sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 11 )
 region = Rect2( 384, 0, 64, 32 )
 
-[sub_resource type="SpriteFrames" id=57]
+[sub_resource type="SpriteFrames" id=10]
 animations = [ {
 "frames": [ ExtResource( 3 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ) ],
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
 "loop": false,
 "name": "death",
 "speed": 12.0
 } ]
 
-[sub_resource type="Animation" id=58]
+[sub_resource type="Animation" id=11]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
@@ -352,8 +388,7 @@ tracks/1/keys = {
 "values": [ 0.0, 0.5, 0.0 ]
 }
 
-[sub_resource type="Animation" id=59]
-resource_name = "charge_final"
+[sub_resource type="Animation" id=12]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
@@ -380,7 +415,7 @@ tracks/1/keys = {
 "values": [ 0.0, 0.5, 0.0 ]
 }
 
-[sub_resource type="Animation" id=60]
+[sub_resource type="Animation" id=13]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
 tracks/0/interp = 1
@@ -388,159 +423,170 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.3, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0, 0, 0, 1 ), Color( 0.341176, 0.721569, 0.721569, 1 ), Color( 0.6, 0.0862745, 0.0862745, 1 ) ]
+"values": [ Color( 0, 0, 0, 1 ), Color( 0.341176, 0.721569, 0.721569, 1 ), Color( 1, 0, 0, 1 ), Color( 0.262745, 0.027451, 0.027451, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Light2D:energy")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
 }
 
-[sub_resource type="Gradient" id=61]
-offsets = PoolRealArray( 0, 0.297945, 0.993151 )
-colors = PoolColorArray( 1, 1, 1, 0.780392, 0.290196, 0.658824, 0.72549, 0.666667, 0.298039, 0.862745, 0.968627, 0 )
-
-[sub_resource type="AtlasTexture" id=62]
+[sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=63]
+[sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 5 )
 region = Rect2( 64, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=64]
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 5 )
 region = Rect2( 128, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=65]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 5 )
 region = Rect2( 192, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=66]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 5 )
 region = Rect2( 256, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=67]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 5 )
 region = Rect2( 320, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=68]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 10 )
 region = Rect2( 0, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=69]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 10 )
 region = Rect2( 64, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=70]
+[sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 10 )
 region = Rect2( 128, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=71]
+[sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 10 )
 region = Rect2( 192, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=72]
+[sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 10 )
 region = Rect2( 256, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=73]
+[sub_resource type="AtlasTexture" id=25]
 atlas = ExtResource( 10 )
 region = Rect2( 320, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=74]
+[sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 10 )
 region = Rect2( 384, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=75]
+[sub_resource type="AtlasTexture" id=27]
 atlas = ExtResource( 10 )
 region = Rect2( 448, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=76]
+[sub_resource type="AtlasTexture" id=28]
 atlas = ExtResource( 10 )
 region = Rect2( 512, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=77]
+[sub_resource type="AtlasTexture" id=29]
 atlas = ExtResource( 10 )
 region = Rect2( 576, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=78]
+[sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 10 )
 region = Rect2( 640, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=79]
+[sub_resource type="AtlasTexture" id=31]
 atlas = ExtResource( 9 )
 region = Rect2( 128, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=80]
+[sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 9 )
 region = Rect2( 256, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=81]
+[sub_resource type="AtlasTexture" id=33]
 atlas = ExtResource( 9 )
 region = Rect2( 320, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=82]
+[sub_resource type="AtlasTexture" id=34]
 atlas = ExtResource( 9 )
 region = Rect2( 384, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=83]
+[sub_resource type="AtlasTexture" id=35]
 atlas = ExtResource( 9 )
 region = Rect2( 448, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=84]
+[sub_resource type="AtlasTexture" id=36]
 atlas = ExtResource( 9 )
 region = Rect2( 512, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=85]
+[sub_resource type="AtlasTexture" id=37]
 atlas = ExtResource( 9 )
 region = Rect2( 576, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=86]
+[sub_resource type="AtlasTexture" id=38]
 atlas = ExtResource( 9 )
 region = Rect2( 640, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=87]
+[sub_resource type="AtlasTexture" id=39]
 atlas = ExtResource( 9 )
 region = Rect2( 704, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=88]
+[sub_resource type="AtlasTexture" id=40]
 atlas = ExtResource( 9 )
 region = Rect2( 768, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=89]
+[sub_resource type="AtlasTexture" id=41]
 atlas = ExtResource( 9 )
 region = Rect2( 832, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=90]
+[sub_resource type="AtlasTexture" id=42]
 atlas = ExtResource( 9 )
 region = Rect2( 896, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=91]
+[sub_resource type="AtlasTexture" id=43]
 atlas = ExtResource( 9 )
 region = Rect2( 960, 0, 64, 48 )
 
-[sub_resource type="AtlasTexture" id=92]
+[sub_resource type="AtlasTexture" id=44]
 atlas = ExtResource( 9 )
 region = Rect2( 1024, 0, 64, 48 )
 
-[sub_resource type="SpriteFrames" id=93]
+[sub_resource type="SpriteFrames" id=45]
 animations = [ {
-"frames": [ SubResource( 62 ), SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 66 ), SubResource( 67 ) ],
+"frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
 "loop": true,
 "name": "default",
 "speed": 4.0
 }, {
-"frames": [ SubResource( 68 ), SubResource( 69 ), SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ) ],
+"frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
 "loop": false,
 "name": "death",
 "speed": 12.0
 }, {
-"frames": [ SubResource( 79 ), SubResource( 80 ), SubResource( 81 ), SubResource( 82 ), SubResource( 83 ), SubResource( 84 ), SubResource( 85 ), SubResource( 86 ), SubResource( 87 ), SubResource( 88 ), SubResource( 89 ), SubResource( 90 ), SubResource( 91 ), SubResource( 92 ) ],
+"frames": [ SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ) ],
 "loop": false,
 "name": "shoot",
-"speed": 18.0
+"speed": 12.0
 } ]
 
-[sub_resource type="Animation" id=94]
+[sub_resource type="CanvasItemMaterial" id=49]
+light_mode = 1
+
+[sub_resource type="Animation" id=46]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
@@ -567,8 +613,7 @@ tracks/1/keys = {
 "values": [ 0.0, 0.5, 0.0 ]
 }
 
-[sub_resource type="Animation" id=48]
-resource_name = "charge_final"
+[sub_resource type="Animation" id=47]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light:modulate")
@@ -595,21 +640,20 @@ tracks/1/keys = {
 "values": [ 0.0, 0.5, 0.0 ]
 }
 
-[sub_resource type="Animation" id=95]
+[sub_resource type="Animation" id=48]
 
 [node name="ArtilleryBug" type="KinematicBody2D"]
-script = SubResource( 49 )
+script = SubResource( 1 )
 MAX_HEALTH = 300.0
 value = 2
 enemy_class = "Artillery"
 DAMAGE = 20
 FRIENDLY_DAMAGE = 10
 RANGE = 250
-EXPLODE_ON_WALL = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.132736, 0.314144 )
-shape = SubResource( 50 )
+shape = SubResource( 2 )
 
 [node name="AimBeam" type="Line2D" parent="."]
 modulate = Color( 1, 1, 1, 0.4 )
@@ -628,20 +672,24 @@ position = Vector2( 0, 22.5949 )
 
 [node name="AnimTween" type="Tween" parent="Body"]
 
+[node name="FlashTimer" type="Timer" parent="Body"]
+one_shot = true
+
 [node name="Segment" type="Node2D" parent="Body"]
 
 [node name="Light" type="Sprite" parent="Body/Segment"]
 modulate = Color( 0, 0, 0, 1 )
+material = SubResource( 3 )
 texture = ExtResource( 4 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Body/Segment"]
-frames = SubResource( 57 )
+frames = SubResource( 10 )
 playing = true
 
 [node name="ChargeAnim" type="AnimationPlayer" parent="Body/Segment"]
-anims/charge = SubResource( 58 )
-anims/charge_final = SubResource( 59 )
-anims/death = SubResource( 60 )
+anims/charge = SubResource( 11 )
+anims/charge_final = SubResource( 12 )
+anims/death = SubResource( 13 )
 
 [node name="Light2D" type="Light2D" parent="Body/Segment"]
 position = Vector2( 0.353394, 0 )
@@ -650,26 +698,11 @@ texture_scale = 0.13
 color = Color( 0.533333, 0.839216, 0.835294, 1 )
 energy = 0.0
 
-[node name="Particles" type="CPUParticles2D" parent="Body/Segment"]
-emitting = false
-amount = 16
-lifetime = 0.5
-one_shot = true
-explosiveness = 0.69
-emission_shape = 2
-emission_rect_extents = Vector2( 14, 1 )
-direction = Vector2( 0, 1 )
-spread = 7.68
-gravity = Vector2( 0, 0 )
-initial_velocity = 24.0
-linear_accel = -8.54
-radial_accel = 10.97
-color_ramp = SubResource( 61 )
-
 [node name="Head" type="Node2D" parent="Body"]
 z_index = 1
 
 [node name="Light2D" type="Light2D" parent="Body/Head"]
+visible = false
 position = Vector2( 0.353394, 0 )
 texture = ExtResource( 6 )
 texture_scale = 0.13
@@ -678,23 +711,21 @@ energy = 0.0
 
 [node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
 z_index = 1
-frames = SubResource( 93 )
-frame = 4
+frames = SubResource( 45 )
+frame = 3
 playing = true
 offset = Vector2( 0, -2 )
 
 [node name="Light" type="Sprite" parent="Body/Head"]
 modulate = Color( 0, 0, 0, 1 )
+material = SubResource( 49 )
 texture = ExtResource( 7 )
 offset = Vector2( 0, -2 )
 
 [node name="ChargeAnim" type="AnimationPlayer" parent="Body/Head"]
-anims/charge = SubResource( 94 )
-anims/charge_final = SubResource( 48 )
-anims/death = SubResource( 95 )
-
-[node name="FlashTimer" type="Timer" parent="Body"]
-one_shot = true
+anims/charge = SubResource( 46 )
+anims/charge_final = SubResource( 47 )
+anims/death = SubResource( 48 )
 
 [node name="Death" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 8 )

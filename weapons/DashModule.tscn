@@ -58,6 +58,7 @@ func _dash_start(direction: Vector2):
 	$DashTimer.start(DASH_TIME)
 	player.state = player.State.Pause
 	
+	player.armor = 0.0
 	player.mv = direction * DASH_SPEED
 	active = true
 	
@@ -66,6 +67,9 @@ func _dash_finished():
 	player.set_collision_layer_bit(GameManager.COL_ENEMY, true)
 	player.state = player.State.Default	
 	active = false
+	
+	player.armor = 1.0
+	
 
 func _summon_trail():
 	var top = player.get_node(\"Body\").duplicate()
