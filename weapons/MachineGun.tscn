@@ -144,11 +144,7 @@ func on_active():
 			shoot_collider.global_position = get_global_mouse_position()
 			
 		if Input.is_action_just_pressed(\"shoot\"):
-			shoot_interval.start(SHOOT_INTERVAL)
-			_on_shoot()
-			
-		if not $GunSE.playing:
-			$GunSE.play()
+			on_switch()
 			
 		shooting = true
 			
@@ -161,7 +157,12 @@ func on_active():
 			shooting = false
 
 func on_switch():
-	pass #shoot_interval.start(SHOOT_INTERVAL)		
+	shoot_interval.start(SHOOT_INTERVAL)
+	_on_shoot()
+		
+	if not $GunSE.playing:
+		$GunSE.play()
+	shooting = true
 
 func on_switch_out():
 	$GunSE.stop()

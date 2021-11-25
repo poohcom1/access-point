@@ -7,22 +7,30 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Module
 
-export var DAMAGE_MULTIPLIER := 0.3
+export var DAMAGE_MULTIPLIER := 0.4
+export var PARRY_FRAMES = 5
 
+export var PARRY_COLOR := Color.yellow
+export var HIT_COLOR := Color.white
+
+var frames = 0
 var active = false
 
 func _ready():
 # warning-ignore:return_value_discarded
 	$AnimationPlayer.connect(\"animation_finished\", self, \"_anim_finished\")
+
 	
-# warning-ignore:return_value_discarded
-	player.connect(\"on_damage\", self, \"on_damage\")
+func _physics_process(_delta):
+	if active:
+		frames += 1
 
 func _unhandled_input(event):
 	if event.is_action_pressed(\"alternative_shoot\"):
 		get_parent().armor = DAMAGE_MULTIPLIER
 		$AnimationPlayer.play(\"activate\")
 		active = true
+		frames = 0
 	elif event.is_action_released(\"alternative_shoot\"):
 		get_parent().armor = 1.0
 		$AnimationPlayer.play(\"deactivate\")
@@ -32,16 +40,33 @@ func _anim_finished(anim):
 	if anim == \"activate\":
 		$AnimationPlayer.play(\"active\")
 
-func on_damage(_dmg):
+func on_damage(dmg):
 	if active:
-		$FlashTween.interpolate_property($FlashSprite, \"modulate\", $FlashSprite.modulate, 
-		Color(1, 1, 1, 1), 0.05)
-		$FlashTween.interpolate_property($FlashSprite, \"modulate\", Color(1, 1, 1, 1), 
-		Color(1, 1, 1, 0), 0.05, Tween.TRANS_LINEAR, 0, 0.05)
-		$FlashTween.start()
+		if frames <= PARRY_FRAMES:
+			_parry_flash()
+			return 0
+		else:
+			_damage_flash()
+
+			return dmg * DAMAGE_MULTIPLIER
+	return dmg
+		
+func _parry_flash():
+	$FlashTween.interpolate_property($FlashSprite, \"modulate\", $FlashSprite.modulate, 
+	PARRY_COLOR, 0.05)
+	$FlashTween.interpolate_property($FlashSprite, \"modulate\", PARRY_COLOR, 
+	Color(1, 1, 1, 0), 0.05, Tween.TRANS_LINEAR, 0, 0.05)
+	$FlashTween.start()
+		
+func _damage_flash():
+	$FlashTween.interpolate_property($FlashSprite, \"modulate\", $FlashSprite.modulate, 
+	HIT_COLOR, 0.05)
+	$FlashTween.interpolate_property($FlashSprite, \"modulate\", HIT_COLOR, 
+	Color(1, 1, 1, 0), 0.05, Tween.TRANS_LINEAR, 0, 0.05)
+	$FlashTween.start()
 "
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "activate"
 length = 0.15
 step = 0.05
@@ -69,28 +94,43 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 10.0, 0.0 ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath("SFX")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "active"
+length = 1.5
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:modulate")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.8, 1.5 ),
+"transitions": PoolRealArray( 1, 0.732043, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.705882 ), Color( 1, 1, 1, 0.545098 ), Color( 1, 1, 1, 0.705882 ) ]
+"values": [ Color( 1, 1, 1, 0.705882 ), Color( 1, 1, 1, 0.254902 ), Color( 1, 1, 1, 0.705882 ) ]
 }
 tracks/1/type = "method"
 tracks/1/path = NodePath("SFX")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
@@ -100,7 +140,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=4]
 resource_name = "deactivate"
 length = 0.5
 tracks/0/type = "value"
@@ -146,9 +186,9 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=6]
 shader = SubResource( 5 )
-shader_param/amount = 40.0
+shader_param/amount = 10.0
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=7]
 animations = [ {
 "frames": [ ExtResource( 1 ) ],
 "loop": true,
@@ -161,9 +201,9 @@ z_index = 3
 script = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/activate = SubResource( 3 )
-anims/active = SubResource( 4 )
-anims/deactivate = SubResource( 7 )
+anims/activate = SubResource( 2 )
+anims/active = SubResource( 3 )
+anims/deactivate = SubResource( 4 )
 
 [node name="FlashTween" type="Tween" parent="."]
 
@@ -172,9 +212,9 @@ modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-modulate = Color( 1, 1, 1, 0.727059 )
+modulate = Color( 0, 0.156863, 1, 0 )
 material = SubResource( 6 )
-frames = SubResource( 2 )
+frames = SubResource( 7 )
 
 [node name="SFX" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )

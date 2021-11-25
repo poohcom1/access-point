@@ -8,7 +8,7 @@ export var SHOOT_INTERVAL = 0.15
 export var PIERCE_COUNT = 1
 export var DAMAGE = 8
 export var MIN_DAMAGE = 1
-export var MIN_DISTANCE = 50
+export var MIN_DISTANCE = 100
 export var MAX_DISTANCE = 200
 export var KNOCKBACK = 25
 
@@ -41,7 +41,7 @@ func on_shoot():
 	
 		
 	bullet.pierce_count = PIERCE_COUNT + 1 # Add one so 0 is the baseline for no pierce
-	bullet.damage = calculate_damage(global_position.distance_to(get_global_mouse_position()))
+	bullet.damage = DAMAGE
 	bullet.knockback = KNOCKBACK
 	
 	shoot_timer.start()

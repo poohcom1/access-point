@@ -414,6 +414,7 @@ DEATH_SFX = [ ExtResource( 10 ), ExtResource( 11 ) ]
 position = Vector2( -0.0371628, 9.81096 )
 value = "health"
 max_value = "MAX_HEALTH"
+y_scale = 2.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0.0271316, 0.0735059 )

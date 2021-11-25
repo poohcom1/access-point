@@ -152,6 +152,8 @@ func _physics_process(_delta):
 
 # States
 func on_hit(damage: float):
+	if module.has_method("on_damage"):
+		damage = module.on_damage(damage)
 	emit_signal("on_damage", damage)
 	hp -= damage * armor
 	
