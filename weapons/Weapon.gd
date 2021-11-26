@@ -38,12 +38,18 @@ func use():
 	if can_shoot():
 		on_active()
 	
+func _process(_delta):
+	if ammo <= 0 and active:
+		ammo = 0
+		on_switch_out()
 	
 func switch():
 	Input.set_custom_mouse_cursor(crosshair, 0, crosshair_offsets)
+	active = true
 	on_switch()
 	
 func switch_out():
+	active = false
 	start_reload()
 	on_switch_out()
 

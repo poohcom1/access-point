@@ -17,6 +17,8 @@ export var KNOCKBACK = 25
 # Fields
 var shooting := false
 
+var just_switched_on := false
+
 # Nodes
 const Bullet = preload(\"res://weapons/objects/RailgunProjectile.tscn\")
 
@@ -57,14 +59,19 @@ func calculate_damage(distance: float):
 func on_active():
 	if Input.is_action_pressed(\"shoot\") and ammo > 0:
 		shooting = true
-		if Input.is_action_just_pressed(\"shoot\"):
+		if Input.is_action_just_pressed(\"shoot\") and just_switched_on:
 			on_shoot()
+			just_switched_on = false
+
 	else:
 		shooting = false
 
+func on_switch():
+	just_switched_on = true
 
 func on_switch_out():
 	shooting = false
+	just_switched_on = false
 "
 
 [node name="Railgun" type="Node2D"]
