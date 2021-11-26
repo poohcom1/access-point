@@ -48,6 +48,8 @@ func _ready():
 
 
 func _on_shoot():		
+	if not can_shoot(): return	
+
 	shoot_collider.shoot()
 		
 	ammo -= 1
@@ -187,6 +189,7 @@ func on_switch_out():
 
 [node name="MachineGun" type="Node2D"]
 script = SubResource( 1 )
+MAX_AMMO = 50
 CROSS_HAIR = ExtResource( 4 )
 RAMP_UP_DAMAGE = 6
 RAMP_UP_FRAMES = 40

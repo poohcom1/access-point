@@ -32,15 +32,19 @@ func _ready():
 	crosshair_offsets = Vector2(crosshair.get_width()/2.0, crosshair.get_height()/2.0)
 	
 func use():
-	on_active()
-	if ammo == 0 and Input.is_action_just_pressed("reload") and reload_timer.time_left == 0:
-		reload_timer.start(RELOAD_TIME)
+	if Input.is_action_just_pressed("reload") and reload_timer.time_left == 0:
+		start_reload()
+		
+	if can_shoot():
+		on_active()
+	
 	
 func switch():
 	Input.set_custom_mouse_cursor(crosshair, 0, crosshair_offsets)
 	on_switch()
 	
 func switch_out():
+	start_reload()
 	on_switch_out()
 
 # Called every frame when active
@@ -54,6 +58,17 @@ func on_switch():
 # Called on the single frame when the weapon is changed from this weapon
 func on_switch_out():
 	pass
+	
+func can_shoot() -> bool:
+	return ammo > 0 and reload_timer.time_left == 0
+	
+func reloading() -> bool:
+	return reload_timer.time_left != 0
+	
+func start_reload():
+	on_switch_out()
+	reload_timer.start(RELOAD_TIME)
+	
 	
 func _reload():
 	ammo = MAX_AMMO

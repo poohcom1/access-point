@@ -33,7 +33,7 @@ func _ready():
 	weapon_name = \"Mini-Railgun\"
 
 func on_shoot():
-	if not shooting or ammo <= 0: return
+	if not shooting or not can_shoot(): return
 	
 	ammo -= 1
 	
@@ -69,7 +69,7 @@ func on_switch_out():
 
 [node name="Railgun" type="Node2D"]
 script = SubResource( 1 )
-MAX_AMMO = 100
+MAX_AMMO = 10
 CROSS_HAIR = ExtResource( 1 )
 SHOOT_INTERVAL = 1.0
 PIERCE_COUNT = 1000
