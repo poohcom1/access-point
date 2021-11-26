@@ -28,6 +28,8 @@ var in_range_tiles = [] # For caching
 
 var tiles_cache = []
 
+var sparse_array = []
+
 func _ready():
 	# Wait for all nodes to be ready
 	yield(get_tree(), \"idle_frame\")
@@ -41,6 +43,8 @@ func _ready():
 	
 	for radar in radars:
 		radar.tilemap_position = world_to_tilemap(radar.global_position)
+	
+	get_vision()
 	
 func _tilemap_init():
 	# Get size of tilemap
@@ -66,8 +70,15 @@ func _tilemap_init():
 		min_neg_y = min(cell.y, min_neg_y)
 		
 	offset += Vector2(-min_neg_x, -min_neg_y) * scale
-
 	
+	
+	#create a zeroed array the size of tilemap
+	var tilemapsize = tilemap.get_used_rect().size
+	for xx in range(int(tilemapsize.x)+10):
+		sparse_array.append([])
+		for yy in range(int(tilemapsize.y)+10):
+			sparse_array[xx].append(0)
+
 
 func _draw():
 	if tilemap == null: return
@@ -79,6 +90,30 @@ func _draw():
 \"\"\"
 	Check if an object's tilemap position is in range of a radar
 \"\"\"
+
+
+#rasterize the vision of the map into a 2d sparse array
+func get_vision():
+	var vision_objects = radars + [$\"/root/GameManager\".player]
+	var rasterized_vision = sparse_array.duplicate(true)
+	
+	for obj in vision_objects:
+		var tile_pos = (obj.tilemap_position if \"tilemap_position\" in obj else 
+			world_to_tilemap(obj.global_position))
+		if(obj.battery > EPSILON):
+			var radius = obj.radar_range
+			var x = tile_pos.x
+			var y = tile_pos.y
+			for ix in range(x - radius, x + radius):
+				for iy in range(y - radius, y + radius):
+					var dx = ix - x
+					var dy = iy - y
+					var dist2 = dx*dx + dy*dy
+					if(dist2 < radius*radius):
+						rasterized_vision[ix][iy] = 1
+	
+	return rasterized_vision
+
 func in_range(pos: Vector2) -> bool:
 	var vision_objects = radars + [$\"/root/GameManager\".player]
 	
@@ -91,9 +126,8 @@ func in_range(pos: Vector2) -> bool:
 			return true
 		
 	return false
-	
+
 func _draw_objects():
-	draw_set_transform(rect_size / 2, 0, Vector2.ONE)
 	var objects = get_tree().get_nodes_in_group(\"map\")
 	
 	for object in objects:
@@ -119,18 +153,24 @@ func _draw_objects():
 
 func _draw_tilemap():
 	draw_set_transform(rect_size / 2, 0, Vector2.ONE)
+	var rasterized_vision = get_vision()
+	
 	# Find all tiles that has collision
 	for tile in tilemap.tile_set.get_tiles_ids():
 
 		# This assumes that tiles have a single collision shape
 		if tilemap.tile_set.tile_get_shape(tile, 0) != null:
+			
 			var color = TILECOLOR
 			var cells = tilemap.get_used_cells_by_id(tile)
+			
 			for cell in cells:
-				if in_range(cell):
+				if rasterized_vision[int(cell.x)][int(cell.y)] == 1:
 					cell = cell.rotated(PI/4)
 					draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale * 1.414), color)
-
+					
+					
+		
 func _process(_delta):
 	update()
 	
