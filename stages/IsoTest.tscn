@@ -12,14 +12,7 @@
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=10]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=12]
-
-[sub_resource type="GDScript" id=1]
-script/source = "extends Navigation2D
-
-func _ready():
-	$\"/root/GameManager\".navigation = self
-
-"
+[ext_resource path="res://stages/StageInit.gd" type="Script" id=13]
 
 [sub_resource type="TileSet" id=2]
 0/name = "isomud.png 0"
@@ -172,7 +165,7 @@ points = PoolVector2Array( 0, 8, 0, 8, 16, 0, 32, 8, 32, 24, 16, 32, 0, 24 )
 6/z_index = 0
 
 [node name="Navigation2D" type="Navigation2D"]
-script = SubResource( 1 )
+script = ExtResource( 13 )
 
 [node name="Props" type="TileMap" parent="."]
 mode = 1

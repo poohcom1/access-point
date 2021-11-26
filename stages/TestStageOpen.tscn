@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://assets/white.png" type="Texture" id=1]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=2]
@@ -9,7 +9,6 @@
 [ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=7]
 [ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://system/Debug.tscn" type="PackedScene" id=9]
-[ext_resource path="res://assets/blue.png" type="Texture" id=10]
 [ext_resource path="res://assets/tiles/cracked_mud_tilemapping.png" type="Texture" id=11]
 [ext_resource path="res://assets/tiles/cracked_mud2.png" type="Texture" id=12]
 [ext_resource path="res://assets/tiles/sand1.png" type="Texture" id=13]
@@ -131,7 +130,6 @@ points = PoolVector2Array( 0, 0, 96, 0, 96, 32, 0, 32 )
 
 [sub_resource type="TileSet" id=29]
 0/name = "blue.png 0"
-0/texture = ExtResource( 10 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 16, 16 )
@@ -389,9 +387,7 @@ battery = 0.0
 
 [node name="Debug" parent="." instance=ExtResource( 9 )]
 
-[node name="Player" parent="." groups=[
-"map",
-] instance=ExtResource( 8 )]
+[node name="Player" parent="." instance=ExtResource( 8 )]
 position = Vector2( 169.852, 67.0677 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -403,42 +399,198 @@ zoom = Vector2( 0.5, 0.5 )
 
 [node name="MeleeBug" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 825.521, 395.37 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug2" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 858.365, 418.678 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug3" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 800.094, 431.922 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug4" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 711.629, 398.019 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug5" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 744.472, 421.327 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug6" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 686.202, 434.57 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug7" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 737.586, 444.105 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug8" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 770.429, 467.414 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug9" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 712.158, 480.657 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug10" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 859.424, 487.014 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug11" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 892.267, 510.322 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="MeleeBug12" parent="Enemies" instance=ExtResource( 3 )]
 position = Vector2( 833.997, 523.565 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="HealerBug" parent="Enemies" instance=ExtResource( 6 )]
 position = Vector2( 839.379, 345.657 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug13" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 1052.7, 528.114 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug14" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 1085.54, 551.422 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug15" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 1027.27, 564.666 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug16" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 938.808, 530.763 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug17" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 971.651, 554.071 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug18" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 913.381, 567.314 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug19" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 964.765, 576.849 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug20" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 997.608, 600.158 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug21" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 939.337, 613.401 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug22" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 1086.6, 619.758 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug23" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 1119.45, 643.066 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug24" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 1061.18, 656.309 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="HealerBug2" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 1066.56, 478.401 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug25" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 740.885, 656.403 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug26" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 773.729, 679.711 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug27" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 715.458, 692.955 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug28" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 626.994, 659.052 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug29" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 659.837, 682.36 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug30" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 601.567, 695.603 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug31" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 652.951, 705.138 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug32" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 685.794, 728.447 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug33" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 627.523, 741.69 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug34" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 774.789, 748.047 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug35" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 807.632, 771.355 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="MeleeBug36" parent="Enemies" instance=ExtResource( 3 )]
+position = Vector2( 749.362, 784.598 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
+
+[node name="HealerBug3" parent="Enemies" instance=ExtResource( 6 )]
+position = Vector2( 754.744, 606.69 )
+MULTITHREADED_PATHFIND = true
+SHOW_RANGE = false
 
 [node name="ArtilleryBug3" parent="Enemies" instance=ExtResource( 7 )]
 position = Vector2( 907.119, 1246.29 )

@@ -70,15 +70,16 @@ func _ready():
 	
 	for group in groups:
 		add_to_group(group)
+		
 	set_collision_layer_bit(GameManager.COL_TILE, false)
 	set_collision_mask_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_PLAYER_BULLET, true)
 
 func _init_pathfind():
-	yield(get_tree(), "idle_frame")
-	
 	pathfind_timer.start(PATHFIND_INTERVAL)
+	
+	assert(GameManager.player != null)
 	
 	# Set navigation target
 	set_target($"/root/GameManager".player)
@@ -88,6 +89,7 @@ func to_aggro(body: PhysicsBody2D):
 	if state == State.Passive and body is Player:
 		_init_pathfind()
 		state = State.Default
+		_aggro_area.queue_free()
 		
 	
 
@@ -100,6 +102,7 @@ func on_hit_knockback(_dir, time = 0.1):
 # Pathfinding
 func _physics_process(_delta):
 	if Engine.editor_hint: return
+	
 	if DEBUG_PATH:
 		debug_path.global_position = Vector2.ZERO
 		debug_path.points = path
@@ -138,7 +141,11 @@ func navigate():
 func generate_path():
 	var target = navigation_target.get_ref()
 	
-	if not target or GameManager.navigation == null: return
+	if GameManager.navigation == null: return
+	
+	if not target:
+		navigation_target = weakref(GameManager.player)
+		target = GameManager.player
 	
 	if MULTITHREADED_PATHFIND:
 		GameManager.add_pathfind_lazy_list([self, global_position, target.global_position])
