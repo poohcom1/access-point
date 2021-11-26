@@ -157,15 +157,15 @@ func on_death():
 "
 
 [sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 48, 48 )
+
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
@@ -173,7 +173,7 @@ atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=7]
@@ -237,43 +237,43 @@ atlas = ExtResource( 3 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=32]
@@ -300,17 +300,17 @@ region = Rect2( 192, 0, 48, 48 )
 animations = [ {
 "frames": [ SubResource( 2 ) ],
 "loop": true,
-"name": "idle_side",
+"name": "idle_front",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 3 ) ],
 "loop": true,
-"name": "idle_back",
+"name": "idle_sidefront",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 4 ) ],
 "loop": true,
-"name": "idle_front",
+"name": "idle_back",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 5 ) ],
@@ -320,7 +320,7 @@ animations = [ {
 }, {
 "frames": [ SubResource( 6 ) ],
 "loop": true,
-"name": "idle_sidefront",
+"name": "idle_side",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
@@ -339,13 +339,13 @@ animations = [ {
 "speed": 15.0
 }, {
 "frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
-"loop": true,
-"name": "run_side",
+"loop": false,
+"name": "death",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
-"loop": false,
-"name": "death",
+"loop": true,
+"name": "run_side",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
@@ -370,6 +370,7 @@ __meta__ = {
 BASE_SPEED = 250
 enemy_class = "melee"
 MULTITHREADED_PATHFIND = true
+DEBUG_PATH = true
 SHOW_RANGE = true
 OFF_SCREEN_PATHFIND_INTERVAL = 4.0
 DAMAGE = 1
@@ -386,7 +387,7 @@ position = Vector2( 0.0271316, 0.0735059 )
 scale = Vector2( 1.04116, 1.04116 )
 frames = SubResource( 37 )
 animation = "run_front"
-frame = 3
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -396,7 +397,7 @@ shape = SubResource( 38 )
 [node name="HealingFX" parent="." instance=ExtResource( 8 )]
 
 [node name="DeathSFX" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 10 )
+stream = ExtResource( 11 )
 volume_db = 0.299
 max_distance = 700.0
 attenuation = 0.554785
