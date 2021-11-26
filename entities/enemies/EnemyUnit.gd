@@ -99,6 +99,7 @@ func on_hit_knockback(_dir, time = 0.1):
 
 # Pathfinding
 func _physics_process(_delta):
+	if Engine.editor_hint: return
 	if DEBUG_PATH:
 		debug_path.global_position = Vector2.ZERO
 		debug_path.points = path
