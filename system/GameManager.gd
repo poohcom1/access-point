@@ -1,8 +1,5 @@
 extends Node
 
-#CONSTANTS
-const PATHFIND_LIMIT_PER_FRAME = 10
-
 ## Collision
 const COL_TILE = 0
 const COL_PLAYER = 1
@@ -16,7 +13,7 @@ var player: Player
 var navigation: Navigation2D
 
 # Optimization V2
-var pathfind_lazy_list = []
+var pathfind_lazy_dict = {}
 var pathfind_lazy_list_done = []
 var lazy_path_thread
 var lazy_mutex
@@ -62,8 +59,9 @@ func lazy_path_function(userdata):
 
 func eval_pathfind_lazy():
 	lazy_mutex.lock()
-	var bundle = pathfind_lazy_list[0]
-	pathfind_lazy_list.remove(0)
+	var keys = pathfind_lazy_dict.keys()
+	var bundle = pathfind_lazy_dict[keys[0]]
+	pathfind_lazy_dict.erase(keys[0])
 	lazy_mutex.unlock()
 		
 	var obj = bundle[0]
@@ -87,6 +85,7 @@ func reinsert_path_lazy():
 
 func add_pathfind_lazy_list(obj):
 	lazy_mutex.lock()
-	pathfind_lazy_list.append(obj)
+	#pathfind_lazy_list.append(obj)
+	pathfind_lazy_dict[obj[0]] = obj
 	lazy_mutex.unlock()
 	lazy_semaphore.post()
