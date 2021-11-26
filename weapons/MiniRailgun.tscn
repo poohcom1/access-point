@@ -19,6 +19,8 @@ var shooting := false
 
 var just_switched_on := false
 
+var queue_shoot := false
+
 # Nodes
 const Bullet = preload(\"res://weapons/objects/RailgunProjectile.tscn\")
 
@@ -35,7 +37,7 @@ func _ready():
 	weapon_name = \"Mini-Railgun\"
 
 func on_shoot():
-	if not shooting or not can_shoot(): return
+	if (not queue_shoot or not shooting) or not can_shoot(): return
 	
 	ammo -= 1
 	
@@ -59,9 +61,12 @@ func calculate_damage(distance: float):
 func on_active():
 	if Input.is_action_pressed(\"shoot\") and ammo > 0:
 		shooting = true
-		if Input.is_action_just_pressed(\"shoot\") and just_switched_on:
-			on_shoot()
-			just_switched_on = false
+		if Input.is_action_just_pressed(\"shoot\"):
+			queue_shoot = true
+			
+			if just_switched_on:
+				on_shoot()
+				just_switched_on = false
 
 	else:
 		shooting = false
