@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 72.0
+
+[node name="SpawnTrigger" type="Area2D"]
+
+[node name="SpawnTrigger" type="CollisionShape2D" parent="."]
+modulate = Color( 1, 0, 0, 1 )
+shape = SubResource( 1 )

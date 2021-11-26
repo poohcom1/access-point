@@ -103,6 +103,7 @@ GameManager="*res://system/GameManager.gd"
 [debug]
 
 gdscript/warnings/return_value_discarded=false
+shapes/collision/shape_color=Color( 1, 1, 1, 0.419608 )
 
 [display]
 

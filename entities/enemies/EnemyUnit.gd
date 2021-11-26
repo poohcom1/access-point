@@ -38,14 +38,13 @@ var _aggro_circle := CircleShape2D.new()
 
 # Setup
 func _ready():
-	_aggro_circle.radius = AGGRO_RANGE
-	_aggro_shape.shape = _aggro_circle
-	_aggro_area.visible = SHOW_RANGE
-	_aggro_area.add_child(_aggro_shape)
-	add_child(_aggro_area)
-	_aggro_area.connect("body_entered", self, "to_aggro")
-	
-	if Engine.editor_hint: return
+	if Engine.editor_hint: 
+		_aggro_circle.radius = AGGRO_RANGE
+		_aggro_shape.shape = _aggro_circle
+		_aggro_area.visible = SHOW_RANGE
+		_aggro_area.add_child(_aggro_shape)
+		add_child(_aggro_area)
+		return
 	
 	state_timer.one_shot = true
 	add_child(state_timer)
@@ -75,6 +74,9 @@ func _ready():
 	set_collision_mask_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_PLAYER_BULLET, true)
+	
+	if state == State.Default:
+		to_aggro()
 
 func _init_pathfind():
 	pathfind_timer.start(PATHFIND_INTERVAL)
@@ -85,13 +87,9 @@ func _init_pathfind():
 	set_target($"/root/GameManager".player)
 
 # States
-func to_aggro(body: PhysicsBody2D):
-	if state == State.Passive and body is Player:
-		_init_pathfind()
-		state = State.Default
-		_aggro_area.queue_free()
-		
-	
+func to_aggro():
+	_init_pathfind()
+	state = State.Default
 
 func on_hit_knockback(_dir, time = 0.1):
 	if state != State.Dead:
@@ -102,6 +100,9 @@ func on_hit_knockback(_dir, time = 0.1):
 # Pathfinding
 func _physics_process(_delta):
 	if Engine.editor_hint: return
+	
+	if GameManager.player and state == State.Passive and global_position.distance_to(GameManager.player.global_position) < AGGRO_RANGE:
+		to_aggro()
 	
 	if DEBUG_PATH:
 		debug_path.global_position = Vector2.ZERO

@@ -158,12 +158,13 @@ func on_active():
 			shooting = false
 
 func on_switch():
-	shoot_interval.start(SHOOT_INTERVAL)
-	_on_shoot()
-		
-	if not $GunSE.playing:
-		$GunSE.play()
-	shooting = true
+	if Input.is_action_pressed(\"shoot\"):
+		shoot_interval.start(SHOOT_INTERVAL)
+		_on_shoot()
+			
+		if not $GunSE.playing:
+			$GunSE.play()
+		shooting = true
 
 func on_switch_out():
 	$GunSE.stop()
