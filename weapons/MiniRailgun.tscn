@@ -69,6 +69,7 @@ func on_switch_out():
 
 [node name="Railgun" type="Node2D"]
 script = SubResource( 1 )
+MAX_AMMO = 100
 CROSS_HAIR = ExtResource( 1 )
 SHOOT_INTERVAL = 1.0
 PIERCE_COUNT = 1000

@@ -187,7 +187,6 @@ func on_switch_out():
 
 [node name="MachineGun" type="Node2D"]
 script = SubResource( 1 )
-MAX_AMMO = 1000
 CROSS_HAIR = ExtResource( 4 )
 RAMP_UP_DAMAGE = 6
 RAMP_UP_FRAMES = 40
