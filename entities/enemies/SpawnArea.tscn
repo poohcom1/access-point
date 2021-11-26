@@ -9,16 +9,18 @@ export var DISABLE_ON_SCREEN := true
 export var SPAWN_COUNT := 1000
 export var SPAWN_INTERVAL := 10.0
 export var SPAWN_INCREMENT := 0.0
-export var SPAWN_MAX_INTERVAL := 60.0
+export var SPAWN_MAX_INTERVAL := 120.0
 export var SPAWN_MIN_INTERVAL := 5.0
 
 export var ENEMY_AMOUNT := 10
-export var ENEMY_MAX_AMOUNT := 30
-export var ENEMY_MIN_AMOUNT := 5
+export var ENEMY_MAX_AMOUNT := 100
+export var ENEMY_MIN_AMOUNT := 1
 export(float, 0.0, 1.0) var MEDIC_CHANCE := 0.1
 
 export var ENEMY_INCREMENT := 0
 export var ENEMY_PRE_AGGRO := true
+
+export var SPAWNS_PER_FRAME = 5
 
 # Fields
 var interval
@@ -26,6 +28,8 @@ var interval
 var trigger_areas := []
 
 var on_screen = false
+
+var enemies_to_spawn := []
 
 # Nodes
 onready var timer := $Interval
@@ -77,7 +81,6 @@ func on_spawn():
 	var amount = clamp(ENEMY_AMOUNT, ENEMY_MIN_AMOUNT, ENEMY_MAX_AMOUNT)
 	
 	for i in amount:
-		print(i)
 		var EnemyType = MeleeBug
 		
 		if rand_range(0, 1.0) < MEDIC_CHANCE:
@@ -88,7 +91,7 @@ func on_spawn():
 		enemy.position = random_position()
 		
 		enemy.state = enemy.State.Default
-		call_deferred(\"add_child\", enemy)
+		enemies_to_spawn.append(enemy)
 		
 	ENEMY_AMOUNT += ENEMY_INCREMENT
 	
@@ -106,6 +109,15 @@ func enter_screen():
 	
 func exit_screen():
 	on_screen = false
+	
+# Lazy spawning
+func _process(_delta):
+	var count = SPAWNS_PER_FRAME
+	
+	for _i in range(count):
+		var enemy = enemies_to_spawn.pop_back()
+		if not enemy: return
+		add_child(enemy)
 	
 "
 
