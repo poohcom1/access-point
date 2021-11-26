@@ -1,10 +1,13 @@
 [gd_scene load_steps=3 format=2]
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
+
+export(Array, NodePath) var TRIGGERS := []
 
 export var TRIGGERED := false
 export var DISABLE_ON_SCREEN := true
+
 
 export var SPAWN_COUNT := 1000
 export var SPAWN_INTERVAL := 10.0
@@ -52,6 +55,11 @@ func _ready():
 		if child is Area2D:
 			child.connect(\"body_entered\", self, \"on_enter\")
 			trigger_areas.append(child)
+		
+	for nodepath in TRIGGERS:
+		var trigger = get_node(nodepath)
+		trigger.connect(\"body_entered\", self, \"on_enter\")
+		trigger_areas.append(trigger)
 		
 	if TRIGGERED:
 		start_spawn()
@@ -121,11 +129,11 @@ func _process(_delta):
 	
 "
 
-[sub_resource type="CircleShape2D" id=5]
+[sub_resource type="CircleShape2D" id=2]
 radius = 56.0
 
 [node name="SpawnArea" type="Area2D"]
-script = SubResource( 4 )
+script = SubResource( 1 )
 
 [node name="Interval" type="Timer" parent="."]
 one_shot = true
@@ -133,4 +141,4 @@ one_shot = true
 [node name="VisibilityNotifier" type="VisibilityNotifier2D" parent="."]
 
 [node name="SpawnArea" type="CollisionShape2D" parent="."]
-shape = SubResource( 5 )
+shape = SubResource( 2 )
