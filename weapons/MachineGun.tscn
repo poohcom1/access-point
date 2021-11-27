@@ -8,9 +8,10 @@
 
 [node name="MachineGun" type="Node2D"]
 script = ExtResource( 5 )
-MAX_AMMO = 50
+MAX_AMMO = 100
 CROSS_HAIR = ExtResource( 4 )
-RAMP_UP_DAMAGE = 6
+DAMAGE = 3
+RAMP_UP_DAMAGE = 9
 RAMP_UP_FRAMES = 40
 AOE = true
 

@@ -5,10 +5,10 @@
 
 [node name="Railgun" type="Node2D"]
 script = ExtResource( 2 )
-MAX_AMMO = 10
+MAX_AMMO = 50
 CROSS_HAIR = ExtResource( 1 )
-SHOOT_INTERVAL = 1.0
+SHOOT_INTERVAL = 0.25
 PIERCE_COUNT = 1000
-DAMAGE = 20
-MIN_DAMAGE = 20
+DAMAGE = 12
+MIN_DAMAGE = 12
 KNOCKBACK = 10
