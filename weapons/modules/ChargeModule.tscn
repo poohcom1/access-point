@@ -35,6 +35,8 @@ func _input(event):
 script = SubResource( 1 )
 ENERGY_COST = 250
 module_name = "Charge"
+MAX_DISTANCE = 120
+DAMAGE = 15
 
 [node name="Trail" type="CPUParticles2D" parent="."]
 emitting = false
