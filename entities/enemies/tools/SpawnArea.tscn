@@ -22,7 +22,7 @@ export var ENEMY_MIN_AMOUNT := 1
 export var MELEE_PRIORITY = 90
 export var HEALER_PRIORITY = 10
 export var SUICIDE_PRIORITY = 1
-
+export var RANGE_PRIORITY = 5
 
 export var ENEMY_INCREMENT := 0
 export var ENEMY_PRE_AGGRO := true
@@ -46,21 +46,23 @@ onready var radius = $SpawnArea.shape.radius
 const MeleeBug = preload(\"res://entities/enemies/MeleeBug.tscn\")
 const HealerBug = preload(\"res://entities/enemies/HealerBug.tscn\")
 const SuicideBug = preload(\"res://entities/enemies/SuicideBug.tscn\")
+const RangeBug = preload(\"res://entities/enemies/RangeBug.tscn\")
 
 var spawn_priorities := {}
 var priority_total = 0
 
 func _ready():
 	spawn_priorities = {
-		MELEE_PRIORITY: MeleeBug,
-		HEALER_PRIORITY: HealerBug,
-		SUICIDE_PRIORITY: SuicideBug
+		MeleeBug: MELEE_PRIORITY,
+		HealerBug: HEALER_PRIORITY,
+		SuicideBug: SUICIDE_PRIORITY,
+		RangeBug: RANGE_PRIORITY,
 	}
 	
-	for priority in spawn_priorities:
+	
+	for priority in spawn_priorities.values():
 		priority_total += priority
 		
-	
 	interval = SPAWN_INTERVAL
 	
 	if DISABLE_ON_SCREEN:
@@ -107,16 +109,16 @@ func on_spawn():
 	var amount = clamp(ENEMY_AMOUNT, ENEMY_MIN_AMOUNT, ENEMY_MAX_AMOUNT)
 	
 	for i in amount:
-		var EnemyType = MeleeBug
+		var EnemyType = null
 		
 		var chance = randi() % priority_total
 		
 		var current_chance = 0
 	
-		for priority in spawn_priorities:
-			current_chance += priority
-			if chance < current_chance:
-				EnemyType = spawn_priorities[priority]
+		for enemy in spawn_priorities:
+			current_chance += spawn_priorities[enemy]
+			if chance <= current_chance:
+				EnemyType = enemy
 				break
 
 		var enemy = EnemyType.instance()

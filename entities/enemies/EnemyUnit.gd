@@ -90,6 +90,11 @@ func _init_pathfind():
 	set_target($"/root/GameManager".player)
 
 # States
+func change_state(new_state, timeout=0):
+	if timeout > 0:
+		state_timer.start(timeout)
+	state = new_state
+
 func to_aggro():
 	_init_pathfind()
 	state = State.Default
@@ -99,6 +104,14 @@ func on_hit_knockback(_dir, time = 0.1):
 		state = State.Knockback
 		mv = _dir * 10
 		state_timer.start(time)
+
+func on_death():
+	pass
+	
+func on_state_timeout():
+	match state:
+		State.Knockback:
+			state = State.Default
 
 # Pathfinding
 func _physics_process(_delta):
@@ -110,15 +123,6 @@ func _physics_process(_delta):
 	if DEBUG_PATH:
 		debug_path.global_position = Vector2.ZERO
 		debug_path.points = path
-
-
-func on_death():
-	pass
-	
-func on_state_timeout():
-	match state:
-		State.Knockback:
-			state = State.Default
 
 	
 ## Pathfinding
