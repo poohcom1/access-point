@@ -102,7 +102,6 @@ GameManager="*res://system/GameManager.gd"
 
 [debug]
 
-settings/stdout/print_fps=true
 gdscript/warnings/return_value_discarded=false
 shapes/collision/shape_color=Color( 1, 1, 1, 0.419608 )
 

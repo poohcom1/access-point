@@ -148,6 +148,13 @@ func _movement_animation(v_input, h_input):
 		do_flash -= 1
 		if do_flash == 0:
 			$Flash.visible = false
+			
+func _process(_d):
+	# Weapons
+	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
+			- int(Input.is_action_just_pressed("previous_weapon")))
+	
+	weapons[weapon_ind].use()
 
 func _physics_process(_delta):
 	match state:
@@ -171,12 +178,6 @@ func _physics_process(_delta):
 			
 	# Move
 	mv = move_and_slide(mv)
-	
-	# Weapons
-	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
-			- int(Input.is_action_just_pressed("previous_weapon")))
-	
-	weapons[weapon_ind].use()
 	
 	# Regen
 	if $RegenTimer.time_left == 0 and hp < MAX_HP:

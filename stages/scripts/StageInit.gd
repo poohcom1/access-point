@@ -23,7 +23,6 @@ func _init_nav_tiles():
 		var id = tilemap.get_cell(cell.x, cell.y)
 		
 		if id == 8:
-			tilemap.set_cell(cell.x, cell.y, -1)
 			continue
 		
 		var id_below = tilemap.get_cell(cell.x+1, cell.y+1)

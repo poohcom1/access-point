@@ -294,8 +294,8 @@ z_index = 1
 script = SubResource( 1 )
 value = 1
 MULTITHREADED_PATHFIND = true
-SHOW_RANGE = true
 AGGRO_RANGE = 500
+PATHFIND_INTERVAL = 0.5
 
 [node name="ValueBar" parent="." instance=ExtResource( 1 )]
 position = Vector2( 0.264862, 10.9919 )
@@ -318,7 +318,7 @@ position = Vector2( 0.0271316, 0.0735059 )
 scale = Vector2( 1.04116, 1.04116 )
 frames = SubResource( 39 )
 animation = "run_side"
-frame = 1
+frame = 2
 playing = true
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]

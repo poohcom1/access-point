@@ -37,6 +37,7 @@ var direction = AnimUtil.Dir.Right
 onready var pathfind_timer := Timer.new()
 onready var state_timer := Timer.new()
 
+var onscreen = true
 
 # Setup
 func _ready():
@@ -82,6 +83,9 @@ func _ready():
 		get_node("VisibilityEnabler2D").connect("screen_entered", self, "_on_screen_enter")
 		get_node("VisibilityEnabler2D").connect("screen_exited", self, "_on_screen_exit")
 		
+		if not get_node("VisibilityEnabler2D").is_on_screen():
+			pathfind_interval = OFF_SCREEN_PATHFIND_INTERVAL
+			onscreen = false
 
 func _init_pathfind():
 	pathfind_timer.start(PATHFIND_INTERVAL)
@@ -89,7 +93,7 @@ func _init_pathfind():
 	assert(GameManager.player != null)
 	
 	# Set navigation target
-	set_target($"/root/GameManager".player)
+	set_target(GameManager.player)
 
 # States
 func change_state(new_state, timeout=0):
@@ -164,11 +168,13 @@ func generate_path():
 	pathfind_timer.start(pathfind_interval)
 	
 func _on_screen_enter():
+	onscreen = true
 	pathfind_timer.start(PATHFIND_INTERVAL)
 	
 	pathfind_interval = PATHFIND_INTERVAL
 	
 func _on_screen_exit():
+	onscreen = false
 	pathfind_interval = OFF_SCREEN_PATHFIND_INTERVAL
 	
 # ANIMATION ===============================
