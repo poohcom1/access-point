@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://assets/enemies/melee/run_front.png" type="Texture" id=1]
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=2]
@@ -12,49 +12,29 @@
 [ext_resource path="res://assets/SE/BugDeath2.mp3" type="AudioStream" id=10]
 [ext_resource path="res://assets/SE/BugDeath3.mp3" type="AudioStream" id=11]
 
-[sub_resource type="CanvasItemMaterial" id=44]
-light_mode = 1
-
 [sub_resource type="GDScript" id=1]
 script/source = "tool
 extends EnemyUnit
 
-# Properties
-export var DAMAGE = 5
-export var ATTACK_INTERVAL = 0.2
-
-export(float, 0.0, 1.0) var ATTACK_HEALTH = 0.75
-export(float, 0.0, 1.0) var RETREAT_HEALTH = 0.5
-export var RETREAT_SPEED := 150
-
-export var RETREAT_TIMER := 10.0
-var retreat_timer := 0.0
-
-export var USE_AI := true
-
+# Propertie
+export var DAMAGE = 30
 export(Array, AudioStream) var DEATH_SFX := []
 
+export var EXPLODE_RANGE := 150
+
 # Fields
-var was_touching := false # If touching player on the previous frame
-var is_attacking := false # Attack flag set from timer
-
-# Navigation
-enum NavStates { Attack, Retreat }
-var nav_state = NavStates.Attack
-
-var player_in_range := false
+enum CustomStates { Explode }
 
 # Nodes
-var attack_timer := Timer.new()
+var animControl: AnimControl
 
 # Signals
 func _ready():
-
-	# Attack timer
-	add_child(attack_timer)
-	attack_timer.start(ATTACK_INTERVAL)
-	attack_timer.connect(\"timeout\", self, \"_on_attack\")
+	if Engine.editor_hint: return
 	
+	animControl = AnimControl.new($AnimatedSprite)
+	add_child(animControl)
+
 	# Set death sound fx on random
 	$DeathSFX.stream = DEATH_SFX[randi() % DEATH_SFX.size()]
 
@@ -62,51 +42,33 @@ func _physics_process(_delta):
 	if Engine.editor_hint: return
 	match state:
 		State.Default:
-			# AI
-			if USE_AI:
-				var healers = get_tree().get_nodes_in_group(\"healer\")
-				
-				match nav_state:
-					NavStates.Attack:
-						speed = BASE_SPEED
-						if health <= MAX_HEALTH * RETREAT_HEALTH:
-							if healers.size() > 0:
-								set_target(MathUtil.get_nearest_node(self, healers))
-								nav_state = NavStates.Retreat	
-					NavStates.Retreat:
-						speed = RETREAT_SPEED
-						if not navigation_target.get_ref() or (health > MAX_HEALTH * ATTACK_HEALTH or healers.size() == 0):
-							set_target($\"/root/GameManager\".player)
-							nav_state = NavStates.Attack
-
-			## Pathfinding
 			mv = navigate()
 			
 			_set_animation()
 			
-			for i in get_slide_count():
-				var col := get_slide_collision(i)
-				
-				if col.collider is TileMap:
-					mv += col.normal * 2
-				
-			var _slide = move_and_slide(mv * speed)
+			move_and_slide(mv * speed)
 			
 			## Attack
 			for i in get_slide_count():
 				var collision = get_slide_collision(i)
 				if collision.collider is Player:
-					if not was_touching or is_attacking:
-						collision.collider.on_hit(DAMAGE)
-						is_attacking = false
-						was_touching = true
-					
-						attack_timer.start()
-					break
+					_explode()
+					can_knockback = false
 		State.Knockback:
 			# warning-ignore:return_value_discarded
 			move_and_slide(mv)
+		CustomStates.Explode:
+			pass
+			
+func _explode():
+	if state != CustomStates.Explode:
+		$AnimatedSprite.play(\"explode\")
+		$AnimatedSprite.connect(\"animation_finished\", self, \"queue_free\")
 		
+		if global_position.distance_to(GameManager.player.global_position) < EXPLODE_RANGE:
+			GameManager.player.on_hit(DAMAGE)
+			
+		state = CustomStates.Explode
 
 onready var previous_position := global_position
 
@@ -128,14 +90,11 @@ func _set_animation():
 	$AnimatedSprite.flip_h = abs(AnimUtil.Dir2Angle[direction]) > 90
 	$AnimatedSprite.play(\"%s_%s\" % [moveanim, diranim])
 
-func _on_attack():
-	is_attacking = true
-	
+
 func on_death():
 	state = State.Dead
 	#mutex.lock()
 	var corpse := Node2D.new()
-	
 	
 	get_parent().add_child(corpse)
 	corpse.global_position = global_position
@@ -159,23 +118,23 @@ func on_death():
 "
 
 [sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 48, 48 )
+region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 4 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 6 )
+region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 6 )
+region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 6 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=7]
@@ -199,151 +158,131 @@ atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 7 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 3 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 3 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 3 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 3 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 5 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 5 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 5 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=33]
 atlas = ExtResource( 3 )
-region = Rect2( 48, 0, 48, 48 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 3 )
-region = Rect2( 96, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 3 )
-region = Rect2( 144, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=39]
+[sub_resource type="AtlasTexture" id=35]
+atlas = ExtResource( 4 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=36]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=37]
 atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=40]
+[sub_resource type="AtlasTexture" id=38]
 atlas = ExtResource( 9 )
 region = Rect2( 64, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=41]
+[sub_resource type="AtlasTexture" id=39]
 atlas = ExtResource( 9 )
 region = Rect2( 128, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=42]
+[sub_resource type="AtlasTexture" id=40]
 atlas = ExtResource( 9 )
 region = Rect2( 192, 0, 64, 64 )
 
-[sub_resource type="AtlasTexture" id=43]
+[sub_resource type="AtlasTexture" id=41]
 atlas = ExtResource( 9 )
 region = Rect2( 256, 0, 64, 64 )
 
-[sub_resource type="SpriteFrames" id=37]
+[sub_resource type="SpriteFrames" id=42]
 animations = [ {
-"frames": [ SubResource( 2 ) ],
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
 "loop": true,
-"name": "idle_sidefront",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 3 ) ],
-"loop": true,
-"name": "idle_side",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 4 ) ],
-"loop": true,
-"name": "idle_back",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 5 ) ],
-"loop": true,
-"name": "idle_sideback",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 6 ) ],
-"loop": true,
-"name": "idle_front",
-"speed": 5.0
+"name": "run_side",
+"speed": 15.0
 }, {
 "frames": [ SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ) ],
 "loop": true,
@@ -351,42 +290,61 @@ animations = [ {
 "speed": 15.0
 }, {
 "frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ) ],
-"loop": true,
-"name": "run_front",
-"speed": 15.0
-}, {
-"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
-"loop": true,
-"name": "run_sidefront",
-"speed": 15.0
-}, {
-"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
 "loop": false,
 "name": "death",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
-"loop": true,
-"name": "run_side",
-"speed": 15.0
-}, {
-"frames": [ SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ) ],
+"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ) ],
 "loop": true,
 "name": "run_sideback",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ) ],
-"loop": false,
-"name": "explode",
+"frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
+"loop": true,
+"name": "run_front",
 "speed": 15.0
+}, {
+"frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
+"loop": true,
+"name": "run_sidefront",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 32 ) ],
+"loop": true,
+"name": "idle_sidefront",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 33 ) ],
+"loop": true,
+"name": "idle_sideback",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 34 ) ],
+"loop": true,
+"name": "idle_front",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 35 ) ],
+"loop": true,
+"name": "idle_back",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 36 ) ],
+"loop": true,
+"name": "idle_side",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ) ],
+"loop": true,
+"name": "explode",
+"speed": 12.0
 } ]
 
-[sub_resource type="CircleShape2D" id=38]
+[sub_resource type="CircleShape2D" id=43]
 
-[node name="MeleeBug" type="KinematicBody2D" groups=[
+[node name="SuicideBug" type="KinematicBody2D" groups=[
 "melee_bug",
 ]]
-material = SubResource( 44 )
 z_index = 3
 collision_layer = 12
 collision_mask = 5
@@ -396,13 +354,14 @@ __meta__ = {
 "_edit_vertical_guides_": [ -52.3686 ]
 }
 BASE_SPEED = 250
+MAX_HEALTH = 10.0
 enemy_class = "melee"
 MULTITHREADED_PATHFIND = true
-SHOW_RANGE = true
 AGGRO_RANGE = 500
 OFF_SCREEN_PATHFIND_INTERVAL = 4.0
-DAMAGE = 1
+DAMAGE = 20
 DEATH_SFX = [ ExtResource( 10 ), ExtResource( 11 ) ]
+EXPLODE_RANGE = 100
 
 [node name="ValueBar" parent="." instance=ExtResource( 2 )]
 position = Vector2( -0.0371628, 9.81096 )
@@ -411,20 +370,21 @@ max_value = "MAX_HEALTH"
 y_scale = 2.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 0.0271316, 0.0735059 )
 scale = Vector2( 1.04116, 1.04116 )
-frames = SubResource( 37 )
-animation = "idle_side"
+frames = SubResource( 42 )
+animation = "idle_front"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -0.25093, 0.0662174 )
-shape = SubResource( 38 )
+shape = SubResource( 43 )
 
 [node name="HealingFX" parent="." instance=ExtResource( 8 )]
 
 [node name="DeathSFX" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 10 )
+stream = ExtResource( 11 )
 volume_db = 0.299
 max_distance = 700.0
 attenuation = 0.554785

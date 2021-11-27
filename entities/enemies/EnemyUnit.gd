@@ -4,17 +4,20 @@ class_name EnemyUnit
 
 
 # States
-enum State { Passive, Default, Knockback, Stunned, Dead }
+enum State { Passive=-1, Default=-2, Knockback=-3, Stunned=-4, Dead=-5 }
 var state = State.Passive
 
 # Properties
 export var MULTITHREADED_PATHFIND := false
 export var PATHFIND_EPSILON := 16
 export var DEBUG_PATH := false
+
 var debug_path: Line2D
 
 export var SHOW_RANGE := false setget _debug_range
 export var AGGRO_RANGE := 300 setget _set_aggro_range
+
+var can_knockback = true
 
 
 # Navigation
@@ -92,7 +95,7 @@ func to_aggro():
 	state = State.Default
 
 func on_hit_knockback(_dir, time = 0.1):
-	if state != State.Dead:
+	if can_knockback and state != State.Dead:
 		state = State.Knockback
 		mv = _dir * 10
 		state_timer.start(time)

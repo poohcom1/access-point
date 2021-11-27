@@ -18,7 +18,11 @@ export var SPAWN_MIN_INTERVAL := 5.0
 export var ENEMY_AMOUNT := 10
 export var ENEMY_MAX_AMOUNT := 100
 export var ENEMY_MIN_AMOUNT := 1
-export(float, 0.0, 1.0) var MEDIC_CHANCE := 0.1
+
+export var MELEE_PRIORITY = 90
+export var HEALER_PRIORITY = 10
+export var SUICIDE_PRIORITY = 1
+
 
 export var ENEMY_INCREMENT := 0
 export var ENEMY_PRE_AGGRO := true
@@ -41,8 +45,22 @@ onready var radius = $SpawnArea.shape.radius
 # Enemies
 const MeleeBug = preload(\"res://entities/enemies/MeleeBug.tscn\")
 const HealerBug = preload(\"res://entities/enemies/HealerBug.tscn\")
+const SuicideBug = preload(\"res://entities/enemies/SuicideBug.tscn\")
+
+var spawn_priorities := {}
+var priority_total = 0
 
 func _ready():
+	spawn_priorities = {
+		MELEE_PRIORITY: MeleeBug,
+		HEALER_PRIORITY: HealerBug,
+		SUICIDE_PRIORITY: SuicideBug
+	}
+	
+	for priority in spawn_priorities:
+		priority_total += priority
+		
+	
 	interval = SPAWN_INTERVAL
 	
 	if DISABLE_ON_SCREEN:
@@ -75,7 +93,7 @@ func start_spawn():
 		on_spawn()
 		
 		for trigger in trigger_areas:
-			trigger.queue_free()
+			trigger.disconnect(\"body_entered\", self, \"on_enter\")
 	
 func on_spawn():
 	timer.start(clamp(interval, SPAWN_MIN_INTERVAL, SPAWN_MAX_INTERVAL))
@@ -91,9 +109,16 @@ func on_spawn():
 	for i in amount:
 		var EnemyType = MeleeBug
 		
-		if rand_range(0, 1.0) < MEDIC_CHANCE:
-			EnemyType = HealerBug
+		var chance = randi() % priority_total
 		
+		var current_chance = 0
+	
+		for priority in spawn_priorities:
+			current_chance += priority
+			if chance < current_chance:
+				EnemyType = spawn_priorities[priority]
+				break
+
 		var enemy = EnemyType.instance()
 		
 		enemy.position = random_position()
