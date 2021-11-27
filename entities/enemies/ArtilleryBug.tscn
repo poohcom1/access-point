@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://entities/enemies/scripts/ArtilleryBug.gd" type="Script" id=1]
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=2]
@@ -135,6 +135,13 @@ tracks/1/keys = {
 "update": 0,
 "values": [ 0.0 ]
 }
+
+[sub_resource type="CanvasItemMaterial" id=49]
+light_mode = 1
+
+[sub_resource type="Gradient" id=50]
+offsets = PoolRealArray( 0.396624, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 5 )
@@ -394,6 +401,24 @@ texture_scale = 0.13
 color = Color( 0.533333, 0.839216, 0.835294, 1 )
 energy = 0.0
 
+[node name="Particles" type="CPUParticles2D" parent="Body/Segment"]
+material = SubResource( 49 )
+emitting = false
+amount = 16
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+local_coords = false
+emission_shape = 2
+emission_rect_extents = Vector2( 12, 2 )
+direction = Vector2( 0, 1 )
+spread = 56.82
+gravity = Vector2( 0, 11 )
+initial_velocity = 11.0
+linear_accel = -24.82
+radial_accel = 46.72
+color_ramp = SubResource( 50 )
+
 [node name="Head" type="Node2D" parent="Body"]
 z_index = 1
 
@@ -407,7 +432,7 @@ energy = 0.0
 [node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
 z_index = 1
 frames = SubResource( 44 )
-frame = 4
+frame = 2
 playing = true
 offset = Vector2( 0, -2 )
 

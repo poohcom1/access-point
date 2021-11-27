@@ -126,10 +126,16 @@ func _movement_animation(v_input, h_input):
 		
 	legs_anim.flip_h = abs(move_angle) > 90
 	body_anim.flip_h = abs(aim_angle) > 90
+	$Flash.flip_h = body_anim.flip_h
 		
 	legs_anim.play("%s_%s" % [move_string, AnimUtil.Dir2Anim[legs_dir]], reverse_anim)
 	body_anim.play("%s_%s" % [move_string, AnimUtil.Dir2Anim[body_dir]])
-				
+	$Flash.play(AnimUtil.Dir2Anim[body_dir])
+	
+	if do_flash > 0:
+		do_flash -= 1
+		if do_flash == 0:
+			$Flash.visible = false
 
 func _physics_process(_delta):
 	match state:
@@ -163,6 +169,12 @@ func _physics_process(_delta):
 	# Regen
 	if $RegenTimer.time_left == 0 and hp < MAX_HP:
 		hp += REGEN_PER_FRAME
+		
+var do_flash = 0
+		
+func flash():
+	$Flash.visible = true
+	do_flash = 2
 
 # States
 func on_hit(damage: float):

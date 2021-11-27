@@ -83,6 +83,9 @@ func _on_shoot():
 				var current_target = cross_hair.parent_ref.get_ref()
 				if current_target and current_target == target:
 					cross_hair.detach()
+		
+	get_parent().flash()
+	
 				
 func damage_enemy(enemy: Enemy, rampup=1):
 	var damage = DAMAGE

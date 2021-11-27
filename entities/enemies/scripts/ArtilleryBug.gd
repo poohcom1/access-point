@@ -301,3 +301,6 @@ func _play_charge_anim(segment, final = false):
 		segment.get_node("ChargeAnim").play("charge")
 	else:
 		segment.get_node("ChargeAnim").play("charge_final")
+		
+		if segment.has_node("Particles"):
+			segment.get_node("Particles").emitting = true

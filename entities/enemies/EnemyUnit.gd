@@ -172,7 +172,7 @@ func _set_animation(anim_node = $AnimatedSprite):
 	var moveanim = "run"
 	
 	if mv != Vector2.ZERO:
-		if global_position.distance_squared_to(previous_position) > 100:
+		if global_position.distance_squared_to(previous_position) > 1000:
 			
 			var angle = global_position.angle_to_point(previous_position)
 			previous_position = global_position
