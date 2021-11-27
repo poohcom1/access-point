@@ -76,7 +76,7 @@ func _tilemap_init():
 	var tilemapsize = tilemap.get_used_rect().size
 	for xx in range(int(tilemapsize.x)+10):
 		sparse_array.append([])
-		for yy in range(int(tilemapsize.y)+10):
+		for _yy in range(int(tilemapsize.y)+10):
 			sparse_array[xx].append(0)
 
 

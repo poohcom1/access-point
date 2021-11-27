@@ -213,7 +213,11 @@ position = Vector2( 0, 192 )
 [node name="SpawnArea" parent="." instance=ExtResource( 4 )]
 position = Vector2( 152, 240 )
 DISABLE_ON_SCREEN = false
-ENEMY_AMOUNT = 20
+SPAWN_COUNT = 1
+ENEMY_AMOUNT = 5
+MELEE_PRIORITY = 0
+HEALER_PRIORITY = 1
+SUICIDE_PRIORITY = 0
 
 [node name="SpawnTrigger" parent="SpawnArea" instance=ExtResource( 7 )]
 position = Vector2( 104, -144 )

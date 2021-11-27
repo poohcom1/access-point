@@ -96,13 +96,13 @@ func start_spawn():
 			trigger.disconnect(\"body_entered\", self, \"on_enter\")
 	
 func on_spawn():
+	if SPAWN_COUNT == 0: return
 	timer.start(clamp(interval, SPAWN_MIN_INTERVAL, SPAWN_MAX_INTERVAL))
 	
 	if on_screen: return
 	
 	randomize()
 	interval += SPAWN_INCREMENT
-	SPAWN_COUNT -= 1
 	
 	var amount = clamp(ENEMY_AMOUNT, ENEMY_MIN_AMOUNT, ENEMY_MAX_AMOUNT)
 	
@@ -127,9 +127,8 @@ func on_spawn():
 		enemies_to_spawn.append(enemy)
 		
 	ENEMY_AMOUNT += ENEMY_INCREMENT
-	
-	if SPAWN_COUNT == 0:
-		queue_free()
+	SPAWN_COUNT -= 1
+
 
 func random_position() -> Vector2:
 	var angle = rand_range(0, 2 * PI)
@@ -150,7 +149,13 @@ func _process(_delta):
 	for _i in range(count):
 		var enemy = enemies_to_spawn.pop_back()
 		if not enemy: return
-		add_child(enemy)
+	
+		get_tree().root.add_child(enemy)
+		enemy.global_position = global_position + enemy.position
+		
+	if len(enemies_to_spawn) == 0 and SPAWN_COUNT == 0:
+		set_process(false)
+		$SpawnArea.disabled = true
 	
 "
 

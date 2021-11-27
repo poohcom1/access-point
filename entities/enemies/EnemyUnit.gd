@@ -53,7 +53,7 @@ func _ready():
 	add_child(state_timer)
 	
 	# State timer
-	state_timer.connect("timeout", self, "_on_state_timeout")
+	state_timer.connect("timeout", self, "on_state_timeout")
 	
 	pathfind_timer.connect("timeout", self, "generate_path")
 	pathfind_timer.autostart = false
@@ -112,11 +112,10 @@ func _physics_process(_delta):
 		debug_path.points = path
 
 
-		
 func on_death():
 	pass
 	
-func _on_state_timeout():
+func on_state_timeout():
 	match state:
 		State.Knockback:
 			state = State.Default
@@ -124,14 +123,10 @@ func _on_state_timeout():
 	
 ## Pathfinding
 func set_target(target):
-	#mutex.lock()
 	navigation_target = weakref(target)
-	#mutex.unlock()
 
 func navigate():
-	#mutex.lock()
 	if path.size() <= 1: 
-		#mutex.unlock()
 		return Vector2.ZERO
 
 	var mv = global_position.direction_to(path[1])
@@ -158,6 +153,30 @@ func generate_path():
 
 	pathfind_timer.start(PATHFIND_INTERVAL)
 	
+# Eight-direction animation
+onready var previous_position := global_position
+
+func _set_animation(anim_node = $AnimatedSprite):
+	if not is_instance_valid(anim_node):
+		return
+	
+	#todo: Use idle anim when states are added
+	var moveanim = "run"
+	
+	if mv != Vector2.ZERO:
+		if global_position.distance_squared_to(previous_position) > 100:
+			
+			var angle = global_position.angle_to_point(previous_position)
+			previous_position = global_position
+			
+			direction = AnimUtil.get_dir(angle)
+
+		
+	var diranim = AnimUtil.Dir2Anim[direction]
+	
+	anim_node.flip_h = abs(AnimUtil.Dir2Angle[direction]) > 90
+	anim_node.play("%s_%s" % [moveanim, diranim])
+	
 # Tool
 func _set_aggro_range(aggro_range):
 	AGGRO_RANGE = aggro_range
@@ -167,3 +186,8 @@ func _debug_range(show):
 	SHOW_RANGE = show
 	_aggro_shape.visible = show
 	_aggro_shape.modulate = Color(1, 0, 0, 0.25)
+
+func distance_sqr_to_player() -> float:
+	if not GameManager.player: 
+		return INF
+	return global_position.distance_squared_to(GameManager.player.global_position)
