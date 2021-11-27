@@ -120,13 +120,16 @@ func on_spawn():
 
 		var enemy = EnemyType.instance()
 		
-		enemy.position = random_position()
+		enemy.global_position = global_position + random_position()
 		
 		enemy.state = enemy.State.Default
-		enemies_to_spawn.append(enemy)
+		
+		GameManager.spawn_queue.append(enemy)
 		
 	ENEMY_AMOUNT += ENEMY_INCREMENT
 	SPAWN_COUNT -= 1
+	if SPAWN_COUNT == 0:
+		queue_free()
 
 
 func random_position() -> Vector2:
@@ -140,19 +143,3 @@ func enter_screen():
 	
 func exit_screen():
 	on_screen = false
-	
-# Lazy spawning
-func _process(_delta):
-	var count = SPAWNS_PER_FRAME
-	
-	for _i in range(count):
-		var enemy = enemies_to_spawn.pop_back()
-		if not enemy: return
-	
-		get_tree().root.add_child(enemy)
-		enemy.global_position = global_position + enemy.position
-		
-	if len(enemies_to_spawn) == 0 and SPAWN_COUNT == 0:
-		set_process(false)
-		$SpawnArea.disabled = true
-	

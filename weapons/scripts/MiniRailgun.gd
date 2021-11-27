@@ -27,6 +27,7 @@ onready var shoot_timer := Timer.new()
 
 func _ready():
 	add_child(shoot_timer)
+	shoot_timer.one_shot = true
 	shoot_timer.start(SHOOT_INTERVAL)
 	# warning-ignore:return_value_discarded
 	shoot_timer.connect("timeout", self, "on_shoot")
@@ -51,7 +52,7 @@ func on_shoot():
 	
 	shoot_timer.start()
 	
-	add_child(OneShotAudio2D.new(SFX, -2.0))
+	add_child(OneShotAudio2D.new(SFX, 2.0))
 	
 	
 func calculate_damage(distance: float):
@@ -65,7 +66,7 @@ func on_active():
 		if Input.is_action_just_pressed("shoot"):
 			queue_shoot = true
 			
-			if just_switched_on:
+			if just_switched_on or shoot_timer.time_left == 0:
 				on_shoot()
 				just_switched_on = false
 

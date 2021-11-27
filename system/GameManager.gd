@@ -40,6 +40,9 @@ func _ready():
 func _process(_delta):
 	reinsert_path_lazy()
 
+	# Spawners
+	if spawn_queue.size() > 0:
+		get_tree().root.add_child(spawn_queue.pop_back())
 
 func lazy_path_function(userdata):
 	print(userdata)
@@ -99,3 +102,9 @@ func add_pathfind_lazy_list(obj):
 		
 	lazy_mutex.unlock()
 	#lazy_semaphore.post()
+
+
+### SPAWNERS
+
+var spawn_queue := []
+

@@ -218,6 +218,20 @@ DISABLE_ON_SCREEN = false
 [node name="SpawnTrigger" parent="SpawnArea" instance=ExtResource( 7 )]
 position = Vector2( 176, -104 )
 
+[node name="SpawnArea2" parent="." instance=ExtResource( 4 )]
+position = Vector2( -46.6138, 228.95 )
+DISABLE_ON_SCREEN = false
+
+[node name="SpawnTrigger" parent="SpawnArea2" instance=ExtResource( 7 )]
+position = Vector2( 326.614, -111.071 )
+
+[node name="SpawnArea3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 260.978, 240.263 )
+DISABLE_ON_SCREEN = false
+
+[node name="SpawnTrigger" parent="SpawnArea3" instance=ExtResource( 7 )]
+position = Vector2( 9.1228, -125.92 )
+
 [node name="Turret" parent="." instance=ExtResource( 12 )]
 position = Vector2( -57.2205, 83.3964 )
 

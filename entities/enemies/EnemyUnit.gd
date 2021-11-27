@@ -177,6 +177,7 @@ func _set_animation(anim_node = $AnimatedSprite):
 			var angle = global_position.angle_to_point(previous_position)
 			previous_position = global_position
 			
+			
 			direction = AnimUtil.get_dir(angle)
 
 		
