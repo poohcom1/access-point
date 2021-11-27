@@ -8,7 +8,8 @@ export var MAX_HP := 100
 export var MAX_ENERGY := 1000
 
 export var MODULE_CHARGE_SPEED := 2
-export var radar_range := 10
+
+export var radar_range := 30
 
 export var DEFENSE_MODULE: PackedScene
 export var ATTACK_MODULE: PackedScene
