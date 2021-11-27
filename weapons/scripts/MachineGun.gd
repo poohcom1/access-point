@@ -1,12 +1,4 @@
-[gd_scene load_steps=6 format=2]
-
-[ext_resource path="res://assets/SE/MachineGun2.mp3" type="AudioStream" id=1]
-[ext_resource path="res://assets/SE/Ricochet1.mp3" type="AudioStream" id=2]
-[ext_resource path="res://assets/SE/Ricochet2.mp3" type="AudioStream" id=3]
-[ext_resource path="res://assets/ui/crosshairs/crosshair010.png" type="Texture" id=4]
-
-[sub_resource type="GDScript" id=1]
-script/source = "extends Weapon
+extends Weapon
 
 export var SHOOT_INTERVAL := 0.05
 export var DAMAGE = 1
@@ -23,8 +15,8 @@ var shooting = false
 var hit_targets := {} # For damage rampup
 
 # Nodes
-const ShootArea = preload(\"res://weapons/objects/ShootArea.tscn\")
-const CrossHair = preload(\"res://ui/CrossHair.tscn\")
+const ShootArea = preload("res://weapons/objects/ShootArea.tscn")
+const CrossHair = preload("res://ui/CrossHair.tscn")
 var cross_hair_ref := WeakRef.new()
 
 var shoot_collider: Area2D
@@ -36,7 +28,7 @@ func _ready():
 	## Timer
 	
 	# warning-ignore:return_value_discarded
-	shoot_interval.connect(\"timeout\", self, \"_on_shoot\")
+	shoot_interval.connect("timeout", self, "_on_shoot")
 	add_child(shoot_interval)
 	
 	## Hit-scan
@@ -44,7 +36,7 @@ func _ready():
 	add_child(shoot_collider)
 	
 	## Name
-	weapon_name = \"Submachine-gun\"
+	weapon_name = "Submachine-gun"
 
 
 func _on_shoot():		
@@ -98,8 +90,8 @@ func damage_enemy(enemy: Enemy, rampup=1):
 	## Rampup system
 	if not hit_targets.has(enemy):
 		hit_targets[enemy] = {
-			\"frames\": 1,
-			\"hit\": true
+			"frames": 1,
+			"hit": true
 		}
 	else:
 		hit_targets[enemy].frames += rampup
@@ -108,7 +100,7 @@ func damage_enemy(enemy: Enemy, rampup=1):
 		damage = floor(lerp(
 			DAMAGE, 
 			RAMP_UP_DAMAGE, 
-			min(hit_targets[enemy][\"frames\"], RAMP_UP_FRAMES)/float(RAMP_UP_FRAMES)
+			min(hit_targets[enemy]["frames"], RAMP_UP_FRAMES)/float(RAMP_UP_FRAMES)
 			))
 	
 	enemy.on_hit(damage)
@@ -131,7 +123,7 @@ func get_nearest_enemy(bodies):
 	return nearest_enemy
 
 func on_active():
-	if Input.is_action_pressed(\"shoot\") and ammo > 0:
+	if Input.is_action_pressed("shoot") and ammo > 0:
 		line_of_sight.cast_to = (get_global_mouse_position() - global_position)
 	
 		# Check for wall hits
@@ -146,12 +138,12 @@ func on_active():
 			# No wall hit
 			shoot_collider.global_position = get_global_mouse_position()
 			
-		if Input.is_action_just_pressed(\"shoot\"):
+		if Input.is_action_just_pressed("shoot"):
 			on_switch()
 			
 		shooting = true
 			
-		#shoot_collider.get_node(\"Particles\").emitting = true
+		#shoot_collider.get_node("Particles").emitting = true
 	else:
 		if shooting:
 			if cross_hair_ref.get_ref():
@@ -160,7 +152,7 @@ func on_active():
 			shooting = false
 
 func on_switch():
-	if Input.is_action_pressed(\"shoot\"):
+	if Input.is_action_pressed("shoot"):
 		shoot_interval.start(SHOOT_INTERVAL)
 		_on_shoot()
 			
@@ -185,28 +177,3 @@ func on_switch_out():
 
 		
 		
-"
-
-[node name="MachineGun" type="Node2D"]
-script = SubResource( 1 )
-MAX_AMMO = 50
-CROSS_HAIR = ExtResource( 4 )
-RAMP_UP_DAMAGE = 6
-RAMP_UP_FRAMES = 40
-AOE = true
-
-[node name="LineOfSight" type="RayCast2D" parent="."]
-enabled = true
-collision_mask = 524288
-
-[node name="GunSE" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 1 )
-volume_db = -5.047
-
-[node name="Ricochet1" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 2 )
-volume_db = -15.389
-
-[node name="Ricochet2" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 3 )
-volume_db = -17.0

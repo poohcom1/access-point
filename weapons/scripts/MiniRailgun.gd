@@ -1,9 +1,4 @@
-[gd_scene load_steps=3 format=2]
-
-[ext_resource path="res://assets/ui/crosshairs/crosshair003.png" type="Texture" id=1]
-
-[sub_resource type="GDScript" id=1]
-script/source = "extends Weapon
+extends Weapon
 
 # Properties
 export var SHOOT_INTERVAL = 0.15
@@ -22,7 +17,7 @@ var just_switched_on := false
 var queue_shoot := false
 
 # Nodes
-const Bullet = preload(\"res://weapons/objects/RailgunProjectile.tscn\")
+const Bullet = preload("res://weapons/objects/RailgunProjectile.tscn")
 
 onready var shoot_timer := Timer.new()
 
@@ -32,9 +27,9 @@ func _ready():
 	add_child(shoot_timer)
 	shoot_timer.start(SHOOT_INTERVAL)
 	# warning-ignore:return_value_discarded
-	shoot_timer.connect(\"timeout\", self, \"on_shoot\")
+	shoot_timer.connect("timeout", self, "on_shoot")
 	
-	weapon_name = \"Mini-Railgun\"
+	weapon_name = "Mini-Railgun"
 
 func on_shoot():
 	if (not queue_shoot or not shooting) or not can_shoot(): return
@@ -59,9 +54,9 @@ func calculate_damage(distance: float):
 	return lerp(DAMAGE, MIN_DAMAGE, clamp(percent, 0.0, 1.0))
 
 func on_active():
-	if Input.is_action_pressed(\"shoot\") and ammo > 0:
+	if Input.is_action_pressed("shoot") and ammo > 0:
 		shooting = true
-		if Input.is_action_just_pressed(\"shoot\"):
+		if Input.is_action_just_pressed("shoot"):
 			queue_shoot = true
 			
 			if just_switched_on:
@@ -77,14 +72,3 @@ func on_switch():
 func on_switch_out():
 	shooting = false
 	just_switched_on = false
-"
-
-[node name="Railgun" type="Node2D"]
-script = SubResource( 1 )
-MAX_AMMO = 10
-CROSS_HAIR = ExtResource( 1 )
-SHOOT_INTERVAL = 1.0
-PIERCE_COUNT = 1000
-DAMAGE = 20
-MIN_DAMAGE = 20
-KNOCKBACK = 10

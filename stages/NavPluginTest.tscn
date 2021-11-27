@@ -12,7 +12,7 @@
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=10]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://assets/tiles/single-sand-tile.png" type="Texture" id=12]
-[ext_resource path="res://stages/StageInit.gd" type="Script" id=13]
+[ext_resource path="res://stages/scripts/StageInit.gd" type="Script" id=13]
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=14]
 
 [sub_resource type="TileSet" id=2]

@@ -11,7 +11,7 @@
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=10]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=11]
-[ext_resource path="res://stages/StageInit.gd" type="Script" id=13]
+[ext_resource path="res://stages/scripts/StageInit.gd" type="Script" id=13]
 
 [sub_resource type="TileSet" id=1]
 0/name = "isomud.png 0"
@@ -213,8 +213,6 @@ position = Vector2( 0, 192 )
 [node name="SpawnArea" parent="." instance=ExtResource( 4 )]
 position = Vector2( 104, 224 )
 DISABLE_ON_SCREEN = false
-MELEE_PRIORITY = 5
-HEALER_PRIORITY = 1
 
 [node name="SpawnTrigger" parent="SpawnArea" instance=ExtResource( 7 )]
 position = Vector2( 176, -104 )

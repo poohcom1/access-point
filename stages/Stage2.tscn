@@ -11,7 +11,7 @@
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
 [ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=10]
 [ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=11]
-[ext_resource path="res://stages/StageInit.gd" type="Script" id=12]
+[ext_resource path="res://stages/scripts/StageInit.gd" type="Script" id=12]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=13]
 
 [sub_resource type="TileSet" id=1]
