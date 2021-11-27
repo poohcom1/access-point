@@ -13,6 +13,9 @@ export var radar_range := 10
 export var DEFENSE_MODULE: PackedScene
 export var ATTACK_MODULE: PackedScene
 
+export var REGEN_DELAY := 5.0
+export var REGEN_PER_FRAME = 0.05
+
 
 # Fields
 var hp: float
@@ -148,15 +151,22 @@ func _physics_process(_delta):
 			mv.x = lerp(mv.x, speed * hor_mov, ACCEL_PERCENT)
 			mv.y = lerp(mv.y, speed * vert_mov, ACCEL_PERCENT)
 			
+	# Move
 	mv = move_and_slide(mv)
 	
+	# Weapons
 	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
 			- int(Input.is_action_just_pressed("previous_weapon")))
-							
+	
 	weapons[weapon_ind].use()
+	
+	# Regen
+	if $RegenTimer.time_left == 0 and hp < MAX_HP:
+		hp += REGEN_PER_FRAME
 
 # States
 func on_hit(damage: float):
+	$RegenTimer.start(REGEN_DELAY)
 	damage = defense_module.on_damage(damage)
 	emit_signal("on_damage", damage)
 	hp -= damage

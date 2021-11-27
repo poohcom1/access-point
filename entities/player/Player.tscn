@@ -499,3 +499,6 @@ animation = "walk_sidefront"
 [node name="Legs" type="AnimatedSprite" parent="."]
 frames = SubResource( 91 )
 animation = "idle_sidefront"
+
+[node name="RegenTimer" type="Timer" parent="."]
+one_shot = true

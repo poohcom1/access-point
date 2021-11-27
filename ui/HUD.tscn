@@ -49,23 +49,21 @@ func _ready():
 	
 	
 	yield(get_tree(), \"idle_frame\")
-	
 	player = GameManager.player
-	# warning-ignore:return_value_discarded
-	player.connect(\"on_damage\", self, \"update_health\")
 	
 	hp_bar.max_value = player.MAX_HP
 	energy_bar.max_value = player.MAX_ENERGY
 
-	
+
 
 func _process(_delta):
 	if not player: return
 	
+	update_health()
 	update_ammo()
 	update_energy()
 	
-func update_health(_dmg):
+func update_health():
 	yield(get_tree(), \"idle_frame\")
 	hp.text = \"%s: %d\" % [\"Health\", player.hp]
 	
@@ -75,11 +73,10 @@ func update_health(_dmg):
 	else:
 		hp_style.bg_color = BAR_COLOR
 	
-var ammo_cache = 0
-	
+#var ammo_cache = 0
 func update_ammo():
-	if ammo_cache == player.weapon.ammo and not player.weapon.reloading(): return
-	ammo_cache = player.weapon.ammo
+	#if ammo_cache == player.weapon.ammo and not player.weapon.reloading(): return
+	#ammo_cache = player.weapon.ammo
 	
 	if player.weapon.reloading():
 		ammo.text = \"\"
