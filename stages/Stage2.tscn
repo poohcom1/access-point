@@ -43,7 +43,7 @@
 0/shapes = [  ]
 0/z_index = 0
 
-[node name="Navigation2D" type="Navigation2D"]
+[node name="Navigation2D2" type="Navigation2D"]
 script = ExtResource( 12 )
 
 [node name="Props" type="TileMap" parent="."]
