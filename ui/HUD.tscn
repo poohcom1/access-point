@@ -56,7 +56,10 @@ func _ready():
 	
 	hp_bar.max_value = player.MAX_HP
 	energy_bar.max_value = player.MAX_ENERGY
-	module.text = \"Module: \" + player.module.module_name	
+	module.text = \"Module: [%s] [%s]\" % [
+		player.attack_module.module_name,
+		player.defense_module.module_name
+		]
 	
 
 func _process(_delta):
@@ -83,7 +86,9 @@ func update_ammo():
 func update_energy():
 	energy_bar.value = player.energy
 	
-	if energy_bar.value < player.module.ENERGY_COST:
+	var cost = min(player.attack_module.ENERGY_COST, player.defense_module.ENERGY_COST)
+	
+	if energy_bar.value < cost:
 		module_style.bg_color = BAR_LOW_COLOR_2
 	else:
 		module_style.bg_color = BAR_COLOR
