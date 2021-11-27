@@ -11,7 +11,7 @@ const Charge = preload(\"res://weapons/modules/objects/KnockbackCharge.tscn\")
 func _input(event):
 	if player.energy <= ENERGY_COST: return
 		
-	if event.is_action_pressed(\"alternative_shoot\"):
+	if event.is_action_pressed(input):
 		player.energy -= ENERGY_COST
 		var vector_to_mouse = get_global_mouse_position() - global_position
 		var dir = vector_to_mouse.normalized()

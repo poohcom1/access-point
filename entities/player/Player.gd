@@ -2,15 +2,17 @@ extends Entity
 class_name Player, "res://assets/player/walk_front_body.png"
 
 # Exports
-export(String, "Shield", "Dash", "Charge") var MODULE: String = "Shield"
 export(float, 0.0, 1.0) var ACCEL_PERCENT := 0.5
 
 export var MAX_HP := 100
 export var MAX_ENERGY := 1000
 
 export var MODULE_CHARGE_SPEED := 2
-
 export var radar_range := 10
+
+export var DEFENSE_MODULE: PackedScene
+export var ATTACK_MODULE: PackedScene
+
 
 # Fields
 var hp: float
@@ -47,7 +49,8 @@ const Shield = preload("res://weapons/modules/ShieldModule.tscn")
 const Dash = preload("res://weapons/modules/DashModule.tscn")
 const Charge = preload("res://weapons/modules/ChargeModule.tscn")
 
-var module: Module
+var attack_module: Module
+var defense_module: Module
 
 func _ready():
 	hp = MAX_HP
@@ -69,15 +72,14 @@ func _init_weapons():
 	weapons[weapon_ind].switch()
 	
 	# Modules
-	print(MODULE)
+	attack_module = ATTACK_MODULE.instance()
+	attack_module.input = "attack_module"
 	
-	module = ({
-		"Shield": Shield,
-		"Dash": Dash,
-		"Charge": Charge
-	}[MODULE]).instance()
+	defense_module = DEFENSE_MODULE.instance()
+	defense_module.input = "defense_module"
 	
-	add_child(module)
+	add_child(attack_module)
+	add_child(defense_module)
 	
 func switch_weapon(direction := 1):
 	if direction == 0: return
@@ -155,7 +157,7 @@ func _physics_process(_delta):
 
 # States
 func on_hit(damage: float):
-	damage = module.on_damage(damage)
+	damage = defense_module.on_damage(damage)
 	emit_signal("on_damage", damage)
 	hp -= damage
 
