@@ -32,7 +32,8 @@ func _ready():
 	weapon_name = "Mini-Railgun"
 
 func on_shoot():
-	if (not queue_shoot or not shooting) or not can_shoot(): return
+	if (not queue_shoot and not shooting) or not can_shoot(): return
+	queue_shoot = false
 	
 	ammo -= 1
 	
@@ -70,5 +71,8 @@ func on_switch():
 	just_switched_on = true
 
 func on_switch_out():
-	shooting = false
+	on_stop_shoot()
 	just_switched_on = false
+	
+func on_stop_shoot():
+	shooting = false

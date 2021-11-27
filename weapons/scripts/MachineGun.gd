@@ -139,7 +139,7 @@ func on_active():
 			shoot_collider.global_position = get_global_mouse_position()
 			
 		if Input.is_action_just_pressed("shoot"):
-			on_switch()
+			on_start_shoot_()
 			
 		shooting = true
 			
@@ -153,14 +153,22 @@ func on_active():
 
 func on_switch():
 	if Input.is_action_pressed("shoot"):
-		shoot_interval.start(SHOOT_INTERVAL)
-		_on_shoot()
-			
-		if not $GunSE.playing:
-			$GunSE.play()
-		shooting = true
+		on_start_shoot_()
 
 func on_switch_out():
+	on_stop_shoot_()
+	
+func on_start_shoot_():
+	.on_start_shoot_()
+	shoot_interval.start(SHOOT_INTERVAL)
+	_on_shoot()
+		
+	if not $GunSE.playing:
+		$GunSE.play()
+	shooting = true
+
+func on_stop_shoot_():
+	.on_stop_shoot_()
 	$GunSE.stop()
 	
 	# Ricochet SFX
@@ -169,11 +177,8 @@ func on_switch_out():
 		match randi() % 10:
 			1: $Ricochet1.play()
 			2: $Ricochet2.play()
-	
+		
 	hit_targets.clear()
 	shoot_interval.stop()
 	if cross_hair_ref.get_ref():
 		cross_hair_ref.get_ref().detach()
-
-		
-		

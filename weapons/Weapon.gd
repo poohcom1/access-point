@@ -7,6 +7,8 @@ export var CROSS_HAIR: Texture
 
 export var RELOAD_SOUND: AudioStream
 
+export var RELOAD_ON_OUT := true
+
 # Properties
 var weapon_name: String
 var active := false
@@ -41,7 +43,10 @@ func use():
 func _process(_delta):
 	if ammo <= 0 and active:
 		ammo = 0
-		on_switch_out()
+		if RELOAD_ON_OUT:
+			start_reload()			
+		else:
+			on_stop_shoot_()
 	
 func switch():
 	Input.set_custom_mouse_cursor(crosshair, 0, crosshair_offsets)
@@ -65,6 +70,12 @@ func on_switch():
 func on_switch_out():
 	pass
 	
+func on_start_shoot_():
+	active = true
+	
+func on_stop_shoot_():
+	active = false
+	
 func can_shoot() -> bool:
 	return ammo > 0 and reload_timer.time_left == 0
 	
@@ -72,7 +83,7 @@ func reloading() -> bool:
 	return reload_timer.time_left != 0
 	
 func start_reload():
-	on_switch_out()
+	on_stop_shoot_()
 	reload_timer.start(RELOAD_TIME)
 	
 	
