@@ -2,11 +2,9 @@ extends Navigation2D
 
 onready var tilemap := $Background
 
-
 func _ready():
-	$"/root/GameManager".navigation = self
+	GameManager.navigation = self
 	_init_nav_tiles()
-
 
 # Remove tiles directly above walls
 func _init_nav_tiles():
@@ -14,7 +12,10 @@ func _init_nav_tiles():
 	
 	var empty_tile = tileset.find_tile_by_name("NO_NAV_SAND")
 	
+	var cell_count = 0
+	
 	for cell in tilemap.get_used_cells():
+		cell_count += 1
 		
 		var id = tilemap.get_cell(cell.x, cell.y)
 		
@@ -24,7 +25,9 @@ func _init_nav_tiles():
 		var id_below_right = tilemap.get_cell(cell.x+2, cell.y+1)		
 	
 		
-		if id_below == -1 or "wall" in tileset.tile_get_name(id): continue
+		if id_below == -1 or "wall" in tileset.tile_get_name(id): 
+			cell_count += 1
+			continue
 		
 		if ("wall" in tileset.tile_get_name(id_below) ):
 			tilemap.set_cell(cell.x, cell.y, empty_tile)
@@ -36,3 +39,4 @@ func _init_nav_tiles():
 				and "wall" in tileset.tile_get_name(id_below_right) ):
 			tilemap.set_cell(cell.x, cell.y, empty_tile)
 			
+	print("Tilecount: %d" % cell_count)

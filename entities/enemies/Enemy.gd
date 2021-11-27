@@ -1,6 +1,8 @@
 extends Entity
 class_name Enemy
 
+var DAMAGE_NUMBERS = false
+
 # Properties
 export var MAX_HEALTH := 20.0
 export var value := 0
@@ -10,6 +12,7 @@ export var revealed := false
 
 const groups := ["enemy", "map"]
 const OFF_SCREEN = 250
+
 
 # Fields
 var health := 0.0 # Set in ready from max_health
@@ -40,13 +43,14 @@ func _ready():
 
 
 func on_hit(dmg: int):
-	if is_instance_valid(dmg_num):
-		dmg_num.queue_free()
-	
-	dmg_num = DmgNum.instance()
-	dmg_num.num = dmg
-	dmg_num.global_position = global_position
-	get_tree().root.add_child(dmg_num)
+	if DAMAGE_NUMBERS:
+		if is_instance_valid(dmg_num):
+			dmg_num.queue_free()
+		
+		dmg_num = DmgNum.instance()
+		dmg_num.num = dmg
+		dmg_num.global_position = global_position
+		get_tree().root.add_child(dmg_num)
 	
 	if health <= 0:
 		return

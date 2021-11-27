@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Warning1.mp3-0fbe6e53ea10b79976407f236371ccc9.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/Warning1.mp3"
+dest_files=[ "res://.import/Warning1.mp3-0fbe6e53ea10b79976407f236371ccc9.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -2,15 +2,25 @@ extends Entity
 class_name Player, "res://assets/player/walk_front_body.png"
 
 # Exports
-export(String, "Shield", "Dash", "Charge") var MODULE: String = "Shield"
 export(float, 0.0, 1.0) var ACCEL_PERCENT := 0.5
 
 export var MAX_HP := 100
 export var MAX_ENERGY := 1000
 
 export var MODULE_CHARGE_SPEED := 2
+<<<<<<< HEAD
 
 export var radar_range := 30
+=======
+export var radar_range := 10
+>>>>>>> 24c710f0c087fc2a22adbe069061b063bca05093
+
+export var DEFENSE_MODULE: PackedScene
+export var ATTACK_MODULE: PackedScene
+
+export var REGEN_DELAY := 5.0
+export var REGEN_PER_FRAME = 0.05
+
 
 # Fields
 var hp: float
@@ -47,7 +57,8 @@ const Shield = preload("res://weapons/modules/ShieldModule.tscn")
 const Dash = preload("res://weapons/modules/DashModule.tscn")
 const Charge = preload("res://weapons/modules/ChargeModule.tscn")
 
-var module: Module
+var attack_module: Module
+var defense_module: Module
 
 func _ready():
 	hp = MAX_HP
@@ -69,15 +80,14 @@ func _init_weapons():
 	weapons[weapon_ind].switch()
 	
 	# Modules
-	print(MODULE)
+	attack_module = ATTACK_MODULE.instance()
+	attack_module.input = "attack_module"
 	
-	module = ({
-		"Shield": Shield,
-		"Dash": Dash,
-		"Charge": Charge
-	}[MODULE]).instance()
+	defense_module = DEFENSE_MODULE.instance()
+	defense_module.input = "defense_module"
 	
-	add_child(module)
+	add_child(attack_module)
+	add_child(defense_module)
 	
 func switch_weapon(direction := 1):
 	if direction == 0: return
@@ -121,10 +131,16 @@ func _movement_animation(v_input, h_input):
 		
 	legs_anim.flip_h = abs(move_angle) > 90
 	body_anim.flip_h = abs(aim_angle) > 90
+	$Flash.flip_h = body_anim.flip_h
 		
 	legs_anim.play("%s_%s" % [move_string, AnimUtil.Dir2Anim[legs_dir]], reverse_anim)
 	body_anim.play("%s_%s" % [move_string, AnimUtil.Dir2Anim[body_dir]])
-				
+	$Flash.play(AnimUtil.Dir2Anim[body_dir])
+	
+	if do_flash > 0:
+		do_flash -= 1
+		if do_flash == 0:
+			$Flash.visible = false
 
 func _physics_process(_delta):
 	match state:
@@ -146,16 +162,29 @@ func _physics_process(_delta):
 			mv.x = lerp(mv.x, speed * hor_mov, ACCEL_PERCENT)
 			mv.y = lerp(mv.y, speed * vert_mov, ACCEL_PERCENT)
 			
+	# Move
 	mv = move_and_slide(mv)
 	
+	# Weapons
 	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
 			- int(Input.is_action_just_pressed("previous_weapon")))
-							
+	
 	weapons[weapon_ind].use()
+	
+	# Regen
+	if $RegenTimer.time_left == 0 and hp < MAX_HP:
+		hp += REGEN_PER_FRAME
+		
+var do_flash = 0
+		
+func flash():
+	$Flash.visible = true
+	do_flash = 2
 
 # States
 func on_hit(damage: float):
-	damage = module.on_damage(damage)
+	$RegenTimer.start(REGEN_DELAY)
+	damage = defense_module.on_damage(damage)
 	emit_signal("on_damage", damage)
 	hp -= damage
 

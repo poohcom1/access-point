@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Railgun1.mp3-4362279ecd9df6f4591c1db8ecd04457.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/Railgun1.mp3"
+dest_files=[ "res://.import/Railgun1.mp3-4362279ecd9df6f4591c1db8ecd04457.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

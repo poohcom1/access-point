@@ -49,25 +49,21 @@ func _ready():
 	
 	
 	yield(get_tree(), \"idle_frame\")
-	
 	player = GameManager.player
-	# warning-ignore:return_value_discarded
-	player.connect(\"on_damage\", self, \"update_health\")
 	
 	hp_bar.max_value = player.MAX_HP
 	energy_bar.max_value = player.MAX_ENERGY
-	module.text = \"Module: \" + player.module.module_name	
-	
+
+
 
 func _process(_delta):
 	if not player: return
 	
-	ammo.text = \"%s: %d [%s]\" % [\"Ammo\", player.weapon.ammo, player.weapon.weapon_name]
-	ammo_bar.value = float(player.weapon.ammo)/player.weapon.MAX_AMMO * 100
-	
+	update_health()
+	update_ammo()
 	update_energy()
 	
-func update_health(_dmg):
+func update_health():
 	yield(get_tree(), \"idle_frame\")
 	hp.text = \"%s: %d\" % [\"Health\", player.hp]
 	
@@ -77,16 +73,40 @@ func update_health(_dmg):
 	else:
 		hp_style.bg_color = BAR_COLOR
 	
+#var ammo_cache = 0
 func update_ammo():
-	pass
+	#if ammo_cache == player.weapon.ammo and not player.weapon.reloading(): return
+	#ammo_cache = player.weapon.ammo
+	
+	if player.weapon.reloading():
+		ammo.text = \"\"
+		ammo.push_color(BAR_LOW_COLOR_2)
+		ammo.add_text(\"%s: Reloading...\" % [player.weapon.weapon_name])
+		
+		ammo_style.bg_color = BAR_LOW_COLOR_2
+		ammo_bar.value = (
+			100-player.weapon.reload_timer.time_left/player.weapon.RELOAD_TIME * 100
+			)
+	else:
+		ammo_style.bg_color = BAR_COLOR
+		ammo.text = \"%s: %d\" % [player.weapon.weapon_name, player.weapon.ammo]
+		ammo_bar.value = float(player.weapon.ammo)/player.weapon.MAX_AMMO * 100
 	
 func update_energy():
-	energy_bar.value = player.energy
+	module.text = \"\"
+	module.add_text(\"Module: \")
+	if player.attack_module.ENERGY_COST > player.energy:
+		module.push_color(BAR_LOW_COLOR)
+		
+	module.add_text(\"[%s] \" % player.attack_module.module_name)
 	
-	if energy_bar.value < player.module.ENERGY_COST:
-		module_style.bg_color = BAR_LOW_COLOR_2
-	else:
-		module_style.bg_color = BAR_COLOR
+	if player.defense_module.ENERGY_COST > player.energy:
+			module.push_color(BAR_LOW_COLOR)
+		
+	module.add_text(\"[%s] \" % player.defense_module.module_name)
+	
+	energy_bar.value = player.energy
+
 	
 
 static func generate_bar(name, percent):
@@ -148,7 +168,7 @@ __meta__ = {
 TEXT_COLOR = Color( 0.509804, 0.960784, 0.509804, 1 )
 BAR_COLOR = Color( 0.509804, 0.960784, 0.509804, 1 )
 BAR_LOW_COLOR = Color( 1, 0.305882, 0.305882, 1 )
-BAR_LOW_COLOR_2 = Color( 1, 0.619608, 0.176471, 1 )
+BAR_LOW_COLOR_2 = Color( 1, 0.890196, 0.176471, 1 )
 
 [node name="Health" type="RichTextLabel" parent="MainMargins/Columns/Gauges/PlayerBars"]
 margin_right = 352.0

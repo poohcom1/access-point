@@ -17,11 +17,18 @@ export var HEAL_AMOUNT := 2
 
 export var REGEN_AMOUNT := 0.25
 
+export var DISTANCE_TO_PLAYER := 100
+export var HEAL_PAUSE := 0.3
+
 const HEALER_GROUP = \"healer\"
 
 # Nodes
 onready var heal_timer := Timer.new()
 onready var heal_area := $HealingArea
+
+# States
+enum HealerState { Heal }
+
 
 # Signals
 func _ready():
@@ -43,10 +50,18 @@ func _physics_process(_delta):
 			mv = navigate()
 
 			mv = move_and_slide(mv * speed)
+			
+			if distance_sqr_to_player() < DISTANCE_TO_PLAYER*DISTANCE_TO_PLAYER:
+				state = HealerState.Heal
+				state_timer.start(HEAL_PAUSE)
 		State.Knockback:
 			mv = move_and_slide(mv)
 
-
+func on_state_timeout():
+	if state == HealerState.Heal:
+		state = State.Default
+	.on_state_timeout()
+	
 	
 func _on_heal():
 	health = min(health + REGEN_AMOUNT, MAX_HEALTH)
@@ -59,29 +74,6 @@ func _on_heal():
 				
 				if body.has_node(\"HealingFX\"):
 					body.get_node(\"HealingFX\").emitting = true
-
-onready var previous_position := global_position
-
-func _set_animation():
-	if not is_instance_valid($AnimatedSprite):
-		return
-	
-	#todo: Use idle anim when states are added
-	var moveanim = \"run\"
-	
-	if mv != Vector2.ZERO:
-		if global_position.distance_squared_to(previous_position) > 100:
-			
-			var angle = global_position.angle_to_point(previous_position)
-			previous_position = global_position
-			
-			direction = AnimUtil.get_dir(angle)
-
-		
-	var diranim = AnimUtil.Dir2Anim[direction]
-	
-	$AnimatedSprite.flip_h = abs(AnimUtil.Dir2Angle[direction]) > 90
-	$AnimatedSprite.play(\"%s_%s\" % [moveanim, diranim])
 
 	
 func on_death():
@@ -113,12 +105,12 @@ atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 2 )
-region = Rect2( 192, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 2 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 3 )
@@ -145,103 +137,103 @@ atlas = ExtResource( 2 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 7 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 7 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 7 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 5 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 5 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 5 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 6 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 6 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 6 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 6 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=38]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 3 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=39]
@@ -253,12 +245,12 @@ animations = [ {
 }, {
 "frames": [ SubResource( 6 ) ],
 "loop": true,
-"name": "idle_back",
+"name": "idle_sideback",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 7 ) ],
 "loop": true,
-"name": "idle_sideback",
+"name": "idle_back",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 8 ) ],
@@ -273,27 +265,27 @@ animations = [ {
 }, {
 "frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ) ],
 "loop": true,
-"name": "run_front",
-"speed": 15.0
-}, {
-"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
-"loop": true,
 "name": "run_sidefront",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ) ],
+"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
 "loop": false,
 "name": "death",
 "speed": 12.0
 }, {
-"frames": [ SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ) ],
+"frames": [ SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ) ],
 "loop": true,
 "name": "run_side",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ) ],
+"frames": [ SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ) ],
 "loop": true,
 "name": "run_sideback",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ) ],
+"loop": true,
+"name": "run_front",
 "speed": 15.0
 } ]
 
@@ -326,5 +318,7 @@ position = Vector2( 0.0271316, 0.0735059 )
 scale = Vector2( 1.04116, 1.04116 )
 frames = SubResource( 39 )
 animation = "run_side"
-frame = 1
+frame = 3
 playing = true
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
