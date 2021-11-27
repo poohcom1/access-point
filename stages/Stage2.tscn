@@ -210,15 +210,17 @@ position = Vector2( 669.092, -2168.44 )
 [node name="SpawnTrigger3" parent="." instance=ExtResource( 3 )]
 position = Vector2( 669.928, -2166.86 )
 
-[node name="SpawnArea" parent="." instance=ExtResource( 2 )]
-position = Vector2( 774.714, -1539.17 )
-TRIGGERS = [ NodePath("../SpawnTrigger"), NodePath("../SpawnTrigger3"), NodePath("../SpawnTrigger2") ]
-SPAWN_COUNT = 5
-SPAWN_MAX_INTERVAL = 20.0
-ENEMY_MAX_AMOUNT = 20
-MELEE_PRIORITY = 5
-HEALER_PRIORITY = 5
-SUICIDE_PRIORITY = 5
+[node name="SuicideBug4" parent="." instance=ExtResource( 16 )]
+position = Vector2( 1350.48, -615.715 )
+
+[node name="SuicideBug5" parent="." instance=ExtResource( 16 )]
+position = Vector2( 1197.25, -633.533 )
+
+[node name="SuicideBug6" parent="." instance=ExtResource( 16 )]
+position = Vector2( 1175.87, -574.733 )
+
+[node name="SuicideBug7" parent="." instance=ExtResource( 16 )]
+position = Vector2( 1297.03, -578.297 )
 
 [node name="SpawnArea2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1741.12, -1777.4 )
@@ -229,17 +231,15 @@ MELEE_PRIORITY = 5
 HEALER_PRIORITY = 5
 SUICIDE_PRIORITY = 5
 
-[node name="SuicideBug" parent="SpawnArea2" instance=ExtResource( 16 )]
-position = Vector2( -390.636, 1161.69 )
-
-[node name="SuicideBug2" parent="SpawnArea2" instance=ExtResource( 16 )]
-position = Vector2( -543.871, 1143.87 )
-
-[node name="SuicideBug3" parent="SpawnArea2" instance=ExtResource( 16 )]
-position = Vector2( -565.253, 1202.67 )
-
-[node name="SuicideBug4" parent="SpawnArea2" instance=ExtResource( 16 )]
-position = Vector2( -444.09, 1199.1 )
+[node name="SpawnArea" parent="." instance=ExtResource( 2 )]
+position = Vector2( 774.714, -1539.17 )
+TRIGGERS = [ NodePath("../SpawnTrigger"), NodePath("../SpawnTrigger3"), NodePath("../SpawnTrigger2") ]
+SPAWN_COUNT = 5
+SPAWN_MAX_INTERVAL = 20.0
+ENEMY_MAX_AMOUNT = 20
+MELEE_PRIORITY = 5
+HEALER_PRIORITY = 5
+SUICIDE_PRIORITY = 5
 
 [node name="Turret2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 738, -2199 )
