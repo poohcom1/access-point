@@ -22,12 +22,12 @@ _global_script_classes=[ {
 "base": "Entity",
 "class": "Enemy",
 "language": "GDScript",
-"path": "res://entities/enemies/Enemy.gd"
+"path": "res://entities/enemies/scripts/Enemy.gd"
 }, {
 "base": "Enemy",
 "class": "EnemyUnit",
 "language": "GDScript",
-"path": "res://entities/enemies/EnemyUnit.gd"
+"path": "res://entities/enemies/scripts/EnemyUnit.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Entity",

@@ -95,110 +95,176 @@ position = Vector2( 0, 192 )
 [node name="Turret2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 248.779, -2634.86 )
 
-[node name="MeleeBug" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1486.65, 701.917 )
+[node name="EnemyUnits" type="Node2D" parent="."]
+position = Vector2( 248.779, -2634.86 )
+
+[node name="MeleeBug" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1237.87, 3336.78 )
+SHOW_RANGE = false
 AGGRO_RANGE = 650
 
-[node name="MeleeBug2" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1472.29, 705.362 )
+[node name="MeleeBug2" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1223.51, 3340.22 )
+SHOW_RANGE = false
 AGGRO_RANGE = 650
 
-[node name="SuicideBug8" parent="." instance=ExtResource( 16 )]
+[node name="SuicideBug8" parent="EnemyUnits" instance=ExtResource( 16 )]
+position = Vector2( -248.779, 2634.86 )
 
-[node name="SuicideBug9" parent="." instance=ExtResource( 16 )]
+[node name="SuicideBug9" parent="EnemyUnits" instance=ExtResource( 16 )]
+position = Vector2( -248.779, 2634.86 )
 
-[node name="MeleeBug3" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1469.62, 702.194 )
-AGGRO_RANGE = 650
-USE_AI = false
-
-[node name="MeleeBug4" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1491.57, 707.567 )
-AGGRO_RANGE = 650
-USE_AI = false
-
-[node name="MeleeBug5" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1464.15, 678.078 )
+[node name="MeleeBug3" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1220.84, 3337.05 )
+SHOW_RANGE = false
 AGGRO_RANGE = 650
 USE_AI = false
 
-[node name="MeleeBug6" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1496.61, 695.441 )
-AGGRO_RANGE = 650
-
-[node name="MeleeBug7" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1513.35, 701.385 )
+[node name="MeleeBug4" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1242.79, 3342.43 )
+SHOW_RANGE = false
 AGGRO_RANGE = 650
 USE_AI = false
 
-[node name="MeleeBug9" parent="." instance=ExtResource( 10 )]
-position = Vector2( -97.4502, 341.716 )
+[node name="MeleeBug5" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1215.37, 3312.94 )
+SHOW_RANGE = false
+AGGRO_RANGE = 650
 USE_AI = false
 
-[node name="MeleeBug10" parent="." instance=ExtResource( 10 )]
-position = Vector2( -69.7664, 397.716 )
+[node name="MeleeBug6" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1247.83, 3330.3 )
+SHOW_RANGE = false
+AGGRO_RANGE = 650
 
-[node name="HealerBug" parent="." instance=ExtResource( 7 )]
-position = Vector2( -2.35847, 357.614 )
-
-[node name="HealerBug2" parent="." instance=ExtResource( 7 )]
-position = Vector2( -68.5597, 344.991 )
-
-[node name="MeleeBug11" parent="." instance=ExtResource( 10 )]
-position = Vector2( 121.482, 145.447 )
+[node name="MeleeBug7" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1264.57, 3336.25 )
+SHOW_RANGE = false
+AGGRO_RANGE = 650
 USE_AI = false
 
-[node name="MeleeBug12" parent="." instance=ExtResource( 10 )]
-position = Vector2( 160.163, 137.038 )
+[node name="MeleeBug9" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( -346.229, 2976.58 )
+SHOW_RANGE = false
 USE_AI = false
 
-[node name="MeleeBug13" parent="." instance=ExtResource( 10 )]
-position = Vector2( 32.3467, 111.812 )
+[node name="MeleeBug10" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( -318.545, 3032.58 )
+SHOW_RANGE = false
 
-[node name="MeleeBug14" parent="." instance=ExtResource( 10 )]
-position = Vector2( 104.664, 74.8121 )
+[node name="HealerBug" parent="EnemyUnits" instance=ExtResource( 7 )]
+position = Vector2( -251.137, 2992.47 )
+SHOW_RANGE = false
 
-[node name="MeleeBug15" parent="." instance=ExtResource( 10 )]
-position = Vector2( 758.881, 137.038 )
+[node name="HealerBug2" parent="EnemyUnits" instance=ExtResource( 7 )]
+position = Vector2( -317.339, 2979.85 )
+SHOW_RANGE = false
 
-[node name="HealerBug3" parent="." instance=ExtResource( 7 )]
-position = Vector2( 558.042, 151.687 )
-
-[node name="MeleeBug8" parent="." instance=ExtResource( 10 )]
-position = Vector2( -12.4156, 300.583 )
-
-[node name="MeleeBug16" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1889.95, -191.705 )
+[node name="MeleeBug11" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( -127.297, 2780.31 )
+SHOW_RANGE = false
 USE_AI = false
 
-[node name="MeleeBug17" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1834.76, -242.137 )
+[node name="MeleeBug12" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( -88.616, 2771.9 )
+SHOW_RANGE = false
 USE_AI = false
 
-[node name="MeleeBug18" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1870.61, -196.169 )
+[node name="MeleeBug13" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( -216.432, 2746.67 )
+SHOW_RANGE = false
+
+[node name="MeleeBug14" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( -144.115, 2709.67 )
+SHOW_RANGE = false
+
+[node name="MeleeBug15" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 510.102, 2771.9 )
+SHOW_RANGE = false
+
+[node name="HealerBug3" parent="EnemyUnits" instance=ExtResource( 7 )]
+position = Vector2( 309.263, 2786.55 )
+SHOW_RANGE = false
+
+[node name="MeleeBug8" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( -261.195, 2935.44 )
+SHOW_RANGE = false
+
+[node name="MeleeBug16" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1641.17, 2443.16 )
+SHOW_RANGE = false
 USE_AI = false
 
-[node name="MeleeBug19" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1875.17, -246.626 )
+[node name="MeleeBug17" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1585.98, 2392.72 )
+SHOW_RANGE = false
 USE_AI = false
 
-[node name="MeleeBug20" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1813.43, -206.218 )
+[node name="MeleeBug18" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1621.83, 2438.69 )
+SHOW_RANGE = false
 USE_AI = false
 
-[node name="MeleeBug21" parent="." instance=ExtResource( 10 )]
-position = Vector2( 1867.31, -161.319 )
+[node name="MeleeBug19" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1626.39, 2388.23 )
+SHOW_RANGE = false
 USE_AI = false
 
-[node name="HealerBug4" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1904.35, -243.259 )
+[node name="MeleeBug20" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1564.65, 2428.64 )
+SHOW_RANGE = false
+USE_AI = false
 
-[node name="HealerBug5" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1940.27, -205.095 )
+[node name="MeleeBug21" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( 1618.53, 2473.54 )
+SHOW_RANGE = false
+USE_AI = false
 
-[node name="HealerBug6" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1852.72, -208.463 )
+[node name="HealerBug4" parent="EnemyUnits" instance=ExtResource( 7 )]
+position = Vector2( 1655.57, 2391.6 )
+SHOW_RANGE = false
+
+[node name="HealerBug5" parent="EnemyUnits" instance=ExtResource( 7 )]
+position = Vector2( 1691.49, 2429.77 )
+SHOW_RANGE = false
+
+[node name="HealerBug6" parent="EnemyUnits" instance=ExtResource( 7 )]
+position = Vector2( 1603.94, 2426.4 )
+SHOW_RANGE = false
+
+[node name="SuicideBug4" parent="EnemyUnits" instance=ExtResource( 16 )]
+position = Vector2( 1101.7, 2019.15 )
+
+[node name="SuicideBug5" parent="EnemyUnits" instance=ExtResource( 16 )]
+position = Vector2( 948.471, 2001.33 )
+
+[node name="SuicideBug6" parent="EnemyUnits" instance=ExtResource( 16 )]
+position = Vector2( 927.091, 2060.13 )
+
+[node name="SuicideBug7" parent="EnemyUnits" instance=ExtResource( 16 )]
+position = Vector2( 1048.25, 2056.56 )
+
+[node name="SuicideBug" parent="EnemyUnits" instance=ExtResource( 16 )]
+position = Vector2( -326.259, 2908.35 )
+
+[node name="RangeBug" parent="EnemyUnits" instance=ExtResource( 15 )]
+position = Vector2( 356.76, 2776.98 )
+
+[node name="RangeBug2" parent="EnemyUnits" instance=ExtResource( 15 )]
+position = Vector2( 320.841, 2727.59 )
+
+[node name="SuicideBug2" parent="EnemyUnits" instance=ExtResource( 16 )]
+position = Vector2( 1553.53, 2455.93 )
+
+[node name="SuicideBug3" parent="EnemyUnits" instance=ExtResource( 16 )]
+position = Vector2( 1558.87, 2503.98 )
+
+[node name="RangeBug3" parent="EnemyUnits" instance=ExtResource( 15 )]
+position = Vector2( 1512.15, 2478.62 )
+
+[node name="MeleeBug22" parent="EnemyUnits" instance=ExtResource( 10 )]
+position = Vector2( -816.779, 3482.86 )
+SHOW_RANGE = false
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1116.44, 341.31 )
@@ -209,18 +275,6 @@ position = Vector2( 669.092, -2168.44 )
 
 [node name="SpawnTrigger3" parent="." instance=ExtResource( 3 )]
 position = Vector2( 669.928, -2166.86 )
-
-[node name="SuicideBug4" parent="." instance=ExtResource( 16 )]
-position = Vector2( 1350.48, -615.715 )
-
-[node name="SuicideBug5" parent="." instance=ExtResource( 16 )]
-position = Vector2( 1197.25, -633.533 )
-
-[node name="SuicideBug6" parent="." instance=ExtResource( 16 )]
-position = Vector2( 1175.87, -574.733 )
-
-[node name="SuicideBug7" parent="." instance=ExtResource( 16 )]
-position = Vector2( 1297.03, -578.297 )
 
 [node name="SpawnArea2" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1741.12, -1777.4 )
@@ -247,26 +301,5 @@ position = Vector2( 651.84, -2218.15 )
 [node name="SpawnTrigger" parent="." instance=ExtResource( 3 )]
 position = Vector2( 669.347, -2174.1 )
 
-[node name="SuicideBug" parent="." instance=ExtResource( 16 )]
-position = Vector2( -77.4801, 273.493 )
-
-[node name="RangeBug" parent="." instance=ExtResource( 15 )]
-position = Vector2( 605.539, 142.115 )
-
-[node name="RangeBug2" parent="." instance=ExtResource( 15 )]
-position = Vector2( 569.62, 92.7262 )
-
-[node name="SuicideBug2" parent="." instance=ExtResource( 16 )]
-position = Vector2( 1802.31, -178.934 )
-
-[node name="SuicideBug3" parent="." instance=ExtResource( 16 )]
-position = Vector2( 1807.65, -130.88 )
-
-[node name="RangeBug3" parent="." instance=ExtResource( 15 )]
-position = Vector2( 1760.93, -156.242 )
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
-
-[node name="MeleeBug22" parent="." instance=ExtResource( 10 )]
-position = Vector2( -568, 848 )

@@ -37,23 +37,11 @@ var direction = AnimUtil.Dir.Right
 onready var pathfind_timer := Timer.new()
 onready var state_timer := Timer.new()
 
-var _aggro_area : Area2D
-var _aggro_shape : CollisionShape2D
-var _aggro_circle : CircleShape2D
 
 # Setup
 func _ready():
 	if Engine.editor_hint: 
-		_aggro_area = Area2D.new()
-		_aggro_shape = CollisionShape2D.new()
-		_aggro_circle = CircleShape2D.new()
-		_aggro_circle.radius = AGGRO_RANGE
-		_aggro_shape.shape = _aggro_circle
-		_aggro_area.visible = SHOW_RANGE
-		_aggro_area.add_child(_aggro_shape)
-		add_child(_aggro_area)
 		return
-	
 	
 	state_timer.one_shot = true
 	add_child(state_timer)
@@ -219,16 +207,38 @@ func _set_animation(anim_node = $AnimatedSprite):
 	anim_node.play("%s_%s" % [moveanim, diranim])
 	
 # Tool
+func _draw():
+	if not Engine.editor_hint or not SHOW_RANGE: return
+	
+	draw_circle_outline(Vector2.ZERO, AGGRO_RANGE, Color(1, 0, 0))
+
+func draw_circle_outline(circle_center, circle_radius, color):
+	circle_radius = Vector2.UP * circle_radius
+	var draw_counter = 1
+	var line_origin = Vector2.ZERO
+	var line_end = Vector2.ZERO
+	line_origin = circle_radius + circle_center
+
+	while draw_counter <= 30:
+		
+		draw_counter += 1
+		
+		line_end = circle_radius.rotated(deg2rad(draw_counter*12)) + circle_center
+		
+		if draw_counter % 3 == 0: 
+			draw_line(line_origin, line_end, color, 4)
+		line_origin = line_end
+
+	line_end = circle_radius.rotated(deg2rad(360)) + circle_center
+	draw_line(line_origin, line_end, color, 4)
+
 func _set_aggro_range(aggro_range):
 	AGGRO_RANGE = aggro_range
-	if _aggro_circle:
-		_aggro_circle.radius = aggro_range
+	update()
 
 func _debug_range(show):
 	SHOW_RANGE = show
-	if _aggro_shape:
-		_aggro_shape.visible = show
-		_aggro_shape.modulate = Color(1, 0, 0, 0.25)
+	update()
 
 func distance_sqr_to_player() -> float:
 	if not GameManager.player: 
