@@ -22,7 +22,7 @@ var can_knockback = true
 
 # Navigation
 export var PATHFIND_INTERVAL := 0.25
-export var OFF_SCREEN_PATHFIND_INTERVAL := 2.0
+export var OFF_SCREEN_PATHFIND_INTERVAL := 3.0
 
 var pathfind_interval
 
@@ -37,19 +37,23 @@ var direction = AnimUtil.Dir.Right
 onready var pathfind_timer := Timer.new()
 onready var state_timer := Timer.new()
 
-var _aggro_area := Area2D.new()
-var _aggro_shape := CollisionShape2D.new()
-var _aggro_circle := CircleShape2D.new()
+var _aggro_area : Area2D
+var _aggro_shape : CollisionShape2D
+var _aggro_circle : CircleShape2D
 
 # Setup
 func _ready():
 	if Engine.editor_hint: 
+		_aggro_area = Area2D.new()
+		_aggro_shape = CollisionShape2D.new()
+		_aggro_circle = CircleShape2D.new()
 		_aggro_circle.radius = AGGRO_RANGE
 		_aggro_shape.shape = _aggro_circle
 		_aggro_area.visible = SHOW_RANGE
 		_aggro_area.add_child(_aggro_shape)
 		add_child(_aggro_area)
 		return
+	
 	
 	state_timer.one_shot = true
 	add_child(state_timer)
@@ -172,14 +176,19 @@ func generate_path():
 	pathfind_timer.start(pathfind_interval)
 	
 func _on_screen_enter():
+	pathfind_timer.start(PATHFIND_INTERVAL)
+	
 	pathfind_interval = PATHFIND_INTERVAL
 	
 func _on_screen_exit():
-	pathfind_interval = PATHFIND_INTERVAL
+	pathfind_interval = OFF_SCREEN_PATHFIND_INTERVAL
 	
 # ANIMATION ===============================
 # Eight-direction animation
 onready var previous_position := global_position
+
+var previous_direction = direction
+var frames_since_changed = 0
 
 func _set_animation(anim_node = $AnimatedSprite):
 	if not is_instance_valid(anim_node):
@@ -188,15 +197,21 @@ func _set_animation(anim_node = $AnimatedSprite):
 	#todo: Use idle anim when states are added
 	var moveanim = "run"
 	
+	frames_since_changed += 1
+	
 	if mv != Vector2.ZERO:
-		if global_position.distance_squared_to(previous_position) > 1000:
+		if global_position.distance_squared_to(previous_position) > 250 and frames_since_changed > 3:
+			frames_since_changed = 0
 			
 			var angle = global_position.angle_to_point(previous_position)
 			previous_position = global_position
 			
 			
 			direction = AnimUtil.get_dir(angle)
-
+	
+	
+	direction = AnimUtil.turn(previous_direction, direction)
+	previous_direction = direction
 		
 	var diranim = AnimUtil.Dir2Anim[direction]
 	
@@ -206,12 +221,14 @@ func _set_animation(anim_node = $AnimatedSprite):
 # Tool
 func _set_aggro_range(aggro_range):
 	AGGRO_RANGE = aggro_range
-	_aggro_circle.radius = aggro_range
+	if _aggro_circle:
+		_aggro_circle.radius = aggro_range
 
 func _debug_range(show):
 	SHOW_RANGE = show
-	_aggro_shape.visible = show
-	_aggro_shape.modulate = Color(1, 0, 0, 0.25)
+	if _aggro_shape:
+		_aggro_shape.visible = show
+		_aggro_shape.modulate = Color(1, 0, 0, 0.25)
 
 func distance_sqr_to_player() -> float:
 	if not GameManager.player: 

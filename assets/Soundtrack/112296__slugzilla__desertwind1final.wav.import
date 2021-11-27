@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/112296__slugzilla__desertwind1final.wav-3d7c1df1dad660bcae5ab38983baaa25.sample"
+
+[deps]
+
+source_file="res://assets/Soundtrack/112296__slugzilla__desertwind1final.wav"
+dest_files=[ "res://.import/112296__slugzilla__desertwind1final.wav-3d7c1df1dad660bcae5ab38983baaa25.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

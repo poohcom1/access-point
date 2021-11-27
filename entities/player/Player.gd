@@ -36,6 +36,7 @@ enum State { Default, Pause, Dead }
 # Nodes and scenes
 onready var body_anim = $Body
 onready var legs_anim = $Legs
+onready var footstep_sfx = $Footsteps
 
 # Signals
 signal on_damage(damage)
@@ -100,6 +101,7 @@ func switch_weapon(direction := 1):
 	weapons[weapon_ind].switch()
 	
 var move_angle = 0	
+var sfx_position: float = 0
 		
 func _movement_animation(v_input, h_input):
 	var move_string = "idle"
@@ -115,6 +117,15 @@ func _movement_animation(v_input, h_input):
 		legs_dir = AnimUtil.Angle2Dir[move_angle]
 		
 		move_string = "walk"
+		
+		if not footstep_sfx.playing:
+			footstep_sfx.play(sfx_position)
+			$FootstepParts.emitting = true
+	else:
+		if footstep_sfx.playing:
+			sfx_position = footstep_sfx.get_playback_position()
+			$FootstepParts.emitting = false			
+			footstep_sfx.stop()
 		
 	var reverse_anim = false
 

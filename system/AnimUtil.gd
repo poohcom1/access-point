@@ -58,3 +58,13 @@ static func stepify_angle(angle: float, step := 45) -> int:
 
 static func get_dir(angle: float) -> int: 
 	return Angle2Dir[stepify_angle(angle)]
+
+static func turn(source: int, dest: int) -> int:
+	return Angle2Dir[get_nearest_angle_dir(Dir2Angle[source], Dir2Angle[dest])]
+
+static func get_nearest_angle_dir(_from: int, to: int) -> int:
+	if _from == to: 
+		return _from
+	var _sign = sign(180 - wrapi((to - _from), 0, 360))
+	if _sign == 0: return 45
+	return wrapi(int(_from + _sign * 45), -180, 180)
