@@ -67,7 +67,6 @@ tile_data = PoolIntArray( -9175106, 4, 0, -9175105, 4, 0, -9175104, 4, 0, -91751
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( -617.237, 531.159 )
-MODULE = "Dash"
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true

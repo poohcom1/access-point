@@ -47,7 +47,7 @@ func _process(_delta):
 		if OUT_OF_AMMO_SOUND:
 			add_child(OneShotAudio2D.new(OUT_OF_AMMO_SOUND))
 		if RELOAD_ON_OUT:
-			start_reload(false)			
+			start_reload()			
 		else:
 			on_stop_shoot_()
 	
