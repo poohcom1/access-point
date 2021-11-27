@@ -24,6 +24,8 @@ var can_knockback = true
 export var PATHFIND_INTERVAL := 0.25
 export var OFF_SCREEN_PATHFIND_INTERVAL := 2.0
 
+var pathfind_interval
+
 var path := []
 
 var navigation: Navigation2D
@@ -80,6 +82,14 @@ func _ready():
 	
 	if state == State.Default:
 		to_aggro()
+		
+	## Pathfind setup
+	pathfind_interval = PATHFIND_INTERVAL
+	
+	if has_node("VisibilityEnabler2D"):
+		get_node("VisibilityEnabler2D").connect("screen_entered", self, "_on_screen_enter")
+		get_node("VisibilityEnabler2D").connect("screen_exited", self, "_on_screen_exit")
+		
 
 func _init_pathfind():
 	pathfind_timer.start(PATHFIND_INTERVAL)
@@ -159,8 +169,15 @@ func generate_path():
 	else:
 		path = GameManager.navigation.get_simple_path(global_position, target.global_position, false)
 
-	pathfind_timer.start(PATHFIND_INTERVAL)
+	pathfind_timer.start(pathfind_interval)
 	
+func _on_screen_enter():
+	pathfind_interval = PATHFIND_INTERVAL
+	
+func _on_screen_exit():
+	pathfind_interval = PATHFIND_INTERVAL
+	
+# ANIMATION ===============================
 # Eight-direction animation
 onready var previous_position := global_position
 

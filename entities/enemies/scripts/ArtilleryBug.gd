@@ -243,6 +243,9 @@ func on_death():
 		segment.get_node("ChargeAnim").play("death")
 		segment.get_node("Sprite").play("death")
 		
+		if segment.name == "Head":
+			segment.get_node("Mask").play("death")
+		
 		if segment.has_node("Particles"):
 			var grad = Gradient.new()
 			

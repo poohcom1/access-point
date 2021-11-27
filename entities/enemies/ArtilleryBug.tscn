@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=76 format=2]
 
 [ext_resource path="res://entities/enemies/scripts/ArtilleryBug.gd" type="Script" id=1]
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://assets/enemies/artillery/head_shoot-sheet.png" type="Texture" id=9]
 [ext_resource path="res://assets/enemies/artillery/head_death.png" type="Texture" id=10]
 [ext_resource path="res://assets/enemies/artillery/segment_death.png" type="Texture" id=11]
+[ext_resource path="res://assets/enemies/artillery/head_death_mask.png" type="Texture" id=12]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 13.4337
@@ -142,6 +143,66 @@ light_mode = 1
 [sub_resource type="Gradient" id=50]
 offsets = PoolRealArray( 0.396624, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="CanvasItemMaterial" id=63]
+light_mode = 1
+
+[sub_resource type="AtlasTexture" id=51]
+atlas = ExtResource( 12 )
+region = Rect2( 0, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=52]
+atlas = ExtResource( 12 )
+region = Rect2( 64, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=53]
+atlas = ExtResource( 12 )
+region = Rect2( 128, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=54]
+atlas = ExtResource( 12 )
+region = Rect2( 192, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=55]
+atlas = ExtResource( 12 )
+region = Rect2( 256, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=56]
+atlas = ExtResource( 12 )
+region = Rect2( 320, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=57]
+atlas = ExtResource( 12 )
+region = Rect2( 384, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=58]
+atlas = ExtResource( 12 )
+region = Rect2( 448, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=59]
+atlas = ExtResource( 12 )
+region = Rect2( 512, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=60]
+atlas = ExtResource( 12 )
+region = Rect2( 576, 0, 64, 48 )
+
+[sub_resource type="AtlasTexture" id=61]
+atlas = ExtResource( 12 )
+region = Rect2( 640, 0, 64, 48 )
+
+[sub_resource type="SpriteFrames" id=62]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ), SubResource( 59 ), SubResource( 60 ), SubResource( 61 ) ],
+"loop": false,
+"name": "death",
+"speed": 8.0
+} ]
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 5 )
@@ -429,10 +490,17 @@ texture_scale = 0.13
 color = Color( 0.533333, 0.839216, 0.835294, 1 )
 energy = 0.0
 
+[node name="Mask" type="AnimatedSprite" parent="Body/Head"]
+material = SubResource( 63 )
+position = Vector2( 8, 2 )
+z_index = 2
+frames = SubResource( 62 )
+offset = Vector2( -8, -4 )
+
 [node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
 z_index = 1
 frames = SubResource( 44 )
-frame = 2
+frame = 4
 playing = true
 offset = Vector2( 0, -2 )
 

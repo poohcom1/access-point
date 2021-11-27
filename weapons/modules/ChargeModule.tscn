@@ -4,6 +4,7 @@
 script/source = "extends Module
 
 export var MAX_DISTANCE := 80
+export var DAMAGE := 5
 
 const Charge = preload(\"res://weapons/modules/objects/KnockbackCharge.tscn\")
 
@@ -22,6 +23,7 @@ func _input(event):
 		
 		var charge = Charge.instance()
 		
+		charge.damage = DAMAGE
 		charge.global_position = global_position
 		charge.target = global_position + dir * distance
 		
