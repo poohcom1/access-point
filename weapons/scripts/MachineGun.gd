@@ -156,7 +156,7 @@ func on_switch():
 		on_start_shoot_()
 
 func on_switch_out():
-	on_stop_shoot_()
+	on_stop_shoot_(false)
 	
 func on_start_shoot_():
 	.on_start_shoot_()
@@ -167,16 +167,16 @@ func on_start_shoot_():
 		$GunSE.play()
 	shooting = true
 
-func on_stop_shoot_():
+func on_stop_shoot_(richochet=true):
 	.on_stop_shoot_()
 	$GunSE.stop()
-	
-	# Ricochet SFX
-	if ammo > 0:
-		# 10% chance to play
-		match randi() % 10:
-			1: $Ricochet1.play()
-			2: $Ricochet2.play()
+	if not richochet:
+		# Ricochet SFX
+		if ammo > 0:
+			# 10% chance to play
+			match randi() % 10:
+				1: $Ricochet1.play()
+				2: $Ricochet2.play()
 		
 	hit_targets.clear()
 	shoot_interval.stop()

@@ -2,11 +2,9 @@ extends Navigation2D
 
 onready var tilemap := $Background
 
-
 func _ready():
-	$"/root/GameManager".navigation = self
+	GameManager.navigation = self
 	_init_nav_tiles()
-
 
 # Remove tiles directly above walls
 func _init_nav_tiles():

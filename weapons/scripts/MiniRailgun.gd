@@ -9,6 +9,8 @@ export var MIN_DISTANCE = 100
 export var MAX_DISTANCE = 200
 export var KNOCKBACK = 25
 
+export var SFX: AudioStream
+
 # Fields
 var shooting := false
 
@@ -48,6 +50,9 @@ func on_shoot():
 	bullet.knockback = KNOCKBACK
 	
 	shoot_timer.start()
+	
+	add_child(OneShotAudio2D.new(SFX, -2.0))
+	
 	
 func calculate_damage(distance: float):
 	var percent = inverse_lerp(MIN_DISTANCE, MAX_DISTANCE, distance)

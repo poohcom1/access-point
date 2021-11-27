@@ -407,7 +407,7 @@ energy = 0.0
 [node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
 z_index = 1
 frames = SubResource( 44 )
-frame = 3
+frame = 4
 playing = true
 offset = Vector2( 0, -2 )
 
@@ -424,3 +424,5 @@ anims/death = SubResource( 48 )
 
 [node name="Death" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 8 )
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]

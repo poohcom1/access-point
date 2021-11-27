@@ -123,6 +123,10 @@ func _physics_process(_delta):
 	if DEBUG_PATH:
 		debug_path.global_position = Vector2.ZERO
 		debug_path.points = path
+		
+	# potential fix for bugs not moving
+	if state == State.Default and path == []:
+		generate_path()
 
 	
 ## Pathfinding

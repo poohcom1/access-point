@@ -58,7 +58,8 @@ func switch():
 	
 func switch_out():
 	active = false
-	start_reload(false)
+	if ammo < MAX_AMMO and reload_timer.time_left == 0:
+		start_reload(false)
 	on_switch_out()
 
 # Called every frame when active

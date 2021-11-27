@@ -6,7 +6,7 @@
 script/source = "extends ProjectileUtil.Bullet
 
 # Properties
-var explode_on_wall: bool
+var explode_on_wall: bool = true
 
 var shot_from: Enemy
 
@@ -84,6 +84,7 @@ script = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 4 )
+frame = 1
 playing = true
 
 [node name="HitboxArea" type="Area2D" parent="."]

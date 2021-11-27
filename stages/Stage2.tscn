@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://entities/enemies/tools/SpawnArea.tscn" type="PackedScene" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://structures/Turret.tscn" type="PackedScene" id=14]
 [ext_resource path="res://entities/enemies/RangeBug.tscn" type="PackedScene" id=15]
 [ext_resource path="res://entities/enemies/SuicideBug.tscn" type="PackedScene" id=16]
+[ext_resource path="res://assets/Soundtrack/Midnight Brawl.wav" type="AudioStream" id=17]
 
 [sub_resource type="TileSet" id=1]
 0/name = "isomud.png 0"
@@ -85,6 +86,7 @@ zoom = Vector2( 0.5, 0.5 )
 position = Vector2( 1.05945, 0 )
 
 [node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
+visible = false
 anchor_top = 1.0
 anchor_right = 0.0
 margin_top = -149.0
@@ -203,6 +205,7 @@ position = Vector2( 1852.72, -208.463 )
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1116.44, 341.31 )
+SEGMENTS = 10
 
 [node name="SpawnTrigger2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 669.092, -2168.44 )
@@ -267,3 +270,7 @@ position = Vector2( 1807.65, -130.88 )
 
 [node name="RangeBug3" parent="." instance=ExtResource( 15 )]
 position = Vector2( 1760.93, -156.242 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 17 )
+autoplay = true

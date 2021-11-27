@@ -480,7 +480,7 @@ animations = [ {
 [node name="Player" type="KinematicBody2D" groups=[
 "map",
 ]]
-z_index = 2
+z_index = 41
 collision_layer = 0
 script = ExtResource( 2 )
 BASE_SPEED = 150

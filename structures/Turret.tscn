@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=24 format=2]
 
-[ext_resource path="res://assets/white.png" type="Texture" id=1]
-[ext_resource path="res://weapons/objects/ShootArea.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/weapons/turret.png" type="Texture" id=1]
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/fx/gun_laser_ground.png" type="Texture" id=4]
 [ext_resource path="res://assets/SE/Turret2.mp3" type="AudioStream" id=6]
 
 [sub_resource type="GDScript" id=1]
@@ -22,10 +22,12 @@ export(Array, AudioStream) var ShootSounds: Array
 var enemies_in_range := []
 var target: Enemy = null
 
+var dir: int
+
 # Nodes
 onready var shoot_timer := $ShootTimer
 onready var range_area := $RangeArea
-onready var shoot_area := $ShootArea
+onready var shoot_fx := $ShootFx
 
 
 func _ready():
@@ -38,9 +40,6 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	shoot_timer.connect(\"timeout\", self, \"_on_shoot\")
 	shoot_timer.start(SHOOT_INTERVAL)
-	
-	shoot_area.get_node(\"Effect\").modulate = Color(1.0, 0.7, 0.7)
-	shoot_area.get_node(\"Effect\").transform.scaled(Vector2(1.5, 1.5))
 	
 func _on_shoot():
 	if battery <= 0: return
@@ -55,9 +54,20 @@ func _on_shoot():
 	
 	battery -= BATTERY_PER_BULLET
 
-	shoot_area.global_position = target.global_position
-	shoot_area.shoot()
+	var fx = shoot_fx.duplicate()
 	
+	fx.visible = true
+	add_child(fx)
+	
+	fx.global_position = target.global_position + Vector2(
+		rand_range(-8, 8), rand_range(-8, 8)
+	)
+	
+	
+	
+	if fx.global_position.y < global_position.y:
+		fx.z_index = -1
+	fx.play()
 
 	target.on_hit(DAMAGE)
 	
@@ -66,12 +76,12 @@ func _on_shoot():
 		
 	var SE = ShootSounds[randi() % ShootSounds.size()]
 		
-	var audio = OneShotAudio2D.new(SE, -10)
-	audio.volume_db = -15
-	audio.max_distance = 300
+	var audio = OneShotAudio2D.new(SE, -5)
+	audio.max_distance = 500
 	audio.attenuation = 0.5
 	add_child(audio)
 	
+	_set_animation()
 
 func _on_body_entered(body):
 	if body is Enemy:
@@ -84,6 +94,15 @@ func _on_body_exited(body):
 func _set_range(val):
 	RANGE = val
 	$RangeArea/CollisionShape2D.shape.radius = val
+	
+func _set_animation():
+	if not target: return
+	
+	dir = AnimUtil.get_dir(target.global_position.angle_to_point(global_position))
+	
+	$AnimatedSprite.flip_h = abs(AnimUtil.Dir2Angle[dir]) > 90
+
+	$AnimatedSprite.play(AnimUtil.Dir2Anim[dir])
 	
 # AI
 func find_weakest_target():
@@ -116,25 +135,111 @@ func find_healthiest_target():
 "
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 12.4308, 12.883 )
+extents = Vector2( 16, 24 )
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 384, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 288, 0, 96, 96 )
+
+[sub_resource type="SpriteFrames" id=8]
 animations = [ {
-"frames": [ ExtResource( 1 ) ],
+"frames": [ SubResource( 3 ) ],
 "loop": true,
-"name": "default",
+"name": "front",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 4 ) ],
+"loop": true,
+"name": "back",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 5 ) ],
+"loop": true,
+"name": "side",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 6 ) ],
+"loop": true,
+"name": "sidefront",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 7 ) ],
+"loop": true,
+"name": "sideback",
 "speed": 5.0
 } ]
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=9]
 radius = 175.0
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 19.7339, 20.6122 )
+
+[sub_resource type="CanvasItemMaterial" id=17]
+light_mode = 1
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 32, 48 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 4 )
+region = Rect2( 32, 0, 32, 48 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 4 )
+region = Rect2( 64, 0, 32, 48 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 4 )
+region = Rect2( 96, 0, 32, 48 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 4 )
+region = Rect2( 128, 0, 32, 48 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 4 )
+region = Rect2( 160, 0, 32, 48 )
+
+[sub_resource type="SpriteFrames" id=16]
+animations = [ {
+"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"loop": true,
+"name": "default",
+"speed": 22.0
+} ]
+
+[sub_resource type="GDScript" id=18]
+script/source = "extends AnimatedSprite
+
+
+func _ready():
+	connect(\"animation_finished\", self, \"queue_free\")
+
+
+"
 
 [node name="Turret" type="StaticBody2D" groups=[
 "turret",
 ]]
+z_index = 45
 script = SubResource( 1 )
 MAX_BATTERY = 8.0
 DAMAGE = 3
@@ -142,24 +247,21 @@ SHOOT_INTERVAL = 0.1
 ShootSounds = [ ExtResource( 6 ) ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
 position = Vector2( -0.176781, -0.176777 )
 scale = Vector2( 1.50823, 1.50823 )
-frames = SubResource( 3 )
+frames = SubResource( 8 )
+animation = "sideback"
 
 [node name="ShootTimer" type="Timer" parent="."]
 wait_time = 0.1
 
-[node name="ShootArea" parent="." instance=ExtResource( 2 )]
-
 [node name="RangeArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
-shape = SubResource( 4 )
+shape = SubResource( 9 )
 
 [node name="LineOfSight" type="RayCast2D" parent="."]
 enabled = true
@@ -169,12 +271,19 @@ collision_mask = 524288
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
 visible = false
-shape = SubResource( 5 )
+shape = SubResource( 10 )
 
 [node name="ValueBar" parent="." instance=ExtResource( 3 )]
-position = Vector2( 0, 14.7609 )
+position = Vector2( 0, 29.8582 )
 value = "battery"
 max_value = "MAX_BATTERY"
 progress_color = Color( 0, 0.34902, 0.792157, 1 )
 overload_color = Color( 0.419608, 0.780392, 0.937255, 1 )
 x_scale = 5.0
+
+[node name="ShootFx" type="AnimatedSprite" parent="."]
+visible = false
+material = SubResource( 17 )
+z_index = 29
+frames = SubResource( 16 )
+script = SubResource( 18 )

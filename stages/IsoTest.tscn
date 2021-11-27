@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://assets/tiles/isotest.png" type="Texture" id=1]
 [ext_resource path="res://assets/tiles/isomud.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=10]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://structures/Turret.tscn" type="PackedScene" id=12]
 [ext_resource path="res://stages/scripts/StageInit.gd" type="Script" id=13]
 
 [sub_resource type="TileSet" id=1]
@@ -216,3 +217,9 @@ DISABLE_ON_SCREEN = false
 
 [node name="SpawnTrigger" parent="SpawnArea" instance=ExtResource( 7 )]
 position = Vector2( 176, -104 )
+
+[node name="Turret" parent="." instance=ExtResource( 12 )]
+position = Vector2( -57.2205, 83.3964 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0.298039, 0.305882, 0.380392, 1 )

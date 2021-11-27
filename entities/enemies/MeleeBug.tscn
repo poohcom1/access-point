@@ -139,15 +139,15 @@ func on_death():
 "
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 4 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
@@ -155,8 +155,8 @@ atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 4 )
@@ -179,63 +179,63 @@ atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 5 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 5 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 5 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 5 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 7 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 7 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 7 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 6 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=28]
@@ -259,23 +259,23 @@ atlas = ExtResource( 3 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 1 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 1 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 1 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=38]
@@ -302,7 +302,7 @@ region = Rect2( 256, 0, 64, 64 )
 animations = [ {
 "frames": [ SubResource( 3 ) ],
 "loop": true,
-"name": "idle_back",
+"name": "idle_side",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 4 ) ],
@@ -312,7 +312,7 @@ animations = [ {
 }, {
 "frames": [ SubResource( 5 ) ],
 "loop": true,
-"name": "idle_front",
+"name": "idle_back",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 6 ) ],
@@ -322,7 +322,7 @@ animations = [ {
 }, {
 "frames": [ SubResource( 7 ) ],
 "loop": true,
-"name": "idle_side",
+"name": "idle_front",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
@@ -332,17 +332,17 @@ animations = [ {
 }, {
 "frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
 "loop": true,
-"name": "run_front",
-"speed": 15.0
-}, {
-"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
-"loop": true,
 "name": "run_sidefront",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
 "loop": false,
 "name": "death",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"loop": true,
+"name": "run_side",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
@@ -352,7 +352,7 @@ animations = [ {
 }, {
 "frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ) ],
 "loop": true,
-"name": "run_side",
+"name": "run_front",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ) ],
@@ -403,8 +403,10 @@ shape = SubResource( 44 )
 [node name="HealingFX" parent="." instance=ExtResource( 8 )]
 
 [node name="DeathSFX" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 11 )
+stream = ExtResource( 10 )
 volume_db = 0.299
 max_distance = 700.0
 attenuation = 0.554785
 bus = "SFX"
+
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
