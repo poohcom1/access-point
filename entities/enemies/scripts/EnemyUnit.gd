@@ -194,6 +194,7 @@ func navigate_with_sightline():
 func generate_path(repeat=true):
 	GameManager.static_counter += 1
 	
+	
 	var target = navigation_target.get_ref()
 	
 	if direct_chase or not GameManager.navigation or not target: return

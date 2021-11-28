@@ -5,13 +5,11 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 56.0
 
-[node name="SpawnArea" type="Area2D"]
+[node name="SpawnArea" type="CollisionShape2D"]
+shape = SubResource( 1 )
 script = ExtResource( 1 )
 
 [node name="Interval" type="Timer" parent="."]
 one_shot = true
 
 [node name="VisibilityNotifier" type="VisibilityNotifier2D" parent="."]
-
-[node name="SpawnArea" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )

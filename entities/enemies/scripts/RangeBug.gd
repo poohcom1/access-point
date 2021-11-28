@@ -40,7 +40,7 @@ func _physics_process(_delta):
 		State.Default:
 			set_move_animation()
 			
-			mv = navigate()
+			mv = navigate_with_sightline()
 
 			mv = move_and_slide(mv * speed)
 			

@@ -202,6 +202,7 @@ zoom = Vector2( 0.5, 0.5 )
 position = Vector2( 1.05945, 0 )
 
 [node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
+visible = false
 anchor_top = 1.0
 margin_top = -149.0
 margin_right = 156.0
@@ -211,7 +212,7 @@ margin_bottom = 0.0
 position = Vector2( 0, 192 )
 
 [node name="SpawnArea2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 845.498, -751.612 )
+position = Vector2( 279.777, 206.97 )
 DISABLE_ON_SCREEN = false
 MELEE_PRIORITY = 1
 HEALER_PRIORITY = 0
@@ -219,10 +220,7 @@ SUICIDE_PRIORITY = 0
 RANGE_PRIORITY = 0
 
 [node name="SpawnTrigger" parent="SpawnArea2" instance=ExtResource( 7 )]
-position = Vector2( -496.117, 914.335 )
-
-[node name="Position2D" type="Position2D" parent="SpawnArea2"]
-position = Vector2( -265.756, 722.238 )
+position = Vector2( -152.644, 45.5494 )
 
 [node name="Turret" parent="." instance=ExtResource( 12 )]
 position = Vector2( -57.2205, 83.3964 )

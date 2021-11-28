@@ -36,7 +36,7 @@ var trigger_areas := []
 
 var on_screen = false
 
-var enemies_to_spawn := []
+var enemies_to_spawn = 0
 
 var rallying := false
 var rally_point: Vector2
@@ -94,8 +94,6 @@ func _ready():
 	if TRIGGERED:
 		start_spawn()
 		
-	print(rallying)
-		
 func on_enter(body):
 	if body is Player:
 		start_spawn()
@@ -120,11 +118,50 @@ func on_spawn():
 	
 	var amount = clamp(ENEMY_AMOUNT, ENEMY_MIN_AMOUNT, ENEMY_MAX_AMOUNT)
 	
-	for i in amount:
+	enemies_to_spawn += amount
+		
+	ENEMY_AMOUNT += ENEMY_INCREMENT
+	SPAWN_COUNT -= 1
+	
+	
+
+
+func random_position() -> Vector2:
+	var angle = rand_range(0, 2 * PI)
+	var _radius = rand_range(0, radius)
+	
+	return Vector2(cos(angle), sin(angle)) * _radius
+	
+func enter_screen():
+	on_screen = true
+	
+func exit_screen():
+	on_screen = false
+
+
+
+const INSTANCE_GAP = 1
+var instance_count = 0
+
+func _process(_delta):
+	# Tools
+	if Engine.editor_hint:
+		update()
+		return
+		
+	instance_count += 1
+	
+	if instance_count - 1 >= INSTANCE_GAP:
+		instance_count = 0
+	else:
+		return
+	
+		
+	if enemies_to_spawn > 0:
+		enemies_to_spawn -= 1
+	
 		var EnemyType = null
-		
 		var chance = randi() % priority_total
-		
 		var current_chance = 0
 	
 		for enemy in spawn_priorities:
@@ -144,32 +181,11 @@ func on_spawn():
 			enemy.set_target(rally_point_node)
 			
 		GameManager.spawn_queue.append(enemy)
-		
-	ENEMY_AMOUNT += ENEMY_INCREMENT
-	SPAWN_COUNT -= 1
-	if SPAWN_COUNT == 0:
-		queue_free()
-
-
-func random_position() -> Vector2:
-	var angle = rand_range(0, 2 * PI)
-	var _radius = rand_range(0, radius)
-	
-	return Vector2(cos(angle), sin(angle)) * _radius
-	
-func enter_screen():
-	on_screen = true
-	
-func exit_screen():
-	on_screen = false
 
 # Tool
-func _process(_delta):
-	if Engine.editor_hint:
-		update()
-
 func _draw():
 	if not Engine.editor_hint and DEBUG_RALLY: return
+	
 	
 	rallying = false
 	
