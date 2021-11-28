@@ -5,6 +5,7 @@ export var MAX_AMMO = 500
 export var RELOAD_TIME := 1.5
 export var CROSS_HAIR: Texture
 
+export var ACTIVATE_SOUND: AudioStream 
 export var OUT_OF_AMMO_SOUND: AudioStream = preload("res://assets/SE/Warning1.mp3")
 export var RELOAD_SOUND: AudioStream = preload("res://assets/SE/Reload1.mp3")
 

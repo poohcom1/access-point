@@ -1,4 +1,4 @@
-[gd_scene load_steps=113 format=2]
+[gd_scene load_steps=117 format=2]
 
 [ext_resource path="res://assets/player/walk_front_legs.png" type="Texture" id=1]
 [ext_resource path="res://entities/player/Player.gd" type="Script" id=2]
@@ -19,6 +19,8 @@
 [ext_resource path="res://assets/player/flash_sidefront.png" type="Texture" id=17]
 [ext_resource path="res://assets/player/flash_side.png" type="Texture" id=18]
 [ext_resource path="res://assets/player/flash_front.png" type="Texture" id=19]
+[ext_resource path="res://assets/SE/SandSteps1.mp3" type="AudioStream" id=20]
+[ext_resource path="res://assets/fx/footstep.png" type="Texture" id=21]
 
 [sub_resource type="CapsuleShape2D" id=1]
 height = 12.0
@@ -512,6 +514,14 @@ animations = [ {
 "speed": 12.0
 } ]
 
+[sub_resource type="Gradient" id=94]
+offsets = PoolRealArray( 0, 0.704641 )
+colors = PoolColorArray( 1, 1, 1, 0.568627, 0.576471, 0.45098, 0.231373, 0 )
+
+[sub_resource type="Gradient" id=95]
+offsets = PoolRealArray( 0, 0.983122 )
+colors = PoolColorArray( 1, 1, 1, 0.513726, 0.714355, 0.714355, 0.714355, 0.611765 )
+
 [node name="Player" type="KinematicBody2D" groups=[
 "map",
 ]]
@@ -544,3 +554,43 @@ animation = "idle_sidefront"
 
 [node name="RegenTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 20 )
+
+[node name="FootstepParts" type="CPUParticles2D" parent="."]
+position = Vector2( 0, 8 )
+z_as_relative = false
+emitting = false
+amount = 32
+lifetime = 5.0
+local_coords = false
+texture = ExtResource( 21 )
+emission_shape = 2
+emission_rect_extents = Vector2( 4, 12 )
+gravity = Vector2( 0, 0 )
+color_ramp = SubResource( 94 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+zoom = Vector2( 0.5, 0.5 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+modulate = Color( 1, 1, 1, 0.32549 )
+position = Vector2( 171.505, -10.0601 )
+amount = 6
+lifetime = 2.0
+randomness = 0.48
+lifetime_randomness = 0.12
+local_coords = false
+emission_shape = 2
+emission_rect_extents = Vector2( 20, 160 )
+direction = Vector2( -1, 0 )
+spread = 15.47
+gravity = Vector2( 0, 2 )
+initial_velocity = 102.19
+linear_accel_random = 0.82
+radial_accel_random = 0.31
+scale_amount = 6.0
+scale_amount_random = 0.65
+color_ramp = SubResource( 95 )

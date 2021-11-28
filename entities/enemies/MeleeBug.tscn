@@ -80,7 +80,15 @@ func _physics_process(_delta):
 							nav_state = NavStates.Attack
 
 			## Pathfinding
-			mv = navigate()
+			$RayCast2D.cast_to = to_local(GameManager.player.global_position)
+			
+			if $RayCast2D.is_colliding() and $RayCast2D.get_collider() is Player:
+				mv = global_position.direction_to(GameManager.player.global_position)
+				pathfind_timer.stop()
+			else:
+				if pathfind_timer.is_stopped():
+					generate_path()
+				mv = navigate()
 			
 			_set_animation()
 			
@@ -143,39 +151,39 @@ atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 6 )
+region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 4 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 6 )
+region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 6 )
+region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 6 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 4 )
+atlas = ExtResource( 3 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=13]
@@ -199,83 +207,83 @@ atlas = ExtResource( 5 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 3 )
-region = Rect2( 48, 0, 48, 48 )
+atlas = ExtResource( 1 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 3 )
-region = Rect2( 96, 0, 48, 48 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 3 )
-region = Rect2( 144, 0, 48, 48 )
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=32]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=33]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 4 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=38]
@@ -300,34 +308,14 @@ region = Rect2( 256, 0, 64, 64 )
 
 [sub_resource type="SpriteFrames" id=43]
 animations = [ {
-"frames": [ SubResource( 3 ) ],
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
 "loop": true,
-"name": "idle_side",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 4 ) ],
-"loop": true,
-"name": "idle_sideback",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 5 ) ],
-"loop": true,
-"name": "idle_back",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 6 ) ],
-"loop": true,
-"name": "idle_sidefront",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 7 ) ],
-"loop": true,
-"name": "idle_front",
-"speed": 5.0
+"name": "run_side",
+"speed": 15.0
 }, {
 "frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": true,
-"name": "run_back",
+"name": "run_sideback",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
@@ -336,23 +324,43 @@ animations = [ {
 "speed": 15.0
 }, {
 "frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ) ],
+"loop": true,
+"name": "run_front",
+"speed": 15.0
+}, {
+"frames": [ SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
 "loop": false,
 "name": "death",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"frames": [ SubResource( 28 ) ],
 "loop": true,
-"name": "run_side",
-"speed": 15.0
+"name": "idle_sidefront",
+"speed": 5.0
 }, {
-"frames": [ SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ) ],
+"frames": [ SubResource( 29 ) ],
 "loop": true,
-"name": "run_sideback",
-"speed": 15.0
+"name": "idle_front",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 30 ) ],
+"loop": true,
+"name": "idle_sideback",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 31 ) ],
+"loop": true,
+"name": "idle_side",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 32 ) ],
+"loop": true,
+"name": "idle_back",
+"speed": 5.0
 }, {
 "frames": [ SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ) ],
 "loop": true,
-"name": "run_front",
+"name": "run_back",
 "speed": 15.0
 }, {
 "frames": [ SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ) ],
@@ -378,7 +386,6 @@ __meta__ = {
 BASE_SPEED = 250
 enemy_class = "melee"
 MULTITHREADED_PATHFIND = true
-SHOW_RANGE = true
 AGGRO_RANGE = 500
 OFF_SCREEN_PATHFIND_INTERVAL = 4.0
 DEATH_SFX = [ ExtResource( 10 ), ExtResource( 11 ) ]
@@ -410,3 +417,6 @@ attenuation = 0.554785
 bus = "SFX"
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+position = Vector2( 1.86265e-09, 0 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]

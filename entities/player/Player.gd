@@ -8,7 +8,8 @@ export var MAX_HP := 100
 export var MAX_ENERGY := 1000
 
 export var MODULE_CHARGE_SPEED := 2
-export var radar_range := 10
+
+export var radar_range := 30
 
 export var DEFENSE_MODULE: PackedScene
 export var ATTACK_MODULE: PackedScene
@@ -36,6 +37,7 @@ enum State { Default, Pause, Dead }
 # Nodes and scenes
 onready var body_anim = $Body
 onready var legs_anim = $Legs
+onready var footstep_sfx = $Footsteps
 
 # Signals
 signal on_damage(damage)
@@ -100,6 +102,7 @@ func switch_weapon(direction := 1):
 	weapons[weapon_ind].switch()
 	
 var move_angle = 0	
+var sfx_position: float = 0
 		
 func _movement_animation(v_input, h_input):
 	var move_string = "idle"
@@ -115,6 +118,15 @@ func _movement_animation(v_input, h_input):
 		legs_dir = AnimUtil.Angle2Dir[move_angle]
 		
 		move_string = "walk"
+		
+		if not footstep_sfx.playing:
+			footstep_sfx.play(sfx_position)
+			$FootstepParts.emitting = true
+	else:
+		if footstep_sfx.playing:
+			sfx_position = footstep_sfx.get_playback_position()
+			$FootstepParts.emitting = false			
+			footstep_sfx.stop()
 		
 	var reverse_anim = false
 
@@ -136,6 +148,13 @@ func _movement_animation(v_input, h_input):
 		do_flash -= 1
 		if do_flash == 0:
 			$Flash.visible = false
+			
+func _process(_d):
+	# Weapons
+	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
+			- int(Input.is_action_just_pressed("previous_weapon")))
+	
+	weapons[weapon_ind].use()
 
 func _physics_process(_delta):
 	match state:
@@ -159,12 +178,6 @@ func _physics_process(_delta):
 			
 	# Move
 	mv = move_and_slide(mv)
-	
-	# Weapons
-	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
-			- int(Input.is_action_just_pressed("previous_weapon")))
-	
-	weapons[weapon_ind].use()
 	
 	# Regen
 	if $RegenTimer.time_left == 0 and hp < MAX_HP:

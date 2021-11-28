@@ -38,11 +38,11 @@ func _ready():
 	set_collision_layer_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_PLAYER_BULLET, true)
 
-	# warning-ignore:return_value_discarded
-	connect("on_death", self, "on_death")
-
 
 func on_hit(dmg: int):
+	if health <= 0:
+		return
+	
 	if DAMAGE_NUMBERS:
 		if is_instance_valid(dmg_num):
 			dmg_num.queue_free()
@@ -51,9 +51,7 @@ func on_hit(dmg: int):
 		dmg_num.num = dmg
 		dmg_num.global_position = global_position
 		get_tree().root.add_child(dmg_num)
-	
-	if health <= 0:
-		return
+
 	
 	health -= dmg
 	health = min(health, MAX_HEALTH)
@@ -62,6 +60,7 @@ func on_hit(dmg: int):
 	
 	if health <= 0:
 		emit_signal("on_death")
+		on_death()
 
 
 func on_death():

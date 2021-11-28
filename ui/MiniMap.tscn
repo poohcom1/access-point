@@ -78,7 +78,8 @@ func _tilemap_init():
 		sparse_array.append([])
 		for _yy in range(int(tilemapsize.y)+10):
 			sparse_array[xx].append(0)
-
+	#init raster vision
+	get_vision()
 
 func _draw():
 	if tilemap == null: return
@@ -91,11 +92,12 @@ func _draw():
 	Check if an object's tilemap position is in range of a radar
 \"\"\"
 
+var rseed = 0
 
 #rasterize the vision of the map into a 2d sparse array
 func get_vision():
 	var vision_objects = radars + [$\"/root/GameManager\".player]
-	var rasterized_vision = sparse_array.duplicate(true)
+	rasterized_vision = sparse_array.duplicate(true)
 	
 	for obj in vision_objects:
 		var tile_pos = (obj.tilemap_position if \"tilemap_position\" in obj else 
@@ -110,9 +112,8 @@ func get_vision():
 					var dy = iy - y
 					var dist2 = dx*dx + dy*dy
 					if(dist2 < radius*radius):
-						rasterized_vision[ix][iy] = 1
-	
-	return rasterized_vision
+						rseed = ((rseed + 101317) & 7) - 4
+						rasterized_vision[ix + rseed][iy + rseed] = 1
 
 func in_range(pos: Vector2) -> bool:
 	var vision_objects = radars + [$\"/root/GameManager\".player]
@@ -150,29 +151,63 @@ func _draw_objects():
 			elif object is Enemy:
 				draw_rect(Rect2(pos, Vector2.ONE * scale), ENEMY_COLOR)
 
+var tilemap_draw_cache = []
+var tilemap_draw_buffer = []
+var cell_selection_cache = []
+var draw_tilemap_count = 0
+var rasterized_vision
+const GRAN = 12 # MAKE SURE IT'S AT LEAST 6
 
 func _draw_tilemap():
 	draw_set_transform(rect_size / 2, 0, Vector2.ONE)
-	var rasterized_vision = get_vision()
+	for cell in tilemap_draw_cache:
+		draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale * 1.414), TILECOLOR)
 	
+var cumulative_delta = 0
+const MIN_DELTA_DELAY = 0.01
+
+func process_tilemap(delta):
+	cumulative_delta += delta
+	if(cumulative_delta > MIN_DELTA_DELAY):
+		cumulative_delta = 0
+		do_process_tilemap()
+
+func do_process_tilemap():
+	if(draw_tilemap_count == 0):
+		#print(Engine.get_frames_per_second())
+		get_tilemap_cells()
+	else:
+		var granularity = GRAN - 1
+		var block_index = draw_tilemap_count - 1
+		var block_size = cell_selection_cache.size() / granularity
+		for i in range(block_index*block_size , (block_index+1) * block_size):
+			var bcell = cell_selection_cache[i]
+			if rasterized_vision[int(bcell.x)][int(bcell.y)] == 1:
+				bcell = bcell.rotated(PI/4)
+				tilemap_draw_buffer.append(bcell)
+				
+	if draw_tilemap_count == GRAN - 1:
+		tilemap_draw_cache = tilemap_draw_buffer
+		tilemap_draw_buffer = []
+	elif draw_tilemap_count == GRAN - 4:
+		get_vision()
+	
+	draw_tilemap_count = (draw_tilemap_count + 1) % GRAN
+
+
+func get_tilemap_cells():
+	cell_selection_cache.clear()
 	# Find all tiles that has collision
 	for tile in tilemap.tile_set.get_tiles_ids():
-
 		# This assumes that tiles have a single collision shape
 		if tilemap.tile_set.tile_get_shape(tile, 0) != null:
-			
-			var color = TILECOLOR
 			var cells = tilemap.get_used_cells_by_id(tile)
-			
-			for cell in cells:
-				if rasterized_vision[int(cell.x)][int(cell.y)] == 1:
-					cell = cell.rotated(PI/4)
-					draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale * 1.414), color)
-					
+			cell_selection_cache.append_array(cells)
 					
 		
-func _process(_delta):
+func _process(delta):
 	update()
+	process_tilemap(delta)
 	
 	
 func world_to_tilemap(position: Vector2) -> Vector2:

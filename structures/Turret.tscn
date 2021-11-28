@@ -22,7 +22,7 @@ export(Array, AudioStream) var ShootSounds: Array
 var enemies_in_range := []
 var target: Enemy = null
 
-var dir: int
+var dir: int = AnimUtil.Dir.BottomRight
 
 # Nodes
 onready var shoot_timer := $ShootTimer
@@ -95,10 +95,15 @@ func _set_range(val):
 	RANGE = val
 	$RangeArea/CollisionShape2D.shape.radius = val
 	
+var previous_dir = dir
+	
 func _set_animation():
 	if not target: return
 	
 	dir = AnimUtil.get_dir(target.global_position.angle_to_point(global_position))
+	
+	dir = AnimUtil.turn(previous_dir, dir)
+	previous_dir = dir
 	
 	$AnimatedSprite.flip_h = abs(AnimUtil.Dir2Angle[dir]) > 90
 
@@ -151,11 +156,11 @@ region = Rect2( 192, 0, 96, 96 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
-region = Rect2( 96, 0, 96, 96 )
+region = Rect2( 288, 0, 96, 96 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 1 )
-region = Rect2( 288, 0, 96, 96 )
+region = Rect2( 96, 0, 96, 96 )
 
 [sub_resource type="SpriteFrames" id=8]
 animations = [ {
@@ -176,12 +181,12 @@ animations = [ {
 }, {
 "frames": [ SubResource( 6 ) ],
 "loop": true,
-"name": "sidefront",
+"name": "sideback",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 7 ) ],
 "loop": true,
-"name": "sideback",
+"name": "sidefront",
 "speed": 5.0
 } ]
 
@@ -191,42 +196,42 @@ radius = 175.0
 [sub_resource type="RectangleShape2D" id=10]
 extents = Vector2( 19.7339, 20.6122 )
 
-[sub_resource type="CanvasItemMaterial" id=17]
+[sub_resource type="CanvasItemMaterial" id=11]
 light_mode = 1
 
-[sub_resource type="AtlasTexture" id=19]
+[sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 32, 48 )
 
-[sub_resource type="AtlasTexture" id=20]
+[sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 4 )
 region = Rect2( 32, 0, 32, 48 )
 
-[sub_resource type="AtlasTexture" id=21]
+[sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 4 )
 region = Rect2( 64, 0, 32, 48 )
 
-[sub_resource type="AtlasTexture" id=22]
+[sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 4 )
 region = Rect2( 96, 0, 32, 48 )
 
-[sub_resource type="AtlasTexture" id=23]
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 4 )
 region = Rect2( 128, 0, 32, 48 )
 
-[sub_resource type="AtlasTexture" id=24]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 4 )
 region = Rect2( 160, 0, 32, 48 )
 
-[sub_resource type="SpriteFrames" id=16]
+[sub_resource type="SpriteFrames" id=18]
 animations = [ {
-"frames": [ SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
 "loop": true,
 "name": "default",
 "speed": 22.0
 } ]
 
-[sub_resource type="GDScript" id=18]
+[sub_resource type="GDScript" id=19]
 script/source = "extends AnimatedSprite
 
 
@@ -283,7 +288,7 @@ x_scale = 5.0
 
 [node name="ShootFx" type="AnimatedSprite" parent="."]
 visible = false
-material = SubResource( 17 )
+material = SubResource( 11 )
 z_index = 29
-frames = SubResource( 16 )
-script = SubResource( 18 )
+frames = SubResource( 18 )
+script = SubResource( 19 )

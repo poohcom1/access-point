@@ -151,7 +151,7 @@ func on_active():
 		if shooting:
 			if cross_hair_ref.get_ref():
 				cross_hair_ref.get_ref().detach()
-			on_switch_out()
+			on_stop_shoot_()
 			shooting = false
 
 func on_switch():
@@ -173,7 +173,7 @@ func on_start_shoot_():
 func on_stop_shoot_(richochet=true):
 	.on_stop_shoot_()
 	$GunSE.stop()
-	if not richochet:
+	if richochet:
 		# Ricochet SFX
 		if ammo > 0:
 			# 10% chance to play
