@@ -2,7 +2,7 @@
 
 [ext_resource path="res://entities/enemies/scripts/SpawnArea.gd" type="Script" id=1]
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=1]
 radius = 56.0
 
 [node name="SpawnArea" type="Area2D"]
@@ -14,4 +14,4 @@ one_shot = true
 [node name="VisibilityNotifier" type="VisibilityNotifier2D" parent="."]
 
 [node name="SpawnArea" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 1 )

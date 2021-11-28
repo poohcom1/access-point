@@ -23,6 +23,8 @@ const EPSILON = 0.00001
 var tilemap_position: Vector2 # Cached for minimap
 
 # Nodes
+onready var battery_timer := $BatteryTimer
+
 func _ready():
 	if custom_stats:
 		revealed = battery > EPSILON
@@ -30,8 +32,8 @@ func _ready():
 	add_to_group(radar_group)
 	
 	# warning-ignore:return_value_discarded
-	$BatteryTimer.connect(\"timeout\", self, \"battery_drain\")
-	$BatteryTimer.start(drain_interval)
+	battery_timer.connect(\"timeout\", self, \"battery_drain\")
+	battery_timer.start(drain_interval)
 	
 	# warning-ignore:return_value_discarded
 	connect(\"on_activate\", self, \"_on_activated\")
@@ -43,7 +45,7 @@ func battery_drain():
 		
 		if battery <= EPSILON:
 			emit_signal(\"on_deactivate\")
-			$BatteryTimer.stop()
+			battery_timer.stop()
 	
 func _on_activated():
 	for radar in next_radars:
@@ -53,7 +55,7 @@ func _on_activated():
 func add_battery(_amt):
 	if battery <= EPSILON:
 		.add_battery(_amt)
-		$BatteryTimer.start(drain_interval)
+		battery_timer.start(drain_interval)
 		battery = MAX_BATTERY
 "
 

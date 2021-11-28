@@ -73,9 +73,7 @@ zoom = Vector2( 0.5, 0.5 )
 position = Vector2( 1.05945, 0 )
 
 [node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
-visible = false
 anchor_top = 1.0
-anchor_right = 0.0
 margin_top = -149.0
 margin_right = 156.0
 margin_bottom = 0.0
@@ -186,6 +184,9 @@ SUICIDE_PRIORITY = 5
 [node name="SpawnTrigger" parent="SpawnArea2" instance=ExtResource( 7 )]
 position = Vector2( 869.005, 198.402 )
 scale = Vector2( 2.52, 3.12 )
+
+[node name="Line2D" type="Line2D" parent="SpawnArea2"]
+points = PoolVector2Array( -0.919922, 0.190979 )
 
 [node name="SpawnArea4" parent="." instance=ExtResource( 4 )]
 position = Vector2( -2781.79, -1603.23 )

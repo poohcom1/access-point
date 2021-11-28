@@ -11,6 +11,9 @@ export var RELOAD_SOUND: AudioStream = preload("res://assets/SE/Reload1.mp3")
 
 export var RELOAD_ON_OUT := true
 
+export var PASSIVE_RELOAD_DELAY := 0.5
+export var FAST_PASSIVE_RELOAD := false
+
 # Properties
 var weapon_name: String
 var active := false
@@ -23,6 +26,7 @@ var crosshair_offsets
 
 # Node
 var reload_timer := Timer.new()
+var passive_reload_timer := Timer.new()
 
 func _ready():
 	ammo = MAX_AMMO # Set from export
@@ -31,6 +35,10 @@ func _ready():
 	reload_timer.autostart = false
 	reload_timer.connect("timeout", self, "_reload")
 	add_child(reload_timer)
+	
+	passive_reload_timer.one_shot = true
+	passive_reload_timer.connect("timeout", self, "start_reload", [RELOAD_TIME - PASSIVE_RELOAD_DELAY, false])
+	add_child(passive_reload_timer)
 	
 	crosshair = CROSS_HAIR
 	crosshair_offsets = Vector2(crosshair.get_width()/2.0, crosshair.get_height()/2.0)
@@ -51,17 +59,21 @@ func _process(_delta):
 			start_reload()			
 		else:
 			on_stop_shoot_()
-	
+
+# Event methods	
 func switch():
 	Input.set_custom_mouse_cursor(crosshair, 0, crosshair_offsets)
 	active = true
+	passive_reload_timer.stop()
 	on_switch()
 	
 func switch_out():
 	active = false
 	if ammo < MAX_AMMO and reload_timer.time_left == 0:
-		start_reload(false)
+		passive_reload_timer.start(PASSIVE_RELOAD_DELAY)
 	on_switch_out()
+
+## Virtual methods to be override
 
 # Called every frame when active
 func on_active():
@@ -87,11 +99,11 @@ func can_shoot() -> bool:
 func reloading() -> bool:
 	return reload_timer.time_left != 0
 	
-func start_reload(play_sound=true):
+func start_reload(reload_time=RELOAD_TIME, play_sound=true):
 	if play_sound and RELOAD_SOUND:
 		add_child(OneShotAudio2D.new(RELOAD_SOUND))
 	on_stop_shoot_()
-	reload_timer.start(RELOAD_TIME)
+	reload_timer.start(reload_time)
 	
 func _reload():
 	ammo = MAX_AMMO

@@ -8,6 +8,8 @@ script/source = "extends Area2D
 var _shooting = false
 var random_effects_range: float
 
+onready var effects = $Effect
+
 func _ready():
 	random_effects_range = $CollisionShape2D.shape.radius
 
@@ -19,7 +21,7 @@ func shoot():
 		rand_range(-random_effects_range, random_effects_range)		
 		)
 
-	var effect: AnimatedSprite = $Effect.duplicate()
+	var effect: AnimatedSprite = effects.duplicate()
 	get_tree().root.call_deferred(\"add_child\", effect)
 	effect.global_position = global_position + offset
 	effect.visible = true

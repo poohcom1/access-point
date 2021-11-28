@@ -3,94 +3,10 @@
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/enemies/melee/run_back.png" type="Texture" id=2]
 [ext_resource path="res://assets/enemies/melee/run_front.png" type="Texture" id=3]
+[ext_resource path="res://entities/enemies/scripts/HealerBug.gd" type="Script" id=4]
 [ext_resource path="res://assets/enemies/melee/run_side.png" type="Texture" id=5]
 [ext_resource path="res://assets/enemies/melee/run_side_back.png" type="Texture" id=6]
 [ext_resource path="res://assets/enemies/melee/death.png" type="Texture" id=7]
-
-[sub_resource type="GDScript" id=1]
-script/source = "tool
-extends EnemyUnit
-
-# Properties
-export var HEAL_INTERVAL := 0.2
-export var HEAL_AMOUNT := 2
-
-export var REGEN_AMOUNT := 0.25
-
-export var DISTANCE_TO_PLAYER := 100
-export var HEAL_PAUSE := 0.3
-
-const HEALER_GROUP = \"healer\"
-
-# Nodes
-onready var heal_timer := Timer.new()
-onready var heal_area := $HealingArea
-
-# States
-enum HealerState { Heal }
-
-
-# Signals
-func _ready():
-	add_to_group(HEALER_GROUP)
-	
-	## Healing timer
-	add_child(heal_timer)
-	heal_timer.start(HEAL_INTERVAL)
-	# warning-ignore:return_value_discarded
-	heal_timer.connect(\"timeout\", self, \"_on_heal\")
-	
-
-func _physics_process(_delta):
-	if Engine.editor_hint: return
-	match state:
-		State.Default:
-			_set_animation()
-			
-			mv = navigate()
-
-			mv = move_and_slide(mv * speed)
-			
-			if distance_sqr_to_player() < DISTANCE_TO_PLAYER*DISTANCE_TO_PLAYER:
-				state = HealerState.Heal
-				state_timer.start(HEAL_PAUSE)
-		State.Knockback:
-			mv = move_and_slide(mv)
-
-func on_state_timeout():
-	if state == HealerState.Heal:
-		state = State.Default
-	.on_state_timeout()
-	
-	
-func _on_heal():
-	health = min(health + REGEN_AMOUNT, MAX_HEALTH)
-	
-	for body in heal_area.get_overlapping_bodies():
-		if body is Enemy and not body.is_in_group(HEALER_GROUP) and not body == self:
-			if body.health < body.MAX_HEALTH:
-				body.health += HEAL_AMOUNT
-				body.health = min(body.health, body.MAX_HEALTH)
-				
-				if body.has_node(\"HealingFX\"):
-					body.get_node(\"HealingFX\").emitting = true
-
-	
-func on_death():
-	var corpse := Node2D.new()
-	
-	get_parent().add_child(corpse)
-	corpse.global_position = global_position
-	corpse.z_index = 0
-	var sprite = $AnimatedSprite
-	
-	remove_child(sprite)
-	corpse.add_child(sprite)
-	sprite.play(\"death\")
-	
-	queue_free()
-
-"
 
 [sub_resource type="CircleShape2D" id=2]
 
@@ -141,72 +57,72 @@ atlas = ExtResource( 6 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 5 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 5 )
-region = Rect2( 48, 0, 48, 48 )
+atlas = ExtResource( 2 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 5 )
-region = Rect2( 96, 0, 48, 48 )
+atlas = ExtResource( 2 )
+region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 5 )
-region = Rect2( 144, 0, 48, 48 )
+atlas = ExtResource( 2 )
+region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 5 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 2 )
+region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 2 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 3 )
-region = Rect2( 48, 0, 48, 48 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 3 )
-region = Rect2( 96, 0, 48, 48 )
+region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 3 )
-region = Rect2( 144, 0, 48, 48 )
+region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 3 )
-region = Rect2( 192, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 7 )
-region = Rect2( 0, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 7 )
-region = Rect2( 48, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 7 )
-region = Rect2( 96, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 7 )
 region = Rect2( 144, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 7 )
-region = Rect2( 192, 0, 48, 48 )
-
-[sub_resource type="AtlasTexture" id=30]
+[sub_resource type="AtlasTexture" id=25]
 atlas = ExtResource( 3 )
 region = Rect2( 192, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=31]
-atlas = ExtResource( 6 )
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 3 )
+region = Rect2( 192, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 5 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 5 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 5 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=31]
+atlas = ExtResource( 5 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=32]
 atlas = ExtResource( 5 )
@@ -217,23 +133,23 @@ atlas = ExtResource( 2 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=34]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=35]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 7 )
 region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=36]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 7 )
 region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=37]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 7 )
 region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=38]
-atlas = ExtResource( 2 )
+atlas = ExtResource( 7 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=39]
@@ -248,30 +164,30 @@ animations = [ {
 "name": "run_sideback",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
+"frames": [ SubResource( 15 ) ],
 "loop": true,
-"name": "run_sidefront",
+"name": "idle_sideback",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
+"loop": true,
+"name": "run_back",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
+"frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ) ],
 "loop": true,
 "name": "run_front",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ) ],
-"loop": false,
-"name": "death",
-"speed": 12.0
-}, {
-"frames": [ SubResource( 30 ) ],
+"frames": [ SubResource( 26 ) ],
 "loop": true,
 "name": "idle_front",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 31 ) ],
+"frames": [ SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ) ],
 "loop": true,
-"name": "idle_sideback",
-"speed": 5.0
+"name": "run_sidefront",
+"speed": 15.0
 }, {
 "frames": [ SubResource( 32 ) ],
 "loop": true,
@@ -284,18 +200,14 @@ animations = [ {
 "speed": 5.0
 }, {
 "frames": [ SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ) ],
-"loop": true,
-"name": "run_back",
-"speed": 15.0
+"loop": false,
+"name": "death",
+"speed": 12.0
 } ]
 
 [node name="HealerBug" type="KinematicBody2D"]
 z_index = 1
-script = SubResource( 1 )
-value = 1
-MULTITHREADED_PATHFIND = true
-AGGRO_RANGE = 500
-PATHFIND_INTERVAL = 0.5
+script = ExtResource( 4 )
 
 [node name="ValueBar" parent="." instance=ExtResource( 1 )]
 position = Vector2( 0.264862, 10.9919 )

@@ -21,12 +21,16 @@ var damage = 5
 var to_beep = false
 var has_exploded = false
 
+# Nodes
+onready var anim_sprites := $AnimatedSprite
+onready var timer := $Timer
+
+onready var area := $Area2D
+
 func _ready():
 	add_child(OneShotAudio2D.new(DeploySound))
-# warning-ignore:return_value_discarded
-	$Timer.connect(\"timeout\", self, \"on_explode\")
-# warning-ignore:return_value_discarded
-	$AnimatedSprite.connect(\"animation_finished\", self, \"on_anim_finished\")
+	timer.connect(\"timeout\", self, \"on_explode\")
+	anim_sprites.connect(\"animation_finished\", self, \"on_anim_finished\")
 	
 func _physics_process(_d):
 	if not to_beep and global_position.distance_to(target) > 16:
@@ -43,8 +47,8 @@ func _physics_process(_d):
 func on_beep():
 	to_beep = true
 	add_child(OneShotAudio2D.new(BeepSound))
-	$AnimatedSprite.play(\"flash\")
-	$Timer.start(charge_time)
+	anim_sprites.play(\"flash\")
+	timer.start(charge_time)
 
 func on_explode():
 	var explode = OneShotAudio2D.new(ExplodeSound, -3)
@@ -52,10 +56,10 @@ func on_explode():
 	get_tree().root.add_child(explode)
 	
 	z_index = 10
-	$AnimatedSprite.play(\"explode\")
+	anim_sprites.play(\"explode\")
 	has_exploded = true
 	
-	for body in $Area2D.get_overlapping_bodies():
+	for body in area.get_overlapping_bodies():
 		if body is Enemy:
 			var power = min(
 				1/(body.global_position - global_position).length() * 1200,

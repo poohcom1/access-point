@@ -17,12 +17,16 @@ export var TRAIL_FRAME_INTERVAL := 2
 export var TRAIL_TIME := 0.2
 
 var trails = []
-
 var trail_time = 0
 
+# Node cache
+onready var dash_timer := $DashTimer
+
+var body: AnimatedSprite
+var legs: AnimatedSprite
+
 func _ready():
-	# warning-ignore:return_value_discarded
-	$DashTimer.connect(\"timeout\", self, \"_dash_finished\")
+	dash_timer.connect(\"timeout\", self, \"_dash_finished\")
 
 func _input(event):
 	if player.energy <= ENERGY_COST: return
@@ -59,12 +63,15 @@ func _physics_process(_delta):
 		
 func _dash_start(direction: Vector2):
 	player.set_collision_layer_bit(GameManager.COL_ENEMY, false)
-	$DashTimer.start(DASH_TIME)
-	player.state = player.State.Pause
+	dash_timer.start(DASH_TIME)
 	
+	player.state = player.State.Pause
 	player.mv = direction * DASH_SPEED
+	
 	active = true
 	
+	body = player.get_node(\"Body\")
+	legs = player.get_node(\"Legs\")
 		
 func _dash_finished():
 	player.set_collision_layer_bit(GameManager.COL_ENEMY, true)
@@ -72,10 +79,9 @@ func _dash_finished():
 	active = false
 
 
-
 func _summon_trail():
-	var top = player.get_node(\"Body\").duplicate()
-	var bottom = player.get_node(\"Legs\").duplicate()
+	var top = body.duplicate()
+	var bottom = legs.duplicate()
 	
 	top.global_position = global_position
 	bottom.global_position = global_position
@@ -88,14 +94,12 @@ func _summon_trail():
 	tween.interpolate_property(trail, \"modulate\", 
 		Color(0, 0, 1), Color(0.2, 0.2, 0.9, 0.2), TRAIL_TIME)
 		
-	tween.connect(\"tween_all_completed\", self, \"_delete_trail\", [trail])
+	tween.connect(\"tween_all_completed\", trail, \"queue_free\")
 	trail.add_child(tween)	
 	
 	get_tree().root.add_child(trail)
 	tween.start()
 	
-func _delete_trail(trail: Node2D):
-	trail.queue_free()
 "
 
 [node name="DashModule" type="Node2D"]

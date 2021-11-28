@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://stages/MainPropSet.tres" type="TileSet" id=2]
 [ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/Soundtrack/Midnight Brawl.wav" type="AudioStream" id=5]
 [ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
@@ -46,157 +47,281 @@ position = Vector2( -617.237, 531.159 )
 
 [node name="HealerBug" parent="." instance=ExtResource( 14 )]
 position = Vector2( -147.615, -703.159 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
 OFF_SCREEN_PATHFIND_INTERVAL = 2.0
 
 [node name="HealerBug2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 1076.75, -595.318 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
 OFF_SCREEN_PATHFIND_INTERVAL = 2.0
 
 [node name="HealerBug3" parent="." instance=ExtResource( 14 )]
 position = Vector2( 1058.25, -547.387 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
 OFF_SCREEN_PATHFIND_INTERVAL = 2.0
 
 [node name="HealerBug4" parent="." instance=ExtResource( 14 )]
 position = Vector2( -51.4567, -696.795 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
 OFF_SCREEN_PATHFIND_INTERVAL = 2.0
 
 [node name="HealerBug5" parent="." instance=ExtResource( 14 )]
 position = Vector2( 1241.65, -1201.88 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
 OFF_SCREEN_PATHFIND_INTERVAL = 2.0
 
 [node name="MeleeBug2" parent="." instance=ExtResource( 4 )]
 position = Vector2( -39.9854, -660.916 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -39.9854, -660.916 )
 
 [node name="HealerBug6" parent="." instance=ExtResource( 14 )]
 position = Vector2( -201.166, -603.999 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
 OFF_SCREEN_PATHFIND_INTERVAL = 2.0
 
 [node name="HealerBug7" parent="." instance=ExtResource( 14 )]
 position = Vector2( -1053, -862 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
 OFF_SCREEN_PATHFIND_INTERVAL = 2.0
 
 [node name="HealerBug8" parent="." instance=ExtResource( 14 )]
 position = Vector2( -1133, -858 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
 OFF_SCREEN_PATHFIND_INTERVAL = 2.0
 
 [node name="MeleeBug24" parent="." instance=ExtResource( 4 )]
 position = Vector2( -972, -893 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -972, -893 )
 
 [node name="MeleeBug25" parent="." instance=ExtResource( 4 )]
 position = Vector2( -981, -858 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -981, -858 )
 
 [node name="MeleeBug26" parent="." instance=ExtResource( 4 )]
 position = Vector2( -891, -1033 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -891, -1033 )
 
 [node name="HealerBug9" parent="." instance=ExtResource( 14 )]
 position = Vector2( -892, -1069 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
 OFF_SCREEN_PATHFIND_INTERVAL = 2.0
 
 [node name="MeleeBug27" parent="." instance=ExtResource( 4 )]
 position = Vector2( -852, -1028 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -852, -1028 )
 
 [node name="HealerBug10" parent="." instance=ExtResource( 14 )]
 position = Vector2( 1124.27, -564.942 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
 OFF_SCREEN_PATHFIND_INTERVAL = 2.0
 
 [node name="MeleeBug3" parent="." instance=ExtResource( 4 )]
 position = Vector2( -148.958, -647.831 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -148.958, -647.831 )
 
 [node name="MeleeBug4" parent="." instance=ExtResource( 4 )]
 position = Vector2( -56.845, -593.623 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -56.845, -593.623 )
 
 [node name="MeleeBug5" parent="." instance=ExtResource( 4 )]
 position = Vector2( -105.328, -695.538 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -105.328, -695.538 )
 
 [node name="MeleeBug14" parent="." instance=ExtResource( 4 )]
 position = Vector2( 955.755, -594.659 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 955.755, -594.659 )
 
 [node name="MeleeBug15" parent="." instance=ExtResource( 4 )]
 position = Vector2( 998.133, -605.254 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 998.133, -605.254 )
 
 [node name="MeleeBug16" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1006.61, -554.4 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 1006.61, -554.4 )
 
 [node name="MeleeBug17" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1007.52, -1172.63 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 1007.52, -1172.63 )
 
 [node name="MeleeBug18" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1249.16, -1104.67 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 1249.16, -1104.67 )
 
 [node name="MeleeBug19" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1135.89, -1115.99 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 1135.89, -1115.99 )
 
 [node name="MeleeBug20" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1347.32, -1225.48 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 1347.32, -1225.48 )
 
 [node name="MeleeBug21" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1113.24, -1229.26 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 1113.24, -1229.26 )
 
 [node name="MeleeBug22" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1332.22, -1131.1 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 1332.22, -1131.1 )
 
 [node name="MeleeBug23" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1475.69, -1115.99 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 1475.69, -1115.99 )
 
 [node name="MeleeBug6" parent="." instance=ExtResource( 4 )]
 position = Vector2( -121.59, -647.339 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -121.59, -647.339 )
 
 [node name="MeleeBug7" parent="." instance=ExtResource( 4 )]
 position = Vector2( -76.2841, -624.686 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -76.2841, -624.686 )
 
 [node name="MeleeBug8" parent="." instance=ExtResource( 4 )]
 position = Vector2( -17.7639, -622.798 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( -17.7639, -622.798 )
 
 [node name="MeleeBug9" parent="." instance=ExtResource( 4 )]
 position = Vector2( 782.642, -543.512 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 782.642, -543.512 )
 
 [node name="MeleeBug10" parent="." instance=ExtResource( 4 )]
 position = Vector2( 839.274, -558.614 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 839.274, -558.614 )
 
 [node name="MeleeBug11" parent="." instance=ExtResource( 4 )]
 position = Vector2( 693.917, -600.145 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 693.917, -600.145 )
 
 [node name="MeleeBug12" parent="." instance=ExtResource( 4 )]
 position = Vector2( 901.57, -611.471 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 901.57, -611.471 )
 
 [node name="MeleeBug13" parent="." instance=ExtResource( 4 )]
 position = Vector2( 888.355, -554.839 )
-SHOW_RANGE = false
+PATHFIND_EPSILON = 0
+AGGRO_RANGE = 0
+DEBUG_PATH = true
+PATHFIND_INTERVAL = 1.0
+DAMAGE = Vector2( 888.355, -554.839 )
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1201.82, -584.294 )
@@ -212,12 +337,14 @@ position = Vector2( 402.524, -92.7782 )
 position = Vector2( 1.05945, 0 )
 
 [node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
-visible = false
 anchor_top = 1.0
-anchor_right = 0.0
 margin_top = -149.0
 margin_right = 156.0
 margin_bottom = 0.0
 
 [node name="Radar" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0, 192 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+autoplay = true
