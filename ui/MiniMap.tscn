@@ -92,7 +92,7 @@ func _draw():
 \"\"\"
 	Check if an object's tilemap position is in range of a radar
 \"\"\"
-
+var rseed = 0
 
 #rasterize the vision of the map into a 2d sparse array
 func get_vision():
@@ -112,7 +112,8 @@ func get_vision():
 					var dy = iy - y
 					var dist2 = dx*dx + dy*dy
 					if(dist2 < radius*radius):
-						rasterized_vision[ix][iy] = 1
+						rseed = ((rseed + 1191047) % 10) - 5
+						rasterized_vision[ix + rseed][iy + rseed] = 1
 	
 	return rasterized_vision
 
