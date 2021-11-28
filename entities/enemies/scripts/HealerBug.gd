@@ -22,6 +22,8 @@ enum HealerState { Heal }
 
 # Signals
 func _ready():
+	if Engine.editor_hint: return
+	
 	add_to_group(HEALER_GROUP)
 	
 	## Healing timer

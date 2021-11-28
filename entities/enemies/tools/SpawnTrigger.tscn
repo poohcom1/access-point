@@ -1,20 +1,29 @@
 [gd_scene load_steps=3 format=2]
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
 
+var areas := []
+
 func _ready():
-    pass
+	connect(\"body_entered\", self, \"check_free\")
 
 
-func _physics_process(_delta):
-	pass"
+func check_free(_body=null):
+	var should_free = true
+	
+	for area in areas:
+		should_free = should_free and area.TRIGGERED
+
+	if should_free:
+		queue_free()
+"
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 72.0
 
 [node name="SpawnTrigger" type="Area2D"]
-script = SubResource( 3 )
+script = SubResource( 1 )
 
 [node name="SpawnTrigger" type="CollisionShape2D" parent="."]
 modulate = Color( 1, 0, 0, 1 )

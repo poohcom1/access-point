@@ -214,13 +214,27 @@ position = Vector2( 0, 192 )
 [node name="SpawnArea2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 279.777, 206.97 )
 DISABLE_ON_SCREEN = false
+
+[node name="SpawnTrigger" parent="SpawnArea2" instance=ExtResource( 7 )]
+position = Vector2( -152.644, 45.5494 )
+
+[node name="SpawnArea3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 347.201, 79.6139 )
+TRIGGERS = [ NodePath("../SpawnArea2/SpawnTrigger") ]
+DISABLE_ON_SCREEN = false
 MELEE_PRIORITY = 1
 HEALER_PRIORITY = 0
 SUICIDE_PRIORITY = 0
 RANGE_PRIORITY = 0
 
-[node name="SpawnTrigger" parent="SpawnArea2" instance=ExtResource( 7 )]
-position = Vector2( -152.644, 45.5494 )
+[node name="SpawnArea4" parent="." instance=ExtResource( 4 )]
+position = Vector2( 211.13, 61.975 )
+TRIGGERS = [ NodePath("../SpawnArea2/SpawnTrigger") ]
+DISABLE_ON_SCREEN = false
+MELEE_PRIORITY = 1
+HEALER_PRIORITY = 0
+SUICIDE_PRIORITY = 0
+RANGE_PRIORITY = 0
 
 [node name="Turret" parent="." instance=ExtResource( 12 )]
 position = Vector2( -57.2205, 83.3964 )

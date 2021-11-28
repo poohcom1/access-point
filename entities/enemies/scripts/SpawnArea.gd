@@ -1,5 +1,5 @@
 tool
-extends Area2D
+extends CollisionShape2D
 
 export(Array, NodePath) var TRIGGERS := []
 
@@ -43,7 +43,7 @@ var rally_point: Vector2
 
 # Nodes
 onready var timer := $Interval
-onready var radius = $SpawnArea.shape.radius
+onready var radius = shape.radius
 
 var rally_point_node: Position2D
 
@@ -79,24 +79,28 @@ func _ready():
 	
 	for child in get_children():
 		if child is Area2D:
-			child.connect("body_entered", self, "on_enter")
-			trigger_areas.append(child)
+			add_trigger(child)
+			
 		elif child is Position2D:
 			rallying = true
 			rally_point = child.global_position
 			rally_point_node = child
 		
 	for nodepath in TRIGGERS:
-		var trigger = get_node(nodepath)
-		trigger.connect("body_entered", self, "on_enter")
-		trigger_areas.append(trigger)
+		add_trigger(get_node(nodepath))
 		
 	if TRIGGERED:
 		start_spawn()
 		
-func on_enter(body):
+func add_trigger(trigger):
+	trigger.connect("body_entered", self, "on_enter", [trigger])
+	trigger_areas.append(trigger)
+		
+func on_enter(body, trigger):
+	print(trigger)
 	if body is Player:
 		start_spawn()
+		trigger.check_free()
 
 func start_spawn():
 	if not TRIGGERED:
@@ -124,7 +128,6 @@ func on_spawn():
 	SPAWN_COUNT -= 1
 	
 	
-
 
 func random_position() -> Vector2:
 	var angle = rand_range(0, 2 * PI)
