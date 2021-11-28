@@ -14,7 +14,7 @@ static func create_bullet(BulletScn: PackedScene, parent: Node2D, start: Vector2
 	if override_speed != null:
 		bullet.speed = override_speed
 	
-	parent.get_tree().root.add_child(bullet)
+	parent.get_tree().root.call_deferred("add_child", bullet)
 	
 	return bullet
 

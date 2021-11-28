@@ -8,6 +8,8 @@ func _init(audio: Resource, volume := 1.0):
 func _ready():
 	play()
 	
+	bus = "SFX"
+	
 	# warning-ignore:return_value_discarded
 	connect("finished", self, "on_finished")
 
