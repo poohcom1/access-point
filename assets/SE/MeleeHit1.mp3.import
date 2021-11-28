@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/MeleeHit1.mp3-278fcb175fef587ef18686660fb711bd.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/MeleeHit1.mp3"
+dest_files=[ "res://.import/MeleeHit1.mp3-278fcb175fef587ef18686660fb711bd.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

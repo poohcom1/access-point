@@ -74,81 +74,92 @@ zoom = Vector2( 0.5, 0.5 )
 position = Vector2( 1.05945, 0 )
 
 [node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
+visible = false
 anchor_top = 1.0
 anchor_right = 0.0
 margin_top = -184.0
 margin_right = 199.0
 margin_bottom = 0.0
 
-[node name="SpawnArea" parent="." instance=ExtResource( 4 )]
+[node name="SpawnArea1" parent="." instance=ExtResource( 4 )]
 position = Vector2( 88.8981, 74.8679 )
+SPAWN_COUNT = 1
 
-[node name="SpawnTrigger" parent="SpawnArea" instance=ExtResource( 7 )]
+[node name="SpawnTrigger" parent="SpawnArea1" instance=ExtResource( 7 )]
 position = Vector2( -669.66, -384.254 )
-scale = Vector2( 2.52, 3.12 )
-
-[node name="SpawnArea10" parent="." instance=ExtResource( 4 )]
-position = Vector2( -884.02, -3580.14 )
-
-[node name="SpawnTrigger" parent="SpawnArea10" instance=ExtResource( 7 )]
-position = Vector2( -228.036, 540.779 )
-scale = Vector2( 2.52, 3.12 )
-
-[node name="SpawnArea9" parent="." instance=ExtResource( 4 )]
-position = Vector2( -1150.87, -3162.13 )
-
-[node name="SpawnTrigger" parent="SpawnArea9" instance=ExtResource( 7 )]
-position = Vector2( -94.0836, 548.085 )
-scale = Vector2( 2.52, 3.12 )
-
-[node name="SpawnArea8" parent="." instance=ExtResource( 4 )]
-position = Vector2( -2060.57, -2599.14 )
-
-[node name="SpawnTrigger" parent="SpawnArea8" instance=ExtResource( 7 )]
-position = Vector2( 588.3, -9.77515 )
-scale = Vector2( 2.52, 3.12 )
-
-[node name="SpawnArea7" parent="." instance=ExtResource( 4 )]
-position = Vector2( -1917.67, -2602 )
-
-[node name="SpawnTrigger" parent="SpawnArea7" instance=ExtResource( 7 )]
-position = Vector2( -877.113, 52.5339 )
-scale = Vector2( 2.52, 3.12 )
-
-[node name="SpawnArea6" parent="." instance=ExtResource( 4 )]
-position = Vector2( -2728.47, -1500.83 )
-
-[node name="SpawnTrigger" parent="SpawnArea6" instance=ExtResource( 7 )]
-position = Vector2( -191.396, -587.505 )
-scale = Vector2( 2.52, 3.12 )
-
-[node name="SpawnArea5" parent="." instance=ExtResource( 4 )]
-position = Vector2( -2456.33, -1644.65 )
-
-[node name="SpawnTrigger" parent="SpawnArea5" instance=ExtResource( 7 )]
-position = Vector2( 488.709, -477.442 )
 scale = Vector2( 2.52, 3.12 )
 
 [node name="SpawnArea2" parent="." instance=ExtResource( 4 )]
 position = Vector2( -2247.08, -784.191 )
+SPAWN_COUNT = 1
 
 [node name="SpawnTrigger" parent="SpawnArea2" instance=ExtResource( 7 )]
 position = Vector2( 869.005, 198.402 )
 scale = Vector2( 2.52, 3.12 )
 
+[node name="SpawnArea3" parent="." instance=ExtResource( 4 )]
+position = Vector2( -2856.93, -1974.68 )
+SPAWN_COUNT = 1
+
+[node name="SpawnTrigger" parent="SpawnArea3" instance=ExtResource( 7 )]
+position = Vector2( -127.445, 674.925 )
+scale = Vector2( 6.40674, 3.12 )
+
 [node name="SpawnArea4" parent="." instance=ExtResource( 4 )]
 position = Vector2( -2781.79, -1603.23 )
+SPAWN_COUNT = 1
 
 [node name="SpawnTrigger" parent="SpawnArea4" instance=ExtResource( 7 )]
 position = Vector2( 95.0277, 772.278 )
 scale = Vector2( 2.52, 3.12 )
 
-[node name="SpawnArea3" parent="." instance=ExtResource( 4 )]
-position = Vector2( -2856.93, -1974.68 )
+[node name="SpawnArea5" parent="." instance=ExtResource( 4 )]
+position = Vector2( -2456.33, -1644.65 )
+SPAWN_COUNT = 1
 
-[node name="SpawnTrigger" parent="SpawnArea3" instance=ExtResource( 7 )]
-position = Vector2( -127.445, 674.925 )
-scale = Vector2( 6.40674, 3.12 )
+[node name="SpawnTrigger" parent="SpawnArea5" instance=ExtResource( 7 )]
+position = Vector2( 488.709, -477.442 )
+scale = Vector2( 2.52, 3.12 )
+
+[node name="SpawnArea6" parent="." instance=ExtResource( 4 )]
+position = Vector2( -2728.47, -1500.83 )
+SPAWN_COUNT = 1
+
+[node name="SpawnTrigger" parent="SpawnArea6" instance=ExtResource( 7 )]
+position = Vector2( -191.396, -587.505 )
+scale = Vector2( 2.52, 3.12 )
+
+[node name="SpawnArea7" parent="." instance=ExtResource( 4 )]
+position = Vector2( -1917.67, -2602 )
+SPAWN_COUNT = 2
+
+[node name="SpawnTrigger" parent="SpawnArea7" instance=ExtResource( 7 )]
+position = Vector2( -877.113, 52.5339 )
+scale = Vector2( 2.52, 3.12 )
+
+[node name="SpawnArea8" parent="." instance=ExtResource( 4 )]
+position = Vector2( -2060.57, -2599.14 )
+SPAWN_COUNT = 2
+
+[node name="SpawnTrigger" parent="SpawnArea8" instance=ExtResource( 7 )]
+position = Vector2( 588.3, -9.77515 )
+scale = Vector2( 2.52, 3.12 )
+
+[node name="SpawnArea9" parent="." instance=ExtResource( 4 )]
+position = Vector2( -1150.87, -3162.13 )
+SPAWN_COUNT = 3
+
+[node name="SpawnTrigger" parent="SpawnArea9" instance=ExtResource( 7 )]
+position = Vector2( -94.0836, 548.085 )
+scale = Vector2( 2.52, 3.12 )
+
+[node name="SpawnArea10" parent="." instance=ExtResource( 4 )]
+position = Vector2( -884.02, -3580.14 )
+SPAWN_COUNT = 3
+
+[node name="SpawnTrigger" parent="SpawnArea10" instance=ExtResource( 7 )]
+position = Vector2( -228.036, 540.779 )
+scale = Vector2( 2.52, 3.12 )
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 5 )]
 position = Vector2( -2980.07, -929.704 )

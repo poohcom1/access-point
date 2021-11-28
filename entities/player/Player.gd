@@ -52,6 +52,7 @@ signal on_damage(damage)
 # Weapons and modules
 const MachineGun = preload("res://weapons/MachineGun.tscn")
 const Railgun = preload("res://weapons/MiniRailgun.tscn")
+const Flamethrower = preload("res://weapons/Flamethrower.tscn")
 
 var weapon: Weapon setget _set_weapon, _get_weapon
 var weapons := []
@@ -76,11 +77,14 @@ func _ready():
 
 func _init_weapons():
 	var machine_gun = MachineGun.instance()
-	add_child(machine_gun)
 	var railgun = Railgun.instance()
-	add_child(railgun)
+	var flamethrower = Flamethrower.instance()
 	
-	weapons = [machine_gun, railgun]
+	weapons = [machine_gun, railgun, flamethrower]
+	
+	for wep in weapons:
+		add_child(wep)
+	
 	weapons[weapon_ind].switch()
 	
 	# Modules
@@ -197,9 +201,9 @@ func flash():
 	do_flash = 2
 
 # States
-func on_hit(damage: float):
+func on_hit(damage: float, attacker=null):
 	regen_timer.start(REGEN_DELAY)
-	damage = defense_module.on_damage(damage)
+	damage = defense_module.on_damage(damage, attacker)
 	emit_signal("on_damage", damage)
 	hp -= damage
 

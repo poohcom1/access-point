@@ -58,7 +58,7 @@ func _anim_finished(anim):
 	if anim == \"activate\":
 		anim_player.play(\"active\")
 
-func on_damage(dmg):
+func on_damage(dmg, attacker):
 	if active:
 		if frames <= PARRY_FRAMES:
 			player.energy = min(player.energy + PARRY_ENERGY_GAIN, player.MAX_ENERGY)
@@ -66,6 +66,10 @@ func on_damage(dmg):
 			return 0
 		else:
 			_damage_flash()
+			if attacker is EnemyUnit:
+				attacker.on_hit_knockback(global_position.direction_to(
+					attacker.global_position
+				) * 15, 0.2)
 			player.energy -= HIT_ENERY_COST
 
 			return dmg * DAMAGE_MULTIPLIER

@@ -27,6 +27,7 @@ export var ENEMY_PRE_AGGRO := true
 
 export var SPAWNS_PER_FRAME = 5
 
+export var NO_RNG := false
 export var DEBUG_RALLY := true
 
 # Fields

@@ -15,7 +15,7 @@ export var PASSIVE_RELOAD_DELAY := 0.5
 export var FAST_PASSIVE_RELOAD := false
 
 # Properties
-var weapon_name: String
+export var weapon_name: String
 var active := false
 
 # Fields
@@ -27,6 +27,8 @@ var crosshair_offsets
 # Node
 var reload_timer := Timer.new()
 var passive_reload_timer := Timer.new()
+
+onready var player = get_parent()
 
 func _ready():
 	ammo = MAX_AMMO # Set from export

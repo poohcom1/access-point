@@ -14,5 +14,5 @@ func _physics_process(_delta):
 		player.energy = min(player.energy + player.MODULE_CHARGE_SPEED, player.MAX_ENERGY)
 
 # Intercepts player damage
-func on_damage(dmg) -> int:
+func on_damage(dmg, _attacker) -> int:
 	return dmg

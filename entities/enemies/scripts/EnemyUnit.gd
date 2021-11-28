@@ -25,6 +25,7 @@ var can_knockback = true
 export var PATHFIND_INTERVAL := 0.25
 export var OFF_SCREEN_PATHFIND_INTERVAL := 3.0
 
+
 var pathfind_interval
 
 var path := []
@@ -34,12 +35,17 @@ var navigation_target := WeakRef.new()
 
 var direction = AnimUtil.Dir.Right
 
+# Animation
+export(NodePath) var ANIMATION_NODE = "AnimatedSprite"
+
 # Nodes
 onready var pathfind_timer := Timer.new()
 onready var state_timer := Timer.new()
 
 onready var sightline := RayCast2D.new()
 onready var support_area := Area2D.new()
+
+var anim_sprite: AnimatedSprite
 
 var direct_chase = false # Ignoring pathfind and charging in a straight line
 var onscreen = true
@@ -50,6 +56,8 @@ func _ready():
 	
 	state_timer.one_shot = true
 	add_child(state_timer)
+	
+	anim_sprite = get_node(ANIMATION_NODE)
 	
 	# State timer
 	state_timer.connect("timeout", self, "on_state_timeout")
@@ -96,6 +104,7 @@ func _ready():
 			pathfind_interval = OFF_SCREEN_PATHFIND_INTERVAL
 			onscreen = false
 		pass
+	
 		
 	## Vision
 	sightline.enabled = true
@@ -113,6 +122,12 @@ func _init_pathfind():
 # Default states
 
 # States Management
+func on_hit(dmg):
+	.on_hit(dmg)
+	
+	if state == State.Passive or state == State.Rallying:
+		to_aggro()
+
 func to_aggro():
 	_init_pathfind()
 	state = State.Default
@@ -127,10 +142,10 @@ func on_state_timeout():
 		State.Knockback:
 			state = State.Default
 
-func on_hit_knockback(_dir, time = 0.1):
+func on_hit_knockback(vector: Vector2, time = 0.1):
 	if can_knockback and state != State.Dead:
 		state = State.Knockback
-		mv = _dir * 10
+		mv = vector * 10
 		state_timer.start(time)
 
 
@@ -192,8 +207,8 @@ func navigate_with_sightline():
 	return mv
 
 func generate_path(repeat=true):
-	GameManager.static_counter += 1
-	
+	#GameManager.static_counter += 1
+	#print_debug(GameManager.static_counter)
 	
 	var target = navigation_target.get_ref()
 	
@@ -229,10 +244,16 @@ onready var previous_position := global_position
 var previous_direction = direction
 var frames_since_changed = 0
 
-func set_move_animation(anim_node = $AnimatedSprite):
-	if not is_instance_valid(anim_node):
-		return
+# warning-ignore:unused_argument
+func set_angle_animation(angle, anim="run", anim_node = anim_sprite):
+	direction = AnimUtil.get_dir(angle)
 	
+	var diranim = AnimUtil.Dir2Anim[direction]
+	
+	anim_node.flip_h = abs(AnimUtil.Dir2Angle[direction]) > 90
+	anim_node.play("%s_%s" % [anim, diranim])
+
+func set_move_animation(anim_node = anim_sprite):
 	#todo: Use idle anim when states are added
 	var moveanim = "run"
 	
@@ -244,7 +265,6 @@ func set_move_animation(anim_node = $AnimatedSprite):
 			
 			var angle = global_position.angle_to_point(previous_position)
 			previous_position = global_position
-			
 			
 			direction = AnimUtil.get_dir(angle)
 	

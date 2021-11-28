@@ -1,10 +1,12 @@
 class_name MathUtil
 
-static func get_nearest_node(main: Node2D, nodes: Array) -> Node2D:
+static func get_nearest_node(main: Node2D, nodes: Array, group: String="") -> Node2D:
 	var nearest = null
 	var nearest_dist = INF
 	
 	for node in nodes:
+		if group != "" and not node.is_in_group(group): continue
+			
 		var distance = main.position.distance_squared_to(node.position)
 		if distance < nearest_dist:
 			nearest_dist = distance

@@ -15,8 +15,10 @@ var retreat_timer := 0.0
 export var USE_AI := true
 
 export(Array, AudioStream) var DEATH_SFX := []
+export(AudioStream) var ATK_SFX
 
 # Fields
+var touching_player = false
 var was_touching := false # If touching player on the previous frame
 var is_attacking := false # Attack flag set from timer
 
@@ -27,14 +29,14 @@ var nav_state = NavStates.Attack
 var player_in_range := false
 
 # Nodes
-var attack_timer := Timer.new()
+onready var search_area := $SearchArea
+onready var attack_timer := $AttackTimer
 
-# Signals
+
 func _ready():
-
+	if Engine.editor_hint: return
+	
 	# Attack timer
-	add_child(attack_timer)
-	attack_timer.start(ATTACK_INTERVAL)
 	attack_timer.connect("timeout", self, "_on_attack")
 	
 	# Set death sound fx on random
@@ -46,15 +48,17 @@ func _physics_process(_delta):
 		State.Default:
 			# AI
 			if USE_AI:
-				var healers = get_tree().get_nodes_in_group("healer")
+				var healers = search_area.get_overlapping_bodies()
 				
 				match nav_state:
 					NavStates.Attack:
 						speed = BASE_SPEED
 						if health <= MAX_HEALTH * RETREAT_HEALTH:
 							if healers.size() > 0:
-								set_target(MathUtil.get_nearest_node(self, healers))
-								nav_state = NavStates.Retreat	
+								var target = MathUtil.get_nearest_node(self, healers, "healer")
+								if target:
+									set_target(target)
+									nav_state = NavStates.Retreat	
 					NavStates.Retreat:
 						speed = RETREAT_SPEED
 						if not navigation_target.get_ref() or (health > MAX_HEALTH * ATTACK_HEALTH or healers.size() == 0):
@@ -64,7 +68,12 @@ func _physics_process(_delta):
 			## Pathfinding
 			mv = navigate_with_sightline()
 			
-			set_move_animation()
+			if not touching_player:
+				set_move_animation()
+			else:
+				set_angle_animation(
+					GameManager.player.global_position.angle_to_point(global_position)
+				)
 			
 			for i in get_slide_count():
 				var col := get_slide_collision(i)
@@ -75,29 +84,35 @@ func _physics_process(_delta):
 			var _slide = move_and_slide(mv * speed)
 			
 			## Attack
+			var found_player = false
+			
 			for i in get_slide_count():
 				var collision = get_slide_collision(i)
 				if collision.collider is Player:
-					if not was_touching or is_attacking:
-						collision.collider.on_hit(DAMAGE)
-						is_attacking = false
-						was_touching = true
-					
-						attack_timer.start()
+					found_player = true
+					if not touching_player and attack_timer.is_stopped():
+						touching_player = true
+						
+						_on_attack()
+						attack_timer.start(ATTACK_INTERVAL)
 					break
+			if not found_player:
+				touching_player = false
 		State.Knockback:
-			# warning-ignore:return_value_discarded
+			set_angle_animation((-mv).angle())
 			move_and_slide(mv)
 
 
 func _on_attack():
-	is_attacking = true
+	if touching_player:
+		GameManager.player.on_hit(DAMAGE, self)
+		add_child(OneShotAudio2D.new(ATK_SFX))
+	else:
+		attack_timer.stop()
 	
 func on_death():
 	state = State.Dead
-	#mutex.lock()
 	var corpse := Node2D.new()
-	
 	
 	get_parent().add_child(corpse)
 	corpse.global_position = global_position

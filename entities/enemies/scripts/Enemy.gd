@@ -1,7 +1,7 @@
 extends Entity
 class_name Enemy
 
-var DAMAGE_NUMBERS = false
+const DAMAGE_NUMBERS = true
 
 # Properties
 export var MAX_HEALTH := 20.0

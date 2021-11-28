@@ -41,13 +41,14 @@ func _ready():
 
 ### SPAWNERS
 var spawn_queue := []
+var spawn_skip
 
 func _process(_delta):
 	reinsert_path_lazy()
 
 	# Spawners
 	if spawn_queue.size() > 0:
-		get_tree().root.add_child(spawn_queue.pop_back())
+		get_tree().root.call_deferred("add_child", spawn_queue.pop_back())
 
 func lazy_path_function(_userdata):
 	while (true):

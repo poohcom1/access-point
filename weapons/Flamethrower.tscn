@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://weapons/scripts/Flamethrower.gd" type="Script" id=1]
+[ext_resource path="res://assets/ui/crosshairs/crosshair069.png" type="Texture" id=2]
+
+[node name="Flamethrower" type="Node2D"]
+visible = false
+script = ExtResource( 1 )
+CROSS_HAIR = ExtResource( 2 )
+weapon_name = "Flamethrower"
+SHOOT_INTERVAL = 0.05

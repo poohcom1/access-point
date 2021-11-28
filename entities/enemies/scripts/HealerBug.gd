@@ -10,8 +10,6 @@ export var REGEN_AMOUNT := 0.25
 export var DISTANCE_TO_PLAYER := 100
 export var HEAL_PAUSE := 0.3
 
-const HEALER_GROUP = "healer"
-
 # Nodes
 onready var heal_timer := Timer.new()
 onready var heal_area := $HealingArea
@@ -23,8 +21,6 @@ enum HealerState { Heal }
 # Signals
 func _ready():
 	if Engine.editor_hint: return
-	
-	add_to_group(HEALER_GROUP)
 	
 	## Healing timer
 	add_child(heal_timer)
@@ -59,7 +55,7 @@ func _on_heal():
 	health = min(health + REGEN_AMOUNT, MAX_HEALTH)
 	
 	for body in heal_area.get_overlapping_bodies():
-		if body is Enemy and not body.is_in_group(HEALER_GROUP) and not body == self:
+		if body is Enemy and not body.is_in_group("healer") and not body == self:
 			if body.health < body.MAX_HEALTH:
 				body.health += HEAL_AMOUNT
 				body.health = min(body.health, body.MAX_HEALTH)
