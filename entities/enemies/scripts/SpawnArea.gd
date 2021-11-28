@@ -95,15 +95,16 @@ func _ready():
 func add_trigger(trigger):
 	trigger.connect("body_entered", self, "on_enter", [trigger])
 	trigger_areas.append(trigger)
+	trigger.areas.append(self)
 		
 func on_enter(body, trigger):
-	print(trigger)
 	if body is Player:
 		start_spawn()
 		trigger.check_free()
 
 func start_spawn():
 	if not TRIGGERED:
+		
 		TRIGGERED = true
 		timer.connect("timeout", self, "on_spawn")
 		on_spawn()
@@ -187,8 +188,7 @@ func _process(_delta):
 
 # Tool
 func _draw():
-	if not Engine.editor_hint and DEBUG_RALLY: return
-	
+	if not Engine.editor_hint or not DEBUG_RALLY: return
 	
 	rallying = false
 	
