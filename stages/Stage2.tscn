@@ -103,175 +103,215 @@ position = Vector2( 248.779, -2634.86 )
 [node name="MeleeBug" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1237.87, 3336.78 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="MeleeBug2" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1223.51, 3340.22 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="SuicideBug8" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( -248.779, 2634.86 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="SuicideBug9" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( -248.779, 2634.86 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="MeleeBug3" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1220.84, 3337.05 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug4" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1242.79, 3342.43 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug5" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1215.37, 3312.94 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug6" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1247.83, 3330.3 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="MeleeBug7" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1264.57, 3336.25 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug9" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -346.229, 2976.58 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug10" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -318.545, 3032.58 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="HealerBug" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( -251.137, 2992.47 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="HealerBug2" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( -317.339, 2979.85 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="MeleeBug11" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -127.297, 2780.31 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug12" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -88.616, 2771.9 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug13" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -216.432, 2746.67 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="MeleeBug14" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -144.115, 2709.67 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="MeleeBug15" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 510.102, 2771.9 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="HealerBug3" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( 309.263, 2786.55 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="MeleeBug8" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -261.195, 2935.44 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="MeleeBug16" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1641.17, 2443.16 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug17" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1585.98, 2392.72 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug18" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1623.22, 2434.86 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug19" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1626.39, 2388.23 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug20" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1567.22, 2426.86 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="MeleeBug21" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1618.53, 2473.54 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 USE_AI = false
 
 [node name="HealerBug4" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( 1655.57, 2391.6 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="HealerBug5" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( 1691.49, 2429.77 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="HealerBug6" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( 1607.22, 2426.86 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="SuicideBug4" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( 1101.7, 2019.15 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="SuicideBug5" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( 948.471, 2001.33 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="SuicideBug6" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( 927.091, 2060.13 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="SuicideBug7" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( 1048.25, 2056.56 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="SuicideBug" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( -326.259, 2908.35 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="RangeBug" parent="EnemyUnits" instance=ExtResource( 15 )]
 position = Vector2( 356.76, 2776.98 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="RangeBug2" parent="EnemyUnits" instance=ExtResource( 15 )]
 position = Vector2( 320.841, 2727.59 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="SuicideBug2" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( 1551.22, 2458.86 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="SuicideBug3" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( 1558.87, 2503.98 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="RangeBug3" parent="EnemyUnits" instance=ExtResource( 15 )]
 position = Vector2( 1512.15, 2478.62 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="MeleeBug22" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -816.779, 3482.86 )
 AGGRO_RANGE = 600
+ANIMATION_NODE = null
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1116.44, 341.31 )

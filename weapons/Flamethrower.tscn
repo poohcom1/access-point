@@ -9,3 +9,5 @@ script = ExtResource( 1 )
 CROSS_HAIR = ExtResource( 2 )
 weapon_name = "Flamethrower"
 SHOOT_INTERVAL = 0.05
+DAMAGE = 4
+MIN_DAMAGE = 4

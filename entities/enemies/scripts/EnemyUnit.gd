@@ -54,6 +54,9 @@ var onscreen = true
 func _ready():
 	if Engine.editor_hint: return
 	
+	if ANIMATION_NODE == null:
+		ANIMATION_NODE = "AnimatedSprite"
+	
 	state_timer.one_shot = true
 	add_child(state_timer)
 	
