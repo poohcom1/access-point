@@ -1,13 +1,24 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://weapons/scripts/Flamethrower.gd" type="Script" id=1]
 [ext_resource path="res://assets/ui/crosshairs/crosshair069.png" type="Texture" id=2]
+[ext_resource path="res://assets/SE/FlamethrowerStart.mp3" type="AudioStream" id=3]
+[ext_resource path="res://assets/SE/FlamethrowerHold.mp3" type="AudioStream" id=4]
 
 [node name="Flamethrower" type="Node2D"]
 visible = false
 script = ExtResource( 1 )
+MAX_AMMO = 100
 CROSS_HAIR = ExtResource( 2 )
 weapon_name = "Flamethrower"
 SHOOT_INTERVAL = 0.05
-DAMAGE = 4
-MIN_DAMAGE = 4
+DAMAGE = 1.1
+MIN_DAMAGE = 0.1
+FALLOFF = 5
+
+[node name="SFXStart" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
+volume_db = 2.0
+
+[node name="SFXHold" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )

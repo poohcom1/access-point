@@ -32,6 +32,7 @@ var player_in_range := false
 onready var search_area := $SearchArea
 onready var attack_timer := $AttackTimer
 
+onready var anim_eyes := $Eyes
 
 func _ready():
 	if Engine.editor_hint: return
@@ -70,9 +71,16 @@ func _physics_process(_delta):
 			
 			if not touching_player:
 				set_move_animation()
+				set_move_animation(anim_eyes)
 			else:
 				set_angle_animation(
 					GameManager.player.global_position.angle_to_point(global_position)
+				)
+				
+				set_angle_animation(
+					GameManager.player.global_position.angle_to_point(global_position),
+					"run",
+					anim_eyes
 				)
 			
 			for i in get_slide_count():

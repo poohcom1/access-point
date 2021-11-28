@@ -160,7 +160,13 @@ func _movement_animation(v_input, h_input):
 		if do_flash == 0:
 			flash_anim.visible = false
 			
-func _process(_d):
+func _input(event):
+	if event.is_pressed() and event is InputEventMouseButton:
+		if event.button_index == BUTTON_WHEEL_UP:
+			switch_weapon(1)
+		if event.button_index == BUTTON_WHEEL_DOWN:
+			switch_weapon(-1)
+		
 	# Weapons
 	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
 			- int(Input.is_action_just_pressed("previous_weapon")))
@@ -199,6 +205,12 @@ var do_flash = 0
 func flash():
 	flash_anim.visible = true
 	do_flash = 2
+	
+func flash_on():
+	flash_anim.visible = true
+
+func flash_off():
+	flash_anim.visible = false
 
 # States
 func on_hit(damage: float, attacker=null):

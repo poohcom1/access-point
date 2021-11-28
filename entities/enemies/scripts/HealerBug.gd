@@ -44,6 +44,7 @@ func _physics_process(_delta):
 				state_timer.start(HEAL_PAUSE)
 		State.Knockback:
 			mv = move_and_slide(mv)
+			
 
 func on_state_timeout():
 	if state == HealerState.Heal:
@@ -52,11 +53,13 @@ func on_state_timeout():
 	
 	
 func _on_heal():
+	if health <= 0: return
+	
 	health = min(health + REGEN_AMOUNT, MAX_HEALTH)
 	
 	for body in heal_area.get_overlapping_bodies():
 		if body is Enemy and not body.is_in_group("healer") and not body == self:
-			if body.health < body.MAX_HEALTH:
+			if body.health < body.MAX_HEALTH and body.health > 0:
 				body.health += HEAL_AMOUNT
 				body.health = min(body.health, body.MAX_HEALTH)
 				
@@ -65,6 +68,8 @@ func _on_heal():
 
 	
 func on_death():
+	state = State.Dead
+	heal_timer.stop()
 	var corpse := Node2D.new()
 	
 	get_parent().add_child(corpse)
