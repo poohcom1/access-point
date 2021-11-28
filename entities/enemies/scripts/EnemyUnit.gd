@@ -4,21 +4,22 @@ class_name EnemyUnit
 
 
 # States
-enum State { Passive=-1, Default=-2, Knockback=-3, Stunned=-4, Dead=-5 }
+enum State { Passive=-1, Rallying=-2, Default=-3, Knockback=-4, Stunned=-5, Dead=-6 }
 var state = State.Passive
+
+var rally_point: Vector2
 
 # Properties
 export var MULTITHREADED_PATHFIND := false
 export var PATHFIND_EPSILON := 16
-export var DEBUG_PATH := false
-
-var debug_path: Line2D
 
 export var SHOW_RANGE := false setget _debug_range
 export var AGGRO_RANGE := 300 setget _set_aggro_range
 
-var can_knockback = true
+export var DEBUG_PATH := false
+var debug_path: Line2D
 
+var can_knockback = true
 
 # Navigation
 export var PATHFIND_INTERVAL := 0.25
@@ -37,12 +38,15 @@ var direction = AnimUtil.Dir.Right
 onready var pathfind_timer := Timer.new()
 onready var state_timer := Timer.new()
 
+onready var sightline := RayCast2D.new()
+onready var support_area := Area2D.new()
+
+var direct_chase = false # Ignoring pathfind and charging in a straight line
 var onscreen = true
 
 # Setup
 func _ready():
-	if Engine.editor_hint: 
-		return
+	if Engine.editor_hint: return
 	
 	state_timer.one_shot = true
 	add_child(state_timer)
@@ -65,6 +69,7 @@ func _ready():
 	## DEBUG_END
 	health = MAX_HEALTH
 	
+	# Groups
 	for group in groups:
 		add_to_group(group)
 		
@@ -73,8 +78,12 @@ func _ready():
 	set_collision_layer_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_PLAYER_BULLET, true)
 	
+	# States
 	if state == State.Default:
 		to_aggro()
+	elif state == State.Rallying:
+		generate_path(false)
+	
 		
 	## Pathfind setup
 	pathfind_interval = PATHFIND_INTERVAL
@@ -86,6 +95,12 @@ func _ready():
 		if not get_node("VisibilityEnabler2D").is_on_screen():
 			pathfind_interval = OFF_SCREEN_PATHFIND_INTERVAL
 			onscreen = false
+		pass
+		
+	## Vision
+	sightline.enabled = true
+	sightline.set_collision_mask_bit(GameManager.COL_TILE, true)
+	add_child(sightline)
 
 func _init_pathfind():
 	pathfind_timer.start(PATHFIND_INTERVAL)
@@ -95,15 +110,22 @@ func _init_pathfind():
 	# Set navigation target
 	set_target(GameManager.player)
 
-# States
-func change_state(new_state, timeout=0):
-	if timeout > 0:
-		state_timer.start(timeout)
-	state = new_state
+# Default states
 
+# States Management
 func to_aggro():
 	_init_pathfind()
 	state = State.Default
+
+func change_state_with_timer(new_state, timeout=0):
+	if timeout > 0:
+		state_timer.start(timeout)
+	state = new_state
+	
+func on_state_timeout():
+	match state:
+		State.Knockback:
+			state = State.Default
 
 func on_hit_knockback(_dir, time = 0.1):
 	if can_knockback and state != State.Dead:
@@ -111,25 +133,28 @@ func on_hit_knockback(_dir, time = 0.1):
 		mv = _dir * 10
 		state_timer.start(time)
 
-func on_death():
-	pass
-	
-func on_state_timeout():
-	match state:
-		State.Knockback:
-			state = State.Default
 
-# Pathfinding
-func _physics_process(_delta):
+# Default processes
+func _process(_delta):
 	if Engine.editor_hint: return
 	
-	if GameManager.player and state == State.Passive and global_position.distance_to(GameManager.player.global_position) < AGGRO_RANGE:
+	if (GameManager.player 
+		and (state == State.Passive or state == State.Rallying)
+		and global_position.distance_to(GameManager.player.global_position) < AGGRO_RANGE):
 		to_aggro()
-	
+			
 	if DEBUG_PATH:
 		debug_path.global_position = Vector2.ZERO
 		debug_path.points = path
 		
+
+func _physics_process(_delta):
+	if Engine.editor_hint: return
+	
+	if state == State.Rallying:
+		move_and_slide(navigate() * speed)
+		set_move_animation()
+	
 	# potential fix for bugs not moving
 	if state == State.Default and path == []:
 		generate_path()
@@ -150,11 +175,29 @@ func navigate():
 		
 	return mv
 
+func navigate_with_sightline():
+	if not navigation_target.get_ref():
+		return Vector2.ZERO
+	sightline.cast_to = to_local(navigation_target.get_ref().global_position)
 	
-func generate_path():
+	if onscreen and sightline.is_colliding():
+		mv = navigate()
+		if pathfind_timer.is_stopped():
+			generate_path()
+	else:
+		mv = global_position.direction_to(navigation_target.get_ref().global_position)
+		if not pathfind_timer.is_stopped():
+			pathfind_timer.stop()
+			
+	return mv
+
+func generate_path(repeat=true):
+	GameManager.static_counter += 1
+	
+	
 	var target = navigation_target.get_ref()
 	
-	if GameManager.navigation == null: return
+	if direct_chase or not GameManager.navigation or not target: return
 	
 	if not target:
 		navigation_target = weakref(GameManager.player)
@@ -165,11 +208,13 @@ func generate_path():
 	else:
 		path = GameManager.navigation.get_simple_path(global_position, target.global_position, false)
 
-	pathfind_timer.start(pathfind_interval)
+	if repeat:
+		pathfind_timer.start(pathfind_interval)
 	
 func _on_screen_enter():
 	onscreen = true
-	pathfind_timer.start(PATHFIND_INTERVAL)
+	if state != State.Rallying:
+		pathfind_timer.start(PATHFIND_INTERVAL)
 	
 	pathfind_interval = PATHFIND_INTERVAL
 	
@@ -184,7 +229,7 @@ onready var previous_position := global_position
 var previous_direction = direction
 var frames_since_changed = 0
 
-func _set_animation(anim_node = $AnimatedSprite):
+func set_move_animation(anim_node = $AnimatedSprite):
 	if not is_instance_valid(anim_node):
 		return
 	
@@ -202,7 +247,6 @@ func _set_animation(anim_node = $AnimatedSprite):
 			
 			
 			direction = AnimUtil.get_dir(angle)
-	
 	
 	direction = AnimUtil.turn(previous_direction, direction)
 	previous_direction = direction

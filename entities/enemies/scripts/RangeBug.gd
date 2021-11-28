@@ -38,14 +38,14 @@ func _physics_process(_delta):
 	if Engine.editor_hint: return
 	match state:
 		State.Default:
-			_set_animation()
+			set_move_animation()
 			
-			mv = navigate()
+			mv = navigate_with_sightline()
 
 			mv = move_and_slide(mv * speed)
 			
 			if distance_sqr_to_player() < RANGE*RANGE:
-				change_state(RangeState.Shoot, SHOOT_PAUSE)
+				change_state_with_timer(RangeState.Shoot, SHOOT_PAUSE)
 				if shoot_timer.time_left == 0:
 					shoot()
 				shoot_timer.start(SHOOT_INTERVAL)

@@ -14,9 +14,6 @@ func _init_nav_tiles():
 	
 	var cell_count = 0
 	
-
-	
-	
 	for cell in tilemap.get_used_cells():
 		cell_count += 1
 		
@@ -29,7 +26,6 @@ func _init_nav_tiles():
 		
 		var id_below_left = tilemap.get_cell(cell.x+1, cell.y+2)
 		var id_below_right = tilemap.get_cell(cell.x+2, cell.y+1)		
-	
 	
 		
 		if id_below == -1 or "wall" in tileset.tile_get_name(id): 

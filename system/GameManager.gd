@@ -21,6 +21,8 @@ var lazy_semaphore
 var exiter_mutex
 var exit_thread = 0
 
+# Debug
+var static_counter = 0
 
 func _exit_tree():
 	exiter_mutex.lock()
@@ -35,7 +37,10 @@ func _ready():
 	exiter_mutex = Mutex.new()
 	lazy_semaphore = Semaphore.new()
 	lazy_path_thread = Thread.new()
-	lazy_path_thread.start(self, "lazy_path_function", "Wafflecopter")
+	lazy_path_thread.start(self, "lazy_path_function")
+
+### SPAWNERS
+var spawn_queue := []
 
 func _process(_delta):
 	reinsert_path_lazy()
@@ -44,8 +49,7 @@ func _process(_delta):
 	if spawn_queue.size() > 0:
 		get_tree().root.add_child(spawn_queue.pop_back())
 
-func lazy_path_function(userdata):
-	print(userdata)
+func lazy_path_function(_userdata):
 	while (true):
 		lazy_semaphore.wait()
 		
@@ -58,7 +62,6 @@ func lazy_path_function(userdata):
 		
 		eval_pathfind_lazy()
 		
-
 
 func eval_pathfind_lazy():
 	lazy_mutex.lock()
@@ -104,7 +107,4 @@ func add_pathfind_lazy_list(obj):
 	#lazy_semaphore.post()
 
 
-### SPAWNERS
-
-var spawn_queue := []
 

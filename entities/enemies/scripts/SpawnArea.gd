@@ -1,3 +1,4 @@
+tool
 extends Area2D
 
 export(Array, NodePath) var TRIGGERS := []
@@ -26,6 +27,8 @@ export var ENEMY_PRE_AGGRO := true
 
 export var SPAWNS_PER_FRAME = 5
 
+export var DEBUG_RALLY := true
+
 # Fields
 var interval
 
@@ -33,11 +36,16 @@ var trigger_areas := []
 
 var on_screen = false
 
-var enemies_to_spawn := []
+var enemies_to_spawn = 0
+
+var rallying := false
+var rally_point: Vector2
 
 # Nodes
 onready var timer := $Interval
 onready var radius = $SpawnArea.shape.radius
+
+var rally_point_node: Position2D
 
 # Enemies
 const MeleeBug = preload("res://entities/enemies/MeleeBug.tscn")
@@ -49,13 +57,14 @@ var spawn_priorities := {}
 var priority_total = 0
 
 func _ready():
+	if Engine.editor_hint: return
+	
 	spawn_priorities = {
 		MeleeBug: MELEE_PRIORITY,
 		HealerBug: HEALER_PRIORITY,
 		SuicideBug: SUICIDE_PRIORITY,
 		RangeBug: RANGE_PRIORITY,
 	}
-	
 	
 	for priority in spawn_priorities.values():
 		priority_total += priority
@@ -72,6 +81,10 @@ func _ready():
 		if child is Area2D:
 			child.connect("body_entered", self, "on_enter")
 			trigger_areas.append(child)
+		elif child is Position2D:
+			rallying = true
+			rally_point = child.global_position
+			rally_point_node = child
 		
 	for nodepath in TRIGGERS:
 		var trigger = get_node(nodepath)
@@ -105,31 +118,12 @@ func on_spawn():
 	
 	var amount = clamp(ENEMY_AMOUNT, ENEMY_MIN_AMOUNT, ENEMY_MAX_AMOUNT)
 	
-	for i in amount:
-		var EnemyType = null
-		
-		var chance = randi() % priority_total
-		
-		var current_chance = 0
-	
-		for enemy in spawn_priorities:
-			current_chance += spawn_priorities[enemy]
-			if chance <= current_chance:
-				EnemyType = enemy
-				break
-
-		var enemy = EnemyType.instance()
-		
-		enemy.global_position = global_position + random_position()
-		
-		enemy.state = enemy.State.Default
-		
-		GameManager.spawn_queue.append(enemy)
+	enemies_to_spawn += amount
 		
 	ENEMY_AMOUNT += ENEMY_INCREMENT
 	SPAWN_COUNT -= 1
-	if SPAWN_COUNT == 0:
-		queue_free()
+	
+	
 
 
 func random_position() -> Vector2:
@@ -143,3 +137,65 @@ func enter_screen():
 	
 func exit_screen():
 	on_screen = false
+
+
+
+const INSTANCE_GAP = 1
+var instance_count = 0
+
+func _process(_delta):
+	# Tools
+	if Engine.editor_hint:
+		update()
+		return
+		
+	instance_count += 1
+	
+	if instance_count - 1 >= INSTANCE_GAP:
+		instance_count = 0
+	else:
+		return
+	
+		
+	if enemies_to_spawn > 0:
+		enemies_to_spawn -= 1
+	
+		var EnemyType = null
+		var chance = randi() % priority_total
+		var current_chance = 0
+	
+		for enemy in spawn_priorities:
+			current_chance += spawn_priorities[enemy]
+			if chance <= current_chance:
+				EnemyType = enemy
+				break
+
+		var enemy: EnemyUnit = EnemyType.instance()
+		
+		enemy.global_position = global_position + random_position()
+		
+		if not rallying:
+			enemy.state = enemy.State.Default
+		else:
+			enemy.state = enemy.State.Rallying
+			enemy.set_target(rally_point_node)
+			
+		GameManager.spawn_queue.append(enemy)
+
+# Tool
+func _draw():
+	if not Engine.editor_hint and DEBUG_RALLY: return
+	
+	
+	rallying = false
+	
+	for child in get_children():
+		if child is Position2D:
+			rallying = true
+			rally_point = child.global_position
+			break
+	
+	if rallying:
+		draw_line(Vector2.ZERO, to_local(rally_point), Color.red, 2)
+	
+

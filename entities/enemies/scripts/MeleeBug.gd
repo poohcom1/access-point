@@ -62,9 +62,9 @@ func _physics_process(_delta):
 							nav_state = NavStates.Attack
 
 			## Pathfinding
-			mv = navigate()
+			mv = navigate_with_sightline()
 			
-			_set_animation()
+			set_move_animation()
 			
 			for i in get_slide_count():
 				var col := get_slide_collision(i)

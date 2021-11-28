@@ -112,7 +112,7 @@ func get_vision():
 					var dy = iy - y
 					var dist2 = dx*dx + dy*dy
 					if(dist2 < radius*radius):
-						rseed = ((rseed + 101317) & 7) - 4
+						rseed = ((rseed + 7) & 7) - 4
 						rasterized_vision[ix + rseed][iy + rseed] = 1
 
 func in_range(pos: Vector2) -> bool:
@@ -160,8 +160,11 @@ const GRAN = 12 # MAKE SURE IT'S AT LEAST 6
 
 func _draw_tilemap():
 	draw_set_transform(rect_size / 2, 0, Vector2.ONE)
+	var count = 0
 	for cell in tilemap_draw_cache:
-		draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale * 1.414), TILECOLOR)
+		count = (count + 1) % 10
+		if count < 8:
+			draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale * 1.414), TILECOLOR)
 	
 var cumulative_delta = 0
 const MIN_DELTA_DELAY = 0.01
@@ -229,16 +232,20 @@ __meta__ = {
 [node name="Grid" type="MarginContainer" parent="."]
 margin_right = 199.0
 margin_bottom = 184.0
+custom_constants/margin_left = 16
+custom_constants/margin_bottom = 16
 
 [node name="TextureRect" type="TextureRect" parent="Grid"]
+margin_left = 16.0
 margin_right = 199.0
-margin_bottom = 184.0
+margin_bottom = 168.0
 texture = ExtResource( 1 )
 stretch_mode = 2
 
 [node name="Map" type="Control" parent="Grid"]
+margin_left = 16.0
 margin_right = 199.0
-margin_bottom = 184.0
+margin_bottom = 168.0
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

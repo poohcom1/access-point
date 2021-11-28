@@ -29,7 +29,7 @@ func _physics_process(_delta):
 		State.Default:
 			mv = navigate()
 			
-			_set_animation()
+			set_move_animation()
 			
 			move_and_slide(mv * speed)
 			

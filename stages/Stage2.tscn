@@ -80,7 +80,6 @@ zoom = Vector2( 0.5, 0.5 )
 position = Vector2( 1.05945, 0 )
 
 [node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
-visible = false
 anchor_top = 1.0
 anchor_right = 0.0
 margin_top = -149.0
@@ -242,13 +241,9 @@ position = Vector2( -816.779, 3482.86 )
 position = Vector2( 1116.44, 341.31 )
 SEGMENTS = 10
 
-[node name="SpawnTrigger2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 669.092, -2168.44 )
+[node name="Spawners" type="Node2D" parent="."]
 
-[node name="SpawnTrigger3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 669.928, -2166.86 )
-
-[node name="SpawnArea2" parent="." instance=ExtResource( 2 )]
+[node name="SpawnArea2" parent="Spawners" instance=ExtResource( 2 )]
 position = Vector2( 1741.12, -1777.4 )
 TRIGGERS = [ NodePath("../SpawnTrigger"), NodePath("../SpawnTrigger3"), NodePath("../SpawnTrigger2") ]
 SPAWN_COUNT = 6
@@ -257,7 +252,7 @@ MELEE_PRIORITY = 5
 HEALER_PRIORITY = 5
 SUICIDE_PRIORITY = 5
 
-[node name="SpawnArea" parent="." instance=ExtResource( 2 )]
+[node name="SpawnArea" parent="Spawners" instance=ExtResource( 2 )]
 position = Vector2( 774.714, -1539.17 )
 TRIGGERS = [ NodePath("../SpawnTrigger"), NodePath("../SpawnTrigger3"), NodePath("../SpawnTrigger2") ]
 SPAWN_COUNT = 6
@@ -267,11 +262,20 @@ MELEE_PRIORITY = 5
 HEALER_PRIORITY = 5
 SUICIDE_PRIORITY = 5
 
+[node name="Position2D" type="Position2D" parent="Spawners/SpawnArea"]
+position = Vector2( -126.714, -660.83 )
+
+[node name="SpawnTrigger2" parent="Spawners" instance=ExtResource( 3 )]
+position = Vector2( 669.092, -2168.44 )
+
+[node name="SpawnTrigger3" parent="Spawners" instance=ExtResource( 3 )]
+position = Vector2( 669.928, -2166.86 )
+
+[node name="SpawnTrigger" parent="Spawners" instance=ExtResource( 3 )]
+position = Vector2( 669.347, -2174.1 )
+
 [node name="Turret" parent="." instance=ExtResource( 14 )]
 position = Vector2( 651.84, -2218.15 )
-
-[node name="SpawnTrigger" parent="." instance=ExtResource( 3 )]
-position = Vector2( 669.347, -2174.1 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )

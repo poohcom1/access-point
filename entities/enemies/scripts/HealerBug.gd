@@ -35,7 +35,7 @@ func _physics_process(_delta):
 	if Engine.editor_hint: return
 	match state:
 		State.Default:
-			_set_animation()
+			set_move_animation()
 			
 			mv = navigate()
 

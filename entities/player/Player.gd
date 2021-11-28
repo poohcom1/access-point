@@ -39,6 +39,13 @@ onready var body_anim = $Body
 onready var legs_anim = $Legs
 onready var footstep_sfx = $Footsteps
 
+onready var footstep_part = $FootstepParts
+
+onready var flash_anim = $Flash
+onready var regen_timer := $RegenTimer
+
+
+
 # Signals
 signal on_damage(damage)
 
@@ -121,11 +128,11 @@ func _movement_animation(v_input, h_input):
 		
 		if not footstep_sfx.playing:
 			footstep_sfx.play(sfx_position)
-			$FootstepParts.emitting = true
+			footstep_part.emitting = true
 	else:
 		if footstep_sfx.playing:
 			sfx_position = footstep_sfx.get_playback_position()
-			$FootstepParts.emitting = false			
+			footstep_part.emitting = false			
 			footstep_sfx.stop()
 		
 	var reverse_anim = false
@@ -138,16 +145,16 @@ func _movement_animation(v_input, h_input):
 		
 	legs_anim.flip_h = abs(move_angle) > 90
 	body_anim.flip_h = abs(aim_angle) > 90
-	$Flash.flip_h = body_anim.flip_h
+	flash_anim.flip_h = body_anim.flip_h
 		
 	legs_anim.play("%s_%s" % [move_string, AnimUtil.Dir2Anim[legs_dir]], reverse_anim)
 	body_anim.play("%s_%s" % [move_string, AnimUtil.Dir2Anim[body_dir]])
-	$Flash.play(AnimUtil.Dir2Anim[body_dir])
+	flash_anim.play(AnimUtil.Dir2Anim[body_dir])
 	
 	if do_flash > 0:
 		do_flash -= 1
 		if do_flash == 0:
-			$Flash.visible = false
+			flash_anim.visible = false
 			
 func _process(_d):
 	# Weapons
@@ -180,18 +187,18 @@ func _physics_process(_delta):
 	mv = move_and_slide(mv)
 	
 	# Regen
-	if $RegenTimer.time_left == 0 and hp < MAX_HP:
+	if regen_timer.time_left == 0 and hp < MAX_HP:
 		hp += REGEN_PER_FRAME
 		
 var do_flash = 0
 		
 func flash():
-	$Flash.visible = true
+	flash_anim.visible = true
 	do_flash = 2
 
 # States
 func on_hit(damage: float):
-	$RegenTimer.start(REGEN_DELAY)
+	regen_timer.start(REGEN_DELAY)
 	damage = defense_module.on_damage(damage)
 	emit_signal("on_damage", damage)
 	hp -= damage
