@@ -232,16 +232,20 @@ __meta__ = {
 [node name="Grid" type="MarginContainer" parent="."]
 margin_right = 199.0
 margin_bottom = 184.0
+custom_constants/margin_left = 16
+custom_constants/margin_bottom = 16
 
 [node name="TextureRect" type="TextureRect" parent="Grid"]
+margin_left = 16.0
 margin_right = 199.0
-margin_bottom = 184.0
+margin_bottom = 168.0
 texture = ExtResource( 1 )
 stretch_mode = 2
 
 [node name="Map" type="Control" parent="Grid"]
+margin_left = 16.0
 margin_right = 199.0
-margin_bottom = 184.0
+margin_bottom = 168.0
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

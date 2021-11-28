@@ -169,7 +169,9 @@ func _process(_delta):
 		update()
 
 func _draw():
-	if not Engine.editor_hint: return
+	if not Engine.editor_hint and DEBUG_RALLY: return
+	
+	rallying = false
 	
 	for child in get_children():
 		if child is Position2D:
@@ -177,6 +179,7 @@ func _draw():
 			rally_point = child.global_position
 			break
 	
-	draw_line(Vector2.ZERO, to_local(rally_point), Color.red, 2)
+	if rallying:
+		draw_line(Vector2.ZERO, to_local(rally_point), Color.red, 2)
 	
 
