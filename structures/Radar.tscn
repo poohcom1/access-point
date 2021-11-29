@@ -92,7 +92,7 @@ tracks/0/keys = {
 z_index = 45
 collision_layer = 3
 script = SubResource( 1 )
-battery = 2.75667
+battery = 3.42
 radar_range = 50
 
 [node name="Health" parent="." instance=ExtResource( 2 )]
