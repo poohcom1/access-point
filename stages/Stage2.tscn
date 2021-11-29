@@ -82,7 +82,6 @@ zoom = Vector2( 0.5, 0.5 )
 position = Vector2( 1.05945, 0 )
 
 [node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
-visible = false
 anchor_top = 1.0
 anchor_right = 0.0
 margin_top = -149.0
@@ -93,9 +92,8 @@ margin_bottom = 0.0
 
 [node name="Radar" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, 192 )
-collision_layer = 3
 revealed = true
-battery = 3.92667
+battery = 4.0
 
 [node name="Turret2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 248.779, -2634.86 )
@@ -156,12 +154,10 @@ AGGRO_RANGE = 600
 [node name="HealerBug" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( -251.137, 2992.47 )
 AGGRO_RANGE = 600
-DISTANCE_TO_PLAYER = 100
 
 [node name="HealerBug2" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( -317.339, 2979.85 )
 AGGRO_RANGE = 600
-DISTANCE_TO_PLAYER = 100
 
 [node name="MeleeBug11" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -127.297, 2780.31 )
@@ -188,7 +184,6 @@ AGGRO_RANGE = 600
 [node name="HealerBug3" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( 309.263, 2786.55 )
 AGGRO_RANGE = 600
-DISTANCE_TO_PLAYER = 100
 
 [node name="MeleeBug8" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -261.195, 2935.44 )
@@ -227,17 +222,14 @@ USE_AI = false
 [node name="HealerBug4" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( 1655.57, 2391.6 )
 AGGRO_RANGE = 600
-DISTANCE_TO_PLAYER = 100
 
 [node name="HealerBug5" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( 1691.49, 2429.77 )
 AGGRO_RANGE = 600
-DISTANCE_TO_PLAYER = 100
 
 [node name="HealerBug6" parent="EnemyUnits" instance=ExtResource( 7 )]
 position = Vector2( 1607.22, 2426.86 )
 AGGRO_RANGE = 600
-DISTANCE_TO_PLAYER = 100
 
 [node name="SuicideBug4" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( 1101.7, 2019.15 )

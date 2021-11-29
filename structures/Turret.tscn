@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://assets/weapons/turret.png" type="Texture" id=1]
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=3]
@@ -62,8 +62,7 @@ func _on_shoot():
 	fx.global_position = target.global_position + Vector2(
 		rand_range(-8, 8), rand_range(-8, 8)
 	)
-	
-	
+
 	
 	if fx.global_position.y < global_position.y:
 		fx.z_index = -1
@@ -138,9 +137,6 @@ func find_healthiest_target():
 			
 	return healthiest
 "
-
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 16, 24 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
@@ -253,9 +249,6 @@ DAMAGE = 3
 SHOOT_INTERVAL = 0.1
 ShootSounds = [ ExtResource( 6 ) ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -0.176781, -0.176777 )
 scale = Vector2( 1.50823, 1.50823 )
@@ -272,18 +265,20 @@ collision_layer = 4
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+visible = false
 shape = SubResource( 9 )
 
-[node name="LineOfSight" type="RayCast2D" parent="."]
-enabled = true
-collision_mask = 524288
-
 [node name="ClickArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
 shape = SubResource( 10 )
+
+[node name="LineOfSight" type="RayCast2D" parent="."]
+enabled = true
+collision_mask = 524288
 
 [node name="Health" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, 29.8582 )
@@ -309,3 +304,10 @@ material = SubResource( 11 )
 z_index = 29
 frames = SubResource( 18 )
 script = SubResource( 19 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -16, 24, 16, 24, 16, -16, -16, -16 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( 0, -8 )
+polygon = PoolVector2Array( -16, 24, 0, 32, 16, 24, 0, 16 )

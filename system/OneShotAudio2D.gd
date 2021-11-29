@@ -1,9 +1,10 @@
 extends AudioStreamPlayer2D
 class_name OneShotAudio2D
 
-func _init(audio: Resource, volume := 1.0):
+func _init(audio: Resource, volume := 1.0, distance=500):
 	stream = audio
 	volume_db = volume
+	max_distance = distance
 
 func _ready():
 	play()

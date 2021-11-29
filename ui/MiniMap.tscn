@@ -105,7 +105,7 @@ func get_vision():
 	for obj in vision_objects:
 		var tile_pos = (obj.tilemap_position if \"tilemap_position\" in obj else 
 			world_to_tilemap(obj.global_position))
-		if(obj.battery > EPSILON):
+		if(obj.battery > EPSILON and obj.health > EPSILON):
 			var radius = obj.radar_range
 			var x = tile_pos.x
 			var y = tile_pos.y

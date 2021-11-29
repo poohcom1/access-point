@@ -84,8 +84,7 @@ margin_bottom = 0.0
 
 [node name="Radar" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0, 192 )
-collision_layer = 3
-battery = 3.91333
+battery = 2.93667
 
 [node name="SpawnArea2" parent="." instance=ExtResource( 4 )]
 position = Vector2( 560.094, -120.066 )
@@ -102,7 +101,7 @@ position = Vector2( -308.82, 337.879 )
 position = Vector2( -211.254, 130.985 )
 
 [node name="Turret" parent="." instance=ExtResource( 12 )]
-position = Vector2( 289.224, 10.2935 )
+position = Vector2( 295.02, 8.70401 )
 collision_layer = 3
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]

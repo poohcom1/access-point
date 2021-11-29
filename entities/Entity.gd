@@ -21,7 +21,7 @@ func _ready():
 
 func _physics_process(delta):
 	if burn_timer > 0:
-		on_hit(0.05)
+		on_hit(0.01)
 		burn_timer -= delta
 
 # Methods

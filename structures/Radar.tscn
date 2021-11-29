@@ -87,18 +87,24 @@ tracks/0/keys = {
 
 [node name="Radar" type="StaticBody2D"]
 z_index = 45
+collision_layer = 3
 script = SubResource( 1 )
+battery = 2.92
 radar_range = 50
 
-[node name="ValueBar" parent="." instance=ExtResource( 2 )]
+[node name="Health" parent="." instance=ExtResource( 2 )]
 position = Vector2( -0.078743, 40 )
-value = "battery"
-max_value = "MAX_BATTERY"
-progress_color = Color( 0.509804, 0.941176, 1, 1 )
-x_scale = 30.0
+value = "health"
+max_value = "MAX_HEALTH"
+progress_color = Color( 0.513726, 1, 0.509804, 1 )
 hide_if_full = false
 
-[node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
+[node name="Energy" parent="." instance=ExtResource( 2 )]
+visible = false
+position = Vector2( -0.078743, 48 )
+script = null
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 position = Vector2( 0.561867, 8.80256 )
 polygon = PoolVector2Array( -0.561867, -0.802555, 23.4381, 15.1974, -0.561867, 23.1974, -24.5619, 15.1974 )
 
@@ -121,3 +127,6 @@ texture = ExtResource( 3 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Lights"]
 autoplay = "lights"
 anims/lights = SubResource( 5 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PoolVector2Array( -12, 24, 0, 28, 12, 24, 0, 20 )

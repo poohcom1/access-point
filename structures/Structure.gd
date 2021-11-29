@@ -3,8 +3,8 @@ class_name Structure
 
 # Properties
 
-export var MAX_HEALTH: float = 100
 
+export var MAX_HEALTH: float = 100
 export var revealed := false
 
 var health: float
@@ -19,6 +19,7 @@ var mouse_hover := false
 
 func _ready():
 	add_to_group("map")
+	add_to_group("obstacle")
 	
 	health = MAX_HEALTH
 	
