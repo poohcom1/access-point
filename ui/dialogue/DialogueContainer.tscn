@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://ui/dialogue/DialogueContainer.gd" type="Script" id=1]
+[ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=2]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/ui/fonts/Kenney Future Narrow.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 21
+font_data = SubResource( 1 )
+
+[node name="DialogueContainer" type="ScrollContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 229.0
+margin_bottom = -296.0
+scroll_horizontal_enabled = false
+scroll_vertical_enabled = false
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 400.0
+margin_bottom = 165.0
+rect_min_size = Vector2( 400, 0 )
+
+[node name="Speaker" type="RichTextLabel" parent="VBoxContainer"]
+margin_right = 400.0
+margin_bottom = 26.0
+rect_min_size = Vector2( 100, 0 )
+custom_fonts/normal_font = SubResource( 2 )
+text = "..."
+fit_content_height = true
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+margin_top = 30.0
+margin_right = 400.0
+margin_bottom = 165.0
+custom_constants/margin_left = 16
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Dialogue" parent="VBoxContainer/MarginContainer" instance=ExtResource( 2 )]
+margin_right = 400.0
+text = "Incoming transmission..."
+
+[node name="Pause" type="Timer" parent="."]
+one_shot = true

@@ -14,6 +14,7 @@ signal aggro_alert(position, target)
 # Singleton objects
 var player: Player
 var navigation: Navigation2D
+var minimap
 
 # Optimization V2
 var pathfind_lazy_list = []

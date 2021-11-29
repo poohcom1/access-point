@@ -66,7 +66,7 @@ func _physics_process(delta):
 	anim_sprite.modulate = Color(frame, frame, frame)
 
 func on_enter(body: Object):
-	if body is Enemy:
+	if Weapon.is_enemy(body):
 		hit_targets.append(body)
 		
 	elif body is TileMap:

@@ -10,7 +10,7 @@ extends FriendlyStructure
 
 # Properties
 export var radar_range = 20
-export(Array, NodePath) var next_radars
+export(Array, NodePath) var next_radars = []
 
 export var BATTERY_LIFE: float = 60 * 5
 
@@ -93,7 +93,7 @@ tracks/0/keys = {
 z_index = 45
 collision_layer = 3
 script = SubResource( 1 )
-battery = 3.98667
+battery = 3.71333
 radar_range = 50
 
 [node name="Health" parent="." instance=ExtResource( 2 )]
@@ -101,7 +101,6 @@ position = Vector2( -0.078743, 40 )
 value = "health"
 max_value = "MAX_HEALTH"
 progress_color = Color( 0.513726, 1, 0.509804, 1 )
-hide_if_full = false
 
 [node name="Energy" parent="." instance=ExtResource( 2 )]
 visible = false

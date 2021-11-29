@@ -24,6 +24,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://ui/menu/MenuButton.gd"
 }, {
+"base": "RichTextLabel",
+"class": "Dialogue",
+"language": "GDScript",
+"path": "res://ui/dialogue/Dialogue.gd"
+}, {
+"base": "ScrollContainer",
+"class": "DialogueController",
+"language": "GDScript",
+"path": "res://ui/dialogue/DialogueContainer.gd"
+}, {
 "base": "Entity",
 "class": "Enemy",
 "language": "GDScript",
@@ -98,6 +108,8 @@ _global_script_class_icons={
 "AnimControl": "",
 "AnimUtil": "",
 "CustomMenuButton": "",
+"Dialogue": "",
+"DialogueController": "",
 "Enemy": "",
 "EnemyStructure": "",
 "EnemyUnit": "",

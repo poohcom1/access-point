@@ -47,7 +47,6 @@ func _on_shoot():
 	ammo -= 1
 	
 	var enemies = shoot_collider.get_overlapping_bodies()
-	
 	var nearest = get_nearest_enemy(enemies)
 	
 	# Clear targets marked for rampup
@@ -55,7 +54,7 @@ func _on_shoot():
 		hit_targets[target].hit = false
 	
 	if nearest != null and nearest.health > 0:
-		damage_enemy(nearest, 4)
+		damage_enemy(nearest, 2)
 		var cross_hair = cross_hair_ref.get_ref()
 		
 		if not cross_hair:
@@ -68,7 +67,7 @@ func _on_shoot():
 				
 	if AOE: 
 		for body in enemies:
-			if body is Enemy and body != nearest:
+			if is_enemy(body) and body != nearest:
 				damage_enemy(body)
 	
 	# Erase target not marked
@@ -87,7 +86,9 @@ func _on_shoot():
 	get_parent().flash()
 	
 				
-func damage_enemy(enemy: Enemy, rampup=1):
+func damage_enemy(enemy, rampup=1):
+	if not enemy: return
+	
 	var damage = DAMAGE
 	
 	## Rampup system
@@ -117,7 +118,7 @@ func get_nearest_enemy(bodies):
 	var nearest_distance = INF
 	
 	for body in bodies:
-		if body is Enemy:
+		if is_enemy(body):
 			var distance = body.global_position.distance_to(get_global_mouse_position())
 			if distance < nearest_distance:
 				nearest_enemy = body

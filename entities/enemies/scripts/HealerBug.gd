@@ -71,8 +71,8 @@ func _on_heal():
 	
 func on_death():
 	var health_drop = HealthDrop.instance()
-	health_drop.global_position = global_position
-	get_parent().call_deferred("add_child", health_drop)
+	get_tree().root.call_deferred("add_child", health_drop)
+	health_drop.set_deferred("global_position", global_position)
 	
 	state = State.Dead
 	heal_timer.stop()

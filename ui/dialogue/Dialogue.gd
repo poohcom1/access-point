@@ -1,8 +1,7 @@
-extends Node2D
+extends RichTextLabel
+class_name Dialogue
 
-var text1 = "WOW THIS IS ANIMATED TEXT WHAT THE ACTUAL FUCK?????"
-var text2 = "Second message!!!!!"
-var text3 = "FINAL PAGE"
+export var TickSound: AudioStream
 
 #Signals
 signal on_trigger(key)
@@ -11,12 +10,14 @@ signal on_trigger(key)
 const TICK_LENGTH = 0.05
 
 #mutable
-var encoded_text
+var encoded_text: Array
 
 #volatile variables
 var delta_time_tracker = 0
 var text_position = 0
 var text_buffer = ""
+
+onready var timer := $Timer
 
 func encodeString(string):
 	var result = []
@@ -27,41 +28,49 @@ func encodeString(string):
 func encodeDialogSimple(listOfStrings):
 	var encoded = ["\\start"]
 	encoded += encodeString(listOfStrings[0])
-	for i in range(1,len(listOfStrings)):
+	for i in range(1, len(listOfStrings)):
 		encoded.append("\\n")
 		encoded += (encodeString(listOfStrings[i]))
+	encoded.append("\\n")
 	encoded += ["\\end"]
-	encoded += ["","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+	#encoded += ["","","","","","","","","","","","","","","","","","","","","","","","","","",""]
 	return encoded
 
-func _ready():
-	#var encoded = encodeDialogSimple([text1, text2, text3])
-	encoded_text = [] #encoded
-	#print(encoded_text)
-	pass
+func start(text_list):
+	encoded_text = encodeDialogSimple(text_list)
+	text_position = 0
+	text_buffer = ""
 
 func _process(delta):
+	if not encoded_text or not timer.is_stopped(): return
+	
 	delta_time_tracker += delta
-	if(delta_time_tracker > TICK_LENGTH):
-		if(text_position < len(encoded_text)):
+	if delta_time_tracker > TICK_LENGTH:
+		if text_position < len(encoded_text):
+			
 			var current_char = encoded_text[text_position]
-			if(text_position < len(encoded_text)):
+			if text_position < len(encoded_text):
 				text_position += 1
 				
-			if (current_char == "\\n"):
+			if current_char == "\\n":
+				timer.start()
 				text_buffer = ""
 				return
 				
-			if (len(current_char) > 0 and current_char[0] == '\\'):
+			if len(current_char) > 0 and current_char[0] == '\\':
 				emit_signal("on_trigger", current_char)
 				return
 			
-			if(current_char != " "):
+			if current_char != " ":
 				delta_time_tracker = 0
-			text_buffer += (current_char)
-			$TextField.text = text_buffer
-		else:
-			text_buffer = ""
-			$TextField.text = text_buffer
-
+				
+			text_buffer += current_char
+			text = text_buffer
+			
+			add_child(OneShotAudio.new(TickSound, -15))
+		#else:
+		#	text_buffer = ""
+		#	text = text_buffer
+	
+	
 

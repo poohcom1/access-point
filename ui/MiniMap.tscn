@@ -34,6 +34,8 @@ var tiles_cache = []
 var sparse_array = []
 
 func _ready():
+	GameManager.minimap = self
+	
 	# Wait for all nodes to be ready
 	yield(get_tree(), \"idle_frame\")
 	
@@ -48,6 +50,11 @@ func _ready():
 		radar.tilemap_position = world_to_tilemap(radar.global_position)
 	
 	get_vision()
+	update()
+	
+func add_radar(radar):
+	radar.tilemap_position = world_to_tilemap(radar.global_position)
+	radars.append(radar)
 	
 func _tilemap_init():
 	# Get size of tilemap
@@ -140,18 +147,21 @@ func _draw_objects():
 		if object is Player:
 			draw_rect(Rect2(pos, Vector2.ONE * 2), PLAYER_COLOR)
 		elif in_range(tilemap_pos) or object.revealed:
-			if object is Structure:
+			if object is FriendlyStructure:
 				if object in radars:
 					draw_rect(Rect2(pos, Vector2.ONE * 3), RADAR_COLOR)
 					# Get waypoints
 					for next in object.next_radars:
+						if not object.has_node(next): 
+							continue
 						var next_radar = object.get_node(next)
-						if next_radar.revealed:
-							var next_pos = tilemap_to_minimap(world_to_tilemap(next_radar.global_position))
-							draw_line(pos + Vector2.ONE * 1.5, next_pos + Vector2.ONE * scale * 1.5, RADAR_PATH_COLOR, 1)
+						if not next_radar: continue
+						var next_pos = tilemap_to_minimap(world_to_tilemap(next_radar.global_position).rotated(PI/4))
+						draw_line(pos + Vector2.ONE * 1.5, next_pos + Vector2.ONE * scale * 1.5, RADAR_PATH_COLOR, 1)
+						draw_square_outline(next_pos, 15)
 				else:
 					draw_rect(Rect2(pos, Vector2.ONE * 2), STRUCTURE_COLOR)
-			elif object is Enemy:
+			elif object is Enemy or object is EnemyStructure:
 				draw_rect(Rect2(pos, Vector2.ONE * 2), ENEMY_COLOR)
 
 var tilemap_draw_cache = []
@@ -226,35 +236,41 @@ func world_to_tilemap(position: Vector2) -> Vector2:
 
 func tilemap_to_minimap(position: Vector2) -> Vector2:
 	return position * scale + offset
+	
+func draw_square_outline(center: Vector2, size: float, width=2):
+	var p1 = (center + Vector2(-size/2, -size/2))
+	var p2 = (center + Vector2(size/2, -size/2))
+	var p3 = (center + Vector2(size/2, size/2))
+	var p4 = (center + Vector2(-size/2, size/2))
+	draw_polyline([p1, p2, p3, p4, p1], RADAR_COLOR, width)
 "
 
 [node name="MiniMap" type="MarginContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = -825.0
-margin_bottom = -416.0
+margin_right = 300.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 250, 250 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Grid" type="MarginContainer" parent="."]
-margin_right = 199.0
-margin_bottom = 184.0
+margin_right = 300.0
+margin_bottom = 300.0
 custom_constants/margin_left = 16
 custom_constants/margin_bottom = 16
 
 [node name="TextureRect" type="TextureRect" parent="Grid"]
 modulate = Color( 0.207843, 0.639216, 0.172549, 0.756863 )
 margin_left = 16.0
-margin_right = 199.0
-margin_bottom = 168.0
+margin_right = 300.0
+margin_bottom = 284.0
 texture = ExtResource( 1 )
 stretch_mode = 2
 
 [node name="Map" type="Control" parent="Grid"]
 margin_left = 16.0
-margin_right = 199.0
-margin_bottom = 168.0
+margin_right = 300.0
+margin_bottom = 284.0
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

@@ -36,7 +36,7 @@ func _physics_process(delta):
 	global_position += _direction
 
 func on_hit(body: Object):
-	if body is Enemy and not body in hit_targets:
+	if Weapon.is_enemy(body) and not body in hit_targets:
 		body.on_hit(damage, GameManager.player)
 		body.on_hit_knockback(_direction.normalized() * knockback)
 		hit_targets.append(body)

@@ -109,3 +109,6 @@ func start_reload(reload_time=RELOAD_TIME, play_sound=true):
 	
 func _reload():
 	ammo = MAX_AMMO
+
+static func is_enemy(body) -> bool:
+	return body is Enemy or body is EnemyStructure
