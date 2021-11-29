@@ -4,7 +4,6 @@ class_name Player, "res://assets/player/walk_front_body.png"
 # Exports
 export(float, 0.0, 1.0) var ACCEL_PERCENT := 0.5
 
-export var MAX_HP := 100
 export var MAX_ENERGY := 1000
 
 export var MODULE_CHARGE_SPEED := 2
@@ -59,7 +58,7 @@ var attack_module: Module
 var defense_module: Module
 
 func _ready():
-	health = MAX_HP
+	health = MAX_HEALTH
 	energy = MAX_ENERGY
 	GameManager.player = self
 	set_collision_layer_bit(GameManager.COL_TILE, false)
@@ -187,7 +186,7 @@ func _physics_process(_delta):
 	mv = move_and_slide(mv)
 	
 	# Regen
-	if regen_timer.time_left == 0 and health < MAX_HP:
+	if regen_timer.time_left == 0 and health < MAX_HEALTH:
 		health += REGEN_PER_FRAME
 		
 var do_flash = 0

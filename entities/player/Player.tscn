@@ -33,14 +33,14 @@ light_mode = 1
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ null ],
-"loop": true,
-"name": "back",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 19 ) ],
 "loop": true,
 "name": "front",
+"speed": 5.0
+}, {
+"frames": [ null ],
+"loop": true,
+"name": "back",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 18 ) ],
@@ -48,14 +48,14 @@ animations = [ {
 "name": "side",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 17 ) ],
-"loop": true,
-"name": "sidefront",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 16 ) ],
 "loop": true,
 "name": "sideback",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 17 ) ],
+"loop": true,
+"name": "sidefront",
 "speed": 5.0
 } ]
 
@@ -220,7 +220,7 @@ atlas = ExtResource( 5 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=44]
-atlas = ExtResource( 6 )
+atlas = ExtResource( 7 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=45]
@@ -228,11 +228,11 @@ atlas = ExtResource( 12 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=46]
-atlas = ExtResource( 7 )
+atlas = ExtResource( 9 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=47]
-atlas = ExtResource( 9 )
+atlas = ExtResource( 6 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=48]
@@ -269,7 +269,7 @@ animations = [ {
 }, {
 "frames": [ SubResource( 44 ) ],
 "loop": true,
-"name": "idle_front",
+"name": "idle_side",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 45 ) ],
@@ -279,12 +279,12 @@ animations = [ {
 }, {
 "frames": [ SubResource( 46 ) ],
 "loop": true,
-"name": "idle_side",
+"name": "idle_sidefront",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 47 ) ],
 "loop": true,
-"name": "idle_sidefront",
+"name": "idle_front",
 "speed": 5.0
 } ]
 
@@ -449,7 +449,7 @@ atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=89]
-atlas = ExtResource( 1 )
+atlas = ExtResource( 3 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=90]
@@ -457,11 +457,11 @@ atlas = ExtResource( 13 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=91]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 11 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=92]
-atlas = ExtResource( 11 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=93]
@@ -498,7 +498,7 @@ animations = [ {
 }, {
 "frames": [ SubResource( 89 ) ],
 "loop": true,
-"name": "idle_front",
+"name": "idle_side",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 90 ) ],
@@ -508,12 +508,12 @@ animations = [ {
 }, {
 "frames": [ SubResource( 91 ) ],
 "loop": true,
-"name": "idle_side",
+"name": "idle_sidefront",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 92 ) ],
 "loop": true,
-"name": "idle_sidefront",
+"name": "idle_front",
 "speed": 5.0
 } ]
 
@@ -533,9 +533,10 @@ z_index = 41
 collision_layer = 0
 script = ExtResource( 2 )
 BASE_SPEED = 150
+MAX_HEALTH = 100
 DEFENSE_MODULE = ExtResource( 15 )
 ATTACK_MODULE = ExtResource( 14 )
-REGEN_PER_FRAME = 0.005
+REGEN_PER_FRAME = 0.001
 WEAPONS = [ ExtResource( 24 ), ExtResource( 22 ), ExtResource( 23 ) ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

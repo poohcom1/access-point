@@ -24,42 +24,42 @@ region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 5 )
-region = Rect2( 48, 0, 48, 48 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 5 )
-region = Rect2( 96, 0, 48, 48 )
+region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 5 )
-region = Rect2( 144, 0, 48, 48 )
+region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 5 )
-region = Rect2( 192, 0, 48, 48 )
+region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 6 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 5 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 6 )
-region = Rect2( 48, 0, 48, 48 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 6 )
-region = Rect2( 96, 0, 48, 48 )
+region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 6 )
-region = Rect2( 144, 0, 48, 48 )
+region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 6 )
-region = Rect2( 192, 0, 48, 48 )
+region = Rect2( 144, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 3 )
+atlas = ExtResource( 6 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=15]
@@ -87,8 +87,8 @@ atlas = ExtResource( 5 )
 region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 48, 48 )
+atlas = ExtResource( 3 )
+region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 3 )
@@ -157,20 +157,20 @@ animations = [ {
 "name": "idle_back",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"frames": [ SubResource( 4 ) ],
+"loop": true,
+"name": "idle_side",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ) ],
 "loop": true,
 "name": "run_side",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
+"frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
 "loop": true,
 "name": "run_sideback",
 "speed": 15.0
-}, {
-"frames": [ SubResource( 14 ) ],
-"loop": true,
-"name": "idle_front",
-"speed": 5.0
 }, {
 "frames": [ SubResource( 15 ) ],
 "loop": true,
@@ -184,7 +184,7 @@ animations = [ {
 }, {
 "frames": [ SubResource( 21 ) ],
 "loop": true,
-"name": "idle_side",
+"name": "idle_front",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ) ],
@@ -206,7 +206,8 @@ animations = [ {
 [node name="RangeBug" type="KinematicBody2D"]
 z_index = 1
 script = ExtResource( 8 )
-MAX_HEALTH = 30.0
+BASE_SPEED = 180
+MAX_HEALTH = 30
 FOCUS_PLAYER = true
 ANIMATION_NODE = null
 
@@ -227,7 +228,6 @@ position = Vector2( 0.0271316, 0.0735059 )
 scale = Vector2( 1.04116, 1.04116 )
 frames = SubResource( 37 )
 animation = "run_side"
-frame = 3
 playing = true
 
 [node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]

@@ -74,6 +74,8 @@ func destroy():
 
 [node name="ShootArea" type="Area2D"]
 z_index = 5
+monitorable = false
+collision_mask = 5
 script = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

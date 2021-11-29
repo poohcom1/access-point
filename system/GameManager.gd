@@ -7,6 +7,9 @@ const COL_ENEMY = 2
 const COL_PLAYER_BULLET = 3
 const COL_ENEMY_BULLET = 4
 
+# Signals
+# warning-ignore:unused_signal
+signal aggro_alert(position, target)
 
 # Singleton objects
 var player: Player

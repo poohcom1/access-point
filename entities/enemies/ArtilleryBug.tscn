@@ -428,7 +428,6 @@ offset = Vector2( -8, -4 )
 [node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
 z_index = 1
 frames = SubResource( 59 )
-frame = 5
 playing = true
 offset = Vector2( 0, -2 )
 

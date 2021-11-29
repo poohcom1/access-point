@@ -83,7 +83,7 @@ margin_bottom = 0.0
 
 [node name="Radar" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0, 192 )
-battery = 3.99667
+battery = 3.69667
 
 [node name="Turret" parent="." instance=ExtResource( 12 )]
 position = Vector2( 295.02, 8.70401 )
@@ -96,3 +96,4 @@ color = Color( 0.298039, 0.305882, 0.380392, 1 )
 position = Vector2( 519.02, -127.296 )
 
 [editable path="Player"]
+[editable path="Spawner"]

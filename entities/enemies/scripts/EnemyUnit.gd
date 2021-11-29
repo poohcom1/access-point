@@ -10,11 +10,13 @@ var state = State.Passive
 var rally_point: Vector2
 
 # Properties
-export var MULTITHREADED_PATHFIND := false
+export var MULTITHREADED_PATHFIND := true
 export var PATHFIND_EPSILON := 16
 
+export var FRIEND_RANGE := 168
+
 export var SHOW_RANGE := false setget _debug_range
-export var AGGRO_RANGE := 300 setget _set_aggro_range
+export var AGGRO_RANGE := 500 setget _set_aggro_range
 
 export var DEBUG_PATH := false
 var debug_path: Line2D
@@ -44,7 +46,6 @@ onready var pathfind_timer := Timer.new()
 onready var state_timer := Timer.new()
 
 onready var sightline := RayCast2D.new()
-onready var support_area := Area2D.new()
 
 var anim_sprite: AnimatedSprite
 
@@ -55,13 +56,19 @@ var onscreen = true
 func _ready():
 	if Engine.editor_hint: return
 	
+	# Init search area (for nearby aggro)
+	GameManager.connect("aggro_alert", self, "alert")
+	
+	
+	# Check anim sprite
 	if ANIMATION_NODE == null:
 		ANIMATION_NODE = "AnimatedSprite"
+		
+	anim_sprite = get_node(ANIMATION_NODE)	
 	
+	# State timer
 	state_timer.one_shot = true
 	add_child(state_timer)
-	
-	anim_sprite = get_node(ANIMATION_NODE)
 	
 	# State timer
 	state_timer.connect("timeout", self, "on_state_timeout")
@@ -127,11 +134,18 @@ func on_hit(dmg, from=null, type: String = ""):
 	
 	if state == State.Passive or state == State.Rallying:
 		to_aggro()
+		
 
 func to_aggro(target=GameManager.player):
 	set_target(target)
 	_init_pathfind()
 	state = State.Default
+	
+	GameManager.emit_signal("aggro_alert", global_position, target)
+
+func alert(position, target):
+	if state == State.Passive and global_position.distance_squared_to(position) < pow(FRIEND_RANGE, 2):
+		to_aggro(target)
 
 func change_state_with_timer(new_state, timeout=0):
 	if timeout > 0:

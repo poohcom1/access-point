@@ -51,7 +51,7 @@ func _ready():
 	yield(get_tree(), \"idle_frame\")
 	player = GameManager.player
 	
-	hp_bar.max_value = player.MAX_HP
+	hp_bar.max_value = player.MAX_HEALTH
 	energy_bar.max_value = player.MAX_ENERGY
 
 

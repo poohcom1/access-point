@@ -10,6 +10,8 @@ export var REGEN_AMOUNT := 0.25
 export var DISTANCE_TO_PLAYER := 300
 export var HEAL_PAUSE := 0.3
 
+const HealthDrop = preload("res://pickups/HealthPickup.tscn")
+
 # Nodes
 onready var heal_timer := Timer.new()
 onready var heal_area := $HealingArea
@@ -68,6 +70,10 @@ func _on_heal():
 
 	
 func on_death():
+	var health_drop = HealthDrop.instance()
+	health_drop.global_position = global_position
+	get_parent().call_deferred("add_child", health_drop)
+	
 	state = State.Dead
 	heal_timer.stop()
 	var corpse := Node2D.new()

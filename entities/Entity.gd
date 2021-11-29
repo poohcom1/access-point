@@ -2,6 +2,7 @@ extends KinematicBody2D
 class_name Entity
 
 export var BASE_SPEED := 200
+export var MAX_HEALTH := 20
 const floor_vector := Vector2.UP
 
 # Fields
@@ -25,6 +26,9 @@ func _physics_process(delta):
 		burn_timer -= delta
 
 # Methods
+func add_health(amount):
+	health = min(health + amount, MAX_HEALTH)
+
 func ignite(burn_time=BURN_TIME):
 	burn_timer = burn_time
 

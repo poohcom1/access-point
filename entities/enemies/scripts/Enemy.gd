@@ -4,7 +4,6 @@ class_name Enemy
 const DAMAGE_NUMBERS = false
 
 # Properties
-export var MAX_HEALTH := 20.0
 export var value := 0
 export var enemy_class := ""
 

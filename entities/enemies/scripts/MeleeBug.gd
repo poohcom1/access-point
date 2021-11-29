@@ -7,10 +7,7 @@ export var ATTACK_INTERVAL = 0.2
 
 export(float, 0.0, 1.0) var ATTACK_HEALTH = 0.75
 export(float, 0.0, 1.0) var RETREAT_HEALTH = 0.5
-export var RETREAT_SPEED := 150
-
-export var RETREAT_TIMER := 10.0
-var retreat_timer := 0.0
+export var RETREAT_SPEED := 175
 
 export var USE_AI := true
 
@@ -23,24 +20,21 @@ var was_touching := false # If touching player on the previous frame
 var is_attacking := false # Attack flag set from timer
 
 # Navigation
-enum NavStates { Attack, Retreat }
-var nav_state = NavStates.Attack
+var retreating = false
 
 var player_in_range := false
 
 # Nodes
-onready var search_area := $SearchArea
 onready var attack_timer := $AttackTimer
-onready var search_timer := $SearchTimer
-
 onready var anim_eyes := $Eyes
+
+onready var search_area := $SearchArea
 
 func _ready():
 	if Engine.editor_hint: return
 	
 	# Attack timer
 	attack_timer.connect("timeout", self, "_on_attack")
-	#search_timer.connect("timeout", self, "search_target", [search_area])
 	
 	
 	# Set death sound fx on random
@@ -52,26 +46,25 @@ func _physics_process(_delta):
 	
 	$BurningParticles.emitting = is_burning()
 	
+	var healers: Array
+	
+	if USE_AI:
+		healers = search_area.get_overlapping_bodies()
+	
 	match state:
 		State.Default:
 			# AI
 			if USE_AI:
-				var healers = search_area.get_overlapping_bodies()
-				
-				match nav_state:
-					NavStates.Attack:
-						speed = BASE_SPEED
-						if health <= MAX_HEALTH * RETREAT_HEALTH:
-							if healers.size() > 0:
-								var target = MathUtil.get_nearest_node(self, healers, "healer")
-								if target:
-									set_target(target)
-									nav_state = NavStates.Retreat	
-					NavStates.Retreat:
+				if not retreating and health <= MAX_HEALTH * RETREAT_HEALTH and healers.size() > 0:
+					var target = MathUtil.get_nearest_node(self, healers, "healer")
+					if target:
 						speed = RETREAT_SPEED
-						if not navigation_target.get_ref() or (health > MAX_HEALTH * ATTACK_HEALTH or healers.size() == 0):
-							set_target($"/root/GameManager".player)
-							nav_state = NavStates.Attack
+						set_target(target)
+						retreating = true
+				elif retreating and not navigation_target.get_ref() or (health > MAX_HEALTH * ATTACK_HEALTH or healers.size() == 0):
+						speed = BASE_SPEED				
+						set_target(GameManager.player)
+						retreating = false
 
 			## Pathfinding
 			mv = navigate()
