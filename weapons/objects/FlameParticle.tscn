@@ -145,7 +145,6 @@ light_mode = 1
 [node name="FlameParticle" type="Area2D"]
 modulate = Color( 1, 1, 1, 0.509804 )
 z_index = 45
-monitorable = false
 collision_mask = 5
 script = SubResource( 1 )
 

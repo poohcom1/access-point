@@ -49,7 +49,8 @@ func _on_activated():
 		get_node(radar).revealed = true
 		
 func on_destroyed():
-	$CollisionPolygon2D.disabled = true
+	
+	$CollisionPolygon2D.set_deferred(\"disabled\", true)
 
 # @Override
 func add_battery(_amt):
@@ -92,7 +93,7 @@ tracks/0/keys = {
 z_index = 45
 collision_layer = 3
 script = SubResource( 1 )
-battery = 3.99333
+battery = 3.98667
 radar_range = 50
 
 [node name="Health" parent="." instance=ExtResource( 2 )]

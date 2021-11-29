@@ -59,7 +59,6 @@ extents = Vector2( 32, 8 )
 
 [node name="Projectile" type="Area2D"]
 z_index = 40
-monitorable = false
 collision_mask = 5
 script = SubResource( 1 )
 
