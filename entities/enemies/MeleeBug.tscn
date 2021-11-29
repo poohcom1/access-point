@@ -127,9 +127,9 @@ region = Rect2( 192, 0, 48, 48 )
 [sub_resource type="SpriteFrames" id=28]
 animations = [ {
 "frames": [  ],
-"loop": true,
-"name": "idle_back",
-"speed": 5.0
+"loop": false,
+"name": "explode",
+"speed": 15.0
 }, {
 "frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ) ],
 "loop": true,
@@ -143,7 +143,7 @@ animations = [ {
 }, {
 "frames": [  ],
 "loop": true,
-"name": "idle_front",
+"name": "idle_sideback",
 "speed": 5.0
 }, {
 "frames": [  ],
@@ -188,8 +188,8 @@ animations = [ {
 } ]
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 4 )
-region = Rect2( 192, 0, 48, 48 )
+atlas = ExtResource( 9 )
+region = Rect2( 0, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=30]
 atlas = ExtResource( 6 )
@@ -231,7 +231,7 @@ region = Rect2( 144, 0, 48, 48 )
 atlas = ExtResource( 3 )
 region = Rect2( 192, 0, 48, 48 )
 
-[sub_resource type="AtlasTexture" id=40]
+[sub_resource type="AtlasTexture" id=53]
 atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 48, 48 )
 
@@ -349,10 +349,10 @@ region = Rect2( 192, 0, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=69]
 animations = [ {
-"frames": [ SubResource( 29 ) ],
-"loop": true,
-"name": "idle_back",
-"speed": 5.0
+"frames": [ SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ) ],
+"loop": false,
+"name": "explode",
+"speed": 15.0
 }, {
 "frames": [ SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ) ],
 "loop": true,
@@ -366,7 +366,7 @@ animations = [ {
 }, {
 "frames": [ SubResource( 40 ) ],
 "loop": true,
-"name": "idle_front",
+"name": "idle_sideback",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 41 ) ],
@@ -394,12 +394,12 @@ animations = [ {
 "name": "idle_sidefront",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ), SubResource( 58 ) ],
+"frames": [ SubResource( 63 ) ],
 "loop": true,
 "name": "run_front",
 "speed": 15.0
 }, {
-"frames": [ SubResource( 59 ), SubResource( 60 ), SubResource( 61 ), SubResource( 62 ), SubResource( 63 ) ],
+"frames": [ SubResource( 64 ), SubResource( 65 ), SubResource( 66 ), SubResource( 67 ), SubResource( 68 ) ],
 "loop": false,
 "name": "death",
 "speed": 15.0
@@ -491,7 +491,6 @@ shape = SubResource( 71 )
 autostart = true
 
 [node name="BurningParticles" type="CPUParticles2D" parent="."]
-visible = false
 modulate = Color( 1, 1, 1, 0.87451 )
 amount = 16
 explosiveness = 0.1
