@@ -29,6 +29,8 @@ onready var shoot_timer := $ShootTimer
 onready var range_area := $RangeArea
 onready var shoot_fx := $ShootFx
 
+onready var anim_sprite := $AnimatedSprite
+
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -104,9 +106,9 @@ func _set_animation():
 	dir = AnimUtil.turn(previous_dir, dir)
 	previous_dir = dir
 	
-	$AnimatedSprite.flip_h = abs(AnimUtil.Dir2Angle[dir]) > 90
+	anim_sprite.flip_h = abs(AnimUtil.Dir2Angle[dir]) > 90
 
-	$AnimatedSprite.play(AnimUtil.Dir2Anim[dir])
+	anim_sprite.play(AnimUtil.Dir2Anim[dir])
 	
 # AI
 func find_weakest_target():
@@ -124,6 +126,10 @@ func find_weakest_target():
 			min_health = enemy.health
 			
 	return weakest
+
+func on_destroyed():
+	shoot_timer.stop()
+	$CollisionPolygon2D.disabled = true
 
 # Bugged AI
 func find_healthiest_target():
@@ -241,6 +247,7 @@ func _ready():
 "turret",
 ]]
 z_index = 45
+collision_layer = 3
 script = SubResource( 1 )
 MAX_HEALTH = 200.0
 MAX_BATTERY = 8.0
@@ -306,7 +313,7 @@ frames = SubResource( 18 )
 script = SubResource( 19 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( -16, 24, 16, 24, 16, -16, -16, -16 )
+polygon = PoolVector2Array( 0, -16, -16, -8, -16, 16, 0, 24, 16, 16, 16, -8 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2( 0, -8 )

@@ -93,11 +93,10 @@ margin_bottom = 0.0
 [node name="Radar" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, 192 )
 revealed = true
-battery = 4.0
+battery = 3.74
 
 [node name="Turret2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 248.779, -2634.86 )
-collision_layer = 3
 
 [node name="EnemyUnits" type="Node2D" parent="."]
 position = Vector2( 248.779, -2634.86 )
@@ -311,7 +310,6 @@ position = Vector2( 669.347, -2174.1 )
 
 [node name="Turret" parent="." instance=ExtResource( 14 )]
 position = Vector2( 651.84, -2218.15 )
-collision_layer = 3
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )

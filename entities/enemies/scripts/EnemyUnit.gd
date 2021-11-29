@@ -168,10 +168,6 @@ func _process(_delta):
 		debug_path.global_position = Vector2.ZERO
 		debug_path.points = path
 		
-
-func _physics_process(_delta):
-	if Engine.editor_hint: return
-	
 	if state == State.Rallying:
 		move_and_slide(navigate() * speed)
 		set_move_animation()
@@ -182,6 +178,7 @@ func _physics_process(_delta):
 		
 	if FOCUS_PLAYER and in_aggro_range(GameManager.player):
 		set_target(GameManager.player)
+		
 
 	
 ## Pathfinding ========================================
