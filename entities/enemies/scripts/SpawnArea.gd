@@ -91,7 +91,7 @@ func _ready():
 		add_trigger(get_node(nodepath))
 		
 	if TRIGGERED:
-		start_spawn()
+		start_spawn(true)
 		
 func add_trigger(trigger):
 	trigger.connect("body_entered", self, "on_enter", [trigger])
@@ -103,9 +103,8 @@ func on_enter(body, trigger):
 		start_spawn()
 		trigger.check_free()
 
-func start_spawn():
-	if not TRIGGERED:
-		
+func start_spawn(force=false):
+	if force or not TRIGGERED:
 		TRIGGERED = true
 		timer.connect("timeout", self, "on_spawn")
 		on_spawn()

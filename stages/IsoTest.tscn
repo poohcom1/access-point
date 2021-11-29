@@ -1,10 +1,9 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/tiles/isomud.png" type="Texture" id=2]
 [ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://entities/enemies/tools/SpawnArea.tscn" type="PackedScene" id=4]
-[ext_resource path="res://entities/enemies/tools/SpawnTrigger.tscn" type="PackedScene" id=7]
+[ext_resource path="res://structures/Spawner.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=10]
@@ -84,28 +83,16 @@ margin_bottom = 0.0
 
 [node name="Radar" parent="." instance=ExtResource( 11 )]
 position = Vector2( 0, 192 )
-battery = 2.93667
-
-[node name="SpawnArea2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 560.094, -120.066 )
-DISABLE_ON_SCREEN = false
-MELEE_PRIORITY = 0
-HEALER_PRIORITY = 0
-SUICIDE_PRIORITY = 0
-RANGE_PRIORITY = 1
-
-[node name="SpawnTrigger" parent="SpawnArea2" instance=ExtResource( 7 )]
-position = Vector2( -308.82, 337.879 )
-
-[node name="Position2D" type="Position2D" parent="SpawnArea2"]
-position = Vector2( -211.254, 130.985 )
+battery = 3.99667
 
 [node name="Turret" parent="." instance=ExtResource( 12 )]
 position = Vector2( 295.02, 8.70401 )
-collision_layer = 3
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 visible = false
 color = Color( 0.298039, 0.305882, 0.380392, 1 )
+
+[node name="Spawner" parent="." instance=ExtResource( 4 )]
+position = Vector2( 519.02, -127.296 )
 
 [editable path="Player"]

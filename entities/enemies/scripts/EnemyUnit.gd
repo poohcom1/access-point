@@ -92,7 +92,7 @@ func _ready():
 	
 	# States
 	if state == State.Default:
-		to_aggro()
+		to_aggro(search_target_range())
 	elif state == State.Rallying:
 		generate_path(false)
 	
@@ -157,11 +157,8 @@ func _process(_delta):
 	if (GameManager.player 
 		and (state == State.Passive or state == State.Rallying)):
 		
-		var nearest_target = MathUtil.get_nearest_node(self, get_tree().get_nodes_in_group("friendly"))
-		
-		assert(nearest_target != null)
-		
-		if global_position.distance_to(nearest_target.global_position) < AGGRO_RANGE:
+		var nearest_target = search_target_range()
+		if nearest_target:
 			to_aggro(nearest_target)
 			
 	if DEBUG_PATH:
@@ -174,15 +171,18 @@ func _process(_delta):
 	
 	var target = navigation_target.get_ref()
 	if target and target.is_in_group("friendly") and target.health <= 0:
-		search_target_range()
-		
+		var new_target = search_target_range()
+		if new_target:
+			set_target(new_target)
+		else:
+			state = State.Passive		
 	if FOCUS_PLAYER and in_aggro_range(GameManager.player):
 		set_target(GameManager.player)
 		
 
 	
 ## Pathfinding ========================================
-func search_target_range() -> bool:
+func search_target_range() -> Node2D:
 	var nearest = null
 	var nearest_dist = INF
 	
@@ -192,31 +192,12 @@ func search_target_range() -> bool:
 			nearest = GameManager.player
 			break
 		
-		if distance < nearest_dist and node.health > 0 and distance < pow(AGGRO_RANGE, 2):
+		if distance < nearest_dist and node.health > 0.1 and distance < pow(AGGRO_RANGE, 2):
 			nearest_dist = distance
 			nearest = node
 				
-	if nearest:
-		set_target(nearest)
-		return true
-	else:
-		state = State.Passive
-		return false
+	return nearest
 
-# Unused
-func search_target(area: Area2D = null):
-	var nearest = null
-	var nearest_dist = INF
-	
-	for node in area.get_overlapping_bodies():
-		if node.is_in_group("friendly"):
-			var distance = global_position.distance_squared_to(node.position)
-			if distance < nearest_dist and node.health > 0:
-				nearest_dist = distance
-				nearest = node
-				
-	if nearest:
-		set_target(nearest)
 
 func set_target(target):
 	navigation_target = weakref(target)

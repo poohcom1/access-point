@@ -316,5 +316,6 @@ script = SubResource( 19 )
 polygon = PoolVector2Array( 0, -16, -16, -8, -16, 16, 0, 24, 16, 16, 16, -8 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
 position = Vector2( 0, -8 )
 polygon = PoolVector2Array( -16, 24, 0, 32, 16, 24, 0, 16 )

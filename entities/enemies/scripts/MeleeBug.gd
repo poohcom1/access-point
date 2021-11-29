@@ -46,10 +46,6 @@ func _ready():
 	# Set death sound fx on random
 	$DeathSFX.stream = DEATH_SFX[randi() % DEATH_SFX.size()]
 	
-	
-func _init_pathfind():
-	._init_pathfind()
-	search_target(search_area)
 
 func _physics_process(_delta):	
 	if Engine.editor_hint: return
@@ -78,18 +74,18 @@ func _physics_process(_delta):
 							nav_state = NavStates.Attack
 
 			## Pathfinding
-			mv = navigate_with_sightline()
+			mv = navigate()
 			
 			if not touching_target:
 				set_move_animation()
 				set_move_animation(anim_eyes)
 			else:
 				set_angle_animation(
-					GameManager.player.global_position.angle_to_point(global_position)
+					navigation_target.get_ref().global_position.angle_to_point(global_position)
 				)
 				
 				set_angle_animation(
-					GameManager.player.global_position.angle_to_point(global_position),
+					navigation_target.get_ref().global_position.angle_to_point(global_position),
 					"run",
 					anim_eyes
 				)
