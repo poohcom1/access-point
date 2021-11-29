@@ -534,6 +534,7 @@ script = ExtResource( 2 )
 BASE_SPEED = 150
 DEFENSE_MODULE = ExtResource( 15 )
 ATTACK_MODULE = ExtResource( 14 )
+REGEN_PER_FRAME = 0.005
 WEAPONS = [ ExtResource( 24 ), ExtResource( 22 ), ExtResource( 23 ) ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

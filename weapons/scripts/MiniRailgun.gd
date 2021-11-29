@@ -5,9 +5,8 @@ export var SHOOT_INTERVAL = 0.15
 export var PIERCE_COUNT = 1
 export var DAMAGE = 8
 export var MIN_DAMAGE = 1
-export var MIN_DISTANCE = 100
-export var MAX_DISTANCE = 200
 export var KNOCKBACK = 25
+export var FALLOFF = 50
 
 export var SFX: AudioStream
 
@@ -51,18 +50,15 @@ func on_shoot():
 		
 	bullet.pierce_count = PIERCE_COUNT + 1 # Add one so 0 is the baseline for no pierce
 	bullet.damage = DAMAGE
-	#bullet.min_damage = MIN_DAMAGE
+	bullet.min_damage = MIN_DAMAGE
+	bullet.falloff = FALLOFF
 	bullet.knockback = KNOCKBACK
 	
 	shoot_timer.start()
 	
 	add_child(OneShotAudio2D.new(SFX, 2.0))
 
-	
-func calculate_damage(distance: float):
-	var percent = inverse_lerp(MIN_DISTANCE, MAX_DISTANCE, distance)
-	
-	return lerp(DAMAGE, MIN_DAMAGE, clamp(percent, 0.0, 1.0))
+
 
 func on_active():
 	if Input.is_action_pressed("shoot") and ammo > 0:

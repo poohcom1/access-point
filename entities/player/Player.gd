@@ -71,9 +71,9 @@ func _ready():
 
 func _init_weapons():
 	for Wep in WEAPONS:
-		var weapon = Wep.instance()
-		weapons.append(weapon)
-		add_child(weapon)
+		var wep = Wep.instance()
+		weapons.append(wep)
+		add_child(wep)
 	
 	
 	weapons[weapon_ind].switch()

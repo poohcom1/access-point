@@ -74,7 +74,6 @@ zoom = Vector2( 0.5, 0.5 )
 position = Vector2( 1.05945, 0 )
 
 [node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
-visible = false
 anchor_top = 1.0
 anchor_right = 0.0
 margin_top = -184.0
@@ -92,9 +91,12 @@ scale = Vector2( 2.52, 3.12 )
 [node name="SpawnArea2" parent="." instance=ExtResource( 4 )]
 position = Vector2( -2247.08, -784.191 )
 SPAWN_COUNT = 1
+MELEE_PRIORITY = 5
+HEALER_PRIORITY = 1
+RANGE_PRIORITY = 10
 
 [node name="SpawnTrigger" parent="SpawnArea2" instance=ExtResource( 7 )]
-position = Vector2( 869.005, 198.402 )
+position = Vector2( 1079.08, 272.191 )
 scale = Vector2( 2.52, 3.12 )
 
 [node name="SpawnArea3" parent="." instance=ExtResource( 4 )]

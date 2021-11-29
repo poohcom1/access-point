@@ -12,9 +12,9 @@ MAX_AMMO = 100
 CROSS_HAIR = ExtResource( 2 )
 weapon_name = "Flamethrower"
 SHOOT_INTERVAL = 0.05
-DAMAGE = 1.1
+DAMAGE = 2.5
 MIN_DAMAGE = 0.1
-FALLOFF = 5
+FALLOFF = 10
 
 [node name="SFXStart" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )

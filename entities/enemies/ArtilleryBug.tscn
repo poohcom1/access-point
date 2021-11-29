@@ -344,13 +344,16 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=63]
 
-[node name="ArtilleryBug" type="KinematicBody2D"]
+[node name="ArtilleryBug" type="KinematicBody2D" groups=[
+"map",
+]]
 script = ExtResource( 1 )
-MAX_HEALTH = 300.0
+MAX_HEALTH = 900.0
 value = 2
 enemy_class = "Artillery"
-FRIENDLY_DAMAGE = 10
-SHOOT_INTERVAL = 1.5
+DAMAGE = 30
+FRIENDLY_DAMAGE = 5
+SHOOT_INTERVAL = 0.0
 RANGE = 250
 EXPLODE_ON_WALL = true
 
@@ -368,7 +371,7 @@ default_color = Color( 1, 0.4, 0.4, 1 )
 position = Vector2( 0, 35.5401 )
 value = "health"
 max_value = "MAX_HEALTH"
-x_scale = 0.25
+x_scale = 0.1
 
 [node name="Body" type="Node2D" parent="."]
 position = Vector2( 0, 22.5949 )
@@ -425,7 +428,7 @@ offset = Vector2( -8, -4 )
 [node name="Sprite" type="AnimatedSprite" parent="Body/Head"]
 z_index = 1
 frames = SubResource( 59 )
-frame = 3
+frame = 5
 playing = true
 offset = Vector2( 0, -2 )
 

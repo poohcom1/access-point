@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://stages/MainPropSet.tres" type="TileSet" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://weapons/MiniRailgun.tscn" type="PackedScene" id=13]
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=14]
 [ext_resource path="res://weapons/MachineGun.tscn" type="PackedScene" id=15]
+[ext_resource path="res://weapons/modules/ShieldModule.tscn" type="PackedScene" id=16]
 
 [node name="Navigation2D" type="Navigation2D"]
 script = ExtResource( 12 )
@@ -47,6 +48,7 @@ tile_data = PoolIntArray( -11010103, 4, 0, -11010102, 4, 0, -11010101, 4, 0, -10
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( -617.237, 531.159 )
+DEFENSE_MODULE = ExtResource( 16 )
 WEAPONS = [ ExtResource( 15 ), ExtResource( 13 ) ]
 
 [node name="HealerBug" parent="." instance=ExtResource( 14 )]
@@ -76,7 +78,6 @@ ANIMATION_NODE = null
 
 [node name="MeleeBug2" parent="." instance=ExtResource( 4 )]
 position = Vector2( -39.9854, -660.916 )
-ANIMATION_NODE = null
 
 [node name="HealerBug6" parent="." instance=ExtResource( 14 )]
 position = Vector2( -201.166, -603.999 )
@@ -95,15 +96,12 @@ ANIMATION_NODE = null
 
 [node name="MeleeBug24" parent="." instance=ExtResource( 4 )]
 position = Vector2( -972, -893 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug25" parent="." instance=ExtResource( 4 )]
 position = Vector2( -981, -858 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug26" parent="." instance=ExtResource( 4 )]
 position = Vector2( -891, -1033 )
-ANIMATION_NODE = null
 
 [node name="HealerBug9" parent="." instance=ExtResource( 14 )]
 position = Vector2( -892, -1069 )
@@ -112,7 +110,6 @@ ANIMATION_NODE = null
 
 [node name="MeleeBug27" parent="." instance=ExtResource( 4 )]
 position = Vector2( -852, -1028 )
-ANIMATION_NODE = null
 
 [node name="HealerBug10" parent="." instance=ExtResource( 14 )]
 position = Vector2( 1124.27, -564.942 )
@@ -121,86 +118,66 @@ ANIMATION_NODE = null
 
 [node name="MeleeBug3" parent="." instance=ExtResource( 4 )]
 position = Vector2( -148.958, -647.831 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug4" parent="." instance=ExtResource( 4 )]
 position = Vector2( -56.845, -593.623 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug5" parent="." instance=ExtResource( 4 )]
 position = Vector2( -105.328, -695.538 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug14" parent="." instance=ExtResource( 4 )]
 position = Vector2( 955.755, -594.659 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug15" parent="." instance=ExtResource( 4 )]
 position = Vector2( 998.133, -605.254 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug16" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1006.61, -554.4 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug17" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1007.52, -1172.63 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug18" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1249.16, -1104.67 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug19" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1135.89, -1115.99 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug20" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1347.32, -1225.48 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug21" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1113.24, -1229.26 )
 
 [node name="MeleeBug22" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1332.22, -1131.1 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug23" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1475.69, -1115.99 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug6" parent="." instance=ExtResource( 4 )]
 position = Vector2( -121.59, -647.339 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug7" parent="." instance=ExtResource( 4 )]
 position = Vector2( -76.2841, -624.686 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug8" parent="." instance=ExtResource( 4 )]
 position = Vector2( -17.7639, -622.798 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug9" parent="." instance=ExtResource( 4 )]
 position = Vector2( 782.642, -543.512 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug10" parent="." instance=ExtResource( 4 )]
 position = Vector2( 839.274, -558.614 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug11" parent="." instance=ExtResource( 4 )]
 position = Vector2( 693.917, -600.145 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug12" parent="." instance=ExtResource( 4 )]
 position = Vector2( 901.57, -611.471 )
-ANIMATION_NODE = null
 
 [node name="MeleeBug13" parent="." instance=ExtResource( 4 )]
 position = Vector2( 888.355, -554.839 )
-ANIMATION_NODE = null
 
 [node name="ArtilleryBug" parent="." instance=ExtResource( 7 )]
 position = Vector2( 1201.82, -584.294 )

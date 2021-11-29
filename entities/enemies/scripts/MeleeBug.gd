@@ -45,6 +45,9 @@ func _ready():
 
 func _physics_process(_delta):	
 	if Engine.editor_hint: return
+	
+	$BurningParticles.emitting = is_burning()
+	
 	match state:
 		State.Default:
 			# AI

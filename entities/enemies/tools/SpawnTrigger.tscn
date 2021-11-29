@@ -16,7 +16,6 @@ func check_free(_body=null):
 		should_free = should_free and area.TRIGGERED
 
 	if should_free:
-		print(\"i'm free!\")
 		queue_free()
 "
 

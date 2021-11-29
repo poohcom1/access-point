@@ -9,6 +9,8 @@ script/source = "extends Area2D
 # Properties
 var pierce_count
 var damage
+var min_damage
+var falloff = 50
 
 var distance
 
@@ -30,7 +32,7 @@ func _ready():
 	
 	
 func _physics_process(delta):
-	damage = max(1, damage-delta*50)
+	damage = max(min_damage, damage-delta*falloff)
 	global_position += _direction
 
 func on_hit(body: Object):

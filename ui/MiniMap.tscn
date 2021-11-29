@@ -10,6 +10,8 @@ var scale: float
 var offset: Vector2 # Offset to center the map. Set in _tilemap_init()
 
 # Colors
+export var UPDATE_FRAMES_INTERVAL = 2
+
 export var PLAYER_COLOR: Color
 export var STRUCTURE_COLOR: Color
 export var RADAR_COLOR: Color
@@ -20,6 +22,7 @@ export var TILECOLOR: Color
 
 # Fields
 const EPSILON = 0.00001
+var update_interval = 0
 
 var radars := []
 
@@ -135,21 +138,21 @@ func _draw_objects():
 		var tilemap_pos = world_to_tilemap(object.global_position)
 		var pos = tilemap_to_minimap(tilemap_pos.rotated(PI/4))
 		if object is Player:
-			draw_rect(Rect2(pos, Vector2.ONE * scale * 2), PLAYER_COLOR)
+			draw_rect(Rect2(pos, Vector2.ONE * 2), PLAYER_COLOR)
 		elif in_range(tilemap_pos) or object.revealed:
 			if object is Structure:
 				if object in radars:
-					draw_rect(Rect2(pos, Vector2.ONE * scale * 3), RADAR_COLOR)
+					draw_rect(Rect2(pos, Vector2.ONE * 3), RADAR_COLOR)
 					# Get waypoints
 					for next in object.next_radars:
 						var next_radar = object.get_node(next)
 						if next_radar.revealed:
 							var next_pos = tilemap_to_minimap(world_to_tilemap(next_radar.global_position))
-							draw_line(pos + Vector2.ONE * scale * 1.5, next_pos + Vector2.ONE * scale * 1.5, RADAR_PATH_COLOR, 1)
+							draw_line(pos + Vector2.ONE * 1.5, next_pos + Vector2.ONE * scale * 1.5, RADAR_PATH_COLOR, 1)
 				else:
-					draw_rect(Rect2(pos, Vector2.ONE * scale * 2), STRUCTURE_COLOR)
+					draw_rect(Rect2(pos, Vector2.ONE * 2), STRUCTURE_COLOR)
 			elif object is Enemy:
-				draw_rect(Rect2(pos, Vector2.ONE * scale), ENEMY_COLOR)
+				draw_rect(Rect2(pos, Vector2.ONE * 2), ENEMY_COLOR)
 
 var tilemap_draw_cache = []
 var tilemap_draw_buffer = []
@@ -207,10 +210,15 @@ func get_tilemap_cells():
 			var cells = tilemap.get_used_cells_by_id(tile)
 			cell_selection_cache.append_array(cells)
 					
+
 		
 func _process(delta):
-	update()
-	process_tilemap(delta)
+	update_interval += 1
+	if update_interval > UPDATE_FRAMES_INTERVAL:
+		update_interval = 0
+		
+		update()
+		process_tilemap(delta)
 	
 	
 func world_to_tilemap(position: Vector2) -> Vector2:
@@ -236,6 +244,7 @@ custom_constants/margin_left = 16
 custom_constants/margin_bottom = 16
 
 [node name="TextureRect" type="TextureRect" parent="Grid"]
+modulate = Color( 0.207843, 0.639216, 0.172549, 0.756863 )
 margin_left = 16.0
 margin_right = 199.0
 margin_bottom = 168.0
@@ -255,4 +264,4 @@ STRUCTURE_COLOR = Color( 0, 0.741176, 1, 1 )
 RADAR_COLOR = Color( 0.917647, 0.901961, 0.486275, 1 )
 RADAR_PATH_COLOR = Color( 0.980392, 0.996078, 0.768627, 1 )
 ENEMY_COLOR = Color( 0.921569, 0.0862745, 0.0862745, 1 )
-TILECOLOR = Color( 0.184314, 0.184314, 0.184314, 1 )
+TILECOLOR = Color( 0.101961, 0.458824, 0.0980392, 1 )

@@ -7,7 +7,7 @@
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
-extends Structure
+extends FriendlyStructure
 
 # Properties
 export var DAMAGE = 1
@@ -144,11 +144,11 @@ extents = Vector2( 16, 24 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
-region = Rect2( 384, 0, 96, 96 )
+region = Rect2( 0, 0, 96, 96 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 96, 96 )
+region = Rect2( 384, 0, 96, 96 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 1 )
@@ -156,22 +156,22 @@ region = Rect2( 192, 0, 96, 96 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
-region = Rect2( 288, 0, 96, 96 )
+region = Rect2( 96, 0, 96, 96 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 1 )
-region = Rect2( 96, 0, 96, 96 )
+region = Rect2( 288, 0, 96, 96 )
 
 [sub_resource type="SpriteFrames" id=8]
 animations = [ {
 "frames": [ SubResource( 3 ) ],
 "loop": true,
-"name": "back",
+"name": "front",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 4 ) ],
 "loop": true,
-"name": "front",
+"name": "back",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 5 ) ],
@@ -181,12 +181,12 @@ animations = [ {
 }, {
 "frames": [ SubResource( 6 ) ],
 "loop": true,
-"name": "sideback",
+"name": "sidefront",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 7 ) ],
 "loop": true,
-"name": "sidefront",
+"name": "sideback",
 "speed": 5.0
 } ]
 

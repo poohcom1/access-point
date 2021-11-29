@@ -6,7 +6,7 @@
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
-extends Structure
+extends FriendlyStructure
 
 # Properties
 export var radar_range = 20
@@ -26,9 +26,6 @@ var tilemap_position: Vector2 # Cached for minimap
 onready var battery_timer := $BatteryTimer
 
 func _ready():
-	if custom_stats:
-		revealed = battery > EPSILON
-	
 	add_to_group(radar_group)
 	
 	# warning-ignore:return_value_discarded
@@ -91,7 +88,7 @@ tracks/0/keys = {
 [node name="Radar" type="StaticBody2D"]
 z_index = 45
 script = SubResource( 1 )
-MAX_BATTERY = 1.0
+radar_range = 50
 
 [node name="ValueBar" parent="." instance=ExtResource( 2 )]
 position = Vector2( -0.078743, 40 )

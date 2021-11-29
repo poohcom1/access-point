@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://assets/weapons/flame.png" type="Texture" id=1]
 [ext_resource path="res://assets/graphics/lighting/2DLight.png" type="Texture" id=2]
@@ -10,6 +10,7 @@ script/source = "extends Area2D
 var damage
 var min_damage
 var falloff_amount
+var max_frame_interval = 2
 
 var distance
 
@@ -20,8 +21,12 @@ var offset := Vector2.ZERO
 var knockback = 0
 
 # Fields
+var frame_interval = 0
+
 var _direction: Vector2
 var hit_targets := []
+
+var total_frames
 
 # Nodes
 onready var anim_sprite := $AnimatedSprite
@@ -42,12 +47,23 @@ func _ready():
 	anim_sprite.play()
 	anim_sprite.connect(\"animation_finished\", self, \"queue_free\")
 	
+	total_frames = anim_sprite.frames.get_frame_count(\"default\")
+	
 func _physics_process(delta):
 	damage = max(min_damage, damage-delta*falloff_amount)
 	global_position += _direction
 	
-	for target in hit_targets:
-		target.on_hit(damage)
+	frame_interval += 1
+	if frame_interval == max_frame_interval:
+		frame_interval = 0
+	
+		for target in hit_targets:
+			target.on_hit(damage)
+			target.ignite()
+		
+	var frame = min(1.0, 1.0 - float(anim_sprite.frame)/total_frames + 0.5)
+	
+	anim_sprite.modulate = Color(frame, frame, frame)
 
 func on_enter(body: Object):
 	if body is Enemy:
@@ -67,57 +83,62 @@ func on_destroy():
 [sub_resource type="CanvasItemMaterial" id=2]
 light_mode = 1
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 1 )
 region = Rect2( 32, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=5]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 1 )
 region = Rect2( 64, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 1 )
 region = Rect2( 96, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 1 )
 region = Rect2( 128, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=8]
+[sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 1 )
 region = Rect2( 160, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 1 )
 region = Rect2( 224, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=25]
 atlas = ExtResource( 1 )
 region = Rect2( 256, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 1 )
 region = Rect2( 288, 0, 32, 32 )
 
-[sub_resource type="SpriteFrames" id=13]
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 1 )
+region = Rect2( 320, 0, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=28]
 animations = [ {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), null ],
+"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
 "loop": false,
 "name": "default",
 "speed": 15.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=14]
+[sub_resource type="RectangleShape2D" id=29]
+extents = Vector2( 8, 8 )
 
-[sub_resource type="CanvasItemMaterial" id=15]
+[sub_resource type="CanvasItemMaterial" id=16]
 blend_mode = 1
 light_mode = 1
 
@@ -130,15 +151,15 @@ script = SubResource( 1 )
 modulate = Color( 1, 1, 1, 0.65098 )
 material = SubResource( 2 )
 position = Vector2( 24, 0 )
-frames = SubResource( 13 )
+frames = SubResource( 28 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 24, 0 )
-shape = SubResource( 14 )
+shape = SubResource( 29 )
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 0.960784, 0.372549, 0.152941 )
-material = SubResource( 15 )
+material = SubResource( 16 )
 position = Vector2( 24, 0 )
 scale = Vector2( 0.125, 0.125 )
 z_index = -1
