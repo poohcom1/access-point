@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://stages/MainPropSet.tres" type="TileSet" id=2]
@@ -16,11 +16,12 @@
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=14]
 [ext_resource path="res://weapons/MachineGun.tscn" type="PackedScene" id=15]
 [ext_resource path="res://weapons/modules/ShieldModule.tscn" type="PackedScene" id=16]
-[ext_resource path="res://assets/Soundtrack/Midnight Brawl.wav" type="AudioStream" id=17]
+[ext_resource path="res://assets/Soundtrack/Midnight Brawl - Long ver.wav" type="AudioStream" id=17]
 [ext_resource path="res://structures/BuggedRadar.tscn" type="PackedScene" id=18]
 [ext_resource path="res://structures/Spawner.tscn" type="PackedScene" id=19]
+[ext_resource path="res://ui/dialogue/Stage1Dialogue.gd" type="Script" id=20]
 
-[node name="Navigation2D" type="Navigation2D"]
+[node name="Stage1" type="Navigation2D"]
 script = ExtResource( 12 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
@@ -179,6 +180,7 @@ margin_top = -600.0
 margin_right = 1024.0
 
 [node name="DialogueContainer" parent="UI" instance=ExtResource( 9 )]
+script = ExtResource( 20 )
 
 [node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
 anchor_top = 1.0
@@ -215,7 +217,7 @@ autoplay = true
 
 [node name="Radar" parent="." instance=ExtResource( 11 )]
 position = Vector2( -436, 548 )
-battery = -6.53566e-14
+battery = 3.59
 next_radars = [ NodePath("../BuggedRadar1") ]
 
 [node name="BuggedRadar1" parent="." instance=ExtResource( 18 )]

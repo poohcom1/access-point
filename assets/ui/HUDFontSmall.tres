@@ -5,4 +5,6 @@ font_path = "res://assets/ui/fonts/UbuntuMono-Regular.ttf"
 
 [resource]
 size = 20
+outline_size = 1
+outline_color = Color( 0.286275, 0.286275, 0.286275, 1 )
 font_data = SubResource( 1 )

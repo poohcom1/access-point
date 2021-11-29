@@ -33,6 +33,14 @@ func change(key):
 func next():
 	if text_ind >= text.size(): return
 	
-	speaker_text.text = text[text_ind].s
+	var speaker = text[text_ind].s
+	speaker_text.text = ""
+	
+	if speaker == "MARS":
+		speaker_text.push_color(Color.red)
+	
+	speaker_text.add_text(" " + speaker)
+
+	
 	dialogue_text.start(text[text_ind].t)
 	text_ind += 1

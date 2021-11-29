@@ -46,6 +46,7 @@ func _draw():
 	# Background
 	draw_rect(Rect2(0, 0, width*x_scale, y_scale), background_color)
 	
+
 	if value_amt < 0: return
 
 	draw_rect(Rect2(0, 0, width*x_scale*(min(value_amt/width, 1.0)), 

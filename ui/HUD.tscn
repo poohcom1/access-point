@@ -210,6 +210,7 @@ margin_bottom = 35.0
 rect_min_size = Vector2( 0, 5 )
 custom_styles/fg = SubResource( 2 )
 value = 100.0
+rounded = true
 percent_visible = false
 
 [node name="--SPACE--" type="Control" parent="MainMargins/Columns/Gauges/PlayerBars"]
