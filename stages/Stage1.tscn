@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://stages/MainPropSet.tres" type="TileSet" id=2]
@@ -12,7 +12,9 @@
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=10]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://stages/scripts/StageInit.gd" type="Script" id=12]
+[ext_resource path="res://weapons/MiniRailgun.tscn" type="PackedScene" id=13]
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=14]
+[ext_resource path="res://weapons/MachineGun.tscn" type="PackedScene" id=15]
 
 [node name="Navigation2D" type="Navigation2D"]
 script = ExtResource( 12 )
@@ -45,6 +47,7 @@ tile_data = PoolIntArray( -11010103, 4, 0, -11010102, 4, 0, -11010101, 4, 0, -10
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( -617.237, 531.159 )
+WEAPONS = [ ExtResource( 15 ), ExtResource( 13 ) ]
 
 [node name="HealerBug" parent="." instance=ExtResource( 14 )]
 position = Vector2( -147.615, -703.159 )

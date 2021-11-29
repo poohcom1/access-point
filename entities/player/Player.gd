@@ -50,17 +50,11 @@ onready var regen_timer := $RegenTimer
 signal on_damage(damage)
 
 # Weapons and modules
-const MachineGun = preload("res://weapons/MachineGun.tscn")
-const Railgun = preload("res://weapons/MiniRailgun.tscn")
-const Flamethrower = preload("res://weapons/Flamethrower.tscn")
+export(Array, PackedScene) var WEAPONS
 
 var weapon: Weapon setget _set_weapon, _get_weapon
 var weapons := []
 var weapon_ind := 0
-
-const Shield = preload("res://weapons/modules/ShieldModule.tscn")
-const Dash = preload("res://weapons/modules/DashModule.tscn")
-const Charge = preload("res://weapons/modules/ChargeModule.tscn")
 
 var attack_module: Module
 var defense_module: Module
@@ -76,14 +70,11 @@ func _ready():
 	_init_weapons()
 
 func _init_weapons():
-	var machine_gun = MachineGun.instance()
-	var railgun = Railgun.instance()
-	var flamethrower = Flamethrower.instance()
+	for Wep in WEAPONS:
+		var weapon = Wep.instance()
+		weapons.append(weapon)
+		add_child(weapon)
 	
-	weapons = [machine_gun, railgun, flamethrower]
-	
-	for wep in weapons:
-		add_child(wep)
 	
 	weapons[weapon_ind].switch()
 	
