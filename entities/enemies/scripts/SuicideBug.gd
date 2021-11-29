@@ -9,6 +9,7 @@ export var EXPLODE_RANGE := 150
 
 # Fields
 enum CustomStates { Explode }
+var exploded = false
 
 # Nodes
 var animControl: AnimControl
@@ -36,9 +37,8 @@ func _physics_process(_delta):
 			## Attack
 			for i in get_slide_count():
 				var collision = get_slide_collision(i)
-				if collision.collider is Player:
+				if collision.collider == navigation_target.get_ref():
 					_explode()
-					can_knockback = false
 		State.Knockback:
 			# warning-ignore:return_value_discarded
 			move_and_slide(mv)
@@ -46,14 +46,19 @@ func _physics_process(_delta):
 			pass
 			
 func _explode():
-	if state != CustomStates.Explode:
+	if not exploded:
 		$AnimatedSprite.play("explode")
 		$AnimatedSprite.connect("animation_finished", self, "queue_free")
 		
-		if global_position.distance_to(GameManager.player.global_position) < EXPLODE_RANGE:
-			GameManager.player.on_hit(DAMAGE)
+		for node in get_tree().get_nodes_in_group("friendly"):
+			if global_position.distance_to(node.global_position) < EXPLODE_RANGE:
+				node.on_hit(DAMAGE)
 			
+		exploded = true
+		pause_state = true
 		state = CustomStates.Explode
+
+
 
 func on_death():
 	state = State.Dead

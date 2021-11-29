@@ -13,15 +13,18 @@ export var bugged := false
 
 
 # Signals
-
+signal on_activate()
+# warning-ignore:unused_signal
+signal on_deactivate() # Must be implemented by each structure
 
 func _ready():
-	# warning-ignore:return_value_discarded
+	add_to_group("friendly")
+	set_collision_layer_bit(GameManager.COL_PLAYER, true)
+	
+	battery = MAX_BATTERY
+	
 	$ClickArea.connect("mouse_entered", self, "_on_mouse_enter")
-	# warning-ignore:return_value_discarded
 	$ClickArea.connect("mouse_exited", self, "_on_mouse_exit")
-	
-	
 
 ## Mouse Check
 func _on_mouse_enter():

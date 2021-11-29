@@ -171,7 +171,7 @@ func _process(_delta):
 	
 		for enemy in spawn_priorities:
 			current_chance += spawn_priorities[enemy]
-			if chance <= current_chance:
+			if chance < current_chance:
 				EnemyType = enemy
 				break
 

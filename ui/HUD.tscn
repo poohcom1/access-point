@@ -65,9 +65,9 @@ func _process(_delta):
 	
 func update_health():
 	yield(get_tree(), \"idle_frame\")
-	hp.text = \"%s: %d\" % [\"Health\", player.hp]
+	hp.text = \"%s: %d\" % [\"Health\", player.health]
 	
-	hp_bar.value = player.hp
+	hp_bar.value = player.health
 	if hp_bar.value < 25:
 		hp_style.bg_color = BAR_LOW_COLOR
 	else:

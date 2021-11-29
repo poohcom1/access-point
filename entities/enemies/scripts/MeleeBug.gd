@@ -18,7 +18,7 @@ export(Array, AudioStream) var DEATH_SFX := []
 export(AudioStream) var ATK_SFX
 
 # Fields
-var touching_player = false
+var touching_target = false
 var was_touching := false # If touching player on the previous frame
 var is_attacking := false # Attack flag set from timer
 
@@ -31,6 +31,7 @@ var player_in_range := false
 # Nodes
 onready var search_area := $SearchArea
 onready var attack_timer := $AttackTimer
+onready var search_timer := $SearchTimer
 
 onready var anim_eyes := $Eyes
 
@@ -39,9 +40,16 @@ func _ready():
 	
 	# Attack timer
 	attack_timer.connect("timeout", self, "_on_attack")
+	#search_timer.connect("timeout", self, "search_target", [search_area])
+	
 	
 	# Set death sound fx on random
 	$DeathSFX.stream = DEATH_SFX[randi() % DEATH_SFX.size()]
+	
+	
+func _init_pathfind():
+	._init_pathfind()
+	search_target(search_area)
 
 func _physics_process(_delta):	
 	if Engine.editor_hint: return
@@ -72,7 +80,7 @@ func _physics_process(_delta):
 			## Pathfinding
 			mv = navigate_with_sightline()
 			
-			if not touching_player:
+			if not touching_target:
 				set_move_animation()
 				set_move_animation(anim_eyes)
 			else:
@@ -95,28 +103,34 @@ func _physics_process(_delta):
 			var _slide = move_and_slide(mv * speed)
 			
 			## Attack
-			var found_player = false
+			var found_target = false
 			
 			for i in get_slide_count():
 				var collision = get_slide_collision(i)
-				if collision.collider is Player:
-					found_player = true
-					if not touching_player and attack_timer.is_stopped():
-						touching_player = true
+				if collision.collider == navigation_target.get_ref():
+					found_target = true
+					if not touching_target and attack_timer.is_stopped():
+						touching_target = true
 						
 						_on_attack()
 						attack_timer.start(ATTACK_INTERVAL)
 					break
-			if not found_player:
-				touching_player = false
+			if not found_target:
+				touching_target = false
 		State.Knockback:
 			set_angle_animation((-mv).angle())
 			move_and_slide(mv)
 
+func on_hit(dmg, from=null, type=""):
+	.on_hit(dmg, from, type)
+	
+	if from == GameManager.player:
+		set_target(from)
+	
 
 func _on_attack():
-	if touching_player:
-		GameManager.player.on_hit(DAMAGE, self)
+	if touching_target:
+		navigation_target.get_ref().on_hit(DAMAGE, self)
 		add_child(OneShotAudio2D.new(ATK_SFX))
 	else:
 		attack_timer.stop()

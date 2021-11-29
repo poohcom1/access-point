@@ -7,7 +7,7 @@ export var HEAL_AMOUNT := 2
 
 export var REGEN_AMOUNT := 0.25
 
-export var DISTANCE_TO_PLAYER := 100
+export var DISTANCE_TO_PLAYER := 300
 export var HEAL_PAUSE := 0.3
 
 # Nodes
@@ -39,7 +39,7 @@ func _physics_process(_delta):
 
 			mv = move_and_slide(mv * speed)
 			
-			if distance_sqr_to_player() < DISTANCE_TO_PLAYER*DISTANCE_TO_PLAYER:
+			if distance_sqr_to_target() < DISTANCE_TO_PLAYER*DISTANCE_TO_PLAYER:
 				state = HealerState.Heal
 				state_timer.start(HEAL_PAUSE)
 		State.Knockback:

@@ -106,7 +106,7 @@ func damage_enemy(enemy: Enemy, rampup=1):
 			min(hit_targets[enemy]["frames"], RAMP_UP_FRAMES)/float(RAMP_UP_FRAMES)
 			))
 	
-	enemy.on_hit(damage)
+	enemy.on_hit(damage, player)
 	enemy.on_hit_knockback( 
 		global_position.direction_to(enemy.global_position) * KNOCKBACK,
 		0.02

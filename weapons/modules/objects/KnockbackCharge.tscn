@@ -68,7 +68,7 @@ func on_explode():
 			var dir = global_position.direction_to(body.global_position)
 			
 			body.on_hit_knockback(power * dir, 0.2)
-			body.on_hit(damage)
+			body.on_hit(damage, GameManager.player)
 
 func on_anim_finished():
 	if has_exploded:

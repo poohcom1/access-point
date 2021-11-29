@@ -19,7 +19,6 @@ export var REGEN_PER_FRAME = 0.05
 
 
 # Fields
-var hp: float
 var battery := 400
 var energy := 100
 
@@ -60,7 +59,7 @@ var attack_module: Module
 var defense_module: Module
 
 func _ready():
-	hp = MAX_HP
+	health = MAX_HP
 	energy = MAX_ENERGY
 	GameManager.player = self
 	set_collision_layer_bit(GameManager.COL_TILE, false)
@@ -188,8 +187,8 @@ func _physics_process(_delta):
 	mv = move_and_slide(mv)
 	
 	# Regen
-	if regen_timer.time_left == 0 and hp < MAX_HP:
-		hp += REGEN_PER_FRAME
+	if regen_timer.time_left == 0 and health < MAX_HP:
+		health += REGEN_PER_FRAME
 		
 var do_flash = 0
 		
@@ -204,11 +203,12 @@ func flash_off():
 	flash_anim.visible = false
 
 # States
-func on_hit(damage: float, attacker=null):
+func on_hit(damage: float, from=null, _type: String = ""):
 	regen_timer.start(REGEN_DELAY)
-	damage = defense_module.on_damage(damage, attacker)
+	damage = defense_module.on_damage(damage, from)
 	emit_signal("on_damage", damage)
-	hp -= damage
+	
+	.on_hit(damage)
 
 func _set_weapon(val):
 	weapon_ind = weapons.find(val)

@@ -58,7 +58,7 @@ func _physics_process(delta):
 		frame_interval = 0
 	
 		for target in hit_targets:
-			target.on_hit(damage)
+			target.on_hit(damage, GameManager.player, \"fire\")
 			target.ignite()
 		
 	var frame = min(1.0, 1.0 - float(anim_sprite.frame)/total_frames + 0.5)
@@ -83,59 +83,59 @@ func on_destroy():
 [sub_resource type="CanvasItemMaterial" id=2]
 light_mode = 1
 
-[sub_resource type="AtlasTexture" id=17]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=18]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
 region = Rect2( 32, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=19]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 1 )
 region = Rect2( 64, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=20]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
 region = Rect2( 96, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=21]
+[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 1 )
 region = Rect2( 128, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=22]
+[sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 1 )
 region = Rect2( 160, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=23]
+[sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 1 )
 region = Rect2( 192, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=24]
+[sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 1 )
 region = Rect2( 224, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=25]
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 1 )
 region = Rect2( 256, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=26]
+[sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 1 )
 region = Rect2( 288, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=27]
+[sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 1 )
 region = Rect2( 320, 0, 32, 32 )
 
-[sub_resource type="SpriteFrames" id=28]
+[sub_resource type="SpriteFrames" id=14]
 animations = [ {
-"frames": [ SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": false,
 "name": "default",
 "speed": 15.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=29]
+[sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 8, 8 )
 
 [sub_resource type="CanvasItemMaterial" id=16]
@@ -151,11 +151,11 @@ script = SubResource( 1 )
 modulate = Color( 1, 1, 1, 0.65098 )
 material = SubResource( 2 )
 position = Vector2( 24, 0 )
-frames = SubResource( 28 )
+frames = SubResource( 14 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 24, 0 )
-shape = SubResource( 29 )
+shape = SubResource( 15 )
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 0.960784, 0.372549, 0.152941 )

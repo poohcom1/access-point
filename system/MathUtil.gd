@@ -7,7 +7,7 @@ static func get_nearest_node(main: Node2D, nodes: Array, group: String="") -> No
 	for node in nodes:
 		if group != "" and not node.is_in_group(group): continue
 			
-		var distance = main.position.distance_squared_to(node.position)
+		var distance = main.global_position.distance_squared_to(node.global_position)
 		if distance < nearest_dist:
 			nearest_dist = distance
 			nearest = node

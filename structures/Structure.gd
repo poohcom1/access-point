@@ -15,11 +15,7 @@ var health: float
 var destroyed := false
 var mouse_hover := false
 
-# Signals
 
-signal on_activate()
-# warning-ignore:unused_signal
-signal on_deactivate() # Must be implemented by each structure
 
 func _ready():
 	add_to_group("map")
@@ -27,7 +23,7 @@ func _ready():
 	health = MAX_HEALTH
 	
 
-func on_hit(damage):
+func on_hit(damage, _attacker=null):
 	health -= damage
 	
 	if not destroyed and health <= 0:

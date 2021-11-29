@@ -6,6 +6,7 @@ const floor_vector := Vector2.UP
 
 # Fields
 var speed := 0
+var health
 
 # Vector for current movement
 var mv := Vector2.ZERO
@@ -32,7 +33,8 @@ func is_burning() -> bool:
 
 
 # Overrides
-func on_hit(dmg):
+func on_hit(dmg, _from=null, _type: String = ""):
 	if is_burning():
 		dmg *= 1.5
-	.on_hit(dmg)
+		
+	health -= dmg

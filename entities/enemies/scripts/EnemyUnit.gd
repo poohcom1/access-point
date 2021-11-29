@@ -19,12 +19,13 @@ export var AGGRO_RANGE := 300 setget _set_aggro_range
 export var DEBUG_PATH := false
 var debug_path: Line2D
 
-var can_knockback = true
+var pause_state = true
 
 # Navigation
+export var FOCUS_PLAYER := false
+
 export var PATHFIND_INTERVAL := 0.25
 export var OFF_SCREEN_PATHFIND_INTERVAL := 3.0
-
 
 var pathfind_interval
 
@@ -118,20 +119,17 @@ func _init_pathfind():
 	pathfind_timer.start(PATHFIND_INTERVAL)
 	
 	assert(GameManager.player != null)
-	
-	# Set navigation target
-	set_target(GameManager.player)
-
 # Default states
 
 # States Management
-func on_hit(dmg):
-	.on_hit(dmg)
+func on_hit(dmg, from=null, type: String = ""):
+	.on_hit(dmg, from, type)
 	
 	if state == State.Passive or state == State.Rallying:
 		to_aggro()
 
-func to_aggro():
+func to_aggro(target=GameManager.player):
+	set_target(target)
 	_init_pathfind()
 	state = State.Default
 
@@ -146,7 +144,7 @@ func on_state_timeout():
 			state = State.Default
 
 func on_hit_knockback(vector: Vector2, time = 0.1):
-	if can_knockback and state != State.Dead:
+	if not pause_state and state != State.Dead:
 		state = State.Knockback
 		mv = vector * 10
 		state_timer.start(time)
@@ -157,9 +155,14 @@ func _process(_delta):
 	if Engine.editor_hint: return
 	
 	if (GameManager.player 
-		and (state == State.Passive or state == State.Rallying)
-		and global_position.distance_to(GameManager.player.global_position) < AGGRO_RANGE):
-		to_aggro()
+		and (state == State.Passive or state == State.Rallying)):
+		
+		var nearest_target = MathUtil.get_nearest_node(self, get_tree().get_nodes_in_group("friendly"))
+		
+		assert(nearest_target != null)
+		
+		if global_position.distance_to(nearest_target.global_position) < AGGRO_RANGE:
+			to_aggro(nearest_target)
 			
 	if DEBUG_PATH:
 		debug_path.global_position = Vector2.ZERO
@@ -173,12 +176,51 @@ func _physics_process(_delta):
 		move_and_slide(navigate() * speed)
 		set_move_animation()
 	
-	# potential fix for bugs not moving
-	if state == State.Default and path == []:
-		generate_path()
+	var target = navigation_target.get_ref()
+	if target and target.is_in_group("friendly") and target.health <= 0:
+		search_target_range()
+		
+	if FOCUS_PLAYER and in_aggro_range(GameManager.player):
+		set_target(GameManager.player)
 
 	
-## Pathfinding
+## Pathfinding ========================================
+func search_target_range() -> bool:
+	var nearest = null
+	var nearest_dist = INF
+	
+	for node in get_tree().get_nodes_in_group("friendly"):
+		var distance = global_position.distance_squared_to(node.position)
+		if FOCUS_PLAYER and node == GameManager.player:
+			nearest = GameManager.player
+			break
+		
+		if distance < nearest_dist and node.health > 0 and distance < pow(AGGRO_RANGE, 2):
+			nearest_dist = distance
+			nearest = node
+				
+	if nearest:
+		set_target(nearest)
+		return true
+	else:
+		state = State.Passive
+		return false
+
+# Unused
+func search_target(area: Area2D = null):
+	var nearest = null
+	var nearest_dist = INF
+	
+	for node in area.get_overlapping_bodies():
+		if node.is_in_group("friendly"):
+			var distance = global_position.distance_squared_to(node.position)
+			if distance < nearest_dist and node.health > 0:
+				nearest_dist = distance
+				nearest = node
+				
+	if nearest:
+		set_target(nearest)
+
 func set_target(target):
 	navigation_target = weakref(target)
 
@@ -247,7 +289,6 @@ onready var previous_position := global_position
 var previous_direction = direction
 var frames_since_changed = 0
 
-# warning-ignore:unused_argument
 func set_angle_animation(angle, anim="run", anim_node = anim_sprite):
 	direction = AnimUtil.get_dir(angle)
 	
@@ -313,7 +354,10 @@ func _debug_range(show):
 	SHOW_RANGE = show
 	update()
 
-func distance_sqr_to_player() -> float:
-	if not GameManager.player: 
+func in_aggro_range(node):
+	return distance_sqr_to_target(node) < pow(AGGRO_RANGE, 2)
+
+func distance_sqr_to_target(target = navigation_target.get_ref()) -> float:
+	if not target: 
 		return INF
-	return global_position.distance_squared_to(GameManager.player.global_position)
+	return global_position.distance_squared_to(target.global_position)

@@ -15,7 +15,6 @@ const OFF_SCREEN = 250
 
 
 # Fields
-var health := 0.0 # Set in ready from max_health
 var is_dead = false
 
 # Signals
@@ -40,7 +39,7 @@ func _ready():
 	set_collision_layer_bit(GameManager.COL_PLAYER_BULLET, true)
 
 
-func on_hit(dmg: float):
+func on_hit(dmg: float, _from=null, _type: String = ""):
 	if health <= 0:
 		if not is_dead:
 			on_death()
@@ -57,8 +56,7 @@ func on_hit(dmg: float):
 
 	emit_signal("on_damage", dmg)
 	
-	health -= dmg
-	health = min(health, MAX_HEALTH)
+	.on_hit(dmg)
 	
 	if health <= 0:
 		is_dead = true

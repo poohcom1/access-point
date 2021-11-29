@@ -24,6 +24,7 @@ enum RangeState { Shoot }
 
 # Signals
 func _ready():
+	
 	if Engine.editor_hint: return
 	add_to_group(RANGE_GROUP)
 	
@@ -44,7 +45,7 @@ func _physics_process(_delta):
 
 			mv = move_and_slide(mv * speed)
 			
-			if distance_sqr_to_player() < RANGE*RANGE:
+			if distance_sqr_to_target() < RANGE*RANGE:
 				change_state_with_timer(RangeState.Shoot, SHOOT_PAUSE)
 				if shoot_timer.time_left == 0:
 					shoot()
@@ -54,7 +55,7 @@ func _physics_process(_delta):
 
 func on_state_timeout():
 	if state == RangeState.Shoot:
-		if distance_sqr_to_player() > RANGE*RANGE:
+		if distance_sqr_to_target() > RANGE*RANGE:
 			state = State.Default
 			shoot_timer.stop()
 		else:
@@ -62,11 +63,10 @@ func on_state_timeout():
 	.on_state_timeout()
 	
 	
-	
-	
 func shoot():
-	if state == RangeState.Shoot:
-		var bullet = ProjectileUtil.create_bullet_here(Bullet, self, GameManager.player.global_position, BULLET_SPEED)
+	var target = navigation_target.get_ref()
+	if target and state == RangeState.Shoot:
+		var bullet = ProjectileUtil.create_bullet_here(Bullet, self, target.global_position, BULLET_SPEED)
 		bullet.damage = DAMAGE
 		on_state_timeout()
 

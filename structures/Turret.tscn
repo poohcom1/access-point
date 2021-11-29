@@ -144,11 +144,11 @@ extents = Vector2( 16, 24 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 96, 96 )
+region = Rect2( 384, 0, 96, 96 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
-region = Rect2( 384, 0, 96, 96 )
+region = Rect2( 0, 0, 96, 96 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 1 )
@@ -166,12 +166,12 @@ region = Rect2( 288, 0, 96, 96 )
 animations = [ {
 "frames": [ SubResource( 3 ) ],
 "loop": true,
-"name": "front",
+"name": "back",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 4 ) ],
 "loop": true,
-"name": "back",
+"name": "front",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 5 ) ],
@@ -246,7 +246,9 @@ func _ready():
 ]]
 z_index = 45
 script = SubResource( 1 )
+MAX_HEALTH = 200.0
 MAX_BATTERY = 8.0
+battery = 8.0
 DAMAGE = 3
 SHOOT_INTERVAL = 0.1
 ShootSounds = [ ExtResource( 6 ) ]
@@ -265,6 +267,9 @@ wait_time = 0.1
 
 [node name="RangeArea" type="Area2D" parent="."]
 modulate = Color( 0.929412, 0.92549, 0.54902, 1 )
+monitorable = false
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
 shape = SubResource( 9 )
@@ -274,18 +279,29 @@ enabled = true
 collision_mask = 524288
 
 [node name="ClickArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
-visible = false
 shape = SubResource( 10 )
 
-[node name="ValueBar" parent="." instance=ExtResource( 3 )]
+[node name="Health" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, 29.8582 )
+value = "health"
+max_value = "MAX_HEALTH"
+progress_color = Color( 0.137255, 0.792157, 0, 1 )
+overload_color = Color( 0.419608, 0.780392, 0.937255, 1 )
+x_scale = 0.25
+hide_if_full = false
+
+[node name="Battery" parent="." instance=ExtResource( 3 )]
+position = Vector2( 0, 38 )
 value = "battery"
 max_value = "MAX_BATTERY"
 progress_color = Color( 0, 0.34902, 0.792157, 1 )
 overload_color = Color( 0.419608, 0.780392, 0.937255, 1 )
 x_scale = 5.0
+hide_if_full = false
 
 [node name="ShootFx" type="AnimatedSprite" parent="."]
 visible = false
