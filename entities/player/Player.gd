@@ -16,6 +16,8 @@ export var ATTACK_MODULE: PackedScene
 export var REGEN_DELAY := 5.0
 export var REGEN_PER_FRAME = 0.05
 
+export var USE_NATURAL_DIAGONAL_MOVESPEED = true
+
 
 # Fields
 var battery := 400
@@ -179,8 +181,13 @@ func _physics_process(_delta):
 				
 			_movement_animation(vert_mov, hor_mov)
 			
-			mv.x = lerp(mv.x, speed * hor_mov, ACCEL_PERCENT)
-			mv.y = lerp(mv.y, speed * vert_mov, ACCEL_PERCENT)
+			var local_speed = speed
+			if(hor_mov != 0 and vert_mov != 0 and USE_NATURAL_DIAGONAL_MOVESPEED):
+				local_speed *= 0.707106781
+			
+			mv.x = lerp(mv.x, local_speed * hor_mov, ACCEL_PERCENT)
+			mv.y = lerp(mv.y, local_speed * vert_mov, ACCEL_PERCENT)
+			#print(sqrt(mv.x*mv.x + mv.y*mv.y))
 			
 	# Move
 	mv = move_and_slide(mv)
