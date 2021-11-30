@@ -80,7 +80,7 @@ __meta__ = {
 }
 
 [node name="Player" parent="." instance=ExtResource( 5 )]
-position = Vector2( -120, 428 )
+position = Vector2( -772, 992 )
 DEFENSE_MODULE = ExtResource( 18 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -90,9 +90,7 @@ zoom = Vector2( 0.5, 0.5 )
 [node name="Radar" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, 192 )
 revealed = true
-
 battery = 3.33333e-06
-
 
 [node name="Turret2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 248.779, -2634.86 )
