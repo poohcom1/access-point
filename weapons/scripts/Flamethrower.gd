@@ -56,7 +56,7 @@ func on_shoot():
 	
 	bullet.offset = offset
 	
-	get_tree().root.add_child(bullet)
+	GameManager.add_to_scene(bullet)
 	
 	shoot_timer.start()
 
