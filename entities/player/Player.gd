@@ -17,6 +17,8 @@ export var REGEN_DELAY := 5.0
 export var REGEN_PER_FRAME = 0.05
 
 export var USE_NATURAL_DIAGONAL_MOVESPEED = true
+export var BOBBING_STAND = 0.3
+export var BOBBING_MOVE = 0.9
 
 
 # Fields
@@ -59,6 +61,8 @@ var weapon_ind := 0
 var attack_module: Module
 var defense_module: Module
 
+var default_body_position
+
 func _ready():
 	health = MAX_HEALTH
 	energy = MAX_ENERGY
@@ -68,6 +72,7 @@ func _ready():
 	set_collision_layer_bit(GameManager.COL_ENEMY_BULLET, true)
 
 	_init_weapons()
+	default_body_position = body_anim.position
 
 func _init_weapons():
 	for Wep in WEAPONS:
@@ -155,22 +160,22 @@ func _movement_animation(v_input, h_input):
 		if count > 20 and (not state_shifted):
 			state_shifted = true
 			count = 0
-			body_anim.position.y = body_anim.position.y + 0.9
+			body_anim.position.y = body_anim.position.y + BOBBING_MOVE
 		elif count > 10 and state_shifted:
 			state_shifted = false
 			count += 1
-			body_anim.position.y = body_anim.position.y - 0.9
+			body_anim.position = default_body_position
 		else:
 			count += 1
 	else:
 		if count > 40 and (not state_shifted):
 			state_shifted = true
 			count = 0
-			body_anim.position.y = body_anim.position.y + 0.5
+			body_anim.position.y = body_anim.position.y + BOBBING_STAND
 		elif count > 20 and state_shifted:
 			state_shifted = false
 			count += 1
-			body_anim.position.y = body_anim.position.y - 0.5
+			body_anim.position = default_body_position
 		else:
 			count += 1
 	
