@@ -89,7 +89,7 @@ zoom = Vector2( 0.5, 0.5 )
 [node name="Radar" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, 192 )
 revealed = true
-battery = 2.54334
+battery = 2.53334
 
 [node name="Turret2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 248.779, -2634.86 )
