@@ -47,7 +47,8 @@ func _ready():
 	
 
 
-func _on_shoot():		
+func _on_shoot():	
+	GameManager.player.screen_shaker_module.start_shaker(GameManager.player.screen_shaker_module.Curve.FLAT, -1, 0.002, 0)	
 	if not can_shoot(): return	
 	var hit = false
 
@@ -99,11 +100,11 @@ func _on_shoot():
 	if hit:
 		gun_se.pitch_scale = 0.9
 		
-		GameManager.player.camera_shake_power = GUN_CAM_SHAKE_POWER
-		GameManager.player.extern_shake_camera = true
+		#GameManager.player.camera_shake_power = GUN_CAM_SHAKE_POWER
+		#GameManager.player.extern_shake_camera = true
 	else:
 		gun_se.pitch_scale = 1.0
-		GameManager.player.extern_shake_camera = false		
+		#GameManager.player.extern_shake_camera = false		
 	
 				
 func damage_enemy(enemy, rampup=1):

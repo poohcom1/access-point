@@ -74,7 +74,7 @@ func _ready():
 	set_collision_layer_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_ENEMY_BULLET, true)
 
-	cam_shake_timer.connect("timeout", self, "stop_shake")	
+	#cam_shake_timer.connect("timeout", self, "stop_shake")	
 
 	_init_weapons()
 	default_body_position = body_anim.position
@@ -204,12 +204,14 @@ func _input(event):
 
 
 func start_shake(time := 0.015, power=0.01):
-	camera_shake_power = power
-	cam_shake_timer.start(time)
-	extern_shake_camera = true
+	pass
+	#camera_shake_power = power
+	#cam_shake_timer.start(time)
+	#extern_shake_camera = true
 
 func stop_shake():
-	extern_shake_camera = false
+	pass
+	#extern_shake_camera = false
 
 func _physics_process(delta):
 	match state:
