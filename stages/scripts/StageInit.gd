@@ -10,8 +10,11 @@ func _ready():
 		
 	GameManager.navigation = self
 	_init_nav_tiles()
-	
+
 	LoadingScreen.connect("start_scene", self, "start")
+
+func start():
+	pass
 
 # Remove tiles directly above walls
 func _init_nav_tiles():

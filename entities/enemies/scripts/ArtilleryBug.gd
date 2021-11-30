@@ -56,7 +56,7 @@ func on_shoot():
 	projectile.explosion_frames = EXPLOSION_FRAMES
 	projectile.explode_on_wall = EXPLODE_ON_WALL
 	
-	get_tree().root.add_child(projectile)
+	GameManager.add_to_scene(projectile)
 			
 		
 func on_hit_knockback(_vector, _time=0.1):
@@ -295,7 +295,8 @@ func _head_anim_finished():
 func _create_corpse():
 	var corpse = Node2D.new()
 	corpse.global_position = global_position
-	get_tree().root.add_child(corpse)
+	GameManager.add_to_scene(corpse)
+
 
 	for segment in segments:
 		var sprite = segment.get_node("Sprite")

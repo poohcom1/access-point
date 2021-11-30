@@ -26,6 +26,7 @@ var ammo_style: StyleBoxFlat
 var module_style: StyleBoxFlat
 
 var player: Player
+var player_init = false
 
 func _ready():
 	hp.add_color_override(\"default_color\", TEXT_COLOR)
@@ -46,24 +47,22 @@ func _ready():
 	
 	ammo_bar.add_stylebox_override(\"fg\", ammo_style)
 	energy_bar.add_stylebox_override(\"fg\", module_style)
-	
-	yield(get_tree(), \"idle_frame\")
-	
-	player = GameManager.player
-	hp_bar.max_value = player.MAX_HEALTH
-	energy_bar.max_value = player.MAX_ENERGY
-
 
 
 func _process(_delta):
-	if not player: return
+	if not GameManager.player: 
+		return
+	elif not player_init:
+		player = GameManager.player
+		hp_bar.max_value = player.MAX_HEALTH
+		energy_bar.max_value = player.MAX_ENERGY
+	
 	
 	update_health()
 	update_ammo()
 	update_energy()
 	
 func update_health():
-	yield(get_tree(), \"idle_frame\")
 	hp.text = \"%s: %d\" % [\"Health\", player.health]
 	
 	hp_bar.value = player.health

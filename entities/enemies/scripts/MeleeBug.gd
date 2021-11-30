@@ -92,21 +92,24 @@ func _physics_process(_delta):
 			var _slide = move_and_slide(mv * speed)
 			
 			## Attack
-			var found_target = false
 			var target = navigation_target.get_ref()
 			
-			for i in get_slide_count():
-				var collision = get_slide_collision(i)
-				if collision.collider == target and target.health > 0:
-					found_target = true
-					if not touching_target and attack_timer.is_stopped():
-						touching_target = true
-						
-						_on_attack()
-						attack_timer.start(ATTACK_INTERVAL)
-					break
-			if not found_target:
-				touching_target = false
+			if target is Player or target is FriendlyStructure:
+
+				var found_target = false
+				
+				for i in get_slide_count():
+					var collision = get_slide_collision(i)
+					if collision.collider == target and target.health > 0:
+						found_target = true
+						if not touching_target and attack_timer.is_stopped():
+							touching_target = true
+							
+							_on_attack()
+							attack_timer.start(ATTACK_INTERVAL)
+						break
+				if not found_target:
+					touching_target = false
 		State.Knockback:
 			set_angle_animation((-mv).angle())
 			move_and_slide(mv)

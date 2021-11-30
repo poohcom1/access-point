@@ -5,8 +5,7 @@ const text1 = [
 		"s": "UNKNOWN",
 		"t":[
 		"sdkjfie...eelloa.... Hello! Hello! Check!",  
-		"Is anyone on this comm?", 
-		"Can anyone hear me? Over"
+		"Is anyone on this comm? Can anyone hear me?", 
 		]
 	},
 	{
@@ -19,9 +18,14 @@ const text1 = [
 	{
 		"s": "UNKNOWN",
 		"t":[
-		"Oh thank god!", 
-		"Yes! Yes, we can pick up your transmission agent... Mars", 
-		"This is radio operator...Aeonia from the North-Central command bunker", 
+		"Oh thank god!",  
+		"This is radio operator...Aeonia from the North-Central command bunker",
+		]
+	},
+		{
+		"s": "AEONIA",
+		"t":[ 
+		"\\skip",
 		"We need backup ASAP"
 		]
 	},
@@ -36,7 +40,7 @@ const text1 = [
 		"s": "AEONIA",
 		"t":[
 		"We...we don’t know what we are fighting against.", 
-		"No records of these creatures exist but they seem to be intelligent enough to be able to intercept and disrupt our comm systems."
+		"No records of these creatures exist but they seem to be intelligent enough to be able to intercept our comm systems."
 		]
 	},
 	{
@@ -67,23 +71,67 @@ const text1 = [
 			"It should eventually lead me to the bunker."
 		]
 	}
+]
+
+var text_end = [
+		{
+		"s": "AEONIA",
+		"t":[
+		"uoijf...hello test", "ah is this better now?"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"Significantly", "The comms seem to be getting better"
+		]
+	},
+	{
+		"s": "AEONIA",
+		"t":[
+		"Yes it seems so", "Surprisingly, your brute force approach to clearing out hostiles near radars seems to be working", "Don't know how though", "But the next area should be easier to handle now that the hostiles seem to be cleared out"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"You're welcome by the way"
+		]
+	},
+	{
+		"s": "AEONIA",
+		"t":[
+		"Not until you get to the command bunker"
+		]
+	},
 
 ]
 
 var radars := []
-
 var radar_count = 0
 
+var end_timer := Timer.new()
+
 func start():
+	add_child(end_timer)
+	end_timer.connect("timeout", LoadingScreen, "transition", ["res://stages/Stage2.tscn"])
+	
 	$AudioStreamPlayer.play()
-	#$UI/UI/DialogueContainer.start(text1)
+	GameManager.dialogue.connect("dialogue_ended", self, "on_end")
 
 	radars = get_tree().get_nodes_in_group("bugged_radar")
 	for radar in radars:
+		print(radar)
 		radar.connect("destroyed", self, "radar_destroyed")
 
 func radar_destroyed():
 	radar_count += 1
 	
 	if radar_count == 3:
-		print("You win!")
+		GameManager.dialogue.start(text_end)
+
+func on_end(dia):
+	if dia == text_end:
+		end_timer.start(1.0)
+		# the change scene is connect to timer in _ready
+

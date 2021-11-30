@@ -21,6 +21,9 @@ onready var timer := $Timer
 
 func encodeString(string):
 	var result = []
+	if string[0] == "\\":
+		return [string]
+	
 	for i in range(len(string)):
 		result.append(string[i])
 	return result

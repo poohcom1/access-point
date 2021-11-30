@@ -57,6 +57,9 @@ var spawn_skip
 var pause_cd_count = 10
 const PAUSE_COOLDOWN = 10
 
+func add_to_scene(node: Object):
+	stage.add_child(node)
+
 func _process(_delta):
 	if pause_cd_count > 0:
 		pause_cd_count -= 1

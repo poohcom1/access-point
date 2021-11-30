@@ -8,9 +8,12 @@ onready var dialogue_text := $VBoxContainer/MarginContainer/Dialogue
 
 onready var pause_timer := $Pause
 
+signal dialogue_ended(text)
+
 var text
 
 var text_ind = 0
+var skip_pause = false
 
 func _ready():
 	dialogue_text.connect("on_trigger", self, "change")
@@ -20,22 +23,31 @@ func _ready():
 
 func start(text_json):
 	text = text_json
-	
+	text_ind = 0
 	next()
+	
+func on_end():
+	emit_signal("dialogue_ended", text)
 
 func change(key):
 	match key:
 		"\\start":
 			pass
+		"\\skip":
+			skip_pause = true
 		"\\end":
-			pause_timer.start()
+			if not skip_pause:
+				skip_pause = true
+				pause_timer.start()
+			else:
+				next()
 				
 
 func next():
 	if text_ind >= text.size(): 
 		speaker_text.text = ""
 		dialogue_text.text = ""
-		
+		on_end()
 		return
 	
 	var speaker = text[text_ind].s

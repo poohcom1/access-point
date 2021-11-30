@@ -57,7 +57,7 @@ func _ready():
 	if Engine.editor_hint: return
 	
 	# Init search area (for nearby aggro)
-	GameManager.connect("aggro_alert", self, "alert")
+	#GameManager.connect("aggro_alert", self, "alert")
 	
 	
 	# Check anim sprite
@@ -143,8 +143,8 @@ func to_aggro(target=GameManager.player):
 	
 	GameManager.emit_signal("aggro_alert", global_position, target)
 
-func alert(position, target):
-	if state == State.Passive and global_position.distance_squared_to(position) < pow(FRIEND_RANGE, 2):
+func alert(_position, target):
+	if state == State.Passive and global_position.distance_squared_to(_position) < pow(FRIEND_RANGE, 2):
 		to_aggro(target)
 
 func change_state_with_timer(new_state, timeout=0):
@@ -190,7 +190,7 @@ func _process(_delta):
 			set_target(new_target)
 		else:
 			state = State.Passive		
-	if FOCUS_PLAYER and in_aggro_range(GameManager.player):
+	if state == State.Default and FOCUS_PLAYER and in_aggro_range(GameManager.player):
 		set_target(GameManager.player)
 		
 
@@ -202,11 +202,12 @@ func search_target_range() -> Node2D:
 	
 	for node in get_tree().get_nodes_in_group("friendly"):
 		var distance = global_position.distance_squared_to(node.position)
-		if FOCUS_PLAYER and node == GameManager.player:
-			nearest = GameManager.player
-			break
-		
+
 		if distance < nearest_dist and node.health > 0.1 and distance < pow(AGGRO_RANGE, 2):
+			if FOCUS_PLAYER and node == GameManager.player:
+				nearest = GameManager.player
+				break
+			
 			nearest_dist = distance
 			nearest = node
 				
