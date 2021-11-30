@@ -49,9 +49,9 @@ func on_shoot():
 	bullets.append( ProjectileUtil.create_bullet_here(Bullet, self, get_global_mouse_position()))
 	
 	var degrees = 3.14/24
-	for i in range(5):
+	for i in range(1,6):
 		bullets.append( ProjectileUtil.create_bullet_angle(Bullet, self, get_global_mouse_position(), degrees * i) )
-	for i in range(5):
+	for i in range(1,6):
 		bullets.append( ProjectileUtil.create_bullet_angle(Bullet, self, get_global_mouse_position(), -degrees * i) )
 		
 	for bullet in bullets:
@@ -64,6 +64,8 @@ func on_shoot():
 	shoot_timer.start()
 	
 	add_child(OneShotAudio2D.new(SFX, 2.0))
+	
+	GameManager.player.knockback_module.start_knockback(5,40, GameManager.player.knockback_module.Curve.EXP_DOWN)
 
 
 
@@ -71,7 +73,7 @@ func on_active():
 	if Input.is_action_pressed("shoot") and ammo > 0:
 		shooting = true
 		if Input.is_action_just_pressed("shoot"):
-			queue_shoot = true
+			queue_shoot = false
 			
 			if just_switched_on or shoot_timer.time_left == 0:
 				on_shoot()

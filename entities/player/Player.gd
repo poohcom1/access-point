@@ -49,6 +49,7 @@ onready var regen_timer := $RegenTimer
 
 var screen_shaker_module
 var camera_module
+var knockback_module
 
 # Signals
 signal on_damage(damage)
@@ -69,6 +70,7 @@ var default_body_position
 func _ready():
 	screen_shaker_module = $ScreenShaker
 	camera_module = $Camera2D
+	knockback_module = $Knockback
 	health = MAX_HEALTH
 	energy = MAX_ENERGY
 	GameManager.player = self
