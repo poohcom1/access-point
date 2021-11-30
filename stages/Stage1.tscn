@@ -130,10 +130,10 @@ WEAPONS = [ ExtResource( 15 ), ExtResource( 13 ) ]
 position = Vector2( 1264, -1296 )
 
 [node name="SpawnArea" parent="Spawner" index="0"]
+TRIGGERS = [ NodePath("../../SpawnTrigger") ]
 TRIGGERED = false
 SPAWN_INTERVAL = 10.0
 ENEMY_AMOUNT = 2
-TRIGGERS = [ NodePath("../../SpawnTrigger") ]
 
 [node name="Enemies" type="Node2D" parent="."]
 position = Vector2( -147.615, -703.159 )
@@ -275,7 +275,7 @@ scale = Vector2( -0.483323, 2.47989 )
 position = Vector2( 1587.24, -805.994 )
 TRIGGERS = [ NodePath("../SpawnTrigger") ]
 SPAWN_COUNT = 1
-ENEMY_AMOUNT = 5
+ENEMY_AMOUNT = 3
 SUICIDE_PRIORITY = 0
 RANGE_PRIORITY = 0
 

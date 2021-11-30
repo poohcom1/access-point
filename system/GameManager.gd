@@ -50,6 +50,9 @@ func _ready():
 var spawn_queue := []
 var spawn_skip
 
+func add_to_scene(node: Object):
+	stage.add_child(node)
+
 func _process(_delta):
 	reinsert_path_lazy()
 
