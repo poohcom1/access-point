@@ -11,7 +11,11 @@ signal start_scene()
 var _scene
 var _pause = false
 
+var current_stage: String
+
 func _ready():
+	if not _scene:
+		_scene = "res://stages/Stage1.tscn"
 	$Timer.connect("timeout", self, "_unpause_stage")
 
 func transition(scene: String, pause=false, hint=""):
@@ -19,12 +23,17 @@ func transition(scene: String, pause=false, hint=""):
 	_scene = scene
 	_pause = pause
 	
+	
 	if hint == "":
 		hint_section.visible = false
 	else:
 		hint_section.visible = true
 		hint_text.bbcode_text = hint
 
+func game_over():
+	current_stage = _scene
+	
+	transition("res://stages/menu/GameOver.tscn")
 
 func switch_scene():
 	screen.mouse_filter = Control.MOUSE_FILTER_STOP

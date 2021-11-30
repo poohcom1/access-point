@@ -16,7 +16,7 @@ var decay_curve
 
 var knocking = false
 
-func _process(delta):
+func _process(_delta):
 	if knocking:
 		process_knockback()
 		GameManager.player.position += (knockback_vector * knockback_power)

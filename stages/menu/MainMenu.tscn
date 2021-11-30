@@ -86,3 +86,5 @@ margin_right = 535.0
 margin_bottom = 232.0
 text = "Exit"
 align = 0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

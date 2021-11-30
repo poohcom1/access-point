@@ -122,7 +122,7 @@ func on_hit(dmg, from=null, type=""):
 	
 
 func _on_attack():
-	if touching_target:
+	if touching_target and navigation_target.get_ref():
 		navigation_target.get_ref().on_hit(DAMAGE, self)
 		add_child(OneShotAudio2D.new(ATK_SFX))
 	else:

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/props/weapon_pickup.png" type="Texture" id=2]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Pickup
 
 # Properties
@@ -18,9 +18,9 @@ func on_pickup(player: Player):
 	
 	if weapon is Weapon:
 		player.weapons.append(weapon)
-		title = \"Obtained [color=green]%s[/color]\" % weapon.weapon_name.capitalize()
+		title = \"Obtained %s\" % weapon.weapon_name.capitalize()
 	elif weapon is Module:
-		title = \"Obtained [color=gray]%s[/color]\" % weapon.module_name.capitalize()
+		title = \"Obtained %s module\" % weapon.module_name.capitalize()
 		match weapon.TYPE:
 			Module.TYPE_ATTACK:
 				player.attack_module = weapon
@@ -36,14 +36,14 @@ func on_pickup(player: Player):
 	
 "
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 16, 12 )
 
 [node name="WeaponPickup" type="Area2D"]
-script = SubResource( 2 )
+script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 2 )

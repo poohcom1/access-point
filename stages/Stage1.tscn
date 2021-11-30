@@ -31,6 +31,8 @@ script/source = "extends Area2D
 
 var activated = false
 
+const ost = preload(\"res://assets/Soundtrack/Midnight Brawl - Long ver.wav\")
+
 func _ready():
 	connect(\"body_entered\", self, \"activate_radar\")
 
@@ -41,6 +43,12 @@ func activate_radar(body):
 		get_parent().activate()
 
 		GameManager.dialogue.start(GameManager.stage.text1)
+		GameManager.soundtrack.stop()
+		GameManager.soundtrack.stream = ost
+		
+		$OSTTimer.connect(\"timeout\", GameManager.soundtrack, \"play\")
+		$OSTTimer.start()
+		
 "
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -243,7 +251,7 @@ position = Vector2( 1349.43, 118.865 )
 position = Vector2( 555.615, 671.159 )
 MAX_HEALTH = 100
 DAMAGE = 10
-SHOOT_INTERVAL = 1.0
+SHOOT_INTERVAL = 1.5
 SEGMENTS = 3
 
 [node name="MeleeBug" parent="Enemies" instance=ExtResource( 4 )]
@@ -312,7 +320,7 @@ RANGE_PRIORITY = 0
 position = Vector2( -132, -196 )
 
 [node name="AfterFirst3" parent="." instance=ExtResource( 6 )]
-position = Vector2( 680, -64 )
+position = Vector2( 468, -344 )
 SPAWN_COUNT = 1
 SPAWN_INTERVAL = 5.0
 ENEMY_AMOUNT = 7
@@ -321,10 +329,10 @@ SUICIDE_PRIORITY = 0
 RANGE_PRIORITY = 0
 
 [node name="Position2D" type="Position2D" parent="AfterFirst3"]
-position = Vector2( 780, -128 )
+position = Vector2( 572, 260 )
 
 [node name="SpawnTrigger2" parent="AfterFirst3" instance=ExtResource( 5 )]
-position = Vector2( 684, -136 )
+position = Vector2( 1232, 204 )
 scale = Vector2( 1.72883, 2.53362 )
 
 [node name="SpawnArea" parent="." instance=ExtResource( 6 )]
@@ -357,13 +365,16 @@ visible = false
 position = Vector2( -28, -8 )
 shape = SubResource( 3 )
 
+[node name="OSTTimer" type="Timer" parent="Events/Radar/RadarActivator"]
+one_shot = true
+
 [node name="HealthPickup" parent="Events/Radar" instance=ExtResource( 10 )]
 position = Vector2( -52, 16 )
 
 [node name="Hint1" type="Area2D" parent="Events"]
 position = Vector2( -200, 316 )
 script = ExtResource( 12 )
-hint = "Pressed R to reload"
+hint = "Press R to reload"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Hint1"]
 position = Vector2( -16, 32 )
@@ -372,7 +383,7 @@ shape = SubResource( 4 )
 [node name="Hint2" type="Area2D" parent="Events"]
 position = Vector2( 312, 28 )
 script = ExtResource( 12 )
-hint = "Press SPACE  to activate your Shield Module"
+hint = "Press SPACE to activate your Shield Module"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Hint2"]
 position = Vector2( 40, 20 )

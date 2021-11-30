@@ -10,7 +10,7 @@ func _ready():
 	connect("body_exited", self, "_hide_hint")
 	
 func _show_hint(body):
-	if not has_shown and body is Player:
+	if body is Player: # and not has_shown
 		GameManager.ui.show_hint(hint)
 
 
@@ -20,4 +20,4 @@ func _hide_hint(body):
 
 func hide_hint():
 	GameManager.ui.hide_hint()
-	$CollisionShape2D.set_deferred("disabled", true)
+	#$CollisionShape2D.set_deferred("disabled", true)

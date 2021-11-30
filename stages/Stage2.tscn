@@ -52,7 +52,6 @@ __meta__ = {
 [node name="UI" parent="." instance=ExtResource( 8 )]
 
 [node name="Props" type="TileMap" parent="."]
-visible = false
 mode = 1
 tile_set = SubResource( 1 )
 cell_size = Vector2( 32, 16 )

@@ -98,7 +98,7 @@ tracks/0/keys = {
 z_index = 45
 collision_layer = 3
 script = SubResource( 1 )
-battery = 3.14999
+battery = 3.13666
 ACTIVATE_SOUND = ExtResource( 4 )
 radar_range = 50
 

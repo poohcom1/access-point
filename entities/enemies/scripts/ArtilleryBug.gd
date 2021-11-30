@@ -301,10 +301,11 @@ func _create_corpse():
 	for segment in segments:
 		var sprite = segment.get_node("Sprite")
 		var pos = sprite.global_position
-		segment.remove_child(sprite)
 		
+		segment.remove_child(sprite)
 		corpse.add_child(sprite)
-		sprite.global_position = pos
+		
+		sprite.set_deferred("global_position", pos)
 	
 	queue_free()
 
