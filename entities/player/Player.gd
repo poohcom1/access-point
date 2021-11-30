@@ -150,7 +150,35 @@ func _movement_animation(v_input, h_input):
 		do_flash -= 1
 		if do_flash == 0:
 			flash_anim.visible = false
-			
+	
+	if v_input != 0 or h_input != 0:
+		if count > 20 and (not state_shifted):
+			state_shifted = true
+			count = 0
+			body_anim.position.y = body_anim.position.y + 0.9
+		elif count > 10 and state_shifted:
+			state_shifted = false
+			count += 1
+			body_anim.position.y = body_anim.position.y - 0.9
+		else:
+			count += 1
+	else:
+		if count > 40 and (not state_shifted):
+			state_shifted = true
+			count = 0
+			body_anim.position.y = body_anim.position.y + 0.5
+		elif count > 20 and state_shifted:
+			state_shifted = false
+			count += 1
+			body_anim.position.y = body_anim.position.y - 0.5
+		else:
+			count += 1
+	
+	
+
+var count = 0			
+var state_shifted = false
+
 func _input(event):
 	if event.is_pressed() and event is InputEventMouseButton:
 		if event.button_index == BUTTON_WHEEL_UP:
@@ -164,7 +192,19 @@ func _input(event):
 	
 	weapons[weapon_ind].use()
 
+var camera_tracker = 0
+var rseed = 0
+
 func _physics_process(_delta):
+	##test
+	
+	rseed = ((rseed + 3) & 7)
+	$Camera2D.offset_h = camera_tracker * 0.01 * (rseed - 4)
+	rseed = ((rseed + 2) & 7)
+	$Camera2D.offset_v = camera_tracker * 0.01 * (rseed - 4)
+	camera_tracker = (camera_tracker + 1) % 2
+	
+	##end test
 	match state:
 		State.Default:
 			var vert_mov := 0
