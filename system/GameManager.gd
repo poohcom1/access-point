@@ -40,6 +40,9 @@ func _exit_tree():
 	
 
 func _ready():
+	var pause_scene_res = load("res://system/pause/PauseScreen.tscn")
+	p_pause_node = pause_scene_res.instance()
+	p_pause_node.pause_mode = Node.PAUSE_MODE_PROCESS
 	lazy_mutex = Mutex.new()
 	exiter_mutex = Mutex.new()
 	lazy_semaphore = Semaphore.new()
@@ -50,7 +53,18 @@ func _ready():
 var spawn_queue := []
 var spawn_skip
 
+### pauser
+var pause_cd_count = 10
+const PAUSE_COOLDOWN = 10
+
 func _process(_delta):
+	if pause_cd_count > 0:
+		pause_cd_count -= 1
+	
+	if Input.is_action_just_pressed("ui_cancel") && pause_cd_count <= 0:
+		pause_cd_count = PAUSE_COOLDOWN
+		GameManager.pause_game()
+	
 	reinsert_path_lazy()
 
 	# Spawners
@@ -99,7 +113,6 @@ func reinsert_path_lazy():
 func add_pathfind_lazy_list(obj):
 	lazy_mutex.lock()
 	
-	#pathfind_lazy_list.append(obj)
 	var found = false
 	for i in range(pathfind_lazy_list.size()):
 		if pathfind_lazy_list[i][0] == obj[0]:
@@ -112,7 +125,20 @@ func add_pathfind_lazy_list(obj):
 		lazy_semaphore.post()
 		
 	lazy_mutex.unlock()
-	#lazy_semaphore.post()
 
+
+var p_pause_node
+
+
+func pause_game():
+	get_tree().paused = true
+	get_tree().get_root().add_child(p_pause_node)
+	
+	
+func resume_game():
+	get_tree().get_root().remove_child(p_pause_node)
+	get_tree().paused = false
+
+	
 
 
