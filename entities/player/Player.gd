@@ -251,7 +251,7 @@ func on_hit(damage: float, from=null, _type: String = ""):
 	damage = defense_module.on_damage(damage, from)
 	emit_signal("on_damage", damage)
 	
-	screen_shaker_module.start_shaker(screen_shaker_module.Curve.QUADRATIC_UP_DOWN, 40, 0.02, 2)
+	screen_shaker_module.start_shaker(screen_shaker_module.Curve.QUADRATIC_UP_DOWN, 70, 0.006, 2)
 	
 	.on_hit(damage)
 

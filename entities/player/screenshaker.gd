@@ -1,6 +1,6 @@
 extends Node
 
-enum Curve {FLAT, LINEAR_DOWN, QUADRATIC_UP_DOWN}
+enum Curve {FLAT, LINEAR_DOWN, QUADRATIC_UP_DOWN, EXP_DOWN}
 
 func _ready():
 	pass # Replace with function body.
@@ -51,7 +51,9 @@ func process_shaker():
 	if curve == Curve.LINEAR_DOWN:
 		camera_shake_power = ((-1 * now_ratio) + 1) * max_power
 	elif curve == Curve.QUADRATIC_UP_DOWN:
-		camera_shake_power = (-0.8*now_ratio*now_ratio + 0.5*now_ratio + 0.3) * max_power
+		camera_shake_power = (-1.2*now_ratio*now_ratio + 0.6*now_ratio + 0.7) * max_power
+	elif curve == Curve.EXP_DOWN:
+		camera_shake_power = (exp(-4*now_ratio)) * max_power
 	elif curve == Curve.FLAT:
 		camera_shake_power = max_power
 	now_frame += 1
