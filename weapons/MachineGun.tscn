@@ -10,8 +10,8 @@
 script = ExtResource( 5 )
 MAX_AMMO = 175
 CROSS_HAIR = ExtResource( 4 )
-DAMAGE = 4
-RAMP_UP_DAMAGE = 9
+DAMAGE = 2
+RAMP_UP_DAMAGE = 6
 RAMP_UP_FRAMES = 40
 AOE = true
 
@@ -21,7 +21,7 @@ collision_mask = 524288
 
 [node name="GunSE" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 1 )
-volume_db = -2.0
+volume_db = -4.0
 bus = "SFX"
 
 [node name="Ricochet1" type="AudioStreamPlayer2D" parent="."]

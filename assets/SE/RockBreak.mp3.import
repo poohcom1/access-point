@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/RockBreak.mp3-41b72210237bb0f975f814e60d902933.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/RockBreak.mp3"
+dest_files=[ "res://.import/RockBreak.mp3-41b72210237bb0f975f814e60d902933.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -111,4 +111,6 @@ func _reload():
 	ammo = MAX_AMMO
 
 static func is_enemy(body) -> bool:
-	return body is Enemy or body is EnemyStructure
+	return body is Enemy or body is DestructableStructure
+	
+	

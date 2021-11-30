@@ -15,6 +15,8 @@ var text_ind = 0
 func _ready():
 	dialogue_text.connect("on_trigger", self, "change")
 	pause_timer.connect("timeout", self, "next")
+	speaker_text.text = ""
+	dialogue_text.text = ""
 
 func start(text_json):
 	text = text_json

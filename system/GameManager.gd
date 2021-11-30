@@ -14,7 +14,10 @@ signal aggro_alert(position, target)
 # Singleton objects
 var player: Player
 var navigation: Navigation2D
+var stage
 var minimap
+var ui
+var dialogue: DialogueController
 
 # Optimization V2
 var pathfind_lazy_list = []

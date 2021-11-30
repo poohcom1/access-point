@@ -26,7 +26,7 @@ static func create_bullet_here(BulletScn: PackedScene, parent: Node2D, target: V
 	
 	return create_bullet(BulletScn, parent, start, target, override_speed)
 
-class Bullet extends Node2D:
+class Bullet extends Area2D:
 	var angle: float
 	var speed: float
 	var damage: float

@@ -47,10 +47,9 @@ func _ready():
 	ammo_bar.add_stylebox_override(\"fg\", ammo_style)
 	energy_bar.add_stylebox_override(\"fg\", module_style)
 	
-	
 	yield(get_tree(), \"idle_frame\")
-	player = GameManager.player
 	
+	player = GameManager.player
 	hp_bar.max_value = player.MAX_HEALTH
 	energy_bar.max_value = player.MAX_ENERGY
 

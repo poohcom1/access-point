@@ -8,6 +8,7 @@ export var MAX_BATTERY: float = 4
 # Fields
 export var battery: float
 export var bugged := false
+export var ACTIVATE_SOUND: AudioStream
 
 # Nodes
 
@@ -20,8 +21,6 @@ signal on_deactivate() # Must be implemented by each structure
 func _ready():
 	add_to_group("friendly")
 	set_collision_layer_bit(GameManager.COL_PLAYER, true)
-	
-	battery = MAX_BATTERY
 	
 	$ClickArea.connect("mouse_entered", self, "_on_mouse_enter")
 	$ClickArea.connect("mouse_exited", self, "_on_mouse_exit")

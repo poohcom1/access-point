@@ -7,32 +7,46 @@
 light_mode = 1
 
 [sub_resource type="GDScript" id=2]
-script/source = "extends Node2D
+script/source = "extends ProjectileUtil.Bullet
+
+onready var anim_sprite := $AnimatedSprite
+onready var particles := $Particles
+
+onready var explosion_area := $ExplosionArea
+onready var collision_shape := $ExplosionArea/CollisionShape2D
 
 # Properties
 var target: Vector2
-var damage: float
 var friendly_damage: float
-var speed: int
+var reflected_damage: float
 var explode_on_wall: bool
 
+var reflected = false
 var shot_from: Enemy
 var explosion_frames: int
 
 # Fields
+##var direction
+
 var has_exploded = false
 var has_hit_player = false
 
 var enemies_hit = []
 
 # Nodes
+func reflect():
+	#direction = -direction
+	target = shot_from.global_position
+	reflected = true
+	
+	friendly_damage = damage * 10
 
 func _ready():
 	# warning-ignore:return_value_discarded
-	$AnimatedSprite.connect(\"animation_finished\", self, \"_on_anim_finished\")
+	anim_sprite.connect(\"animation_finished\", self, \"_on_anim_finished\")
 	
-	$Particles.direction = global_position.direction_to(target)
-
+	particles.direction = global_position.direction_to(target)
+	#direction = global_position.direction_to(target) * speed
 
 func _physics_process(_delta):
 	if not has_exploded:
@@ -43,70 +57,73 @@ func _physics_process(_delta):
 			global_position += global_position.direction_to(target) * speed
 			
 			if explode_on_wall:
-				for body in $HitboxArea.get_overlapping_bodies():
+				for body in get_overlapping_bodies():
 					if body is TileMap:
 						has_exploded = true
 						on_explode()
 	else:
-		if $AnimatedSprite.frame >= explosion_frames:
-			$ExplosionArea/CollisionShape2D.disabled = true
+		if anim_sprite.frame >= explosion_frames:
+			collision_shape.disabled = true
 		
-		for body in $ExplosionArea.get_overlapping_bodies():
+		for body in explosion_area.get_overlapping_bodies():
 			if body is Player and not has_hit_player:
 				_on_player_hit()
 				has_hit_player = true
-			elif body is Enemy and body != shot_from and not body in enemies_hit:
+			elif body is Enemy and not body in enemies_hit:
+				if not reflected and body == shot_from:
+					continue
+					
 				body.on_hit(friendly_damage)
 				enemies_hit.append(body)
 
 			
 func on_explode():
-	$AnimatedSprite.play(\"explosion\")
+	anim_sprite.play(\"explosion\")
 	
-	$Particles.emitting = false
+	particles.emitting = false
 	
 func _on_player_hit():
-	$\"/root/GameManager\".player.on_hit(damage)
+	GameManager.player.on_hit(damage)
 	
 func _on_anim_finished():
 	if has_exploded:
 		queue_free()
 "
 
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 64, 64 )
+[sub_resource type="CircleShape2D" id=3]
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
-region = Rect2( 64, 0, 64, 64 )
+region = Rect2( 0, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
-region = Rect2( 128, 0, 64, 64 )
+region = Rect2( 64, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
-region = Rect2( 192, 0, 64, 64 )
+region = Rect2( 128, 0, 64, 64 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 2 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 2 )
 region = Rect2( 256, 0, 64, 64 )
 
-[sub_resource type="SpriteFrames" id=8]
+[sub_resource type="SpriteFrames" id=9]
 animations = [ {
 "frames": [ ExtResource( 1 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 }, {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), null ],
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), null ],
 "loop": false,
 "name": "explosion",
 "speed": 12.0
 } ]
-
-[sub_resource type="CircleShape2D" id=9]
 
 [sub_resource type="CircleShape2D" id=10]
 radius = 21.8001
@@ -115,20 +132,22 @@ radius = 21.8001
 offsets = PoolRealArray( 0, 0.297945, 0.993151 )
 colors = PoolColorArray( 1, 1, 1, 0.780392, 0.290196, 0.658824, 0.72549, 0.666667, 0.298039, 0.862745, 0.968627, 0 )
 
-[node name="ArtilleryProjectile" type="Node2D"]
+[node name="ArtilleryProjectile" type="Area2D"]
 material = SubResource( 1 )
 z_index = 3
+collision_layer = 16
+collision_mask = 16
 script = SubResource( 2 )
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 8 )
-
-[node name="HitboxArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
-shape = SubResource( 9 )
+frames = SubResource( 9 )
 
 [node name="ExplosionArea" type="Area2D" parent="."]
+monitorable = false
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ExplosionArea"]
 shape = SubResource( 10 )

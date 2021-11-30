@@ -8,6 +8,8 @@ export var RAMP_UP_DAMAGE = 4
 export var RAMP_UP_FRAMES = 30
 export var AOE = false
 
+onready var gun_se := $GunSE
+
 # Fields
 var wall_hit := false
 var shooting = false
@@ -41,6 +43,7 @@ func _ready():
 
 func _on_shoot():		
 	if not can_shoot(): return	
+	var hit = false
 
 	shoot_collider.shoot()
 		
@@ -54,6 +57,7 @@ func _on_shoot():
 		hit_targets[target].hit = false
 	
 	if nearest != null and nearest.health > 0:
+		hit = true
 		damage_enemy(nearest, 2)
 		var cross_hair = cross_hair_ref.get_ref()
 		
@@ -69,6 +73,7 @@ func _on_shoot():
 		for body in enemies:
 			if is_enemy(body) and body != nearest:
 				damage_enemy(body)
+				hit = true
 	
 	# Erase target not marked
 	for target in hit_targets:
@@ -84,6 +89,11 @@ func _on_shoot():
 					cross_hair.detach()
 		
 	get_parent().flash()
+	
+	if hit:
+		gun_se.pitch_scale = 0.9
+	else:
+		gun_se.pitch_scale = 1.0
 	
 				
 func damage_enemy(enemy, rampup=1):
@@ -167,13 +177,13 @@ func on_start_shoot_():
 	shoot_interval.start(SHOOT_INTERVAL)
 	_on_shoot()
 		
-	if not $GunSE.playing:
-		$GunSE.play()
+	if not gun_se.playing:
+		gun_se.play()
 	shooting = true
 
 func on_stop_shoot_(richochet=true):
 	.on_stop_shoot_()
-	$GunSE.stop()
+	gun_se.stop()
 	if richochet:
 		# Ricochet SFX
 		if ammo > 0:

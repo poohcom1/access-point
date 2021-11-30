@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/weapons/radar.png" type="Texture" id=1]
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/weapons/radar_lights.png" type="Texture" id=3]
+[ext_resource path="res://assets/SE/StructureActivate.mp3" type="AudioStream" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -35,6 +36,9 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	connect(\"on_activate\", self, \"_on_activated\")
 	
+func activate():
+	battery = MAX_BATTERY
+	add_child(OneShotAudio2D.new(ACTIVATE_SOUND))
 
 func battery_drain():
 	if battery > EPSILON:
@@ -58,6 +62,7 @@ func add_battery(_amt):
 		.add_battery(_amt)
 		battery_timer.start(drain_interval)
 		battery = MAX_BATTERY
+		
 "
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -93,7 +98,8 @@ tracks/0/keys = {
 z_index = 45
 collision_layer = 3
 script = SubResource( 1 )
-battery = 3.71333
+battery = 3.15666
+ACTIVATE_SOUND = ExtResource( 4 )
 radar_range = 50
 
 [node name="Health" parent="." instance=ExtResource( 2 )]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://entities/enemies/tools/SpawnArea.tscn" type="PackedScene" id=2]
@@ -7,12 +7,10 @@
 [ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=5]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=6]
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=7]
-[ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=8]
-[ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
+[ext_resource path="res://ui/MainHUD.tscn" type="PackedScene" id=8]
 [ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=10]
 [ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=11]
 [ext_resource path="res://stages/scripts/StageInit.gd" type="Script" id=12]
-[ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=13]
 [ext_resource path="res://structures/Turret.tscn" type="PackedScene" id=14]
 [ext_resource path="res://entities/enemies/RangeBug.tscn" type="PackedScene" id=15]
 [ext_resource path="res://entities/enemies/SuicideBug.tscn" type="PackedScene" id=16]
@@ -44,8 +42,10 @@
 0/shapes = [  ]
 0/z_index = 0
 
-[node name="Navigation2D3" type="Navigation2D"]
+[node name="Stage2" type="Navigation2D"]
 script = ExtResource( 12 )
+
+[node name="UI" parent="." instance=ExtResource( 8 )]
 
 [node name="Props" type="TileMap" parent="."]
 visible = false
@@ -77,24 +77,10 @@ DEFENSE_MODULE = ExtResource( 18 )
 current = true
 zoom = Vector2( 0.5, 0.5 )
 
-[node name="UI" type="CanvasLayer" parent="."]
-
-[node name="Dialogue" parent="UI" instance=ExtResource( 9 )]
-position = Vector2( 1.05945, 0 )
-
-[node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
-anchor_top = 1.0
-anchor_right = 0.0
-margin_top = -149.0
-margin_right = 156.0
-margin_bottom = 0.0
-
-[node name="HUD" parent="UI" instance=ExtResource( 13 )]
-
 [node name="Radar" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, 192 )
 revealed = true
-battery = -6.53566e-14
+battery = 3.96667
 
 [node name="Turret2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 248.779, -2634.86 )

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/StructureActivate.mp3-83ecf8b576b45f19383eec37eec965cd.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/StructureActivate.mp3"
+dest_files=[ "res://.import/StructureActivate.mp3-83ecf8b576b45f19383eec37eec965cd.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

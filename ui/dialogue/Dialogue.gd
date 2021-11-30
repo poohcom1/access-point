@@ -7,9 +7,9 @@ export var TickSound: AudioStream
 signal on_trigger(key)
 
 #Constants
-const TICK_LENGTH = 0.05
+const TICK_LENGTH = 0.025
 
-#mutable
+#mutabl
 var encoded_text: Array
 
 #volatile variables

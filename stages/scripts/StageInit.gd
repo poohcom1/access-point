@@ -2,9 +2,16 @@ extends Navigation2D
 
 onready var tilemap := $Background
 
+
 func _ready():
+	GameManager.stage = self
+	if not LoadingScreen.anim_player.is_playing():
+		LoadingScreen.start_scene()
+		
 	GameManager.navigation = self
 	_init_nav_tiles()
+	
+	LoadingScreen.connect("start_scene", self, "start")
 
 # Remove tiles directly above walls
 func _init_nav_tiles():

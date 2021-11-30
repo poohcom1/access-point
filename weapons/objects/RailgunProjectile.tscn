@@ -24,7 +24,6 @@ var _direction: Vector2
 var hit_targets := []
 
 func _ready():
-	# warning-ignore:return_value_discarded
 	connect(\"body_entered\", self, \"on_hit\")
 	_direction = Vector2(cos(angle), sin(angle)) * speed
 	
