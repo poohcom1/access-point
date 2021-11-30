@@ -18,6 +18,19 @@ static func create_bullet(BulletScn: PackedScene, parent: Node2D, start: Vector2
 	
 	return bullet
 
+static func create_bullet_angle(BulletScn: PackedScene, parent: Node2D, target: Vector2, angle, override_speed=null) -> Bullet:
+	var bullet = BulletScn.instance()
+	var start = parent.global_position
+	
+	bullet.angle = target.angle_to_point(start) + angle
+	bullet.position = start
+	if override_speed != null:
+		bullet.speed = override_speed
+	
+	parent.get_tree().root.call_deferred("add_child", bullet)
+	
+	return bullet
+
 """
 	Creates a bullet at the parent location
 """

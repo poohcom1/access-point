@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://weapons/scripts/Shotgun.gd" type="Script" id=1]
+[ext_resource path="res://assets/ui/crosshairs/crosshair010.png" type="Texture" id=2]
+
+[node name="Shotgun" type="Node2D"]
+script = ExtResource( 1 )
+MAX_AMMO = 5
+RELOAD_TIME = 3.0
+CROSS_HAIR = ExtResource( 2 )
+SHOOT_INTERVAL = 0.65
+PIERCE_COUNT = 4
+MIN_DAMAGE = 5
