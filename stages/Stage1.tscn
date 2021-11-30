@@ -135,9 +135,6 @@ SPAWN_INTERVAL = 10.0
 ENEMY_AMOUNT = 2
 TRIGGERS = [ NodePath("../../SpawnTrigger") ]
 
-[node name="BuggedRadar" parent="Spawner/BloodSpurt" index="0" instance=ExtResource( 18 )]
-position = Vector2( -2784, 1916 )
-
 [node name="Enemies" type="Node2D" parent="."]
 position = Vector2( -147.615, -703.159 )
 
