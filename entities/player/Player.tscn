@@ -1,4 +1,4 @@
-[gd_scene load_steps=121 format=2]
+[gd_scene load_steps=122 format=2]
 
 [ext_resource path="res://assets/player/walk_front_legs.png" type="Texture" id=1]
 [ext_resource path="res://entities/player/Player.gd" type="Script" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://weapons/Flamethrower.tscn" type="PackedScene" id=23]
 [ext_resource path="res://weapons/MachineGun.tscn" type="PackedScene" id=24]
 [ext_resource path="res://entities/player/screenshaker.gd" type="Script" id=25]
+[ext_resource path="res://entities/player/Knockback.gd" type="Script" id=26]
 
 [sub_resource type="CapsuleShape2D" id=1]
 height = 12.0
@@ -34,14 +35,14 @@ light_mode = 1
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ null ],
-"loop": true,
-"name": "back",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 19 ) ],
 "loop": true,
 "name": "front",
+"speed": 5.0
+}, {
+"frames": [ null ],
+"loop": true,
+"name": "back",
 "speed": 5.0
 }, {
 "frames": [ ExtResource( 18 ) ],
@@ -526,10 +527,7 @@ colors = PoolColorArray( 1, 1, 1, 0.568627, 0.576471, 0.45098, 0.231373, 0 )
 offsets = PoolRealArray( 0, 0.983122 )
 colors = PoolColorArray( 1, 1, 1, 0.513726, 0.714355, 0.714355, 0.714355, 0.611765 )
 
-[node name="Player" type="KinematicBody2D" groups=[
-"friendly",
-"map",
-]]
+[node name="Player" type="KinematicBody2D" groups=["friendly", "map"]]
 z_index = 41
 collision_layer = 2
 script = ExtResource( 2 )
@@ -605,3 +603,6 @@ color_ramp = SubResource( 95 )
 
 [node name="ScreenShaker" type="Node" parent="."]
 script = ExtResource( 25 )
+
+[node name="Knockback" type="Node" parent="."]
+script = ExtResource( 26 )
