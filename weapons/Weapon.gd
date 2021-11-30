@@ -47,13 +47,14 @@ func _ready():
 	
 func use():
 	if Input.is_action_just_pressed("reload") and reload_timer.time_left == 0 and ammo < MAX_AMMO:
+		
 		start_reload()
 		
 	if can_shoot():
 		on_active()
 	
 func _process(_delta):
-	if ammo <= 0 and active:
+	if ammo <= 0 and active and reload_timer.time_left == 0:
 		ammo = 0
 		if OUT_OF_AMMO_SOUND:
 			add_child(OneShotAudio2D.new(OUT_OF_AMMO_SOUND))
@@ -90,10 +91,10 @@ func on_switch_out():
 	pass
 	
 func on_start_shoot_():
-	active = true
+	pass
 	
 func on_stop_shoot_():
-	active = false
+	pass
 	
 func can_shoot() -> bool:
 	return ammo > 0 and reload_timer.time_left == 0
@@ -104,7 +105,6 @@ func reloading() -> bool:
 func start_reload(reload_time=RELOAD_TIME, play_sound=true):
 	if play_sound and RELOAD_SOUND:
 		add_child(OneShotAudio2D.new(RELOAD_SOUND))
-	on_stop_shoot_()
 	reload_timer.start(reload_time)
 	
 func _reload():

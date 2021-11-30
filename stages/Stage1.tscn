@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://stages/MainPropSet.tres" type="TileSet" id=2]
@@ -12,7 +12,7 @@
 [ext_resource path="res://pickups/HealthPickup.tscn" type="PackedScene" id=10]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://ui/Hint.gd" type="Script" id=12]
-[ext_resource path="res://weapons/MiniRailgun.tscn" type="PackedScene" id=13]
+[ext_resource path="res://weapons/modules/DashModule.tscn" type="PackedScene" id=13]
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=14]
 [ext_resource path="res://weapons/MachineGun.tscn" type="PackedScene" id=15]
 [ext_resource path="res://weapons/modules/ShieldModule.tscn" type="PackedScene" id=16]
@@ -21,6 +21,7 @@
 [ext_resource path="res://structures/Spawner.tscn" type="PackedScene" id=19]
 [ext_resource path="res://pickups/WeaponPickup.tscn" type="PackedScene" id=20]
 [ext_resource path="res://structures/BreakableRock.tscn" type="PackedScene" id=21]
+[ext_resource path="res://weapons/MiniRailgun.tscn" type="PackedScene" id=22]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 16.4924
@@ -125,7 +126,7 @@ position = Vector2( 100, 24 )
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( -1648, 628 )
 DEFENSE_MODULE = ExtResource( 16 )
-WEAPONS = [ ExtResource( 15 ), ExtResource( 13 ) ]
+WEAPONS = [ ExtResource( 15 ) ]
 
 [node name="Spawner" parent="." instance=ExtResource( 19 )]
 position = Vector2( 1264, -1296 )
@@ -371,7 +372,7 @@ shape = SubResource( 4 )
 [node name="Hint2" type="Area2D" parent="Events"]
 position = Vector2( 312, 28 )
 script = ExtResource( 12 )
-hint = "Press SHIFT to activate your Defense Module"
+hint = "Press SPACE  to activate your Shield Module"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Hint2"]
 position = Vector2( 40, 20 )
@@ -394,10 +395,15 @@ MAX_HEALTH = 300.0
 
 [node name="RailgunPickup" parent="." instance=ExtResource( 20 )]
 position = Vector2( 1612, -212 )
-WeaponScene = ExtResource( 13 )
+WeaponScene = ExtResource( 22 )
 description = "Picked up the railgun. Strong crowd-control piercing weaponry.
 
 Use Q to switch weapons."
+
+[node name="Dashpickup" parent="." instance=ExtResource( 20 )]
+position = Vector2( -1252, -836 )
+WeaponScene = ExtResource( 13 )
+description = "Press SHIFT to dash."
 
 [editable path="BreakableRock"]
 [editable path="Spawner"]
