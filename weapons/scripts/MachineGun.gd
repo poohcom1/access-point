@@ -41,6 +41,10 @@ func _ready():
 	
 	## Name
 	weapon_name = "Submachine-gun"
+	
+	yield(get_tree(), "idle_frame")
+	line_of_sight.add_exception(GameManager.player)
+	
 
 
 func _on_shoot():		
@@ -94,8 +98,12 @@ func _on_shoot():
 	
 	if hit:
 		gun_se.pitch_scale = 0.9
+		
+		GameManager.player.camera_shake_power = GUN_CAM_SHAKE_POWER
+		GameManager.player.extern_shake_camera = true
 	else:
 		gun_se.pitch_scale = 1.0
+		GameManager.player.extern_shake_camera = false		
 	
 				
 func damage_enemy(enemy, rampup=1):
@@ -143,7 +151,8 @@ func on_active():
 		line_of_sight.cast_to = (get_global_mouse_position() - global_position)
 	
 		# Check for wall hits
-		if line_of_sight.is_colliding() and line_of_sight.get_collider() is TileMap:
+		if line_of_sight.is_colliding():# and (line_of_sight.get_collider() is TileMap
+			#or line_of_sight.get_collider() is DestructableStructure):
 			var offset = Vector2.ZERO
 			
 			if line_of_sight.get_collision_normal().y < 0:
@@ -175,8 +184,6 @@ func on_switch_out():
 	on_stop_shoot_(false)
 	
 func on_start_shoot_():
-	GameManager.player.camera_shake_power = GUN_CAM_SHAKE_POWER
-	GameManager.player.extern_shake_camera = true
 	.on_start_shoot_()
 	shoot_interval.start(SHOOT_INTERVAL)
 	_on_shoot()
@@ -186,7 +193,6 @@ func on_start_shoot_():
 	shooting = true
 
 func on_stop_shoot_(richochet=true):
-	GameManager.player.extern_shake_camera = false
 	.on_stop_shoot_()
 	gun_se.stop()
 	if richochet:

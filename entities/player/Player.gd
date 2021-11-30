@@ -46,6 +46,9 @@ onready var footstep_part = $FootstepParts
 onready var flash_anim = $Flash
 onready var regen_timer := $RegenTimer
 
+onready var camera := $Camera2D
+onready var cam_shake_timer := $CameraShakeTimer
+
 
 
 # Signals
@@ -70,6 +73,8 @@ func _ready():
 	set_collision_layer_bit(GameManager.COL_TILE, false)
 	set_collision_layer_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_ENEMY_BULLET, true)
+
+	cam_shake_timer.connect("timeout", self, "stop_shake")	
 
 	_init_weapons()
 	default_body_position = body_anim.position
@@ -178,7 +183,7 @@ func _movement_animation(v_input, h_input):
 			body_anim.position = default_body_position
 		else:
 			count += 1
-	
+	flash_anim.position.y = body_anim.position.y
 	
 
 var count = 0			
@@ -199,11 +204,19 @@ func _input(event):
 
 var camera_tracker = 0
 var rseed = 0
-var CAMERA_SHAKE_RATE = 0.01
+var CAMERA_SHAKE_RATE = 0.02
 var camera_delta_cumulative = 0
 var camera_shake_power = 0.002
 
 var extern_shake_camera = false
+
+func start_shake(time := 0.015, power=0.01):
+	camera_shake_power = power
+	cam_shake_timer.start(time)
+	extern_shake_camera = true
+
+func stop_shake():
+	extern_shake_camera = false
 
 func _physics_process(delta):
 	##test
@@ -212,13 +225,13 @@ func _physics_process(delta):
 		if(camera_delta_cumulative > CAMERA_SHAKE_RATE):
 			camera_delta_cumulative = 0
 			rseed = ((rseed + 3) & 7)
-			$Camera2D.offset_h = camera_tracker * camera_shake_power * (rseed - 4)
+			camera.offset_h = camera_tracker * camera_shake_power * (rseed - 4)
 			rseed = ((rseed + 2) & 7)
-			$Camera2D.offset_v = camera_tracker * camera_shake_power * (rseed - 4)
+			camera.offset_v = camera_tracker * camera_shake_power * (rseed - 4)
 			camera_tracker = (camera_tracker + 1) % 2
 	else:
-		$Camera2D.offset_h = 0
-		$Camera2D.offset_v = 0
+		camera.offset_h = 0
+		camera.offset_v = 0
 	
 	##end test
 	match state:

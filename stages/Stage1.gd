@@ -35,7 +35,7 @@ const text1 = [
 	{
 		"s": "AEONIA",
 		"t":[
-		"We…we don’t know what we are fighting against.", 
+		"We...we don’t know what we are fighting against.", 
 		"No records of these creatures exist but they seem to be intelligent enough to be able to intercept and disrupt our comm systems."
 		]
 	},

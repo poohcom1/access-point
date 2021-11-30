@@ -39,7 +39,7 @@ func reflect():
 	target = shot_from.global_position
 	reflected = true
 	
-	friendly_damage = damage * 10
+	friendly_damage = damage * 5
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -90,7 +90,7 @@ func _on_anim_finished():
 		queue_free()
 "
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=12]
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
@@ -140,7 +140,7 @@ collision_mask = 16
 script = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 3 )
+shape = SubResource( 12 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 9 )

@@ -64,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://structures/FriendlyStructure.gd"
 }, {
+"base": "Area2D",
+"class": "Hint",
+"language": "GDScript",
+"path": "res://ui/Hint.gd"
+}, {
 "base": "Reference",
 "class": "MathUtil",
 "language": "GDScript",
@@ -104,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://structures/Structure.gd"
 }, {
+"base": "CanvasLayer",
+"class": "UI",
+"language": "GDScript",
+"path": "res://ui/MainHUD.gd"
+}, {
 "base": "Node2D",
 "class": "Weapon",
 "language": "GDScript",
@@ -121,6 +131,7 @@ _global_script_class_icons={
 "EnemyUnit": "",
 "Entity": "",
 "FriendlyStructure": "",
+"Hint": "",
 "MathUtil": "",
 "Module": "",
 "OneShotAudio": "",
@@ -129,6 +140,7 @@ _global_script_class_icons={
 "Player": "res://assets/player/walk_front_body.png",
 "ProjectileUtil": "",
 "Structure": "",
+"UI": "",
 "Weapon": ""
 }
 

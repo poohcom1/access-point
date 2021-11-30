@@ -30,10 +30,13 @@ func change(key):
 		"\\end":
 			pause_timer.start()
 				
-			
 
 func next():
-	if text_ind >= text.size(): return
+	if text_ind >= text.size(): 
+		speaker_text.text = ""
+		dialogue_text.text = ""
+		
+		return
 	
 	var speaker = text[text_ind].s
 	speaker_text.text = ""
