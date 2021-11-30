@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://stages/MainPropSet.tres" type="TileSet" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://assets/Soundtrack/SFX E.T WINDY.wav" type="AudioStream" id=17]
 [ext_resource path="res://structures/BuggedRadar.tscn" type="PackedScene" id=18]
 [ext_resource path="res://structures/Spawner.tscn" type="PackedScene" id=19]
+[ext_resource path="res://pickups/WeaponPickup.tscn" type="PackedScene" id=20]
 [ext_resource path="res://structures/BreakableRock.tscn" type="PackedScene" id=21]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -390,6 +391,13 @@ next = [ NodePath("../BuggedRadar3") ]
 position = Vector2( 1340, -1360 )
 collision_layer = 7
 MAX_HEALTH = 300.0
+
+[node name="RailgunPickup" parent="." instance=ExtResource( 20 )]
+position = Vector2( 1612, -212 )
+WeaponScene = ExtResource( 13 )
+description = "Picked up the railgun. Strong crowd-control piercing weaponry.
+
+Use Q to switch weapons."
 
 [editable path="BreakableRock"]
 [editable path="Spawner"]

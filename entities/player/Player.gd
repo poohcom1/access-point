@@ -12,6 +12,7 @@ export var radar_range := 30
 
 export var DEFENSE_MODULE: PackedScene
 export var ATTACK_MODULE: PackedScene
+export var DASH_MODULE: PackedScene
 
 export var REGEN_DELAY := 5.0
 export var REGEN_PER_FRAME = 0.05
@@ -60,6 +61,7 @@ var weapons := []
 var weapon_ind := 0
 
 var attack_module: Module
+var dash_module: Module
 var defense_module: Module
 
 var default_body_position
@@ -89,14 +91,23 @@ func _init_weapons():
 	weapons[weapon_ind].switch()
 	
 	# Modules
-	attack_module = ATTACK_MODULE.instance()
-	attack_module.input = "attack_module"
+	if ATTACK_MODULE:
+		attack_module = ATTACK_MODULE.instance()
+		attack_module.input = "attack_module"
+		add_child(attack_module)
+		
 	
-	defense_module = DEFENSE_MODULE.instance()
-	defense_module.input = "defense_module"
+	if DEFENSE_MODULE:
+		defense_module = DEFENSE_MODULE.instance()
+		defense_module.input = "defense_module"
+		add_child(defense_module)
+		
+		
+	if DASH_MODULE:	
+		dash_module = DASH_MODULE.instance()
+		dash_module.input = "dash_module"
+		add_child(dash_module)
 	
-	add_child(attack_module)
-	add_child(defense_module)
 	
 func switch_weapon(direction := 1):
 	if direction == 0: return

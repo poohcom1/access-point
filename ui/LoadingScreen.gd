@@ -41,7 +41,6 @@ func start_scene():
 	get_tree().paused = true
 	
 	if _scene:
-		get_tree().root.clear()
 		get_tree().change_scene(_scene)
 		
 	anim_player.play("start_scene")

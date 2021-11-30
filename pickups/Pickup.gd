@@ -14,7 +14,7 @@ func _ready():
 func _on_enter(body):
 	if body is Player:
 		if PICKUP_SOUND:
-			get_tree().root.add_child(OneShotAudio.new(PICKUP_SOUND))
+			GameManager.add_to_scene(OneShotAudio.new(PICKUP_SOUND))
 		on_pickup(body)
 		queue_free()
 

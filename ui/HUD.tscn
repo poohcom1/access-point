@@ -93,15 +93,6 @@ func update_ammo():
 func update_energy():
 	module.text = \"\"
 	module.add_text(\"Module: \")
-	if player.attack_module.ENERGY_COST > player.energy:
-		module.push_color(BAR_LOW_COLOR)
-		
-	module.add_text(\"[%s] \" % player.attack_module.module_name)
-	
-	if player.defense_module.ENERGY_COST > player.energy:
-			module.push_color(BAR_LOW_COLOR)
-		
-	module.add_text(\"[%s] \" % player.defense_module.module_name)
 	
 	energy_bar.value = player.energy
 

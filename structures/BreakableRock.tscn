@@ -9,7 +9,7 @@ script/source = "extends DestructableStructure
 export var SFX: AudioStream
 
 func on_destroyed():
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred(\"disabled\", true)
 	$AnimatedSprite.play()
 
 	add_child(OneShotAudio2D.new(SFX, 2))
