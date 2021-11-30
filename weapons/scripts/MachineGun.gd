@@ -48,7 +48,7 @@ func _ready():
 
 
 func _on_shoot():	
-	GameManager.player.screen_shaker_module.start_shaker(GameManager.player.screen_shaker_module.Curve.FLAT, -1, 0.002, 0)	
+	#GameManager.player.screen_shaker_module.start_shaker(GameManager.player.screen_shaker_module.Curve.FLAT, -1, 0.002, 0)	
 	if not can_shoot(): return	
 	var hit = false
 
@@ -99,12 +99,8 @@ func _on_shoot():
 	
 	if hit:
 		gun_se.pitch_scale = 0.9
-		
-		#GameManager.player.camera_shake_power = GUN_CAM_SHAKE_POWER
-		#GameManager.player.extern_shake_camera = true
 	else:
 		gun_se.pitch_scale = 1.0
-		#GameManager.player.extern_shake_camera = false		
 	
 				
 func damage_enemy(enemy, rampup=1):
@@ -185,7 +181,7 @@ func on_switch_out():
 	on_stop_shoot_(false)
 	
 func on_start_shoot_():
-	GameManager.player.screen_shaker_module.start_shaker(GameManager.player.screen_shaker_module.Curve.FLAT, -1, 0.002, 0)
+	#GameManager.player.screen_shaker_module.start_shaker(GameManager.player.screen_shaker_module.Curve.FLAT, -1, 0.002, 0)
 	.on_start_shoot_()
 	shoot_interval.start(SHOOT_INTERVAL)
 	_on_shoot()
@@ -195,7 +191,7 @@ func on_start_shoot_():
 	shooting = true
 
 func on_stop_shoot_(richochet=true):
-	GameManager.player.screen_shaker_module.stop_shaker(0)
+	#GameManager.player.screen_shaker_module.stop_shaker(0)
 	.on_stop_shoot_()
 	gun_se.stop()
 	if richochet:

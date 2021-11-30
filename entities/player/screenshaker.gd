@@ -35,6 +35,7 @@ var now_frame = 0
 var current_priority = -1
 
 func start_shaker(_curve, _duration, _max_power, _priority):
+
 	if _priority >= current_priority:
 		current_priority = _priority
 		shaking = true
