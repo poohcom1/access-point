@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://entities/enemies/tools/SpawnArea.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=6]
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/MainHUD.tscn" type="PackedScene" id=8]
+[ext_resource path="res://structures/BreakableRock.tscn" type="PackedScene" id=9]
 [ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=10]
 [ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=11]
 [ext_resource path="res://stages/scripts/StageInit.gd" type="Script" id=12]
@@ -89,7 +90,7 @@ zoom = Vector2( 0.5, 0.5 )
 [node name="Radar" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, 192 )
 revealed = true
-battery = 2.55667
+battery = 3.33333e-06
 
 [node name="Turret2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 248.779, -2634.86 )
@@ -255,15 +256,27 @@ AGGRO_RANGE = 600
 
 [node name="SuicideBug10" parent="EnemyUnits" instance=ExtResource( 16 )]
 position = Vector2( -818.779, 2308.86 )
+FRIEND_RANGE = 0
+SHOW_RANGE = true
+AGGRO_RANGE = 400
 
 [node name="RangeBug4" parent="EnemyUnits" instance=ExtResource( 15 )]
 position = Vector2( -769.3, 2302.17 )
+FRIEND_RANGE = 0
+SHOW_RANGE = true
+AGGRO_RANGE = 400
 
 [node name="MeleeBug22" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -800.024, 2364.68 )
+FRIEND_RANGE = 0
+SHOW_RANGE = true
+AGGRO_RANGE = 400
 
 [node name="MeleeBug23" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -733.278, 2269.33 )
+FRIEND_RANGE = 0
+SHOW_RANGE = true
+AGGRO_RANGE = 400
 
 [node name="MeleeBug24" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( -923.489, 1712.69 )
@@ -307,7 +320,7 @@ SEGMENTS = 10
 [node name="SpawnArea2" parent="Spawners" instance=ExtResource( 2 )]
 position = Vector2( 1741.12, -1777.4 )
 TRIGGERS = [ NodePath("../SpawnTrigger") ]
-SPAWN_COUNT = 6
+SPAWN_COUNT = 4
 ENEMY_MAX_AMOUNT = 20
 MELEE_PRIORITY = 5
 HEALER_PRIORITY = 5
@@ -319,7 +332,7 @@ position = Vector2( -1069.12, -414.6 )
 [node name="SpawnArea" parent="Spawners" instance=ExtResource( 2 )]
 position = Vector2( 774.714, -1539.17 )
 TRIGGERS = [ NodePath("../SpawnTrigger") ]
-SPAWN_COUNT = 6
+SPAWN_COUNT = 4
 SPAWN_MAX_INTERVAL = 20.0
 ENEMY_MAX_AMOUNT = 20
 MELEE_PRIORITY = 5
@@ -343,3 +356,15 @@ position = Vector2( 2044.91, -1093.91 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.662745, 0.658824, 0.819608, 1 )
+
+[node name="BreakableRock" parent="." instance=ExtResource( 9 )]
+position = Vector2( 561.97, -2267.4 )
+
+[node name="BreakableRock2" parent="." instance=ExtResource( 9 )]
+position = Vector2( 587.662, -2274.55 )
+
+[node name="BreakableRock3" parent="." instance=ExtResource( 9 )]
+position = Vector2( 613.619, -2283.82 )
+
+[node name="BreakableRock" parent="BreakableRock3" instance=ExtResource( 9 )]
+position = Vector2( 29.9298, -2.64893 )
