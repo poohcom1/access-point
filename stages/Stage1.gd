@@ -108,15 +108,20 @@ var text_end = [
 ]
 
 var radars := []
-
 var radar_count = 0
 
+var end_timer := Timer.new()
+
 func start():
+	add_child(end_timer)
+	end_timer.connect("timeout", LoadingScreen, "transition", ["res://stages/Stage2.tscn"])
+	
 	$AudioStreamPlayer.play()
 	GameManager.dialogue.connect("dialogue_ended", self, "on_end")
 
 	radars = get_tree().get_nodes_in_group("bugged_radar")
 	for radar in radars:
+		print(radar)
 		radar.connect("destroyed", self, "radar_destroyed")
 
 func radar_destroyed():
@@ -127,4 +132,6 @@ func radar_destroyed():
 
 func on_end(dia):
 	if dia == text_end:
-		LoadingScreen.transition("res://stages/Stage2.tscn")
+		end_timer.start(1.0)
+		# the change scene is connect to timer in _ready
+

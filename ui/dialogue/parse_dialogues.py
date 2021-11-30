@@ -17,11 +17,19 @@ def parse(text):
     return text_json
 
 str = """
-Aeonia: "uoijf...hello test", "ah is this better now?"
-Mars: "Significantly", "The comms seem to be getting better"
-Aeonia: "Yes it seems so", "Surprisingly, your brute force approach to clearing out hostiles near radars seems to be working", "Don't know how though", "But the next area should be easier to handle now that the hostiles seem to be cleared out"
-Mars: "You're welcome by the way"
-Aeonia: "Not until you get to the command bunker"
+Aeonia: "We are still stretched thin here and some backup would be much appreciated"
+Mars: "Working on it", "How many of you are at the base?"
+Aeonia: "...about 10 of us are still alive and able to fight", "The rest...didn't make it"
+Mars: "..."
+Mars: "Are you the highest ranking officer?"
+Aeonia: "....no", "my CO is still alive"
+Mars: "Would you mind putting him on?"
+Aeonia: "..."
+Aeonia: "He is currently on patrol around the bunker", "He isn't here at the moment"
+Mars: "hmm", "No matter", "But I would like to confirm a few things with him next time", "His rank will allow him to decide how the GTTF proceeds"
+Aeonia: "...I see... I will try to contact you when he gets back", "Over."
+Mars: "Gotcha", "Over"
+
 """
 
 
