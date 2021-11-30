@@ -107,6 +107,8 @@ func reloading() -> bool:
 func start_reload(reload_time=RELOAD_TIME, play_sound=true):
 	if play_sound and RELOAD_SOUND:
 		add_child(OneShotAudio2D.new(RELOAD_SOUND))
+		
+	on_stop_shoot_()
 	reload_timer.start(reload_time)
 	
 func _reload():
