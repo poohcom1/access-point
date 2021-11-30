@@ -8,6 +8,8 @@ export var RAMP_UP_DAMAGE = 4
 export var RAMP_UP_FRAMES = 30
 export var AOE = false
 
+export var GUN_CAM_SHAKE_POWER = 0.0022
+
 onready var gun_se := $GunSE
 
 # Fields
@@ -173,6 +175,8 @@ func on_switch_out():
 	on_stop_shoot_(false)
 	
 func on_start_shoot_():
+	GameManager.player.camera_shake_power = GUN_CAM_SHAKE_POWER
+	GameManager.player.extern_shake_camera = true
 	.on_start_shoot_()
 	shoot_interval.start(SHOOT_INTERVAL)
 	_on_shoot()
@@ -182,6 +186,7 @@ func on_start_shoot_():
 	shooting = true
 
 func on_stop_shoot_(richochet=true):
+	GameManager.player.extern_shake_camera = false
 	.on_stop_shoot_()
 	gun_se.stop()
 	if richochet:

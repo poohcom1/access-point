@@ -194,15 +194,26 @@ func _input(event):
 
 var camera_tracker = 0
 var rseed = 0
+var CAMERA_SHAKE_RATE = 0.01
+var camera_delta_cumulative = 0
+var camera_shake_power = 0.002
 
-func _physics_process(_delta):
+var extern_shake_camera = false
+
+func _physics_process(delta):
 	##test
-	
-	#rseed = ((rseed + 3) & 7)
-	#$Camera2D.offset_h = camera_tracker * 0.01 * (rseed - 4)
-	#rseed = ((rseed + 2) & 7)
-	#$Camera2D.offset_v = camera_tracker * 0.01 * (rseed - 4)
-	#camera_tracker = (camera_tracker + 1) % 2
+	if extern_shake_camera:
+		camera_delta_cumulative += delta
+		if(camera_delta_cumulative > CAMERA_SHAKE_RATE):
+			camera_delta_cumulative = 0
+			rseed = ((rseed + 3) & 7)
+			$Camera2D.offset_h = camera_tracker * camera_shake_power * (rseed - 4)
+			rseed = ((rseed + 2) & 7)
+			$Camera2D.offset_v = camera_tracker * camera_shake_power * (rseed - 4)
+			camera_tracker = (camera_tracker + 1) % 2
+	else:
+		$Camera2D.offset_h = 0
+		$Camera2D.offset_v = 0
 	
 	##end test
 	match state:
