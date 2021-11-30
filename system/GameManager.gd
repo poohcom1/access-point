@@ -16,7 +16,7 @@ var player: Player
 var navigation: Navigation2D
 var stage
 var minimap
-var ui
+var ui: UI
 var dialogue: DialogueController
 
 # Optimization V2

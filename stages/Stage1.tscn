@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://stages/MainPropSet.tres" type="TileSet" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://stages/Stage1.gd" type="Script" id=9]
 [ext_resource path="res://pickups/HealthPickup.tscn" type="PackedScene" id=10]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://ui/Hint.gd" type="Script" id=12]
 [ext_resource path="res://weapons/MiniRailgun.tscn" type="PackedScene" id=13]
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=14]
 [ext_resource path="res://weapons/MachineGun.tscn" type="PackedScene" id=15]
@@ -39,6 +40,12 @@ func activate_radar(body):
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 44, 248 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 68, 32 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 128, 76 )
 
 [node name="Stage1" type="Navigation2D"]
 script = ExtResource( 9 )
@@ -224,9 +231,10 @@ AGGRO_RANGE = 400
 position = Vector2( 1349.43, 118.865 )
 
 [node name="ArtilleryBug3" parent="Enemies" instance=ExtResource( 7 )]
-position = Vector2( 550.139, 610.381 )
+position = Vector2( 555.615, 671.159 )
 MAX_HEALTH = 100
 DAMAGE = 10
+SHOOT_INTERVAL = 1.0
 SEGMENTS = 3
 
 [node name="MeleeBug" parent="Enemies" instance=ExtResource( 4 )]
@@ -235,17 +243,65 @@ SHOW_RANGE = true
 AGGRO_RANGE = 300
 
 [node name="SpawnTrigger" parent="." instance=ExtResource( 5 )]
-visible = false
 position = Vector2( 1237.97, -1203.59 )
+
+[node name="SpawnTriggerWest" parent="." instance=ExtResource( 5 )]
+position = Vector2( -832, -984 )
+scale = Vector2( -0.483323, 2.47989 )
 
 [node name="SpawnArea2" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1587.24, -805.994 )
 TRIGGERS = [ NodePath("../SpawnTrigger") ]
 SPAWN_COUNT = 1
 ENEMY_AMOUNT = 5
+SUICIDE_PRIORITY = 0
+RANGE_PRIORITY = 0
 
 [node name="Position2D" type="Position2D" parent="SpawnArea2"]
 position = Vector2( -346.449, -391.858 )
+
+[node name="AfterFirst" parent="." instance=ExtResource( 6 )]
+position = Vector2( 1064, -584 )
+TRIGGERS = [ NodePath("../SpawnTriggerWest") ]
+DISABLE_ON_SCREEN = false
+SPAWN_COUNT = 2
+SPAWN_INTERVAL = 5.0
+ENEMY_AMOUNT = 5
+HEALER_PRIORITY = 5
+SUICIDE_PRIORITY = 0
+RANGE_PRIORITY = 0
+
+[node name="Position2D" type="Position2D" parent="AfterFirst"]
+position = Vector2( -1252, -176 )
+
+[node name="AfterFirst2" parent="." instance=ExtResource( 6 )]
+position = Vector2( 1436, -168 )
+TRIGGERS = [ NodePath("../SpawnTriggerWest") ]
+SPAWN_COUNT = 1
+SPAWN_INTERVAL = 5.0
+ENEMY_AMOUNT = 7
+HEALER_PRIORITY = 5
+SUICIDE_PRIORITY = 0
+RANGE_PRIORITY = 0
+
+[node name="Position2D" type="Position2D" parent="AfterFirst2"]
+position = Vector2( -132, -196 )
+
+[node name="AfterFirst3" parent="." instance=ExtResource( 6 )]
+position = Vector2( 680, -64 )
+SPAWN_COUNT = 1
+SPAWN_INTERVAL = 5.0
+ENEMY_AMOUNT = 7
+HEALER_PRIORITY = 5
+SUICIDE_PRIORITY = 0
+RANGE_PRIORITY = 0
+
+[node name="Position2D" type="Position2D" parent="AfterFirst3"]
+position = Vector2( 780, -128 )
+
+[node name="SpawnTrigger2" parent="AfterFirst3" instance=ExtResource( 5 )]
+position = Vector2( 684, -136 )
+scale = Vector2( 1.72883, 2.53362 )
 
 [node name="SpawnArea" parent="." instance=ExtResource( 6 )]
 visible = false
@@ -259,24 +315,44 @@ position = Vector2( 302.723, -449.039 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
 
-[node name="Radar" parent="." instance=ExtResource( 11 )]
+[node name="Events" type="Node2D" parent="."]
+
+[node name="Radar" parent="Events" instance=ExtResource( 11 )]
 position = Vector2( -436, 548 )
 battery = 0.0
-next_radars = [ NodePath("../BuggedRadar1") ]
+next_radars = [ NodePath("../../BuggedRadar1") ]
 
-[node name="RadarActivator" type="Area2D" parent="Radar"]
+[node name="RadarActivator" type="Area2D" parent="Events/Radar"]
 monitorable = false
 collision_layer = 0
 collision_mask = 2
 script = SubResource( 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Radar/RadarActivator"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Radar/RadarActivator"]
 visible = false
 position = Vector2( -28, -8 )
 shape = SubResource( 2 )
 
-[node name="HealthPickup" parent="Radar" instance=ExtResource( 10 )]
+[node name="HealthPickup" parent="Events/Radar" instance=ExtResource( 10 )]
 position = Vector2( -52, 16 )
+
+[node name="Hint1" type="Area2D" parent="Events"]
+position = Vector2( -200, 316 )
+script = ExtResource( 12 )
+hint = "Pressed R to reload"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Hint1"]
+position = Vector2( -16, 32 )
+shape = SubResource( 4 )
+
+[node name="Hint2" type="Area2D" parent="Events"]
+position = Vector2( 312, 28 )
+script = ExtResource( 12 )
+hint = "Press SHIFT to activate your Defense Module"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Hint2"]
+position = Vector2( 40, 4 )
+shape = SubResource( 3 )
 
 [node name="BuggedRadar1" parent="." instance=ExtResource( 18 )]
 position = Vector2( -1188, -888 )

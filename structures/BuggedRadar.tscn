@@ -13,6 +13,7 @@ const Radar = preload(\"./Radar.tscn\")
 func on_destroyed():
 	var radar = Radar.instance()
 	radar.global_position = global_position
+	radar.activate()
 	
 	for node in next:
 		if has_node(node):

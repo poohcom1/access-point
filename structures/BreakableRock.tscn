@@ -53,6 +53,7 @@ radius = 16.0
 
 [node name="BreakableRock" type="StaticBody2D"]
 z_index = 1
+collision_layer = 9
 script = SubResource( 1 )
 SFX = ExtResource( 1 )
 
@@ -60,6 +61,5 @@ SFX = ExtResource( 1 )
 frames = SubResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 z_index = 2
 shape = SubResource( 9 )

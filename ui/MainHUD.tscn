@@ -1,20 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://ui/dialogue/DialogueContainer.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/ui/HUDFontSmall.tres" type="DynamicFont" id=4]
+[ext_resource path="res://ui/MainHUD.gd" type="Script" id=5]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends CanvasLayer
-
-func _ready():
-	LoadingScreen.connect(\"start_scene\", $AnimationPlayer, \"play\", [\"start\"])
-	GameManager.ui = self
-	GameManager.dialogue = $UI/DialogueContainer
-
-	$AnimationPlayer.seek(0)"
-
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 tracks/0/type = "value"
 tracks/0/path = NodePath("UI:modulate")
 tracks/0/interp = 1
@@ -28,11 +20,94 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=2]
+resource_name = "active"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.427451 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HintMargins/HintText:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.466667 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "hide"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HintMargins/HintText:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HintMargins/HintText:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
 [node name="UI" type="CanvasLayer"]
-script = SubResource( 1 )
+script = ExtResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/start = SubResource( 2 )
+anims/start = SubResource( 1 )
 
 [node name="UI" type="Control" parent="."]
 margin_right = 40.0
@@ -57,3 +132,45 @@ anchor_bottom = 1.0
 margin_top = 310.0
 margin_right = 250.0
 margin_bottom = 560.0
+
+[node name="HintContainer" type="Control" parent="UI"]
+modulate = Color( 0.576471, 0.803922, 0.568627, 0.901961 )
+margin_left = 672.0
+margin_top = 480.0
+margin_right = 992.0
+margin_bottom = 576.0
+
+[node name="ColorRect" type="ColorRect" parent="UI/HintContainer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 320.0
+margin_bottom = 96.0
+color = Color( 0, 0, 0, 0.329412 )
+
+[node name="HintMargins" type="MarginContainer" parent="UI/HintContainer"]
+margin_right = 320.0
+margin_bottom = 96.0
+custom_constants/margin_right = 16
+custom_constants/margin_top = 16
+custom_constants/margin_left = 16
+custom_constants/margin_bottom = 16
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HintText" type="RichTextLabel" parent="UI/HintContainer/HintMargins"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 304.0
+margin_bottom = 80.0
+custom_fonts/normal_font = ExtResource( 4 )
+bbcode_enabled = true
+text = "asdfsd"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/HintContainer"]
+anims/active = SubResource( 2 )
+anims/hide = SubResource( 3 )
+anims/show = SubResource( 4 )

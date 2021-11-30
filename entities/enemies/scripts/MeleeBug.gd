@@ -52,7 +52,7 @@ func _physics_process(_delta):
 		healers = search_area.get_overlapping_bodies()
 	
 	match state:
-		State.Default:
+		State.Default, State.Rallying:
 			# AI
 			if USE_AI:
 				if not retreating and health <= MAX_HEALTH * RETREAT_HEALTH and healers.size() > 0:
