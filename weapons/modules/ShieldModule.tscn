@@ -8,7 +8,7 @@
 script/source = "extends Module
 
 export var DAMAGE_MULTIPLIER := 0.4
-export var PARRY_FRAMES = 5
+export var PARRY_FRAMES = 15
 export var PARRY_ENERGY_GAIN = 100
 export var HIT_ENERY_COST = 1
 
@@ -30,8 +30,9 @@ func _ready():
 	area2d.connect(\"area_entered\", self, \"bullet_hit\")
 	
 func bullet_hit(bullet: Node2D):
-	if active:
+	if active and frames <= PARRY_FRAMES:
 		if bullet.has_method(\"reflect\"):
+			_parry_flash()
 			bullet.reflect()
 	
 func _physics_process(_delta):
@@ -236,6 +237,7 @@ z_index = 3
 script = SubResource( 1 )
 ENERGY_COST = 8
 module_name = "Shield"
+TYPE = 1
 DAMAGE_MULTIPLIER = 0.1
 HIT_ENERY_COST = 10
 PARRY_COLOR = Color( 1, 0.796078, 0, 1 )

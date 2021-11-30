@@ -7,14 +7,33 @@ script/source = "extends Pickup
 
 # Properties
 export var WeaponScene: PackedScene
+export(String, MULTILINE) var description
 
-func on_pickup(player):
+func on_pickup(player: Player):
 	var weapon = WeaponScene.instance()
 	
+	var title = \"\"
+	
+	player.add_child(weapon)
+	
 	if weapon is Weapon:
-		pass
-	else:
-		pass
+		player.weapons.append(weapon)
+		title = \"Obtained [color=green]%s[/color]\" % weapon.weapon_name.capitalize()
+	elif weapon is Module:
+		title = \"Obtained [color=gray]%s[/color]\" % weapon.module_name.capitalize()
+		match weapon.TYPE:
+			Module.TYPE_ATTACK:
+				player.attack_module = weapon
+				weapon.input = \"attack_module\"
+			Module.TYPE_DEFENSE:
+				player.defense_module = weapon
+				weapon.input = \"defense_module\"
+			Module.TYPE_DASH:
+				player.dash_module = weapon
+				weapon.input = \"dash_module\"
+
+	GameManager.ui.show_alert(title, description)
+	
 "
 
 [sub_resource type="RectangleShape2D" id=1]

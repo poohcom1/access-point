@@ -37,3 +37,6 @@ func on_hit(damage, _from=null, _type=""):
 func on_destroyed():
 	pass
 
+
+func ignite(_b=0):
+	pass
