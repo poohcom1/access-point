@@ -2,7 +2,7 @@ extends StaticBody2D
 class_name Structure
 
 # Properties
-
+signal destroyed()
 
 export var MAX_HEALTH: float = 100
 export var revealed := false
@@ -30,7 +30,9 @@ func on_hit(damage, _from=null, _type=""):
 	
 	if not destroyed and health <= 0:
 		destroyed = true
+		emit_signal("destroyed")
 		on_destroyed()
+		
 		
 func on_destroyed():
 	pass

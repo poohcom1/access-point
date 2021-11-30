@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://assets/weapons/bugged_radar.png" type="Texture" id=1]
 [ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://entities/fx/BleedAnim.tscn" type="PackedScene" id=3]
+[ext_resource path="res://entities/fx/Blood.tres" type="SpriteFrames" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends EnemyStructure
@@ -11,7 +12,11 @@ export(Array, NodePath) var next
 
 const Radar = preload(\"./Radar.tscn\")
 
+
 onready var bleed := $BleedAnim
+
+func _ready():
+	$BloodSpurt.connect(\"animation_finished\", self, \"queue_free\")
 
 func on_destroyed():
 	var radar = Radar.instance()
@@ -26,7 +31,7 @@ func on_destroyed():
 	get_tree().root.add_child(radar)
 	GameManager.minimap.add_radar(radar)
 	
-	queue_free()
+	$BloodSpurt.play(\"spurt1\")
 
 func on_hit(dmg, _f=null, _t=\"\"):
 	.on_hit(dmg, _f, _t)
@@ -49,11 +54,19 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 20, 16 )
 
-[node name="BuggedRadar" type="StaticBody2D"]
+[node name="BuggedRadar" type="StaticBody2D" groups=[
+"bugged_radar",
+]]
 z_index = 40
 collision_layer = 5
 collision_mask = 5
 script = SubResource( 1 )
+
+[node name="BloodSpurt" type="AnimatedSprite" parent="."]
+position = Vector2( 4, -4 )
+z_index = 100
+z_as_relative = false
+frames = ExtResource( 4 )
 
 [node name="Health" parent="." instance=ExtResource( 2 )]
 position = Vector2( -0.078743, 40 )

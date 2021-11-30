@@ -70,6 +70,20 @@ const text1 = [
 
 ]
 
+var radars := []
+
+var radar_count = 0
+
 func start():
 	$AudioStreamPlayer.play()
 	#$UI/UI/DialogueContainer.start(text1)
+
+	radars = get_tree().get_nodes_in_group("bugged_radar")
+	for radar in radars:
+		radar.connect("destroyed", self, "radar_destroyed")
+
+func radar_destroyed():
+	radar_count += 1
+	
+	if radar_count == 3:
+		print("You win!")
