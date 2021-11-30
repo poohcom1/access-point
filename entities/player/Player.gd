@@ -198,11 +198,11 @@ var rseed = 0
 func _physics_process(_delta):
 	##test
 	
-	rseed = ((rseed + 3) & 7)
-	$Camera2D.offset_h = camera_tracker * 0.01 * (rseed - 4)
-	rseed = ((rseed + 2) & 7)
-	$Camera2D.offset_v = camera_tracker * 0.01 * (rseed - 4)
-	camera_tracker = (camera_tracker + 1) % 2
+	#rseed = ((rseed + 3) & 7)
+	#$Camera2D.offset_h = camera_tracker * 0.01 * (rseed - 4)
+	#rseed = ((rseed + 2) & 7)
+	#$Camera2D.offset_v = camera_tracker * 0.01 * (rseed - 4)
+	#camera_tracker = (camera_tracker + 1) % 2
 	
 	##end test
 	match state:
