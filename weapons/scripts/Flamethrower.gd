@@ -15,6 +15,7 @@ onready var shoot_timer := Timer.new()
 onready var sfx_start := $SFXStart
 onready var sfx_old := $SFXHold
 
+var shooting = false
 var player_speed = Vector2.ZERO
 var previous: Vector2
 
@@ -30,7 +31,7 @@ func _physics_process(_delta):
 	previous = player.global_position
 
 func on_shoot():
-	if (not active
+	if (not shooting
 		or not can_shoot()
 		or player.state == player.State.Pause): 
 		return
@@ -74,11 +75,13 @@ func on_switch_out():
 	on_stop_shoot_()
 	
 func on_start_shoot_():
+	shooting = true
 	.on_start_shoot_()
 	if not sfx_start.playing:
 		sfx_start.play()
 	
 func on_stop_shoot_():
+	shooting = false
 	.on_stop_shoot_()
 	sfx_start.stop()
 	player.flash_off()
