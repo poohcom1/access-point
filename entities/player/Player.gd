@@ -203,17 +203,7 @@ func _input(event):
 	weapons[weapon_ind].use()
 
 
-func start_shake(time := 0.015, power=0.01):
-	pass
-	#camera_shake_power = power
-	#cam_shake_timer.start(time)
-	#extern_shake_camera = true
-
-func stop_shake():
-	pass
-	#extern_shake_camera = false
-
-func _physics_process(delta):
+func _physics_process(_delta):
 	match state:
 		State.Default:
 			var vert_mov := 0

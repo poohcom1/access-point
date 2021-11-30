@@ -1,4 +1,5 @@
 extends Node
+class_name ScreenShaker
 
 enum Curve {FLAT, LINEAR_DOWN, QUADRATIC_UP_DOWN, EXP_DOWN}
 
@@ -33,13 +34,13 @@ var max_power = 0.01
 var now_frame = 0
 var current_priority = -1
 
-func start_shaker(curve, duration, max_power, priority):
-	if priority >= current_priority:
-		current_priority = priority
+func start_shaker(_curve, _duration, _max_power, _priority):
+	if _priority >= current_priority:
+		current_priority = _priority
 		shaking = true
-		self.curve = curve
-		self.duration = duration
-		self.max_power = max_power
+		self.curve = _curve
+		self.duration = _duration
+		self.max_power = _max_power
 		self.now_frame = 0
 	
 func process_shaker():

@@ -22,6 +22,8 @@ const Projectile = preload("res://entities/enemies/objects/ArtilleryProjectile.t
 onready var shoot_timer := Timer.new()
 onready var aim_beam = $AimBeam
 
+onready var bleed_anim := $BleedAnim
+
 # State
 enum State { Start, Idle, Attack, Charge, Death }
 var state = State.Start
@@ -192,6 +194,12 @@ func shoot_anim():
 		
 	anim_tween.start()
 	
+func on_hit(dmg, _f=null, _t=""):
+	.on_hit(dmg, _f, _t)
+	
+	bleed_anim.bleed()
+	
+	
 func charge_anim():
 	_play_charge_anim(segments[segment_flash_ind], flash_count==CHARGE_COUNT-1)
 			
@@ -307,3 +315,4 @@ func _play_charge_anim(segment, final = false):
 		
 		if segment.has_node("Particles"):
 			segment.get_node("Particles").emitting = true
+

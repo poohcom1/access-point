@@ -34,7 +34,7 @@ func _ready():
 	weapon_name = "Mini-Railgun"
 
 func on_shoot():
-	GameManager.player.start_shake()
+	GameManager.player.screen_shaker_module.start_shaker(GameManager.player.screen_shaker_module.Curve.QUADRATIC_UP_DOWN, 40, 0.006, 2)
 	
 	if (not queue_shoot and not shooting) or not can_shoot(): 
 		return

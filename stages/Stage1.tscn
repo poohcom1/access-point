@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://stages/MainPropSet.tres" type="TileSet" id=2]
@@ -16,12 +16,15 @@
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=14]
 [ext_resource path="res://weapons/MachineGun.tscn" type="PackedScene" id=15]
 [ext_resource path="res://weapons/modules/ShieldModule.tscn" type="PackedScene" id=16]
-[ext_resource path="res://assets/Soundtrack/Midnight Brawl - Long ver.wav" type="AudioStream" id=17]
+[ext_resource path="res://assets/Soundtrack/SFX E.T WINDY.wav" type="AudioStream" id=17]
 [ext_resource path="res://structures/BuggedRadar.tscn" type="PackedScene" id=18]
 [ext_resource path="res://structures/Spawner.tscn" type="PackedScene" id=19]
 [ext_resource path="res://structures/BreakableRock.tscn" type="PackedScene" id=21]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="CircleShape2D" id=1]
+radius = 16.4924
+
+[sub_resource type="GDScript" id=2]
 script/source = "extends Area2D
 
 var activated = false
@@ -38,13 +41,13 @@ func activate_radar(body):
 		GameManager.dialogue.start(GameManager.stage.text1)
 "
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 44, 248 )
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 68, 32 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 128, 76 )
 
 [node name="Stage1" type="Navigation2D"]
@@ -81,6 +84,10 @@ tile_data = PoolIntArray( -10223661, 4, 0, -10223660, 4, 0, -10223659, 4, 0, -10
 [node name="BreakableRock" parent="." instance=ExtResource( 21 )]
 position = Vector2( -1244, 676 )
 
+[node name="CollisionShape2D" parent="BreakableRock" index="1"]
+position = Vector2( 0, -8 )
+shape = SubResource( 1 )
+
 [node name="BreakableRock2" parent="." instance=ExtResource( 21 )]
 position = Vector2( -300, 364 )
 
@@ -115,7 +122,7 @@ position = Vector2( 48, 4 )
 position = Vector2( 100, 24 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
-position = Vector2( -1644, 628 )
+position = Vector2( -1648, 628 )
 DEFENSE_MODULE = ExtResource( 16 )
 WEAPONS = [ ExtResource( 15 ), ExtResource( 13 ) ]
 
@@ -123,10 +130,10 @@ WEAPONS = [ ExtResource( 15 ), ExtResource( 13 ) ]
 position = Vector2( 1264, -1296 )
 
 [node name="SpawnArea" parent="Spawner" index="0"]
-TRIGGERS = [ NodePath("../../SpawnTrigger") ]
 TRIGGERED = false
 SPAWN_INTERVAL = 10.0
 ENEMY_AMOUNT = 2
+TRIGGERS = [ NodePath("../../SpawnTrigger") ]
 
 [node name="Enemies" type="Node2D" parent="."]
 position = Vector2( -147.615, -703.159 )
@@ -242,6 +249,21 @@ position = Vector2( -796.385, 1375.16 )
 SHOW_RANGE = true
 AGGRO_RANGE = 300
 
+[node name="MeleeBug4" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( 199.615, 735.159 )
+SHOW_RANGE = true
+AGGRO_RANGE = 300
+
+[node name="MeleeBug7" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( 331.615, 779.159 )
+SHOW_RANGE = true
+AGGRO_RANGE = 300
+
+[node name="MeleeBug12" parent="Enemies" instance=ExtResource( 4 )]
+position = Vector2( 423.615, 887.159 )
+SHOW_RANGE = true
+AGGRO_RANGE = 300
+
 [node name="SpawnTrigger" parent="." instance=ExtResource( 5 )]
 position = Vector2( 1237.97, -1203.59 )
 
@@ -326,12 +348,12 @@ next_radars = [ NodePath("../../BuggedRadar1") ]
 monitorable = false
 collision_layer = 0
 collision_mask = 2
-script = SubResource( 1 )
+script = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Radar/RadarActivator"]
 visible = false
 position = Vector2( -28, -8 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="HealthPickup" parent="Events/Radar" instance=ExtResource( 10 )]
 position = Vector2( -52, 16 )
@@ -351,8 +373,8 @@ script = ExtResource( 12 )
 hint = "Press SHIFT to activate your Defense Module"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Events/Hint2"]
-position = Vector2( 40, 4 )
-shape = SubResource( 3 )
+position = Vector2( 40, 20 )
+shape = SubResource( 5 )
 
 [node name="BuggedRadar1" parent="." instance=ExtResource( 18 )]
 position = Vector2( -1188, -888 )
@@ -368,4 +390,5 @@ next = [ NodePath("../BuggedRadar3") ]
 position = Vector2( 1340, -1360 )
 collision_layer = 7
 
+[editable path="BreakableRock"]
 [editable path="Spawner"]

@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://system/AnimUtil.gd"
 }, {
+"base": "AnimatedSprite",
+"class": "BloodFX",
+"language": "GDScript",
+"path": "res://entities/fx/BloodFX.gd"
+}, {
 "base": "Button",
 "class": "CustomMenuButton",
 "language": "GDScript",
@@ -104,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://system/ProjectileHelper.gd"
 }, {
+"base": "Node",
+"class": "ScreenShaker",
+"language": "GDScript",
+"path": "res://entities/player/screenshaker.gd"
+}, {
 "base": "StaticBody2D",
 "class": "Structure",
 "language": "GDScript",
@@ -122,6 +132,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AnimControl": "",
 "AnimUtil": "",
+"BloodFX": "",
 "CustomMenuButton": "",
 "DestructableStructure": "",
 "Dialogue": "",
@@ -139,6 +150,7 @@ _global_script_class_icons={
 "Pickup": "",
 "Player": "res://assets/player/walk_front_body.png",
 "ProjectileUtil": "",
+"ScreenShaker": "",
 "Structure": "",
 "UI": "",
 "Weapon": ""
@@ -194,6 +206,16 @@ mp3={
 ogg_vorbis={
 "loop": false,
 "loop_offset": 0
+}
+wav={
+"compress/mode": 0,
+"edit/loop": true,
+"edit/normalize": false,
+"edit/trim": false,
+"force/8_bit": false,
+"force/max_rate": false,
+"force/max_rate_hz": 44100,
+"force/mono": false
 }
 
 [input]

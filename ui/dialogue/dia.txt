@@ -7,7 +7,7 @@
 	{
 		"s": "MARS",
 		"t":[
-		"This is agent 067-Mars with the Galactic Trade Task Force”, "Are you able to receive my transmission?"
+		"This is agent 067-Mars with the Galactic Trade Task Force", "Are you able to receive my transmission?"
 		]
 	},
 	{
