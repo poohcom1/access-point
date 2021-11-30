@@ -46,10 +46,8 @@ onready var footstep_part = $FootstepParts
 onready var flash_anim = $Flash
 onready var regen_timer := $RegenTimer
 
-onready var camera := $Camera2D
-onready var cam_shake_timer := $CameraShakeTimer
-
-
+var screen_shaker_module
+var camera_module
 
 # Signals
 signal on_damage(damage)
@@ -67,6 +65,8 @@ var defense_module: Module
 var default_body_position
 
 func _ready():
+	screen_shaker_module = $ScreenShaker
+	camera_module = $Camera2D
 	health = MAX_HEALTH
 	energy = MAX_ENERGY
 	GameManager.player = self
@@ -202,13 +202,6 @@ func _input(event):
 	
 	weapons[weapon_ind].use()
 
-var camera_tracker = 0
-var rseed = 0
-var CAMERA_SHAKE_RATE = 0.02
-var camera_delta_cumulative = 0
-var camera_shake_power = 0.002
-
-var extern_shake_camera = false
 
 func start_shake(time := 0.015, power=0.01):
 	camera_shake_power = power
@@ -219,21 +212,6 @@ func stop_shake():
 	extern_shake_camera = false
 
 func _physics_process(delta):
-	##test
-	if extern_shake_camera:
-		camera_delta_cumulative += delta
-		if(camera_delta_cumulative > CAMERA_SHAKE_RATE):
-			camera_delta_cumulative = 0
-			rseed = ((rseed + 3) & 7)
-			camera.offset_h = camera_tracker * camera_shake_power * (rseed - 4)
-			rseed = ((rseed + 2) & 7)
-			camera.offset_v = camera_tracker * camera_shake_power * (rseed - 4)
-			camera_tracker = (camera_tracker + 1) % 2
-	else:
-		camera.offset_h = 0
-		camera.offset_v = 0
-	
-	##end test
 	match state:
 		State.Default:
 			var vert_mov := 0
@@ -282,6 +260,8 @@ func on_hit(damage: float, from=null, _type: String = ""):
 	regen_timer.start(REGEN_DELAY)
 	damage = defense_module.on_damage(damage, from)
 	emit_signal("on_damage", damage)
+	
+	screen_shaker_module.start_shaker(screen_shaker_module.Curve.QUADRATIC_UP_DOWN, 40, 0.02, 2)
 	
 	.on_hit(damage)
 

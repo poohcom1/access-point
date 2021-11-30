@@ -184,6 +184,7 @@ func on_switch_out():
 	on_stop_shoot_(false)
 	
 func on_start_shoot_():
+	GameManager.player.screen_shaker_module.start_shaker(GameManager.player.screen_shaker_module.Curve.FLAT, -1, 0.002, 0)
 	.on_start_shoot_()
 	shoot_interval.start(SHOOT_INTERVAL)
 	_on_shoot()
@@ -193,6 +194,7 @@ func on_start_shoot_():
 	shooting = true
 
 func on_stop_shoot_(richochet=true):
+	GameManager.player.screen_shaker_module.stop_shaker(0)
 	.on_stop_shoot_()
 	gun_se.stop()
 	if richochet:
