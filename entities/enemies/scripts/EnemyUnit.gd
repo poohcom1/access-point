@@ -185,7 +185,7 @@ func _process(_delta):
 		set_move_animation()
 	
 	var target = navigation_target.get_ref()
-	if target and target.is_in_group("friendly") and target.health <= 0:
+	if not target or (target and target.is_in_group("friendly") and target.health <= 0):
 		var new_target = search_nearest_target()
 		if new_target:
 			set_target(new_target)
