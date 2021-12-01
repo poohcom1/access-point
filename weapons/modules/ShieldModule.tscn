@@ -30,7 +30,7 @@ func _ready():
 	area2d.connect(\"area_entered\", self, \"bullet_hit\")
 	
 func bullet_hit(bullet: Node2D):
-	if active and frames <= PARRY_FRAMES:
+	if active: #and frames <= PARRY_FRAMES:
 		if bullet.has_method(\"reflect\"):
 			_parry_flash()
 			bullet.reflect()
