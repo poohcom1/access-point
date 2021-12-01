@@ -58,6 +58,7 @@ func _physics_process(delta):
 		frame_interval = 0
 	
 		for target in hit_targets:
+			if not is_instance_valid(target): continue
 			target.on_hit(damage, GameManager.player, \"fire\")
 			target.ignite()
 		

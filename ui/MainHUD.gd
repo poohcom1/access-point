@@ -9,17 +9,19 @@ onready var alert_title = $UI/PickupAlert/MarginContainer/VBoxContainer/Title
 onready var alert_description = $UI/PickupAlert/MarginContainer/VBoxContainer/Description
 
 func _ready():
+	
 	LoadingScreen.connect("start_scene", $AnimationPlayer, "play", ["start"])
 	GameManager.ui = self
 	GameManager.dialogue = $UI/DialogueContainer
 
 	hint_player.connect("animation_finished", self, "_pulse_hint")
 	
-func _input(event):
-	if alert_section.visible and (event is InputEventKey or event is InputEventMouseButton) and event.is_pressed() and not event.is_echo():
+func _input(_event):
+	if alert_section.visible and Input.is_action_just_pressed("dismiss"):
 		hide_alert()
 	
 func show_alert(title, description):
+	
 	alert_section.visible = true
 	alert_title.bbcode_text = title
 	alert_description.bbcode_text = description

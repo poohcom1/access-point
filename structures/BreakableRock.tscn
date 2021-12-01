@@ -51,7 +51,9 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=9]
 radius = 16.0
 
-[node name="BreakableRock" type="StaticBody2D"]
+[node name="BreakableRock" type="StaticBody2D" groups=[
+"blocker",
+]]
 z_index = 1
 collision_layer = 9
 script = SubResource( 1 )

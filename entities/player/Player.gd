@@ -78,9 +78,8 @@ func _ready():
 	set_collision_layer_bit(GameManager.COL_ENEMY, true)
 	set_collision_layer_bit(GameManager.COL_ENEMY_BULLET, true)
 
-	#cam_shake_timer.connect("timeout", self, "stop_shake")	
+	LoadingScreen.connect("start_scene", self, "_init_weapons")
 
-	_init_weapons()
 	default_body_position = body_anim.position
 
 func _init_weapons():
@@ -213,7 +212,8 @@ func _input(event):
 	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
 			- int(Input.is_action_just_pressed("previous_weapon")))
 	
-	weapons[weapon_ind].use()
+	if weapons.size() > 0 and weapons[weapon_ind]:
+		weapons[weapon_ind].use()
 
 
 func _physics_process(_delta):
@@ -241,6 +241,7 @@ func _physics_process(_delta):
 			mv.y = lerp(mv.y, local_speed * vert_mov, ACCEL_PERCENT)
 			#print(sqrt(mv.x*mv.x + mv.y*mv.y))
 			
+		
 	# Move
 	mv = move_and_slide(mv)
 	
@@ -269,9 +270,23 @@ func on_hit(damage: float, from=null, _type: String = ""):
 	screen_shaker_module.start_shaker(screen_shaker_module.Curve.QUADRATIC_UP_DOWN, 70, 0.006, 2)
 	
 	.on_hit(damage)
+	
+	if health <= 0 and state != State.Dead:
+		state = State.Dead
+		on_death()
 
 func _set_weapon(val):
 	weapon_ind = weapons.find(val)
 	
 func _get_weapon():
-	return weapons[weapon_ind]
+	if weapons.size() > 0:
+		return weapons[weapon_ind]
+	return null
+
+func on_death():
+	body_anim.visible = false
+	flash_anim.visible = false
+	take_input = false
+	legs_anim.play("death")
+
+	LoadingScreen.game_over()

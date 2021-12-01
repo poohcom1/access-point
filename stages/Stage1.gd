@@ -117,6 +117,7 @@ func start():
 	end_timer.connect("timeout", LoadingScreen, "transition", ["res://stages/Stage2.tscn"])
 	
 	$AudioStreamPlayer.play()
+	GameManager.soundtrack = $AudioStreamPlayer
 	GameManager.dialogue.connect("dialogue_ended", self, "on_end")
 
 	radars = get_tree().get_nodes_in_group("bugged_radar")

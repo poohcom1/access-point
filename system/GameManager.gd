@@ -11,13 +11,16 @@ const COL_ENEMY_BULLET = 4
 # warning-ignore:unused_signal
 signal aggro_alert(position, target)
 
+
 # Singleton objects
 var player: Player
 var navigation: Navigation2D
-var stage
+var stage: Navigation2D
 var minimap
 var ui: UI
 var dialogue: DialogueController
+
+var soundtrack: AudioStreamPlayer
 
 # Optimization V2
 var pathfind_lazy_list = []
@@ -58,7 +61,7 @@ var pause_cd_count = 10
 const PAUSE_COOLDOWN = 10
 
 func add_to_scene(node: Object):
-	stage.add_child(node)
+	stage.call_deferred("add_child", node)
 
 func _process(_delta):
 	if pause_cd_count > 0:

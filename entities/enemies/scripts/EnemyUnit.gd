@@ -57,7 +57,7 @@ func _ready():
 	if Engine.editor_hint: return
 	
 	# Init search area (for nearby aggro)
-	#GameManager.connect("aggro_alert", self, "alert")
+	GameManager.connect("aggro_alert", self, "alert")
 	
 	
 	# Check anim sprite
@@ -99,7 +99,7 @@ func _ready():
 	
 	# States
 	if state == State.Default:
-		to_aggro(search_target_range())
+		to_aggro(search_nearest_target())
 	elif state == State.Rallying:
 		generate_path(false)
 	
@@ -126,6 +126,7 @@ func _init_pathfind():
 	pathfind_timer.start(PATHFIND_INTERVAL)
 	
 	assert(GameManager.player != null)
+	
 # Default states
 
 # States Management
@@ -136,7 +137,7 @@ func on_hit(dmg, from=null, type: String = ""):
 		to_aggro()
 		
 
-func to_aggro(target=GameManager.player):
+func to_aggro(target=search_nearest_target()):
 	set_target(target)
 	_init_pathfind()
 	state = State.Default
@@ -168,10 +169,10 @@ func on_hit_knockback(vector: Vector2, time = 0.1):
 func _process(_delta):
 	if Engine.editor_hint: return
 	
-	if (GameManager.player 
-		and (state == State.Passive or state == State.Rallying)):
+	if state == State.Passive or state == State.Rallying:
 		
-		var nearest_target = search_target_range()
+		var nearest_target = search_nearest_target()
+
 		if nearest_target:
 			to_aggro(nearest_target)
 			
@@ -185,23 +186,23 @@ func _process(_delta):
 	
 	var target = navigation_target.get_ref()
 	if target and target.is_in_group("friendly") and target.health <= 0:
-		var new_target = search_target_range()
+		var new_target = search_nearest_target()
 		if new_target:
 			set_target(new_target)
 		else:
 			state = State.Passive		
-	if state == State.Default and FOCUS_PLAYER and in_aggro_range(GameManager.player):
+	if GameManager.player and state == State.Default and FOCUS_PLAYER and in_aggro_range(GameManager.player):
 		set_target(GameManager.player)
 		
 
 	
 ## Pathfinding ========================================
-func search_target_range() -> Node2D:
+func search_nearest_target() -> Node2D:
 	var nearest = null
 	var nearest_dist = INF
 	
 	for node in get_tree().get_nodes_in_group("friendly"):
-		var distance = global_position.distance_squared_to(node.position)
+		var distance = global_position.distance_squared_to(node.global_position)
 
 		if distance < nearest_dist and node.health > 0.1 and distance < pow(AGGRO_RANGE, 2):
 			if FOCUS_PLAYER and node == GameManager.player:
@@ -211,6 +212,7 @@ func search_target_range() -> Node2D:
 			nearest_dist = distance
 			nearest = node
 				
+	
 	return nearest
 
 
@@ -252,9 +254,9 @@ func generate_path(repeat=true):
 	
 	if direct_chase or not GameManager.navigation or not target: return
 	
-	if not target:
-		navigation_target = weakref(GameManager.player)
-		target = GameManager.player
+	#if not target:
+	#	navigation_target = weakref(GameManager.player)
+	#	target = GameManager.player
 	
 	if MULTITHREADED_PATHFIND:
 		GameManager.add_pathfind_lazy_list([self, global_position, target.global_position])

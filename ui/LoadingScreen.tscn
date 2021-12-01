@@ -57,7 +57,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=2]
 resource_name = "start_scene"
 length = 2.0
 tracks/0/type = "value"
@@ -130,7 +130,7 @@ one_shot = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 pause_mode = 2
 anims/end_scene = SubResource( 1 )
-anims/start_scene = SubResource( 6 )
+anims/start_scene = SubResource( 2 )
 
 [node name="Screen" type="Control" parent="."]
 anchor_right = 1.0
@@ -141,6 +141,7 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="Screen"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -150,6 +151,7 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="Screen"]
+modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -162,6 +164,7 @@ __meta__ = {
 }
 
 [node name="HintContainer" type="CenterContainer" parent="Screen"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2

@@ -1,30 +1,6 @@
 	{
-		"s": "AEONIA",
-		"t":[
-		"uoijf...hello test", "ah is this better now?"
-		]
-	},
-	{
 		"s": "MARS",
 		"t":[
-		"Significantly", "The comms seem to be getting better"
-		]
-	},
-	{
-		"s": "AEONIA",
-		"t":[
-		"Yes it seems so", "Surprisingly, your brute force approach to clearing out hostiles near radars seems to be working", "Don't know how though", "But the next area should be easier to handle now that the hostiles seem to be cleared out"
-		]
-	},
-	{
-		"s": "MARS",
-		"t":[
-		"You're welcome by the way"
-		]
-	},
-	{
-		"s": "AEONIA",
-		"t":[
-		"Not until you get to the command bunker"
+		"Aeonia come in over!", "I was swarmed by enemies!", "I thought the hostiles had been mostly cleared out?!"
 		]
 	},

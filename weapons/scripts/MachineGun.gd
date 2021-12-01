@@ -42,7 +42,6 @@ func _ready():
 	## Name
 	weapon_name = "Submachine-gun"
 	
-	yield(get_tree(), "idle_frame")
 	line_of_sight.add_exception(GameManager.player)
 	
 

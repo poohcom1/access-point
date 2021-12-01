@@ -35,11 +35,11 @@ func _on_mouse_exit():
 func add_battery(val):
 	set_battery(battery + val)
 	
-func _unhandled_input(event):
-	if event.is_action_pressed("interact", false) and mouse_hover:
-		if GameManager.player.battery > 0 and battery < MAX_BATTERY:
-			GameManager.player.battery -= 1
-			add_battery(1)
+func _unhandled_input(_event):
+	pass#if event.is_action_pressed("interact", false) and mouse_hover:
+		#if GameManager.player.battery > 0 and battery < MAX_BATTERY:
+		#	GameManager.player.battery -= 1
+		#	add_battery(1)
 
 func set_battery(val):
 	if battery == 0:
