@@ -2,6 +2,8 @@ tool
 extends Enemy
 class_name EnemyUnit
 
+const CORPSE = preload("res://entities/enemies/objects/Corpse.tscn")
+const DEFAULT_DEATH_SFX = preload("res://assets/SE/BugDeath2.mp3")
 
 # States
 enum State { Passive=-1, Rallying=-2, Default=-3, Knockback=-4, Stunned=-5, Dead=-6 }
@@ -167,7 +169,7 @@ func on_hit_knockback(vector: Vector2, time = 0.1):
 
 # Default processes
 func _process(_delta):
-	if Engine.editor_hint: return
+	if Engine.editor_hint or state == State.Dead: return
 	
 	if state == State.Passive or state == State.Rallying:
 		

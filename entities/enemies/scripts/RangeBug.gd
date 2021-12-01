@@ -71,16 +71,17 @@ func shoot():
 		on_state_timeout()
 
 func on_death():
-	var corpse := Node2D.new()
+	var corpse := CORPSE.instance()
 	
 	get_parent().add_child(corpse)
 	corpse.global_position = global_position
 	corpse.z_index = 0
 	var sprite = $AnimatedSprite
 	
-	remove_child(sprite)
-	corpse.add_child(sprite)
+	corpse.anim_sprite.frames = anim_sprite.frames
 	sprite.play("death")
+	
+	corpse.add_child(OneShotAudio2D.new(DEFAULT_DEATH_SFX))
 	
 	queue_free()
 
