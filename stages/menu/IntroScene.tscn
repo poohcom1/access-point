@@ -1,0 +1,80 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://ui/dialogue/DialogueContainer.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends DialogueController
+
+var text_script = [
+	{
+		\"s\": \"\",
+		\"t\": [
+			\"It has been 172 hours since all contact from the planet Regis has been lost\", 
+			\"An advanced and isolationist civilization before comms failure, the distress call is all that we have picked up since then\", 
+			\"While the content of the distress call is encrypted and hasn't been fully deciphered, we do have mentions of hostiles and fighting\"
+		]
+	},
+	{
+		\"s\": \"\",
+		\"t\": [
+			\"...\", \"...\", \"...\"
+		]
+	},
+	{
+		\"s\": \"HQ\",
+		\"t\":[
+		\"We are approaching the entry point of the LZ\", \"Proceeding with final system checks before drop procedure is initiated\", \"Is agent 067-Mars ready?\"
+		]
+	},
+	{
+		\"s\": \"HQ\",
+		\"t\":[
+		\"Mars come in\", \"Status report\"
+		]
+	},
+	{
+		\"s\": \"MARS\",
+		\"t\":[
+		\"On standby and ready for ejection on your signal\"
+		]
+	},
+	{
+		\"s\": \"HQ\",
+		\"t\":[
+		\"Remember your briefing soldier\", \"Quick reconnaissance over a 50-click radius\", \"No unnecessary heroics and no breaking the line of order\", \"Stay on comms when you land\"
+		]
+	},
+	{
+		\"s\": \"MARS\",
+		\"t\":[
+		\"...copy that\"
+		]
+	},
+
+]
+
+func _ready():
+	start(text_script)
+	
+	connect(\"dialogue_ended\", self, \"next_scene\")
+	
+func next_scene(_d):
+	LoadingScreen.transition(\"res://stages/Stage1.tscn\")
+
+
+"
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="DialogueContainer" parent="." instance=ExtResource( 1 )]
+script = SubResource( 1 )

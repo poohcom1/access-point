@@ -19,8 +19,7 @@ var activated = true
 
 # Signals
 signal on_activate()
-# warning-ignore:unused_signal
-signal on_deactivate() # Must be implemented by each structure
+signal on_deactivate()
 
 func _ready():
 	add_to_group("friendly")
@@ -41,9 +40,13 @@ func activate():
 	
 	modulate = Color.white
 	
+	emit_signal("on_activate")
+	
 func deactivate():
 	activated = false	
 	modulate = Color(0.5, 0.5, 0.5)
+	
+	emit_signal("on_deactivate")
 
 func _on_mouse_enter():
 	mouse_hover = true

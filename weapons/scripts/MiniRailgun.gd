@@ -66,7 +66,7 @@ func on_active():
 	if Input.is_action_pressed("shoot") and ammo > 0:
 		shooting = true
 		if Input.is_action_just_pressed("shoot"):
-			queue_shoot = true
+			queue_shoot = false
 			
 			if just_switched_on or shoot_timer.time_left == 0:
 				on_shoot()

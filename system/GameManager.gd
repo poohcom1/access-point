@@ -43,7 +43,7 @@ func _exit_tree():
 	
 
 func _ready():
-	var pause_scene_res = load("res://system/pause/PauseScreen.tscn")
+	var pause_scene_res = load("res://ui/PauseScreen.tscn")
 	p_pause_node = pause_scene_res.instance()
 	p_pause_node.pause_mode = Node.PAUSE_MODE_PROCESS
 	lazy_mutex = Mutex.new()

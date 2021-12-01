@@ -346,15 +346,13 @@ SPAWN_COUNT = 1
 position = Vector2( 302.723, -449.039 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = ExtResource( 17 )
 
 [node name="Events" type="Node2D" parent="."]
 
 [node name="HealthPickup" parent="Events" instance=ExtResource( 10 )]
 position = Vector2( -488, 564 )
-
-[node name="HealthPickup2" parent="Events" instance=ExtResource( 10 )]
-position = Vector2( -1584, 636 )
 
 [node name="Radar" parent="Events" instance=ExtResource( 11 )]
 position = Vector2( -436, 548 )

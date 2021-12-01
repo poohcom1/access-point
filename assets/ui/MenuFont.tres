@@ -5,4 +5,5 @@ font_path = "res://assets/ui/fonts/Kenney Future.ttf"
 
 [resource]
 size = 20
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 1 )

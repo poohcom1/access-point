@@ -1,0 +1,101 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://ui/menu/MenuButton.tscn" type="PackedScene" id=2]
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends CanvasLayer
+
+var resume_cooldown = 10
+const RESUME_COOLDOWN_MAX = 10
+
+func _ready():
+	$MarginContainer/VBoxContainer2/VBoxContainer/Continue.connect(\"button_down\", self, \"resume\")
+
+func resume():
+	if resume_cooldown > 0:
+		resume_cooldown -= 1
+		 
+	if resume_cooldown <= 0:
+		resume_cooldown = RESUME_COOLDOWN_MAX
+		GameManager.resume_game()
+
+func _process(_delta):
+	if resume_cooldown > 0:
+		resume_cooldown -= 1
+		 
+	var esc := Input.is_action_just_pressed(\"ui_cancel\")
+	if esc && resume_cooldown <= 0:
+		resume_cooldown = RESUME_COOLDOWN_MAX
+		GameManager.resume_game()
+"
+
+[sub_resource type="DynamicFontData" id=2]
+font_path = "res://assets/ui/fonts/Kenney Future.ttf"
+
+[sub_resource type="DynamicFont" id=3]
+size = 60
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 2 )
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends CustomMenuButton
+
+func on_click():
+	LoadingScreen.transition(\"res://stages/menu/MainMenu.tscn\")
+"
+
+[node name="PauseScene" type="CanvasLayer"]
+pause_mode = 2
+script = SubResource( 4 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0705882, 0.0823529, 0.0705882, 0.65098 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 200
+custom_constants/margin_top = 100
+custom_constants/margin_left = 200
+custom_constants/margin_bottom = 100
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 200.0
+margin_top = 100.0
+margin_right = 824.0
+margin_bottom = 500.0
+custom_constants/separation = 20
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer2"]
+margin_right = 624.0
+margin_bottom = 68.0
+custom_fonts/font = SubResource( 3 )
+text = "PAUSED"
+align = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer2"]
+margin_top = 88.0
+margin_right = 624.0
+margin_bottom = 172.0
+
+[node name="Continue" parent="MarginContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 2 )]
+margin_right = 624.0
+margin_bottom = 40.0
+text = "RESUME"
+
+[node name="Title" parent="MarginContainer/VBoxContainer2/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 44.0
+margin_right = 624.0
+margin_bottom = 84.0
+text = "Return to title"
+script = SubResource( 5 )
+HoverSound = null
+SelectSound = null

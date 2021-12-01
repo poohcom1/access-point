@@ -38,10 +38,14 @@ func change(key):
 		"\\end":
 			if not skip_pause:
 				skip_pause = true
+				clear()
 				pause_timer.start()
 			else:
 				next()
-				
+
+func clear():		
+	speaker_text.text = ""
+	dialogue_text.text = ""
 
 func next():
 	if text_ind >= text.size(): 
@@ -49,7 +53,10 @@ func next():
 		dialogue_text.text = ""
 		on_end()
 		return
-	
+			
+	dialogue_text.text = ""
+	dialogue_text.start(text[text_ind].t)
+
 	var speaker = text[text_ind].s
 	speaker_text.text = ""
 	
@@ -58,6 +65,4 @@ func next():
 	
 	speaker_text.add_text(" " + speaker)
 
-	
-	dialogue_text.start(text[text_ind].t)
 	text_ind += 1

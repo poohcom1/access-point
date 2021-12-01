@@ -1,12 +1,14 @@
 [gd_scene load_steps=5 format=2]
 
+[ext_resource path="res://assets/ui/MenuFont.tres" type="DynamicFont" id=1]
+
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
-
 
 export var HEIGHT = 5.0
 export var TIME = 0.5
 
+onready var anim = $AnimationPlayer
 
 var time = 0
 
@@ -16,24 +18,36 @@ func _ready():
 	$Label.text = str(num)
 	global_position.y -= 10
 	
-	$Tween.interpolate_property(self, \"global_position\", global_position, 
-		global_position-Vector2(0, HEIGHT), TIME,Tween.TRANS_QUAD, Tween.EASE_OUT)
-	$Tween.start()
+	anim.play(\"default\")
+	anim.connect(\"animation_finished\", self, \"finish\")
+	
+	#$Tween.interpolate_property(self, \"global_position\", global_position, 
+	#	global_position-Vector2(0, HEIGHT), TIME,Tween.TRANS_QUAD, Tween.EASE_OUT)
+	#$Tween.start()
 	# warning-ignore:return_value_discarded
-	$Tween.connect(\"tween_all_completed\", self, \"queue_free\")
+	#$Tween.connect(\"tween_all_completed\", self, \"queue_free\")
+
+func finish(_b):
+	queue_free()
 "
+
+[sub_resource type="Animation" id=3]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -24 ) ]
+}
 
 [sub_resource type="CanvasItemMaterial" id=2]
 light_mode = 1
-
-[sub_resource type="DynamicFontData" id=3]
-font_path = "res://assets/ui/fonts/UbuntuMono-Regular.ttf"
-
-[sub_resource type="DynamicFont" id=4]
-size = 15
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-font_data = SubResource( 3 )
 
 [node name="DamageNumbers" type="Node2D"]
 z_index = 100
@@ -41,11 +55,15 @@ script = SubResource( 1 )
 HEIGHT = 10.0
 TIME = 0.4
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/default = SubResource( 3 )
+
 [node name="Label" type="Label" parent="."]
 material = SubResource( 2 )
+margin_top = -24.0
 margin_right = 28.0
-margin_bottom = 31.0
-custom_fonts/font = SubResource( 4 )
+margin_bottom = 7.0
+custom_fonts/font = ExtResource( 1 )
 text = "0"
 __meta__ = {
 "_edit_use_anchors_": false

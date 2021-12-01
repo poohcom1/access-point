@@ -21,6 +21,7 @@ const radar_group = \"radar\"
 
 # Fields
 var tilemap_position: Vector2 # Cached for minimap
+var next_radar_nodes := []
 
 # Nodes
 onready var battery_timer := $BatteryTimer
@@ -38,9 +39,15 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	connect(\"on_activate\", self, \"_on_activated\")
 	
+	print(next_radars)
+	
+	for radar in next_radars:
+		next_radar_nodes.append(weakref(get_node(radar)))
+	
 func activate():
 	.activate()
 	$Lights.visible = true
+	GameManager.minimap.call_deferred(\"add_radar\", self)
 
 func battery_drain():
 	if battery > EPSILON:
