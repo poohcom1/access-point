@@ -78,7 +78,7 @@ func _process(_delta):
 
 	# Spawners
 	if spawn_queue.size() > 0:
-		get_tree().root.call_deferred("add_child", spawn_queue.pop_back())
+		add_to_scene(spawn_queue.pop_back())
 
 func lazy_path_function(_userdata):
 	while (true):

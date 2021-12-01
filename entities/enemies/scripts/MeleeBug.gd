@@ -72,7 +72,7 @@ func _physics_process(_delta):
 			if not touching_target:
 				set_move_animation()
 				set_move_animation(anim_eyes)
-			else:
+			elif navigation_target.get_ref():
 				set_angle_animation(
 					navigation_target.get_ref().global_position.angle_to_point(global_position)
 				)

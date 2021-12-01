@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://entities/enemies/tools/SpawnArea.tscn" type="PackedScene" id=2]
@@ -18,6 +18,12 @@
 [ext_resource path="res://entities/enemies/SuicideBug.tscn" type="PackedScene" id=16]
 [ext_resource path="res://assets/Soundtrack/Midnight Brawl.wav" type="AudioStream" id=17]
 [ext_resource path="res://weapons/modules/ShieldModule.tscn" type="PackedScene" id=18]
+[ext_resource path="res://pickups/WeaponPickup.tscn" type="PackedScene" id=19]
+[ext_resource path="res://weapons/Flamethrower.tscn" type="PackedScene" id=20]
+[ext_resource path="res://weapons/MachineGun.tscn" type="PackedScene" id=21]
+[ext_resource path="res://weapons/MiniRailgun.tscn" type="PackedScene" id=22]
+[ext_resource path="res://pickups/WeaponPickupSimple.tscn" type="PackedScene" id=23]
+[ext_resource path="res://weapons/modules/ChargeModule.tscn" type="PackedScene" id=24]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://stages/scripts/StageInit.gd\"
@@ -188,10 +194,23 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="WeaponPickup" parent="." instance=ExtResource( 19 )]
+position = Vector2( 716, -1044 )
+PICKUP_TEXT = "Charge"
+WeaponScene = ExtResource( 24 )
+description = "A light explosive for clearing out hordes of enemies"
+
+[node name="FlameThrower" parent="." instance=ExtResource( 23 )]
+position = Vector2( 1580, 756 )
+PICKUP_TEXT = "Flamethrower"
+WeaponScene = ExtResource( 20 )
+
 [node name="Player" parent="." instance=ExtResource( 5 )]
-position = Vector2( 304, -2572 )
+position = Vector2( -740, 984 )
 DEFENSE_MODULE = ExtResource( 18 )
+ATTACK_MODULE = null
 DASH_MODULE = ExtResource( 12 )
+WEAPONS = [ ExtResource( 21 ), ExtResource( 22 ) ]
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
@@ -199,6 +218,11 @@ zoom = Vector2( 0.5, 0.5 )
 
 [node name="DefenseStructures" type="Node2D" parent="."]
 position = Vector2( 0, 192 )
+
+[node name="Radar1" parent="DefenseStructures" instance=ExtResource( 6 )]
+position = Vector2( -660, 800 )
+revealed = true
+next_radars = [ NodePath("../Radar2"), NodePath("../Radar3"), NodePath("../Radar4") ]
 
 [node name="Turret2" parent="DefenseStructures" instance=ExtResource( 14 )]
 position = Vector2( 284, -2816 )
@@ -208,6 +232,14 @@ position = Vector2( 0, -4 )
 revealed = true
 
 [node name="Radar3" parent="DefenseStructures" instance=ExtResource( 6 )]
+position = Vector2( 1488, 548 )
+revealed = true
+
+[node name="Radar4" parent="DefenseStructures" instance=ExtResource( 6 )]
+position = Vector2( 648, -1284 )
+revealed = true
+
+[node name="Radar5" parent="DefenseStructures" instance=ExtResource( 6 )]
 position = Vector2( 116, -2916 )
 
 [node name="Turret3" parent="DefenseStructures" instance=ExtResource( 14 )]
@@ -230,6 +262,7 @@ position = Vector2( 131.001, 1776.64 )
 
 [node name="MeleeBug" parent="EnemyUnits" instance=ExtResource( 10 )]
 position = Vector2( 1237.87, 3336.78 )
+scale = Vector2( 0.99133, 1 )
 AGGRO_RANGE = 600
 
 [node name="MeleeBug2" parent="EnemyUnits" instance=ExtResource( 10 )]

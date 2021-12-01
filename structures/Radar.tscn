@@ -62,6 +62,7 @@ func on_destroyed():
 	add_child(OneShotAudio2D.new(DESTROYED_SOUND))
 	
 	$Sprite.play(\"destroyed\")
+	z_index = 0
 	$Sprite.z_index = 1
 	$Particles2D.emitting = true
 	

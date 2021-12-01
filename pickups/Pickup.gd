@@ -23,7 +23,9 @@ func _on_enter(body):
 			
 			pickup_text.text = PICKUP_TEXT
 			
-			GameManager.add_to_scene(pickup_text, global_position)
+			get_tree().root.add_child(pickup_text)
+			
+			pickup_text.global_position = global_position
 			
 		
 		on_pickup(body)

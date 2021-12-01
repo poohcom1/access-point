@@ -9,9 +9,11 @@ func _ready():
 	$Label.text = text
 
 	$AnimationPlayer.connect(\"animation_finished\", self, \"done\")
+	$AnimationPlayer.play(\"default\")
 	
 func done(_anim):
-	queue_free()
+	if _anim == \"default\":
+		queue_free()
 "
 
 [sub_resource type="DynamicFontData" id=2]
@@ -24,7 +26,7 @@ font_data = SubResource( 2 )
 [sub_resource type="Animation" id=4]
 resource_name = "default"
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("Label:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -33,7 +35,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, -40 ) ]
+"values": [ Vector2( -120, 0 ), Vector2( -120, -32 ) ]
 }
 
 [node name="PickupText" type="Node2D"]
@@ -41,8 +43,8 @@ z_index = 50
 script = SubResource( 1 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = -104.0
-margin_right = 117.0
+margin_left = -120.0
+margin_right = 101.0
 margin_bottom = 23.0
 custom_fonts/font = SubResource( 3 )
 text = "Power up!"
@@ -52,5 +54,4 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "default"
 anims/default = SubResource( 4 )
