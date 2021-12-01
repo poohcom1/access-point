@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=1]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://assets/ui/HUDFontSmall.tres" type="DynamicFont" id=4]
 [ext_resource path="res://ui/MainHUD.gd" type="Script" id=5]
 [ext_resource path="res://assets/ui/MenuFont.tres" type="DynamicFont" id=6]
+[ext_resource path="res://ui/Vignette.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Animation" id=1]
 tracks/0/type = "value"
@@ -115,6 +116,8 @@ script = ExtResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/start = SubResource( 1 )
+
+[node name="Vignette" parent="." instance=ExtResource( 7 )]
 
 [node name="UI" type="Control" parent="."]
 modulate = Color( 1, 1, 1, 0 )
