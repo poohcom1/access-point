@@ -16,6 +16,7 @@ var mv: Vector2
 var has_hit = false
 var enemies_hit = []
 
+var reflected = false
 
 func _ready():
 	# warning-ignore:return_value_discarded
@@ -25,6 +26,10 @@ func _ready():
 	
 	mv = Vector2(cos(angle), sin(angle)) * speed
 	
+func reflect():
+	#direction = -direction
+	mv = -mv
+	reflected = true
 
 func _physics_process(_delta):
 	global_position += mv
@@ -37,11 +42,14 @@ func _physics_process(_delta):
 
 
 func _on_hit(body):
-	if body.is_in_group(\"friendly\"):
+	if not reflected and body.is_in_group(\"friendly\"):
 		body.on_hit(damage)
 		has_hit = true
 		on_explode()
-	
+	elif reflected and body is Enemy:
+		body.on_hit(damage)
+		has_hit = true
+		on_explode()
 			
 func on_explode():
 	$AnimatedSprite.play(\"explode\")
@@ -87,5 +95,4 @@ shape = SubResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 5 )
-frame = 1
 playing = true
