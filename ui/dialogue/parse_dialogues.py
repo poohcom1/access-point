@@ -17,11 +17,6 @@ def parse(text):
     return text_json
 
 str = """
-Mars: "Aeonia come in over!", "I was swarmed by enemies!", "I thought the hostiles had been mostly cleared out?!"
-"""
-
-"""
-Stage 3
 Aeonia: "sdfsd"
 Aeonia: "Sorry Mars.", "That should not have happened according to our intel and observations", "It seems we still don't know enough about them"
 Mars:  "What the hell are these entities that we are fighting?!"
@@ -38,10 +33,9 @@ Volas: "Negative agent", "We have yet to establish any comms with central comman
 Mars: "Copy", "We can work out the details of the exfil and assault after I reach your base"
 Volas: "Affirmative", "We have secured the base here and we intend to hold it until your arrival", "Godspeed Mars"
 Mars: "Till then commander", "Mars out."
+"""
 
-
-
-
+"""
 Unknown: "jlsdfe...oihieifje....ard...ars...mars come in over!"
 Mars: "This is Mars over", "Damn!", "I thought I lost you guys!"
 HQ.: "Affirmative, there is some serious on-world jamming going on in this world"

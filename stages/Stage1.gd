@@ -122,7 +122,6 @@ func start():
 
 	radars = get_tree().get_nodes_in_group("bugged_radar")
 	for radar in radars:
-		print(radar)
 		radar.connect("destroyed", self, "radar_destroyed")
 
 func radar_destroyed():

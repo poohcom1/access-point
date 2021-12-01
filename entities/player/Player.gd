@@ -263,6 +263,8 @@ func flash_off():
 
 # States
 func on_hit(damage: float, from=null, _type: String = ""):
+	if health <= 0:
+		return
 	regen_timer.start(REGEN_DELAY)
 	damage = defense_module.on_damage(damage, from)
 	emit_signal("on_damage", damage)
@@ -272,6 +274,7 @@ func on_hit(damage: float, from=null, _type: String = ""):
 	.on_hit(damage)
 	
 	if health <= 0 and state != State.Dead:
+		health = 0
 		state = State.Dead
 		on_death()
 

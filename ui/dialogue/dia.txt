@@ -1,6 +1,96 @@
 	{
+		"s": "AEONIA",
+		"t":[
+		"sdfsd"
+		]
+	},
+	{
+		"s": "AEONIA",
+		"t":[
+		"Sorry Mars.", "That should not have happened according to our intel and observations", "It seems we still don't know enough about them"
+		]
+	},
+	{
 		"s": "MARS",
 		"t":[
-		"Aeonia come in over!", "I was swarmed by enemies!", "I thought the hostiles had been mostly cleared out?!"
+		 "What the hell are these entities that we are fighting?!"
+		]
+	},
+	{
+		"s": "AEONIA",
+		"t":[
+		"...I am sorry but we really don't know"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"..."
+		]
+	},
+	{
+		"s": "AEONIA",
+		"t":[
+		"..."
+		]
+	},
+	{
+		"s": "AEONIA",
+		"t":[
+		"Hey but my CO is here", "I am patching your feed to him now"
+		]
+	},
+	{
+		"s": "UNKNOWN",
+		"t":[
+		"lisafdhoe"
+		]
+	},
+	{
+		"s": "UNKNOWN",
+		"t":[
+		"sjdfie....hello....is this going through"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"Affirmative", "This is agent 067-Mars from the GTTF responding"
+		]
+	},
+	{
+		"s": "UNKNOWN",
+		"t":[
+		"I am commanding officer Volas of the North-Central command bunker", "It's a damn relief to know that the GTTF is here to help"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"As soon as we can get in contact with my HQ, I will advise an exfil op for you and your men", "Is there news of any other bases with survivors?"
+		]
+	},
+	{
+		"s": "VOLAS",
+		"t":[
+		"Negative agent", "We have yet to establish any comms with central command", "I am afraid that we might be all that's left of Nilsea"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"Copy", "We can work out the details of the exfil and assault after I reach your base"
+		]
+	},
+	{
+		"s": "VOLAS",
+		"t":[
+		"Affirmative", "We have secured the base here and we intend to hold it until your arrival", "Godspeed Mars"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"Till then commander", "Mars out."
 		]
 	},

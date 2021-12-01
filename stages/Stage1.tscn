@@ -353,9 +353,6 @@ stream = ExtResource( 17 )
 [node name="HealthPickup" parent="Events" instance=ExtResource( 10 )]
 position = Vector2( -488, 564 )
 
-[node name="HealthPickup2" parent="Events" instance=ExtResource( 10 )]
-position = Vector2( -1584, 636 )
-
 [node name="Radar" parent="Events" instance=ExtResource( 11 )]
 position = Vector2( -436, 548 )
 next_radars = [ NodePath("../../BuggedRadar1") ]
