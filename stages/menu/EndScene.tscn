@@ -31,16 +31,19 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Label" type="Label" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -104.0
-margin_top = -148.0
-margin_right = 100.0
-margin_bottom = -125.0
+margin_left = -110.5
+margin_top = -164.0
+margin_right = 110.5
+margin_bottom = -141.0
 custom_fonts/font = ExtResource( 1 )
 text = "To be continued"
 __meta__ = {
@@ -52,10 +55,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -104.0
-margin_top = -68.0
-margin_right = 117.0
-margin_bottom = -45.0
+margin_left = -142.0
+margin_top = -62.5
+margin_right = 142.0
+margin_bottom = 142.5
 custom_fonts/font = ExtResource( 1 )
 text = "thanks for playing!
 

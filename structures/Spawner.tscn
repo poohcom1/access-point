@@ -23,6 +23,7 @@ func on_destroyed():
 	$CollisionPolygon2D.set_deferred(\"disabled\", \"true\")
 
 	add_child(OneShotAudio2D.new(DEATH_FX))
+	$ValueBar.visible = false
 "
 
 [sub_resource type="Animation" id=2]

@@ -29,7 +29,7 @@ func _ready():
 	dash_timer.connect(\"timeout\", self, \"_dash_finished\")
 
 func _input(event):
-	if player.energy <= ENERGY_COST: return
+	if not player.take_input or player.energy <= ENERGY_COST: return
 	
 	if event.is_action_pressed(input) and $DashTimer.time_left == 0.0:
 		player.energy -= ENERGY_COST
