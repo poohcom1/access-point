@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+onready var anim_sprite = $AnimatedSprite
+
+func _physics_process(_delta):
+	if anim_sprite.animation != \"death\":
+		anim_sprite.play(\"death\")
+"
+
+[node name="Corpse" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]

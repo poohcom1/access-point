@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/tiles/isomud.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://structures/Spawner.tscn" type="PackedScene" id=4]
 [ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=5]
 [ext_resource path="res://structures/BreakableRock.tscn" type="PackedScene" id=6]
+[ext_resource path="res://entities/enemies/RangeBug.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=10]
@@ -85,7 +86,6 @@ margin_bottom = 0.0
 
 [node name="Radar" parent="." instance=ExtResource( 11 )]
 position = Vector2( 287.02, 24.704 )
-battery = 6.66667e-06
 
 [node name="Turret" parent="." instance=ExtResource( 12 )]
 position = Vector2( 103.02, 272.704 )
@@ -116,6 +116,9 @@ position = Vector2( 319.02, -39.296 )
 
 [node name="BreakableRock2" parent="." instance=ExtResource( 6 )]
 position = Vector2( 335.02, -15.296 )
+
+[node name="RangeBug" parent="." instance=ExtResource( 7 )]
+position = Vector2( -48.9797, 56.704 )
 
 [editable path="Player"]
 [editable path="Spawner"]

@@ -63,7 +63,7 @@ func _explode():
 func on_death():
 	state = State.Dead
 	#mutex.lock()
-	var corpse := Node2D.new()
+	var corpse := CORPSE.instance()
 	
 	get_parent().add_child(corpse)
 	corpse.global_position = global_position
@@ -75,8 +75,7 @@ func on_death():
 	se.pitch_scale = rand_range(0.9, 1.1)
 	se.play()
 	
-	remove_child(sprite)
-	corpse.add_child(sprite)
+	corpse.anim_sprite.frames = anim_sprite.frames
 	remove_child(se)
 	corpse.add_child(se)
 	sprite.play("death")
