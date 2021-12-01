@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://ui/menu/MenuButton.tscn" type="PackedScene" id=1]
 
@@ -18,6 +18,21 @@ func on_click():
 "
 
 [sub_resource type="GDScript" id=4]
+script/source = "extends CustomMenuButton
+
+var next_stage: String
+
+func _ready():
+	var data = GameManager.load_game()
+	
+	if data:
+		next_stage = data.stage
+
+func on_click():
+	LoadingScreen.transition(next_stage)
+"
+
+[sub_resource type="GDScript" id=5]
 script/source = "extends CustomMenuButton
 
 func on_click():
@@ -86,6 +101,9 @@ margin_right = 535.0
 margin_bottom = 188.0
 text = "Continue"
 align = 0
+script = SubResource( 4 )
+HoverSound = null
+SelectSound = null
 
 [node name="Exit" parent="MarginContainer/HBoxContainer/VBoxContainer/Options" instance=ExtResource( 1 )]
 margin_top = 192.0
@@ -93,7 +111,7 @@ margin_right = 535.0
 margin_bottom = 232.0
 text = "Exit"
 align = 0
-script = SubResource( 4 )
+script = SubResource( 5 )
 HoverSound = null
 SelectSound = null
 

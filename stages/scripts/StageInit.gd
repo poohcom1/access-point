@@ -2,8 +2,11 @@ extends Navigation2D
 
 onready var tilemap := $Background
 
+export var STAGE_NUM: int
 
 func _ready():
+	GameManager.current_stage_file = filename
+	
 	GameManager.stage = self
 	if not LoadingScreen.anim_player.is_playing():
 		LoadingScreen.start_scene()

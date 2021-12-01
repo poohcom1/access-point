@@ -240,6 +240,8 @@ func _physics_process(_delta):
 			mv.x = lerp(mv.x, local_speed * hor_mov, ACCEL_PERCENT)
 			mv.y = lerp(mv.y, local_speed * vert_mov, ACCEL_PERCENT)
 			#print(sqrt(mv.x*mv.x + mv.y*mv.y))
+		State.Dead:
+			legs_anim.play("death")
 			
 		
 	# Move

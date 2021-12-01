@@ -29,10 +29,8 @@ func on_destroyed():
 			radar.next_radars.append(next_radar.get_path())
 		
 	GameManager.add_to_scene(radar)
-	GameManager.minimap.call_deferred(\"add_radar\", radar)
+	GameManager.minimap.add_radar(radar)
 	radar.global_position = global_position
-	
-
 	
 	$BloodSpurt.play(\"spurt1\")
 

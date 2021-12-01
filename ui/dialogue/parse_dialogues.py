@@ -17,11 +17,12 @@ def parse(text):
     return text_json
 
 str = """
-HQ: "We are approaching the entry point of the LZ", "Proceeding with final system checks before drop procedure is initiated", "Is agent 067-Mars ready?"
-HQ: "Mars come in", "Status report"
-Mars: "On standby and ready for ejection on your signal"
-HQ: "Remember your briefing soldier", "Quick reconnaissance over a 50-click radius", "No unnecessary heroics and no breaking the line of order", "Stay on comms when you land"
-Mars: "...copy that"
+Mars: "Landed and ready to proceed"
+Mars: "HQ do you read me?"
+Mars: "This is agent 067-Mars to all callsigns on this frequency", "Does anyone copy?"
+Mars: "Shit!", "Stay on comms Agent Mars they said"
+Mars: "Proceeding to designated pickup position under auxiliary protocol 6B", "I will come back to haunt your asses if you write me off as dead before I make it"
+
 """
 """
 Unknown: "jlsdfe...oihieifje....ard...ars...mars come in over!"
