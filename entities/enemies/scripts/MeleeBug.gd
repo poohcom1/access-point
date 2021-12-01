@@ -95,18 +95,17 @@ func _physics_process(_delta):
 			var target = navigation_target.get_ref()
 			
 			if target and target.is_in_group("friendly"):
-
 				var found_target = false
 				
 				for i in get_slide_count():
 					var collision = get_slide_collision(i)
 					if collision.collider == target and target.health > 0:
 						found_target = true
-						if not touching_target and attack_timer.is_stopped():
+						if attack_timer.is_stopped():
 							touching_target = true
-							
 							_on_attack()
 							attack_timer.start(ATTACK_INTERVAL)
+							
 						break
 				if not found_target:
 					touching_target = false
@@ -120,7 +119,6 @@ func on_hit(dmg, from=null, type=""):
 	if from == GameManager.player:
 		set_target(from)
 	
-
 func _on_attack():
 	if touching_target and navigation_target.get_ref():
 		navigation_target.get_ref().on_hit(DAMAGE, self)
