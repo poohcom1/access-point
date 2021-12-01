@@ -153,6 +153,7 @@ func end(_a, _b, _c):
 
 [node name="Stage3" type="Navigation2D"]
 script = SubResource( 1 )
+STAGE_NUM = 3
 
 [node name="Props" type="TileMap" parent="."]
 mode = 1

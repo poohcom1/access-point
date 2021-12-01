@@ -167,7 +167,9 @@ func load_game():
 func save_game():
 	var latest_data = load_game()
 	
-	if stage.STAGE_NUM > latest_data.STAGE_NUM:
+	
+	
+	if (not latest_data.STAGE_NUM) or stage.STAGE_NUM > latest_data.STAGE_NUM:
 		var save_game = File.new()
 		save_game.open("user://savegame.save", File.WRITE)
 		
