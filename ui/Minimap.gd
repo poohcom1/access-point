@@ -44,7 +44,8 @@ func _ready():
 	for radar in radars:
 		radar.tilemap_position = world_to_tilemap(radar.global_position)
 	
-	get_vision()
+	init_vision()
+	get_vision(0,1)
 	update()
 	
 	buffer_width = get_size().x
@@ -94,7 +95,8 @@ func _tilemap_init():
 		for _yy in range(int(tilemapsize.y)+10):
 			sparse_array[xx].append(0)
 	#init raster vision
-	get_vision()
+	init_vision()
+	get_vision(0,1)
 
 func _draw():
 	if tilemap == null: return
@@ -109,26 +111,40 @@ func _draw():
 
 var rseed = 0
 
+func init_vision():
+	rasterized_vision = rasterized_vision_buffer
+	rasterized_vision_buffer = sparse_array.duplicate(true)
+
 #rasterize the vision of the map into a 2d sparse array
-func get_vision():
+func get_vision(start_ratio, end_ratio):
 	var vision_objects = radars + [$"/root/GameManager".player]
-	rasterized_vision = sparse_array.duplicate(true)
+	
+	var total = vision_objects.size()
+	var start = start_ratio * total
+	var end = end_ratio * total
+	var cccount = 0
 	
 	for obj in vision_objects:
-		var tile_pos = (obj.tilemap_position if "tilemap_position" in obj else 
-			world_to_tilemap(obj.global_position))
-		if(obj.battery > EPSILON and obj.health > EPSILON):
-			var radius = obj.radar_range
-			var x = tile_pos.x
-			var y = tile_pos.y
-			for ix in range(x - radius, x + radius):
-				for iy in range(y - radius, y + radius):
-					var dx = ix - x
-					var dy = iy - y
-					var dist2 = dx*dx + dy*dy
-					if(dist2 < radius*radius):
-						rseed = ((rseed + 7) & 7) - 4
-						rasterized_vision[ix + rseed][iy + rseed] = 1
+		if cccount >= start and cccount < end:
+			var tile_pos = (obj.tilemap_position if "tilemap_position" in obj else 
+				world_to_tilemap(obj.global_position))
+			if(obj.battery > EPSILON and obj.health > EPSILON):
+				var radius = obj.radar_range
+				var x = tile_pos.x
+				var y = tile_pos.y
+				for ix in range(x - radius, x + radius, 2):
+					for iy in range(y - radius, y + radius, 2):
+						var dx = ix - x
+						var dy = iy - y
+						var dist2 = dx*dx + dy*dy
+						if(dist2 < radius*radius):
+							rseed = ((rseed + 7) & 7) - 4
+							rasterized_vision_buffer[ix + rseed][iy + rseed] = 1
+							rasterized_vision_buffer[ix+1 + rseed][iy + rseed] = 1
+							rasterized_vision_buffer[ix + rseed][iy+1 + rseed] = 1
+							rasterized_vision_buffer[ix+1 + rseed][iy+1 + rseed] = 1
+		cccount += 1
+		
 
 func in_range(pos: Vector2) -> bool:
 	var vision_objects = radars + [$"/root/GameManager".player]
@@ -180,6 +196,7 @@ var tilemap_draw_buffer = []
 var cell_selection_cache = []
 var draw_tilemap_count = 0
 var rasterized_vision
+var rasterized_vision_buffer
 const GRAN = 20 # MAKE SURE IT'S AT LEAST 6
 
 var buffer_width
@@ -207,7 +224,9 @@ func do_process_tilemap():
 		var ratio_start = float(draw_tilemap_count - 1) / total
 		var ratio_end = float(draw_tilemap_count) / total
 		draw_backbuffer(ratio_start, ratio_end)
+		get_vision(ratio_start, ratio_end)
 	elif draw_tilemap_count == 0:
+		init_vision()
 		buffer_img.fill(Color(0,0,0,0))
 	elif draw_tilemap_count == GRAN - 2:
 		buffer_imgTexture.set_data(buffer_img)
@@ -229,8 +248,8 @@ func do_process_tilemap():
 	if draw_tilemap_count == GRAN - 1:
 		tilemap_draw_cache = tilemap_draw_buffer
 		tilemap_draw_buffer = []
-	elif draw_tilemap_count == GRAN - 2:
-		get_vision()
+	#elif draw_tilemap_count == GRAN - 2:
+	#	get_vision()
 	
 	draw_tilemap_count = (draw_tilemap_count + 1) % GRAN
 
