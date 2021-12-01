@@ -125,7 +125,7 @@ func start():
 	GameManager.dialogue.start(start_text)
 
 
-func end(_a, _b, _c):
+func end():
 	LoadingScreen.save_and_transition(\"res://stages/Stage4.tscn\")
 
 "

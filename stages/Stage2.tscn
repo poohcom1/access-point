@@ -196,6 +196,7 @@ position = Vector2( 0, 192 )
 [node name="Radar1" parent="DefenseStructures" instance=ExtResource( 6 )]
 position = Vector2( -660, 800 )
 revealed = true
+battery = 4.0
 next_radars = [ NodePath("../Radar2"), NodePath("../Radar3"), NodePath("../Radar4") ]
 
 [node name="Turret2" parent="DefenseStructures" instance=ExtResource( 14 )]
