@@ -7,7 +7,7 @@ export var TickSound: AudioStream
 signal on_trigger(key)
 
 #Constants
-const TICK_LENGTH = 0.025
+var TICK_LENGTH = 0.025
 
 #mutabl
 var encoded_text: Array
@@ -18,6 +18,12 @@ var text_position = 0
 var text_buffer = ""
 
 onready var timer := $Timer
+
+func _input(_event):
+	if Input.is_action_pressed("dismiss"):
+		TICK_LENGTH = 0.005
+	else:
+		TICK_LENGTH = 0.025
 
 func encodeString(string):
 	var result = []

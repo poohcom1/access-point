@@ -13,7 +13,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 2 ),
+"times": PoolRealArray( 0, 1.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -37,7 +37,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 2.1 ),
+"times": PoolRealArray( 1.5 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
@@ -51,7 +51,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 2 ),
+"times": PoolRealArray( 0, 1.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
@@ -141,6 +141,7 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="Screen"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -150,6 +151,7 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="TextureRect" parent="Screen"]
+modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 3 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -162,6 +164,7 @@ __meta__ = {
 }
 
 [node name="HintContainer" type="CenterContainer" parent="Screen"]
+modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2

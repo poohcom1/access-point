@@ -62,6 +62,7 @@ func _tilemap_init():
 	var bounds: Rect2 = tilemap.get_used_rect()
 	var sides: float = cos(PI/4) * bounds.size.x + cos(PI/4) * bounds.size.y
 	bounds.size = Vector2.ONE * sides
+
 	
 	# Get scale and offset
 	if bounds.size.x > bounds.size.y:
@@ -137,7 +138,7 @@ func in_range(pos: Vector2) -> bool:
 				< obj.radar_range*obj.radar_range ) and obj.battery > EPSILON:
 			return true
 		
-	return false
+	return true
 
 func _draw_objects():
 	var objects = get_tree().get_nodes_in_group(\"map\")

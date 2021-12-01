@@ -346,6 +346,7 @@ SPAWN_COUNT = 1
 position = Vector2( 302.723, -449.039 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = ExtResource( 17 )
 
 [node name="Events" type="Node2D" parent="."]

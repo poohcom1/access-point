@@ -1,96 +1,30 @@
 	{
-		"s": "AEONIA",
+		"s": "HQ",
 		"t":[
-		"sdfsd"
+		"We are approaching the entry point of the LZ", "Proceeding with final system checks before drop procedure is initiated", "Is agent 067-Mars ready?"
 		]
 	},
 	{
-		"s": "AEONIA",
+		"s": "HQ",
 		"t":[
-		"Sorry Mars.", "That should not have happened according to our intel and observations", "It seems we still don't know enough about them"
-		]
-	},
-	{
-		"s": "MARS",
-		"t":[
-		 "What the hell are these entities that we are fighting?!"
-		]
-	},
-	{
-		"s": "AEONIA",
-		"t":[
-		"...I am sorry but we really don't know"
+		"Mars come in", "Status report"
 		]
 	},
 	{
 		"s": "MARS",
 		"t":[
-		"..."
+		"On standby and ready for ejection on your signal"
 		]
 	},
 	{
-		"s": "AEONIA",
+		"s": "HQ",
 		"t":[
-		"..."
-		]
-	},
-	{
-		"s": "AEONIA",
-		"t":[
-		"Hey but my CO is here", "I am patching your feed to him now"
-		]
-	},
-	{
-		"s": "UNKNOWN",
-		"t":[
-		"lisafdhoe"
-		]
-	},
-	{
-		"s": "UNKNOWN",
-		"t":[
-		"sjdfie....hello....is this going through"
+		"Remember your briefing soldier", "Quick reconnaissance over a 50-click radius", "No unnecessary heroics and no breaking the line of order", "Stay on comms when you land"
 		]
 	},
 	{
 		"s": "MARS",
 		"t":[
-		"Affirmative", "This is agent 067-Mars from the GTTF responding"
-		]
-	},
-	{
-		"s": "UNKNOWN",
-		"t":[
-		"I am commanding officer Volas of the North-Central command bunker", "It's a damn relief to know that the GTTF is here to help"
-		]
-	},
-	{
-		"s": "MARS",
-		"t":[
-		"As soon as we can get in contact with my HQ, I will advise an exfil op for you and your men", "Is there news of any other bases with survivors?"
-		]
-	},
-	{
-		"s": "VOLAS",
-		"t":[
-		"Negative agent", "We have yet to establish any comms with central command", "I am afraid that we might be all that's left of Nilsea"
-		]
-	},
-	{
-		"s": "MARS",
-		"t":[
-		"Copy", "We can work out the details of the exfil and assault after I reach your base"
-		]
-	},
-	{
-		"s": "VOLAS",
-		"t":[
-		"Affirmative", "We have secured the base here and we intend to hold it until your arrival", "Godspeed Mars"
-		]
-	},
-	{
-		"s": "MARS",
-		"t":[
-		"Till then commander", "Mars out."
+		"...copy that"
 		]
 	},
