@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/props/bunker_doors.png" type="Texture" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://assets/props/red_plant.png" type="Texture" id=10]
 [ext_resource path="res://structures/Radar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://structures/Turret.tscn" type="PackedScene" id=12]
+[ext_resource path="res://assets/Soundtrack/Midnight Brawl.wav" type="AudioStream" id=13]
 [ext_resource path="res://entities/enemies/SuicideBug.tscn" type="PackedScene" id=14]
 [ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=15]
 [ext_resource path="res://entities/enemies/HealerBug.tscn" type="PackedScene" id=16]
@@ -21,6 +22,10 @@
 [ext_resource path="res://weapons/modules/ShieldModule.tscn" type="PackedScene" id=20]
 [ext_resource path="res://pickups/HealthPickup.tscn" type="PackedScene" id=21]
 [ext_resource path="res://stages/MainPropSet.tres" type="TileSet" id=22]
+[ext_resource path="res://weapons/Flamethrower.tscn" type="PackedScene" id=23]
+[ext_resource path="res://weapons/MiniRailgun.tscn" type="PackedScene" id=24]
+[ext_resource path="res://weapons/MachineGun.tscn" type="PackedScene" id=25]
+[ext_resource path="res://weapons/Shotgun.tscn" type="PackedScene" id=26]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://stages/scripts/StageInit.gd\"
@@ -340,8 +345,7 @@ __meta__ = {
 STAGE_NUM = 4
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
-color = Color( 0.298039, 0.305882, 0.380392, 1 )
+color = Color( 0.952941, 0.780392, 0.505882, 1 )
 
 [node name="Props" type="TileMap" parent="."]
 mode = 1
@@ -376,6 +380,7 @@ position = Vector2( 407.02, -2975.3 )
 position = Vector2( 127.02, -23.296 )
 DEFENSE_MODULE = ExtResource( 20 )
 DASH_MODULE = ExtResource( 19 )
+WEAPONS = [ ExtResource( 25 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 26 ) ]
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2( 0.5, 0.5 )
@@ -544,7 +549,7 @@ position = Vector2( 698.124, -576.206 )
 [node name="Spawner2" parent="Spawner" instance=ExtResource( 4 )]
 position = Vector2( 505.602, -809.072 )
 
-[node name="SpawnArea" parent="Spawner/Spawner2" index="0"]
+[node name="SpawnArea" parent="Spawner/Spawner2" index="1"]
 TRIGGERED = false
 SPAWN_COUNT = 1
 ENEMY_AMOUNT = 5
@@ -563,7 +568,7 @@ scale = Vector2( 1.88, 1 )
 [node name="Spawner3" parent="Spawner" instance=ExtResource( 4 )]
 position = Vector2( 1083.33, -1619.91 )
 
-[node name="SpawnArea" parent="Spawner/Spawner3" index="0"]
+[node name="SpawnArea" parent="Spawner/Spawner3" index="1"]
 TRIGGERED = false
 SPAWN_COUNT = 1
 ENEMY_AMOUNT = 12
@@ -585,16 +590,16 @@ scale = Vector2( 1.74227, 1.36903 )
 [node name="SpawnTrigger3" parent="Spawner/Spawner3/SpawnArea" index="5" instance=ExtResource( 5 )]
 position = Vector2( 236.26, -292.412 )
 
-[node name="AnimationPlayer" parent="Spawner/Spawner3" index="1"]
+[node name="AnimationPlayer" parent="Spawner/Spawner3" index="2"]
 anims/pulse = SubResource( 2 )
 
-[node name="BleedAnim" parent="Spawner/Spawner3" index="7"]
+[node name="BleedAnim" parent="Spawner/Spawner3" index="8"]
 anims/bleed = SubResource( 3 )
 
 [node name="Spawner5" parent="Spawner" instance=ExtResource( 4 )]
 position = Vector2( 3651.33, -1375.91 )
 
-[node name="SpawnArea" parent="Spawner/Spawner5" index="0"]
+[node name="SpawnArea" parent="Spawner/Spawner5" index="1"]
 TRIGGERED = false
 SPAWN_COUNT = 5
 SPAWN_INTERVAL = 10.0
@@ -616,16 +621,16 @@ scale = Vector2( 1.88, 1 )
 position = Vector2( -1282.13, -911.819 )
 scale = Vector2( 1.74227, 1.36903 )
 
-[node name="AnimationPlayer" parent="Spawner/Spawner5" index="1"]
+[node name="AnimationPlayer" parent="Spawner/Spawner5" index="2"]
 anims/pulse = SubResource( 4 )
 
-[node name="BleedAnim" parent="Spawner/Spawner5" index="7"]
+[node name="BleedAnim" parent="Spawner/Spawner5" index="8"]
 anims/bleed = SubResource( 5 )
 
 [node name="Spawner4" parent="Spawner" instance=ExtResource( 4 )]
 position = Vector2( 1048.02, -609.776 )
 
-[node name="SpawnArea" parent="Spawner/Spawner4" index="0"]
+[node name="SpawnArea" parent="Spawner/Spawner4" index="1"]
 TRIGGERED = false
 SPAWN_COUNT = 1
 ENEMY_AMOUNT = 12
@@ -642,10 +647,10 @@ position = Vector2( -381.27, 184.127 )
 position = Vector2( -528.944, 298.684 )
 scale = Vector2( 1.88, 1 )
 
-[node name="AnimationPlayer" parent="Spawner/Spawner4" index="1"]
+[node name="AnimationPlayer" parent="Spawner/Spawner4" index="2"]
 anims/pulse = SubResource( 6 )
 
-[node name="BleedAnim" parent="Spawner/Spawner4" index="7"]
+[node name="BleedAnim" parent="Spawner/Spawner4" index="8"]
 anims/bleed = SubResource( 7 )
 
 [node name="SpawnArea" parent="Spawner" instance=ExtResource( 17 )]
@@ -1064,6 +1069,11 @@ texture = ExtResource( 10 )
 [node name="red_plant4" type="Sprite" parent="red_plant31"]
 position = Vector2( 1110.86, 96.2776 )
 texture = ExtResource( 10 )
+
+[node name="OST" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 13 )
+autoplay = true
 
 [connection signal="destroyed" from="BuggedRadar" to="Structure" method="increment_count"]
 [connection signal="destroyed" from="BuggedRadar2" to="Structure" method="increment_count"]

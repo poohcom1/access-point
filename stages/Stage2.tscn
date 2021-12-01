@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://entities/enemies/tools/SpawnArea.tscn" type="PackedScene" id=2]
@@ -24,6 +24,8 @@
 [ext_resource path="res://weapons/MiniRailgun.tscn" type="PackedScene" id=22]
 [ext_resource path="res://pickups/WeaponPickupSimple.tscn" type="PackedScene" id=23]
 [ext_resource path="res://weapons/modules/ChargeModule.tscn" type="PackedScene" id=24]
+[ext_resource path="res://weapons/modules/DashModule.tscn" type="PackedScene" id=25]
+[ext_resource path="res://weapons/modules/ShieldModule.tscn" type="PackedScene" id=26]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://stages/scripts/StageInit.gd\"
@@ -183,6 +185,9 @@ WeaponScene = ExtResource( 20 )
 
 [node name="Player" parent="." instance=ExtResource( 5 )]
 position = Vector2( -812, 980 )
+DEFENSE_MODULE = ExtResource( 26 )
+ATTACK_MODULE = null
+DASH_MODULE = ExtResource( 25 )
 WEAPONS = [ ExtResource( 21 ), ExtResource( 22 ) ]
 
 [node name="DefenseStructures" type="Node2D" parent="."]
@@ -593,5 +598,10 @@ texture = ExtResource( 12 )
 [node name="red_plant5" type="Sprite" parent="red_plant7"]
 position = Vector2( -251.728, -1434.07 )
 texture = ExtResource( 18 )
+
+[node name="OST" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 17 )
+autoplay = true
 
 [connection signal="power_full" from="DefenseStructures/Generator" to="." method="end"]

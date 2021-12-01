@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/props/fucked_up_tower.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://stages/MainPropSet.tres" type="TileSet" id=14]
 [ext_resource path="res://assets/props/cactus.png" type="Texture" id=15]
 [ext_resource path="res://assets/props/red_plant.png" type="Texture" id=16]
+[ext_resource path="res://assets/Soundtrack/Midnight Brawl.wav" type="AudioStream" id=17]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://stages/scripts/StageInit.gd\"
@@ -174,7 +175,7 @@ position = Vector2( -752, -4096 )
 
 [node name="Shotgun" parent="." instance=ExtResource( 11 )]
 position = Vector2( -1968, -2120 )
-PICKUP_TEXT = "Shotgun"
+PICKUP_TEXT = "Spike Gun"
 WeaponScene = ExtResource( 12 )
 
 [node name="Spawners" type="Node2D" parent="."]
@@ -396,5 +397,13 @@ texture = ExtResource( 2 )
 [node name="fucked_up_tower2" type="Sprite" parent="."]
 position = Vector2( -1172.62, -3932.85 )
 texture = ExtResource( 2 )
+
+[node name="OST" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 17 )
+autoplay = true
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0.513726, 0.513726, 0.670588, 1 )
 
 [connection signal="destroyed" from="Radar3" to="." method="end"]

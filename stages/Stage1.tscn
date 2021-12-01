@@ -175,7 +175,7 @@ WEAPONS = [ ExtResource( 15 ) ]
 [node name="Spawner" parent="." instance=ExtResource( 19 )]
 position = Vector2( 1264, -1296 )
 
-[node name="SpawnArea" parent="Spawner" index="0"]
+[node name="SpawnArea" parent="Spawner" index="1"]
 TRIGGERS = [ NodePath("../../SpawnTrigger") ]
 TRIGGERED = false
 SPAWN_INTERVAL = 10.0

@@ -18,9 +18,10 @@ var just_switched_on := false
 var queue_shoot := false
 
 # Nodes
-const Bullet = preload("res://weapons/objects/RailgunProjectile.tscn")
+const Bullet = preload("res://weapons/objects/SpikeProjectile.tscn")
 
 onready var shoot_timer := Timer.new()
+onready var sfx := $SFX
 
 # Signals
 
@@ -38,7 +39,7 @@ func on_shoot():
 		return
 	GameManager.player.screen_shaker_module.start_shaker(GameManager.player.screen_shaker_module.Curve.QUADRATIC_UP_DOWN, 40, 0.016, 2)
 	
-		
+	sfx.play()
 	get_parent().flash()
 	
 	queue_shoot = false
