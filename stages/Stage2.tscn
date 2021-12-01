@@ -129,7 +129,7 @@ func end():
 
 func on_dialogue_finished(dia):
 	if dia == ending_text:
-		LoadingScreen.transition(\"res://stages/Stag3.tscn\")
+		LoadingScreen.save_and_transition(\"res://stages/Stag3.tscn\")
 "
 
 [sub_resource type="TileSet" id=2]
@@ -162,6 +162,7 @@ script = SubResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }
+STAGE_NUM = 2
 
 [node name="UI" parent="." instance=ExtResource( 8 )]
 

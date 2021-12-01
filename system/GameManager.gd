@@ -22,6 +22,8 @@ var dialogue: DialogueController
 
 var soundtrack: AudioStreamPlayer
 
+var current_stage_file: String
+
 # Optimization V2
 var pathfind_lazy_list = []
 var pathfind_lazy_list_done = []
@@ -148,6 +150,30 @@ func resume_game():
 	get_tree().get_root().remove_child(p_pause_node)
 	get_tree().paused = false
 
+
+func load_game():
+	var save_game = File.new()
+	if not save_game.file_exists("user://savegame.save"):
+		return null
+
+	save_game.open("user://savegame.save", File.READ)
 	
+	var data = parse_json(save_game.get_line())
+	
+	save_game.close()
+	
+	return data
 
+func save_game():
+	var latest_data = load_game()
+	
+	if stage.STAGE_NUM > latest_data.STAGE_NUM:
+		var save_game = File.new()
+		save_game.open("user://savegame.save", File.WRITE)
+		
+		save_game.store_line(to_json({
+			"stage_num": stage.STAGE_NUM,
+			"stage": current_stage_file
+		}))
 
+		save_game.close()

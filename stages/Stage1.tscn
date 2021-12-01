@@ -62,6 +62,7 @@ extents = Vector2( 128, 76 )
 
 [node name="Stage1" type="Navigation2D"]
 script = ExtResource( 9 )
+STAGE_NUM = 1
 
 [node name="UI" parent="." instance=ExtResource( 8 )]
 

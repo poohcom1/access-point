@@ -15,6 +15,10 @@ var text
 var text_ind = 0
 var skip_pause = false
 
+func _input(_e):
+	if Input.is_action_just_pressed("dismiss"):
+		next()
+
 func _ready():
 	dialogue_text.connect("on_trigger", self, "change")
 	pause_timer.connect("timeout", self, "next")
@@ -51,8 +55,12 @@ func next():
 	if text_ind >= text.size(): 
 		speaker_text.text = ""
 		dialogue_text.text = ""
+		$VBoxContainer/Skip.visible = false		
 		on_end()
 		return
+		
+	if text_ind > 1:
+		$VBoxContainer/Skip.visible = true
 			
 	dialogue_text.text = ""
 	dialogue_text.start(text[text_ind].t)

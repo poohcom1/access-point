@@ -141,7 +141,7 @@ func in_range(pos: Vector2) -> bool:
 				< obj.radar_range*obj.radar_range ) and obj.battery > EPSILON:
 			return true
 		
-	return true
+	return false
 
 func _draw_objects():
 	var objects = get_tree().get_nodes_in_group("map")

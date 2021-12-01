@@ -27,6 +27,11 @@ func transition(scene: String, pause=false, hint=""):
 	else:
 		hint_section.visible = true
 		hint_text.bbcode_text = hint
+		
+func save_and_transition(scene, __pause, _hint):
+	GameManager.save_game()
+	
+	transition(scene, __pause, _hint)
 
 func game_over():
 	current_stage = GameManager.stage.filename

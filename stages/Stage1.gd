@@ -1,5 +1,43 @@
 extends "res://stages/scripts/StageInit.gd"
 
+
+
+const start_text = [
+	{
+		"s": "MARS",
+		"t":[
+		"Landed and ready to proceed"
+		]
+	},
+	{ "s": "", "t": ["..."] },
+	{
+		"s": "MARS",
+		"t":[
+		"HQ do you read me?"
+		]
+	},
+	{ "s": "", "t": ["..."] },
+	{
+		"s": "MARS",
+		"t":[
+		"This is agent 067-Mars to all callsigns on this frequency", "Does anyone copy?"
+		]
+	},
+	{ "s": "", "t": ["..."] },
+	{
+		"s": "MARS",
+		"t":[
+		"Shit!", ";Stay on comms Agent Mars,' they said"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"Proceeding to designated pickup position under auxiliary protocol 6B", "I will come back to haunt your asses if you write me off as dead before I make it"
+		]
+	},
+]
+
 const text1 = [
 	{
 		"s": "UNKNOWN",
@@ -104,7 +142,6 @@ var text_end = [
 		"Not until you get to the command bunker"
 		]
 	},
-
 ]
 
 var radars := []
@@ -114,7 +151,7 @@ var end_timer := Timer.new()
 
 func start():
 	add_child(end_timer)
-	end_timer.connect("timeout", LoadingScreen, "transition", ["res://stages/Stage2.tscn"])
+	end_timer.connect("timeout", LoadingScreen, "save_and_transition", ["res://stages/Stage2.tscn"])
 	
 	$AudioStreamPlayer.play()
 	GameManager.soundtrack = $AudioStreamPlayer
@@ -123,6 +160,8 @@ func start():
 	radars = get_tree().get_nodes_in_group("bugged_radar")
 	for radar in radars:
 		radar.connect("destroyed", self, "radar_destroyed")
+		
+	GameManager.dialogue.start(start_text)
 
 func radar_destroyed():
 	radar_count += 1
