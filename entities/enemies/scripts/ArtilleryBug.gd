@@ -1,5 +1,7 @@
 extends Enemy
 
+const SHOOT_FX = preload("res://assets/SE/368731__leszek-szary__shoot-4.wav")
+
 # Properties
 export var DAMAGE := 20
 export var FRIENDLY_DAMAGE := 15
@@ -24,6 +26,8 @@ onready var aim_beam = $AimBeam
 
 onready var bleed_anim := $BleedAnim
 
+onready var charge_fx := $ChargeFX
+
 # State
 enum State { Start, Idle, Attack, Charge, Death }
 var state = State.Start
@@ -45,6 +49,8 @@ func _physics_process(_delta):
 
 func on_shoot():
 	var projectile = Projectile.instance()
+	
+	add_child(OneShotAudio.new(SHOOT_FX, -10))
 	
 	projectile.position = $Body/Head.global_position - Vector2(0, 16)
 	
@@ -199,7 +205,6 @@ func on_hit(dmg, _f=null, _t=""):
 	
 	bleed_anim.bleed()
 	
-	
 func charge_anim():
 	_play_charge_anim(segments[segment_flash_ind], flash_count==CHARGE_COUNT-1)
 			
@@ -217,6 +222,7 @@ func charge_anim():
 			
 			$Body/Head/Sprite.play("shoot")
 			state = State.Attack
+			charge_fx.stop()
 			
 			on_shoot()	
 			shoot_anim()
@@ -310,6 +316,9 @@ func _create_corpse():
 	queue_free()
 
 func _play_charge_anim(segment, final = false):
+	if not charge_fx.playing:
+		charge_fx.play()
+		
 	if not final:
 		segment.get_node("ChargeAnim").play("charge")
 	else:

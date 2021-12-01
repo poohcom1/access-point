@@ -84,6 +84,7 @@ func on_death():
 	var sprite = $AnimatedSprite
 	
 	corpse.anim_sprite.frames = anim_sprite.frames
+	corpse.anim_sprite.modulate = anim_sprite.modulate
 	sprite.play("death")
 	
 	corpse.add_child(OneShotAudio2D.new(DEFAULT_DEATH_SFX))

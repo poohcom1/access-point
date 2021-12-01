@@ -12,7 +12,6 @@ export(Array, NodePath) var next
 
 const Radar = preload(\"./Radar.tscn\")
 
-
 onready var bleed := $BleedAnim
 
 func _ready():
@@ -32,6 +31,8 @@ func on_destroyed():
 	radar.global_position = global_position
 	
 	$BloodSpurt.play(\"spurt1\")
+	
+	radar.add_child()
 	
 	yield(get_tree(), \"idle_frame\")
 	GameManager.minimap.add_radar(radar)

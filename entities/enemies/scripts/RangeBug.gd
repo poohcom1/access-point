@@ -2,6 +2,7 @@ tool
 extends EnemyUnit
 
 const Bullet = preload("res://entities/enemies/objects/DirectProjectile.tscn")
+const ShootFX = preload("res://assets/SE/146730__leszek-szary__shoot.wav")
 
 # Properties
 export var SHOOT_INTERVAL := 1.5
@@ -30,7 +31,7 @@ func _ready():
 	
 	## Healing timer
 	add_child(shoot_timer)
-	
+	shoot_timer.one_shot = false
 	
 	# warning-ignore:return_value_discarded
 	shoot_timer.connect("timeout", self, "shoot")
@@ -57,7 +58,6 @@ func on_state_timeout():
 	if state == RangeState.Shoot:
 		if distance_sqr_to_target() > RANGE*RANGE:
 			state = State.Default
-			shoot_timer.stop()
 		else:
 			state_timer.start(SHOOT_PAUSE)
 	.on_state_timeout()
@@ -69,9 +69,12 @@ func shoot():
 		var bullet = ProjectileUtil.create_bullet_here(Bullet, self, target.global_position, BULLET_SPEED)
 		bullet.damage = DAMAGE
 		on_state_timeout()
+		
+		add_child(OneShotAudio2D.new(ShootFX))
 
 func on_death():
 	var corpse := CORPSE.instance()
+
 	
 	get_parent().add_child(corpse)
 	corpse.global_position = global_position
@@ -79,6 +82,7 @@ func on_death():
 	var sprite = $AnimatedSprite
 	
 	corpse.anim_sprite.frames = anim_sprite.frames
+	corpse.anim_sprite.modulate = anim_sprite.modulate
 	sprite.play("death")
 	
 	corpse.add_child(OneShotAudio2D.new(DEFAULT_DEATH_SFX))

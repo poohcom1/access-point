@@ -65,6 +65,7 @@ func on_death():
 	#mutex.lock()
 	var corpse := CORPSE.instance()
 	
+	
 	get_parent().add_child(corpse)
 	corpse.global_position = global_position
 	corpse.z_index = 0
@@ -76,6 +77,7 @@ func on_death():
 	se.play()
 	
 	corpse.anim_sprite.frames = anim_sprite.frames
+	corpse.anim_sprite.modulate = anim_sprite.modulate
 	remove_child(se)
 	corpse.add_child(se)
 	sprite.play("death")

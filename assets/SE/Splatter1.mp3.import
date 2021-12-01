@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Splatter1.mp3-1f5edbacf095f687254e92e421a77973.mp3str"
+
+[deps]
+
+source_file="res://assets/SE/Splatter1.mp3"
+dest_files=[ "res://.import/Splatter1.mp3-1f5edbacf095f687254e92e421a77973.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

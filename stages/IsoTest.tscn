@@ -97,7 +97,7 @@ color = Color( 0.298039, 0.305882, 0.380392, 1 )
 [node name="Spawner" parent="." instance=ExtResource( 4 )]
 position = Vector2( 519.02, -127.296 )
 
-[node name="SpawnArea" parent="Spawner" index="0"]
+[node name="SpawnArea" parent="Spawner" index="1"]
 TRIGGERED = false
 ENEMY_AMOUNT = 10
 

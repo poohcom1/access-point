@@ -10,9 +10,6 @@
 script = ExtResource( 5 )
 MAX_AMMO = 175
 CROSS_HAIR = ExtResource( 4 )
-DAMAGE = 100000000000
-RAMP_UP_DAMAGE = 10000000000
-RAMP_UP_FRAMES = 40
 AOE = true
 
 [node name="LineOfSight" type="RayCast2D" parent="."]

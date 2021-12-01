@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/SFX E.T ALIEN LAZER.wav-3649136674f129ded20dbfa12a6110dd.sample"
+
+[deps]
+
+source_file="res://assets/SE/SFX E.T ALIEN LAZER.wav"
+dest_files=[ "res://.import/SFX E.T ALIEN LAZER.wav-3649136674f129ded20dbfa12a6110dd.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
