@@ -41,7 +41,8 @@ font_data = SubResource( 2 )
 script/source = "extends CustomMenuButton
 
 func on_click():
-	LoadingScreen.transition(\"res://stages/menu/MainMenu.tscn\")"
+	LoadingScreen.transition(\"res://stages/menu/MainMenu.tscn\")
+"
 
 [node name="PauseScene" type="CanvasLayer"]
 pause_mode = 2

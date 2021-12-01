@@ -13,9 +13,9 @@ RELOAD_TIME = 2.0
 CROSS_HAIR = ExtResource( 2 )
 weapon_name = "Flamethrower"
 SHOOT_INTERVAL = 0.05
-DAMAGE = 2.5
+DAMAGE = 2.0
 MIN_DAMAGE = 0.2
-FALLOFF = 5
+FALLOFF = 15
 
 [node name="SFXStart" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )

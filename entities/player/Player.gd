@@ -287,6 +287,7 @@ func _get_weapon():
 	return null
 
 func on_death():
+	mv = Vector2.ZERO
 	body_anim.visible = false
 	flash_anim.visible = false
 	take_input = false

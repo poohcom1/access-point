@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/tiles/isomud.png" type="Texture" id=2]
@@ -9,9 +9,10 @@
 [ext_resource path="res://entities/enemies/tools/SpawnTrigger.tscn" type="PackedScene" id=7]
 [ext_resource path="res://ui/MainHUD.tscn" type="PackedScene" id=8]
 [ext_resource path="res://weapons/modules/ShieldModule.tscn" type="PackedScene" id=9]
-[ext_resource path="res://weapons/modules/ChargeModule.tscn" type="PackedScene" id=10]
+[ext_resource path="res://weapons/modules/DashModule.tscn" type="PackedScene" id=10]
 [ext_resource path="res://pickups/WeaponPickupSimple.tscn" type="PackedScene" id=11]
 [ext_resource path="res://weapons/Shotgun.tscn" type="PackedScene" id=12]
+[ext_resource path="res://structures/BuggedRadar.tscn" type="PackedScene" id=13]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://stages/scripts/StageInit.gd\"
@@ -120,8 +121,9 @@ func start():
 	GameManager.dialogue.start(start_text)
 
 
-func on_end():
+func end():
 	LoadingScreen.transition(\"res://stages/Stage4.tscn\")
+
 "
 
 [sub_resource type="TileSet" id=2]
@@ -183,14 +185,12 @@ position = Vector2( 128, 104 )
 battery = 4.0
 next_radars = [ NodePath("../Radar2") ]
 
-[node name="Radar2" parent="." instance=ExtResource( 6 )]
-position = Vector2( -2032, -2072 )
-battery = 4.0
-next_radars = [ NodePath(".") ]
+[node name="Radar2" parent="." instance=ExtResource( 13 )]
+position = Vector2( -2000, -2080 )
+next = [ NodePath("../Radar3") ]
 
-[node name="Radar3" parent="." instance=ExtResource( 6 )]
-position = Vector2( -744, -4104 )
-battery = 4.0
+[node name="Radar3" parent="." instance=ExtResource( 13 )]
+position = Vector2( -752, -4096 )
 
 [node name="Shotgun" parent="." instance=ExtResource( 11 )]
 position = Vector2( -1968, -2120 )
@@ -296,5 +296,3 @@ position = Vector2( -2470.4, -1651.9 )
 
 [node name="ArtilleryBug3" parent="." instance=ExtResource( 5 )]
 position = Vector2( -2399.98, -2733.89 )
-
-[connection signal="on_deactivate" from="Radar3" to="." method="on_end"]
