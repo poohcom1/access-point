@@ -103,7 +103,7 @@ func eval_pathfind_lazy():
 	lazy_mutex.unlock()
 		
 	var obj = bundle[0]
-	var path = navigation.get_simple_path(bundle[1], bundle[2], false)
+	var path = Array(navigation.get_simple_path(bundle[1], bundle[2], false))
 		
 	lazy_mutex.lock()
 	pathfind_lazy_list_done.append([obj, path])
