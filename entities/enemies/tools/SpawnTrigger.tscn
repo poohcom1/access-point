@@ -10,6 +10,8 @@ func _ready():
 
 
 func check_free(_body=null):
+	return
+# warning-ignore:unreachable_code
 	var should_free = true
 	
 	for area in areas:

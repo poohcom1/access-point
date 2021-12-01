@@ -51,7 +51,7 @@ func on_hit(dmg: float, _from=null, _type: String = ""):
 		dmg_num = DmgNum.instance()
 		dmg_num.num = ceil(dmg)
 		dmg_num.global_position = global_position
-		get_tree().root.add_child(dmg_num)
+		GameManager.add_to_scene(dmg_num)
 
 	emit_signal("on_damage", dmg)
 	

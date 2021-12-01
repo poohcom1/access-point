@@ -18,5 +18,5 @@ __meta__ = {
 TickSound = ExtResource( 3 )
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.45
 one_shot = true

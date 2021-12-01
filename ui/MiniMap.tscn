@@ -70,6 +70,7 @@ func _tilemap_init():
 	var bounds: Rect2 = tilemap.get_used_rect()
 	var sides: float = cos(PI/4) * bounds.size.x + cos(PI/4) * bounds.size.y
 	bounds.size = Vector2.ONE * sides
+
 	
 	# Get scale and offset
 	if bounds.size.x > bounds.size.y:
@@ -145,7 +146,7 @@ func in_range(pos: Vector2) -> bool:
 				< obj.radar_range*obj.radar_range ) and obj.battery > EPSILON:
 			return true
 		
-	return false
+	return true
 
 func _draw_objects():
 	var objects = get_tree().get_nodes_in_group(\"map\")
@@ -160,16 +161,14 @@ func _draw_objects():
 				if object in radars:
 					draw_rect(Rect2(pos, Vector2.ONE * 3), RADAR_COLOR)
 					# Get waypoints
-					if object.is_in_group(\"radars\") and object.battery > EPSILON:
+					if object.battery > EPSILON:
 						if not object.next_radars: 
-							push_warning(\"Radar: Next radar is null!\")
 							continue
 						
-						for next in object.next_radars:
-							if not object.has_node(next): 
-								continue
-							var next_radar = object.get_node(next)
+						for next in object.next_radar_nodes:
+							var next_radar = next.get_ref()
 							if not next_radar: continue
+							
 							var next_pos = tilemap_to_minimap(world_to_tilemap(next_radar.global_position).rotated(PI/4))
 							draw_line(pos + Vector2.ONE * 1.5, next_pos + Vector2.ONE * scale * 1.5, RADAR_PATH_COLOR, 1)
 							draw_square_outline(next_pos, 15)

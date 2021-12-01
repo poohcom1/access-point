@@ -54,5 +54,4 @@ rect_min_size = Vector2( 135, 150 )
 text = "Incoming transmission..."
 
 [node name="Pause" type="Timer" parent="."]
-wait_time = 0.75
 one_shot = true

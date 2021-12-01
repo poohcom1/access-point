@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://entities/enemies/tools/SpawnArea.tscn" type="PackedScene" id=2]
@@ -11,13 +11,11 @@
 [ext_resource path="res://structures/BreakableRock.tscn" type="PackedScene" id=9]
 [ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=10]
 [ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=11]
-[ext_resource path="res://weapons/modules/DashModule.tscn" type="PackedScene" id=12]
 [ext_resource path="res://structures/Generator.tscn" type="PackedScene" id=13]
 [ext_resource path="res://structures/Turret.tscn" type="PackedScene" id=14]
 [ext_resource path="res://entities/enemies/RangeBug.tscn" type="PackedScene" id=15]
 [ext_resource path="res://entities/enemies/SuicideBug.tscn" type="PackedScene" id=16]
 [ext_resource path="res://assets/Soundtrack/Midnight Brawl.wav" type="AudioStream" id=17]
-[ext_resource path="res://weapons/modules/ShieldModule.tscn" type="PackedScene" id=18]
 [ext_resource path="res://pickups/WeaponPickup.tscn" type="PackedScene" id=19]
 [ext_resource path="res://weapons/Flamethrower.tscn" type="PackedScene" id=20]
 [ext_resource path="res://weapons/MachineGun.tscn" type="PackedScene" id=21]
@@ -198,7 +196,7 @@ __meta__ = {
 position = Vector2( 716, -1044 )
 PICKUP_TEXT = "Charge"
 WeaponScene = ExtResource( 24 )
-description = "A light explosive for clearing out hordes of enemies"
+description = "Right-click to throw down a U-22 charge. A light explosive for clearing out hordes of enemies"
 
 [node name="FlameThrower" parent="." instance=ExtResource( 23 )]
 position = Vector2( 1580, 756 )
@@ -206,15 +204,8 @@ PICKUP_TEXT = "Flamethrower"
 WeaponScene = ExtResource( 20 )
 
 [node name="Player" parent="." instance=ExtResource( 5 )]
-position = Vector2( -740, 984 )
-DEFENSE_MODULE = ExtResource( 18 )
-ATTACK_MODULE = null
-DASH_MODULE = ExtResource( 12 )
+position = Vector2( -812, 980 )
 WEAPONS = [ ExtResource( 21 ), ExtResource( 22 ) ]
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
-zoom = Vector2( 0.5, 0.5 )
 
 [node name="DefenseStructures" type="Node2D" parent="."]
 position = Vector2( 0, 192 )

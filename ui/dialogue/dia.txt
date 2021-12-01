@@ -1,6 +1,30 @@
 	{
+		"s": "HQ",
+		"t":[
+		"We are approaching the entry point of the LZ", "Proceeding with final system checks before drop procedure is initiated", "Is agent 067-Mars ready?"
+		]
+	},
+	{
+		"s": "HQ",
+		"t":[
+		"Mars come in", "Status report"
+		]
+	},
+	{
 		"s": "MARS",
 		"t":[
-		"Aeonia come in over!", "I was swarmed by enemies!", "I thought the hostiles had been mostly cleared out?!"
+		"On standby and ready for ejection on your signal"
+		]
+	},
+	{
+		"s": "HQ",
+		"t":[
+		"Remember your briefing soldier", "Quick reconnaissance over a 50-click radius", "No unnecessary heroics and no breaking the line of order", "Stay on comms when you land"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"...copy that"
 		]
 	},
