@@ -72,8 +72,22 @@ func _process(delta):
 			if current_char != " ":
 				delta_time_tracker = 0
 				
+			var end = encoded_text.find(" ", text_position)
+			if end == -1:
+				end = encoded_text.find(".", text_position)
+				if end == -1:
+					end = encoded_text.find("", text_position)
+					if end == -1:
+						end = encoded_text.size()
+						
+			var padding = end - text_position + 1
+			
+			var padding_str = ""
+			for i in range(padding):
+				padding_str += " "
+				
 			text_buffer += current_char
-			text = text_buffer
+			text = text_buffer + padding_str
 			
 			add_child(OneShotAudio.new(TickSound, -15))
 		#else:
