@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://entities/enemies/tools/SpawnArea.tscn" type="PackedScene" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://structures/BreakableRock.tscn" type="PackedScene" id=9]
 [ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=10]
 [ext_resource path="res://entities/enemies/ArtilleryBug.tscn" type="PackedScene" id=11]
+[ext_resource path="res://weapons/modules/DashModule.tscn" type="PackedScene" id=12]
+[ext_resource path="res://structures/Generator.tscn" type="PackedScene" id=13]
 [ext_resource path="res://structures/Turret.tscn" type="PackedScene" id=14]
 [ext_resource path="res://entities/enemies/RangeBug.tscn" type="PackedScene" id=15]
 [ext_resource path="res://entities/enemies/SuicideBug.tscn" type="PackedScene" id=16]
@@ -108,16 +110,22 @@ var ending_text = [
 		\"t\":[
 		\"Aeonia come in over!\", \"I was swarmed by enemies!\", \"I thought the hostiles had been mostly cleared out?!\"
 		]
-	},
-
+	}
 ]
 
 func _ready():
-	pass
+	GameManager.dialogue.connect(\"dialogue_ended\", self, \"on_dialogue_finished\")
 
 
 func start():
 	GameManager.dialogue.start(intro_text)
+
+func end():
+	GameManager.dialogue.start(ending_text)
+
+func on_dialogue_finished(dia):
+	if dia == ending_text:
+		LoadingScreen.transition(\"res://stages/Stag3.tscn\")
 "
 
 [sub_resource type="TileSet" id=2]
@@ -181,31 +189,41 @@ __meta__ = {
 }
 
 [node name="Player" parent="." instance=ExtResource( 5 )]
-position = Vector2( -772, 992 )
+position = Vector2( 304, -2572 )
 DEFENSE_MODULE = ExtResource( 18 )
+DASH_MODULE = ExtResource( 12 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
 zoom = Vector2( 0.5, 0.5 )
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="DefenseStructures" type="Node2D" parent="."]
 position = Vector2( 0, 192 )
 
-[node name="Radar" parent="." instance=ExtResource( 6 )]
-position = Vector2( -844, 968 )
-revealed = true
-battery = -6.66667e-06
+[node name="Turret2" parent="DefenseStructures" instance=ExtResource( 14 )]
+position = Vector2( 284, -2816 )
 
-[node name="Radar2" parent="." instance=ExtResource( 6 )]
-position = Vector2( 0, 188 )
+[node name="Radar2" parent="DefenseStructures" instance=ExtResource( 6 )]
+position = Vector2( 0, -4 )
 revealed = true
-battery = 3.33333e-06
 
-[node name="Turret2" parent="." instance=ExtResource( 14 )]
-position = Vector2( 248.779, -2634.86 )
+[node name="Radar3" parent="DefenseStructures" instance=ExtResource( 6 )]
+position = Vector2( 116, -2916 )
+
+[node name="Turret3" parent="DefenseStructures" instance=ExtResource( 14 )]
+position = Vector2( 96, -2844 )
+
+[node name="Turret4" parent="DefenseStructures" instance=ExtResource( 14 )]
+position = Vector2( 216, -2916 )
+
+[node name="Generator" parent="DefenseStructures" instance=ExtResource( 13 )]
+position = Vector2( 160, -2884 )
 
 [node name="EnemyUnits" type="Node2D" parent="."]
 position = Vector2( 248.779, -2634.86 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="ArtilleryBug" parent="EnemyUnits" instance=ExtResource( 11 )]
 position = Vector2( 131.001, 1776.64 )
@@ -477,3 +495,5 @@ position = Vector2( 613.619, -2283.82 )
 
 [node name="BreakableRock4" parent="." instance=ExtResource( 9 )]
 position = Vector2( 643.549, -2286.47 )
+
+[connection signal="power_full" from="DefenseStructures/Generator" to="." method="end"]

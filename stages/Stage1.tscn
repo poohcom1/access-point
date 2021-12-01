@@ -351,7 +351,6 @@ stream = ExtResource( 17 )
 
 [node name="Radar" parent="Events" instance=ExtResource( 11 )]
 position = Vector2( -436, 548 )
-battery = 0.0
 next_radars = [ NodePath("../../BuggedRadar1") ]
 
 [node name="RadarActivator" type="Area2D" parent="Events/Radar"]
@@ -370,6 +369,9 @@ one_shot = true
 
 [node name="HealthPickup" parent="Events/Radar" instance=ExtResource( 10 )]
 position = Vector2( -52, 16 )
+
+[node name="HealthPickup2" parent="Events/Radar" instance=ExtResource( 10 )]
+position = Vector2( -1148, 92 )
 
 [node name="Hint1" type="Area2D" parent="Events"]
 position = Vector2( -200, 316 )

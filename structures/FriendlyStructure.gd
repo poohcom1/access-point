@@ -1,17 +1,21 @@
-tool
 extends Structure
 class_name FriendlyStructure
 
 # Properties
 export var MAX_BATTERY: float = 4
+export var DESTROYED_SOUND: AudioStream = load("res://assets/SE/BuildingDestroy1.mp3")
 
-# Fields
 export var battery: float
 export var bugged := false
 export var ACTIVATE_SOUND: AudioStream
 
+# Fields
+const EPSILON = 0.00001
+
 # Nodes
 
+# Fields
+var activated = true
 
 # Signals
 signal on_activate()
@@ -24,8 +28,23 @@ func _ready():
 	
 	$ClickArea.connect("mouse_entered", self, "_on_mouse_enter")
 	$ClickArea.connect("mouse_exited", self, "_on_mouse_exit")
+	
+	if battery < EPSILON:
+		deactivate()
+		activated = false
 
 ## Mouse Check
+func activate():
+	activated = true
+	battery = MAX_BATTERY
+	add_child(OneShotAudio2D.new(ACTIVATE_SOUND))
+	
+	modulate = Color.white
+	
+func deactivate():
+	activated = false	
+	modulate = Color(0.5, 0.5, 0.5)
+
 func _on_mouse_enter():
 	mouse_hover = true
 	

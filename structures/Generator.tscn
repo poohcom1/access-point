@@ -1,0 +1,253 @@
+[gd_scene load_steps=29 format=2]
+
+[ext_resource path="res://assets/weapons/generator.png" type="Texture" id=1]
+[ext_resource path="res://ui/ValueBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/weapons/generator_lights_white.png" type="Texture" id=3]
+[ext_resource path="res://assets/SE/StructureActivate.mp3" type="AudioStream" id=4]
+[ext_resource path="res://assets/weapons/radar_destroyed.png" type="Texture" id=5]
+[ext_resource path="res://assets/weapons/debris1.png" type="Texture" id=6]
+[ext_resource path="res://assets/weapons/generator_electricity.png" type="Texture" id=7]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends FriendlyStructure
+
+# Fields
+var tilemap_position: Vector2 # Cached for minimap
+
+signal power_full()
+
+# Nodes
+onready var charge_timer := $ChargeTimer
+
+func _ready():
+	if battery <= 0:
+		$Lights.visible = false
+	
+	connect(\"on_activate\", self, \"_on_activated\")
+	
+	$ActivationArea.connect(\"body_entered\", self, \"activate\")
+	charge_timer.connect(\"timeout\", self, \"power_full\")
+
+func _process(_delta):
+	if activated:
+		battery = MAX_BATTERY - MAX_BATTERY * (charge_timer.time_left/charge_timer.wait_time)
+	
+func activate(body=null):
+	if not activated and body is Player:
+			.activate()
+			battery = 0
+			charge_timer.start()
+			
+			$ElectricitySprites.play()
+			$Lights.visible = true
+			battery = MAX_BATTERY
+			
+			add_child(OneShotAudio2D.new(ACTIVATE_SOUND))
+
+func power_full():
+	emit_signal(\"power_full\")
+	$Lights.modulate = Color.green
+	for object in $PowerField.get_overlapping_bodies():
+		if object is FriendlyStructure:
+			object.activate()
+	
+func on_destroyed():
+	$Lights.visible = false
+	$CollisionPolygon2D.set_deferred(\"disabled\", true)
+	
+	add_child(OneShotAudio2D.new(DESTROYED_SOUND))
+	
+	$Sprite.play(\"destroyed\")
+	$Sprite.z_index = 1
+	$Particles2D.emitting = true
+	
+"
+
+[sub_resource type="CanvasItemMaterial" id=2]
+light_mode = 1
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 7 )
+region = Rect2( 96, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 7 )
+region = Rect2( 192, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 7 )
+region = Rect2( 288, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 7 )
+region = Rect2( 384, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 7 )
+region = Rect2( 480, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 7 )
+region = Rect2( 576, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 7 )
+region = Rect2( 672, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 7 )
+region = Rect2( 768, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 7 )
+region = Rect2( 864, 0, 96, 96 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 7 )
+region = Rect2( 960, 0, 96, 96 )
+
+[sub_resource type="SpriteFrames" id=14]
+animations = [ {
+"frames": [ null, SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), null, null, null ],
+"loop": true,
+"name": "default",
+"speed": 12.0
+} ]
+
+[sub_resource type="SpriteFrames" id=15]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "destroyed",
+"speed": 5.0
+} ]
+
+[sub_resource type="CanvasItemMaterial" id=16]
+light_mode = 1
+
+[sub_resource type="Animation" id=17]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 3.605, 4.43827 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="CanvasItemMaterial" id=18]
+particles_animation = true
+particles_anim_h_frames = 9
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 17.0946, 16.4503 )
+
+[sub_resource type="CircleShape2D" id=20]
+radius = 112.285
+
+[sub_resource type="RectangleShape2D" id=21]
+extents = Vector2( 112, 112 )
+
+[node name="Generator" type="StaticBody2D"]
+z_index = 45
+collision_layer = 3
+script = SubResource( 1 )
+MAX_BATTERY = 100.0
+ACTIVATE_SOUND = ExtResource( 4 )
+
+[node name="ChargeTimer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+
+[node name="Health" parent="." instance=ExtResource( 2 )]
+position = Vector2( -0.078743, 40 )
+value = "health"
+max_value = "MAX_HEALTH"
+progress_color = Color( 0.513726, 1, 0.509804, 1 )
+
+[node name="Energy" parent="." instance=ExtResource( 2 )]
+position = Vector2( -0.078743, 40 )
+value = "battery"
+max_value = "MAX_BATTERY"
+progress_color = Color( 0.509804, 1, 0.952941, 1 )
+overload_color = Color( 0.0313726, 0, 1, 1 )
+hide_if_full = false
+
+[node name="ElectricitySprites" type="AnimatedSprite" parent="."]
+modulate = Color( 1, 1, 1, 0.819608 )
+material = SubResource( 2 )
+z_index = 1
+frames = SubResource( 14 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 15 )
+
+[node name="Lights" type="Sprite" parent="."]
+self_modulate = Color( 1, 0.992157, 0.509804, 1 )
+material = SubResource( 16 )
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Lights"]
+autoplay = "lights"
+anims/lights = SubResource( 17 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 0.561867, 8.80256 )
+polygon = PoolVector2Array( -0.561867, -0.802555, 23.4381, 15.1974, -0.561867, 23.1974, -24.5619, 15.1974 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
+polygon = PoolVector2Array( -12, 24, 0, 28, 12, 24, 0, 20 )
+
+[node name="Particles2D" type="CPUParticles2D" parent="."]
+material = SubResource( 18 )
+z_index = 50
+emitting = false
+one_shot = true
+explosiveness = 0.65
+texture = ExtResource( 6 )
+emission_shape = 1
+emission_sphere_radius = 9.17
+direction = Vector2( 0, -1 )
+spread = 54.57
+initial_velocity = 63.83
+anim_speed = 1.0
+
+[node name="ClickArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickArea"]
+visible = false
+shape = SubResource( 19 )
+
+[node name="PowerField" type="Area2D" parent="."]
+z_index = -1
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PowerField"]
+shape = SubResource( 20 )
+
+[node name="ActivationArea" type="Area2D" parent="."]
+monitorable = false
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActivationArea"]
+visible = false
+shape = SubResource( 21 )
