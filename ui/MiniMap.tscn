@@ -23,7 +23,6 @@ export var TILECOLOR: Color
 
 # Fields
 const EPSILON = 0.00001
-var update_interval = 0
 
 var radars := []
 
@@ -52,6 +51,15 @@ func _ready():
 	
 	get_vision()
 	update()
+	
+	buffer_width = get_size().x
+	buffer_height = get_size().y
+	buffer_textureFlags = 0
+	buffer_img = Image.new()
+	buffer_imgTexture = ImageTexture.new()
+	
+	buffer_img.create(buffer_width, buffer_height, false, Image.FORMAT_RGBA8)
+	buffer_imgTexture.create_from_image(buffer_img, buffer_textureFlags)
 	
 func add_radar(radar):
 	radar.tilemap_position = world_to_tilemap(radar.global_position)
@@ -178,15 +186,17 @@ var tilemap_draw_buffer = []
 var cell_selection_cache = []
 var draw_tilemap_count = 0
 var rasterized_vision
-const GRAN = 12 # MAKE SURE IT'S AT LEAST 6
+const GRAN = 20 # MAKE SURE IT'S AT LEAST 6
+
+var buffer_width
+var buffer_height
+var buffer_textureFlags
+var buffer_img
+var buffer_imgTexture
 
 func _draw_tilemap():
 	draw_set_transform(rect_size / 2, 0, Vector2.ONE)
-	var count = 0
-	for cell in tilemap_draw_cache:
-		count = (count + 1) % 10
-		if count < 8:
-			draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale * 1.414), TILECOLOR)
+	draw_texture_rect(buffer_imgTexture, Rect2(-get_size()/2, get_size()), false)
 	
 var cumulative_delta = 0
 const MIN_DELTA_DELAY = 0.01
@@ -198,6 +208,17 @@ func process_tilemap(delta):
 		do_process_tilemap()
 
 func do_process_tilemap():
+	if (draw_tilemap_count > 0 and draw_tilemap_count < GRAN - 2):
+		var total = GRAN - 3
+		var ratio_start = float(draw_tilemap_count - 1) / total
+		var ratio_end = float(draw_tilemap_count) / total
+		draw_backbuffer(ratio_start, ratio_end)
+	elif draw_tilemap_count == 0:
+		buffer_img.fill(Color(0,0,0,0))
+	elif draw_tilemap_count == GRAN - 2:
+		buffer_imgTexture.set_data(buffer_img)
+		
+	
 	if(draw_tilemap_count == 0):
 		#print(Engine.get_frames_per_second())
 		get_tilemap_cells()
@@ -214,7 +235,7 @@ func do_process_tilemap():
 	if draw_tilemap_count == GRAN - 1:
 		tilemap_draw_cache = tilemap_draw_buffer
 		tilemap_draw_buffer = []
-	elif draw_tilemap_count == GRAN - 4:
+	elif draw_tilemap_count == GRAN - 2:
 		get_vision()
 	
 	draw_tilemap_count = (draw_tilemap_count + 1) % GRAN
@@ -230,14 +251,28 @@ func get_tilemap_cells():
 			cell_selection_cache.append_array(cells)
 					
 
+func draw_backbuffer(ratio_start, ratio_end):
+	var total_size = tilemap_draw_cache.size()
+	var start = total_size * ratio_start
+	var end = total_size * ratio_end
+	
+	buffer_img.lock()
+	var xoffset = get_size()/2
+	var xrseed = 0
+	var count = 0
+	for cell in tilemap_draw_cache:
+		count += 1
+		xrseed = (xrseed + 1) % 10
+		if xrseed < 8 and count >= start and count < end:
+			#draw_rect(Rect2(tilemap_to_minimap(cell), Vector2.ONE * scale * 1.414), TILECOLOR)
+			var cellx = tilemap_to_minimap(cell) + xoffset
+			buffer_img.set_pixel(cellx.x, cellx.y, TILECOLOR)
+	buffer_img.unlock()
+	
 		
 func _process(delta):
-	update_interval += 1
-	if update_interval > UPDATE_FRAMES_INTERVAL:
-		update_interval = 0
-		
-		update()
-		process_tilemap(delta)
+	update()
+	process_tilemap(delta)
 	
 	
 func world_to_tilemap(position: Vector2) -> Vector2:
