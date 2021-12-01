@@ -63,8 +63,7 @@ func _ready():
 	
 	
 	# Check anim sprite
-	if ANIMATION_NODE == null:
-		ANIMATION_NODE = "AnimatedSprite"
+	ANIMATION_NODE = "AnimatedSprite"
 		
 	anim_sprite = get_node(ANIMATION_NODE)	
 	

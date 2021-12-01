@@ -456,14 +456,5 @@ description = "Press SHIFT to dash."
 position = Vector2( 1383.7, -278.025 )
 texture = ExtResource( 24 )
 
-[node name="BuggedRadar" parent="." instance=ExtResource( 18 )]
-position = Vector2( -1600, 688 )
-
-[node name="BuggedRadar4" parent="." instance=ExtResource( 18 )]
-position = Vector2( -1536, 644 )
-
-[node name="BuggedRadar5" parent="." instance=ExtResource( 18 )]
-position = Vector2( -1580, 584 )
-
 [editable path="BreakableRock"]
 [editable path="Spawner"]
