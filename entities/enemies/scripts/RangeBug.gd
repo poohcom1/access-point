@@ -51,8 +51,12 @@ func _physics_process(_delta):
 				if shoot_timer.time_left == 0:
 					shoot()
 				shoot_timer.start(SHOOT_INTERVAL)
+				
 		State.Knockback:
 			mv = move_and_slide(mv)
+		RangeState.Shoot:
+			if navigation_target.get_ref():
+				set_angle_animation(navigation_target.get_ref().global_position.angle_to_point(global_position))
 
 func on_state_timeout():
 	if state == RangeState.Shoot:
@@ -69,8 +73,10 @@ func shoot():
 		var bullet = ProjectileUtil.create_bullet_here(Bullet, self, target.global_position, BULLET_SPEED)
 		bullet.damage = DAMAGE
 		on_state_timeout()
-		
+		shoot_timer.start(SHOOT_INTERVAL)
 		add_child(OneShotAudio2D.new(ShootFX))
+		
+		
 
 func on_death():
 	var corpse := CORPSE.instance()

@@ -54,7 +54,7 @@ __meta__ = {
 }
 
 [node name="TextureRect" type="Sprite" parent="."]
-position = Vector2( -496.506, 223.493 )
+position = Vector2( -496, 216 )
 scale = Vector2( 0.609155, 0.642786 )
 texture = ExtResource( 2 )
 offset = Vector2( 1657.22, 161.418 )

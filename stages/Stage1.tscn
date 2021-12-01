@@ -440,6 +440,9 @@ position = Vector2( 1340, -1360 )
 collision_layer = 7
 MAX_HEALTH = 300.0
 
+[node name="Health" parent="BuggedRadar3" index="1"]
+x_scale = 0.5
+
 [node name="RailgunPickup" parent="." instance=ExtResource( 20 )]
 position = Vector2( 1612, -212 )
 WeaponScene = ExtResource( 22 )
@@ -458,3 +461,4 @@ texture = ExtResource( 24 )
 
 [editable path="BreakableRock"]
 [editable path="Spawner"]
+[editable path="BuggedRadar3"]

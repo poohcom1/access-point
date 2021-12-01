@@ -239,7 +239,7 @@ ENERGY_COST = 8
 module_name = "Shield"
 TYPE = 1
 DAMAGE_MULTIPLIER = 0.1
-HIT_ENERY_COST = 10
+HIT_ENERY_COST = 5
 PARRY_COLOR = Color( 1, 0.796078, 0, 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
