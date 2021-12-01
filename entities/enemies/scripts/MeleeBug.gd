@@ -63,7 +63,7 @@ func _physics_process(_delta):
 						retreating = true
 				elif retreating and not navigation_target.get_ref() or (health > MAX_HEALTH * ATTACK_HEALTH or healers.size() == 0):
 						speed = BASE_SPEED				
-						set_target(GameManager.player)
+						set_target(search_nearest_target())
 						retreating = false
 
 			## Pathfinding
@@ -94,7 +94,7 @@ func _physics_process(_delta):
 			## Attack
 			var target = navigation_target.get_ref()
 			
-			if target is Player or target is FriendlyStructure:
+			if target and target.is_in_group("friendly"):
 
 				var found_target = false
 				
