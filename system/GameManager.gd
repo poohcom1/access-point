@@ -147,7 +147,8 @@ func pause_game():
 	
 	
 func resume_game():
-	get_tree().get_root().remove_child(p_pause_node)
+	if get_tree().get_root().is_a_parent_of(p_pause_node):
+		get_tree().get_root().remove_child(p_pause_node)
 	get_tree().paused = false
 
 

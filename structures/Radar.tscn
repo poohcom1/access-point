@@ -39,8 +39,6 @@ func _ready():
 	# warning-ignore:return_value_discarded
 	connect(\"on_activate\", self, \"_on_activated\")
 	
-	print(next_radars)
-	
 	for radar in next_radars:
 		next_radar_nodes.append(weakref(get_node(radar)))
 	

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://ui/menu/MenuButton.tscn" type="PackedScene" id=2]
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=1]
 script/source = "extends CanvasLayer
 
 var resume_cooldown = 10
@@ -37,16 +37,17 @@ size = 60
 outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 2 )
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id=4]
 script/source = "extends CustomMenuButton
 
 func on_click():
 	LoadingScreen.transition(\"res://stages/menu/MainMenu.tscn\")
+	
 "
 
 [node name="PauseScene" type="CanvasLayer"]
 pause_mode = 2
-script = SubResource( 4 )
+script = SubResource( 1 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -96,6 +97,6 @@ margin_top = 44.0
 margin_right = 624.0
 margin_bottom = 84.0
 text = "Return to title"
-script = SubResource( 5 )
+script = SubResource( 4 )
 HoverSound = null
 SelectSound = null

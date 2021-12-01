@@ -49,6 +49,7 @@ func _input(event):
 			
 func start_scene():
 	$Timer.start()
+	GameManager.resume_game()
 	
 	if _scene:
 		get_tree().change_scene(_scene)
