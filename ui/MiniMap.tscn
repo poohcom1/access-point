@@ -152,7 +152,11 @@ func _draw_objects():
 				if object in radars:
 					draw_rect(Rect2(pos, Vector2.ONE * 3), RADAR_COLOR)
 					# Get waypoints
-					if object.battery > EPSILON:
+					if object.is_in_group(\"radars\") and object.battery > EPSILON:
+						if not object.next_radars: 
+							push_warning(\"Radar: Next radar is null!\")
+							continue
+						
 						for next in object.next_radars:
 							if not object.has_node(next): 
 								continue

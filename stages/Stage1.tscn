@@ -134,6 +134,7 @@ position = Vector2( 100, 24 )
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( -1648, 628 )
 DEFENSE_MODULE = ExtResource( 16 )
+ATTACK_MODULE = null
 WEAPONS = [ ExtResource( 15 ) ]
 
 [node name="Spawner" parent="." instance=ExtResource( 19 )]
@@ -349,9 +350,14 @@ stream = ExtResource( 17 )
 
 [node name="Events" type="Node2D" parent="."]
 
+[node name="HealthPickup" parent="Events" instance=ExtResource( 10 )]
+position = Vector2( -488, 564 )
+
+[node name="HealthPickup2" parent="Events" instance=ExtResource( 10 )]
+position = Vector2( -1584, 636 )
+
 [node name="Radar" parent="Events" instance=ExtResource( 11 )]
 position = Vector2( -436, 548 )
-battery = 0.0
 next_radars = [ NodePath("../../BuggedRadar1") ]
 
 [node name="RadarActivator" type="Area2D" parent="Events/Radar"]
@@ -367,9 +373,6 @@ shape = SubResource( 3 )
 
 [node name="OSTTimer" type="Timer" parent="Events/Radar/RadarActivator"]
 one_shot = true
-
-[node name="HealthPickup" parent="Events/Radar" instance=ExtResource( 10 )]
-position = Vector2( -52, 16 )
 
 [node name="Hint1" type="Area2D" parent="Events"]
 position = Vector2( -200, 316 )

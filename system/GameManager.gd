@@ -60,8 +60,11 @@ var spawn_skip
 var pause_cd_count = 10
 const PAUSE_COOLDOWN = 10
 
-func add_to_scene(node: Object):
+func add_to_scene(node: Object, _global_position = null):
 	stage.call_deferred("add_child", node)
+	
+	if _global_position:
+		node.set_deferred("global_position", _global_position)
 
 func _process(_delta):
 	if pause_cd_count > 0:
@@ -75,7 +78,7 @@ func _process(_delta):
 
 	# Spawners
 	if spawn_queue.size() > 0:
-		get_tree().root.call_deferred("add_child", spawn_queue.pop_back())
+		add_to_scene(spawn_queue.pop_back())
 
 func lazy_path_function(_userdata):
 	while (true):

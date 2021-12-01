@@ -13,7 +13,10 @@ func check_free(_body=null):
 	var should_free = true
 	
 	for area in areas:
-		should_free = should_free and area.TRIGGERED
+		if area:
+			should_free = should_free and area.TRIGGERED
+		else:
+			should_free = should_free and true
 
 	if should_free:
 		queue_free()

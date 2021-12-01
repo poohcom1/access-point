@@ -30,8 +30,7 @@ func encodeString(string):
 
 func encodeDialogSimple(listOfStrings):
 	var encoded = ["\\start"]
-	encoded += encodeString(listOfStrings[0])
-	for i in range(1, len(listOfStrings)):
+	for i in range(0, len(listOfStrings)):
 		encoded.append("\\n")
 		encoded += (encodeString(listOfStrings[i]))
 	encoded.append("\\n")

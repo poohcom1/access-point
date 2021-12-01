@@ -4,6 +4,9 @@ class_name Pickup
 export var PICKUP_SOUND: AudioStream
 export var HOVER_HEIGHT := 5.0
 export var HOVER_TIME := 1.0
+export var PICKUP_TEXT: String = ""
+
+const PickupText = preload("res://pickups/PickupText.tscn")
 
 var anim_tween := Tween.new()
 
@@ -15,6 +18,16 @@ func _on_enter(body):
 	if body is Player:
 		if PICKUP_SOUND:
 			GameManager.add_to_scene(OneShotAudio.new(PICKUP_SOUND))
+		if PICKUP_TEXT != "":
+			var pickup_text = PickupText.instance()
+			
+			pickup_text.text = PICKUP_TEXT
+			
+			get_tree().root.add_child(pickup_text)
+			
+			pickup_text.global_position = global_position
+			
+		
 		on_pickup(body)
 		queue_free()
 

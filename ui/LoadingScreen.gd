@@ -31,8 +31,6 @@ func transition(scene: String, pause=false, hint=""):
 func game_over():
 	current_stage = GameManager.stage.filename
 	
-	
-	
 	transition("res://stages/menu/GameOver.tscn")
 
 func switch_scene():
@@ -47,11 +45,12 @@ func _input(event):
 			
 func start_scene():
 	$Timer.start()
-	get_tree().paused = true
 	
 	if _scene:
 		get_tree().change_scene(_scene)
 		
+	
+	get_tree().paused = true
 	anim_player.play("start_scene")
 	_pause = false
 	

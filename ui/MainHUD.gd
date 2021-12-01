@@ -21,12 +21,14 @@ func _input(_event):
 		hide_alert()
 	
 func show_alert(title, description):
+	get_tree().paused = true
 	
 	alert_section.visible = true
 	alert_title.bbcode_text = title
 	alert_description.bbcode_text = description
 	
 func hide_alert():
+	get_tree().paused = false	
 	alert_section.visible = false
 
 func show_hint(hint_text):
