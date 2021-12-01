@@ -165,7 +165,7 @@ _global_script_class_icons={
 [application]
 
 config/name="bug-game"
-run/main_scene="res://stages/Stage1.tscn"
+run/main_scene="res://stages/menu/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]

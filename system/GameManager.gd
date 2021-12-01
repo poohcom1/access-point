@@ -164,18 +164,16 @@ func load_game():
 	
 	return data
 
-func save_game():
+func save_game(scene, stage_num):
 	var latest_data = load_game()
 	
-	
-	
-	if (not latest_data.STAGE_NUM) or stage.STAGE_NUM > latest_data.STAGE_NUM:
+	if (not latest_data) or stage_num > latest_data.stage_num:
 		var save_game = File.new()
 		save_game.open("user://savegame.save", File.WRITE)
 		
 		save_game.store_line(to_json({
-			"stage_num": stage.STAGE_NUM,
-			"stage": current_stage_file
+			"stage_num": stage_num,
+			"stage": scene
 		}))
 
 		save_game.close()

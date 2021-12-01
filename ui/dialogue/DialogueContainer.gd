@@ -52,6 +52,8 @@ func clear():
 	dialogue_text.text = ""
 
 func next():
+	if not text:
+		return
 	if text_ind >= text.size(): 
 		speaker_text.text = ""
 		dialogue_text.text = ""

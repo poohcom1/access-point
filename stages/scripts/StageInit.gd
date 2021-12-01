@@ -5,6 +5,8 @@ onready var tilemap := $Background
 export var STAGE_NUM: int
 
 func _ready():
+	GameManager.save_game(filename, STAGE_NUM)
+	
 	GameManager.current_stage_file = filename
 	
 	GameManager.stage = self
