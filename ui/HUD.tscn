@@ -75,6 +75,7 @@ func update_health():
 func update_ammo():
 	#if ammo_cache == player.weapon.ammo and not player.weapon.reloading(): return
 	#ammo_cache = player.weapon.ammo
+	if not player.weapon: return
 	
 	if player.weapon.reloading():
 		ammo.text = \"\"

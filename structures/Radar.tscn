@@ -29,6 +29,9 @@ onready var battery_timer := $BatteryTimer
 func _ready():
 	add_to_group(radar_group)
 	
+	if battery <= 0:
+		$Lights.visible = false
+	
 	# warning-ignore:return_value_discarded
 	battery_timer.connect(\"timeout\", self, \"battery_drain\")
 	battery_timer.start(drain_interval)
@@ -37,6 +40,7 @@ func _ready():
 	connect(\"on_activate\", self, \"_on_activated\")
 	
 func activate():
+	$Lights.visible = true
 	battery = MAX_BATTERY
 	add_child(OneShotAudio2D.new(ACTIVATE_SOUND))
 
@@ -51,9 +55,10 @@ func battery_drain():
 func _on_activated():
 	for radar in next_radars:
 		get_node(radar).revealed = true
+
 		
 func on_destroyed():
-	
+	$Lights.visible = false
 	$CollisionPolygon2D.set_deferred(\"disabled\", true)
 
 # @Override
@@ -98,7 +103,7 @@ tracks/0/keys = {
 z_index = 45
 collision_layer = 3
 script = SubResource( 1 )
-battery = 3.13666
+battery = 3.79334
 ACTIVATE_SOUND = ExtResource( 4 )
 radar_range = 50
 

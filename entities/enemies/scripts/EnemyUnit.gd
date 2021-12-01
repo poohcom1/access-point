@@ -57,7 +57,7 @@ func _ready():
 	if Engine.editor_hint: return
 	
 	# Init search area (for nearby aggro)
-	#GameManager.connect("aggro_alert", self, "alert")
+	GameManager.connect("aggro_alert", self, "alert")
 	
 	
 	# Check anim sprite
@@ -191,7 +191,7 @@ func _process(_delta):
 			set_target(new_target)
 		else:
 			state = State.Passive		
-	if state == State.Default and FOCUS_PLAYER and in_aggro_range(GameManager.player):
+	if GameManager.player and state == State.Default and FOCUS_PLAYER and in_aggro_range(GameManager.player):
 		set_target(GameManager.player)
 		
 

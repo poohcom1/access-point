@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://stages/MainTileset.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/tiles/isomud.png" type="Texture" id=2]
 [ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://structures/Spawner.tscn" type="PackedScene" id=4]
+[ext_resource path="res://entities/enemies/MeleeBug.tscn" type="PackedScene" id=5]
+[ext_resource path="res://structures/BreakableRock.tscn" type="PackedScene" id=6]
 [ext_resource path="res://ui/MiniMap.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ui/dialogue/Dialogue.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=10]
@@ -72,21 +74,21 @@ zoom = Vector2( 0.5, 0.5 )
 
 [node name="Dialogue" parent="UI" instance=ExtResource( 9 )]
 visible = false
-position = Vector2( 1.05945, 0 )
 
 [node name="MiniMap" parent="UI" instance=ExtResource( 8 )]
 visible = false
 anchor_top = 1.0
+anchor_bottom = 1.0
 margin_top = -149.0
 margin_right = 156.0
 margin_bottom = 0.0
 
 [node name="Radar" parent="." instance=ExtResource( 11 )]
-position = Vector2( 0, 192 )
-battery = 3.69667
+position = Vector2( 287.02, 24.704 )
+battery = 6.66667e-06
 
 [node name="Turret" parent="." instance=ExtResource( 12 )]
-position = Vector2( 295.02, 8.70401 )
+position = Vector2( 103.02, 272.704 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 visible = false
@@ -94,6 +96,26 @@ color = Color( 0.298039, 0.305882, 0.380392, 1 )
 
 [node name="Spawner" parent="." instance=ExtResource( 4 )]
 position = Vector2( 519.02, -127.296 )
+
+[node name="SpawnArea" parent="Spawner" index="0"]
+TRIGGERED = false
+ENEMY_AMOUNT = 10
+
+[node name="MeleeBug" parent="Spawner/SpawnArea" index="3" instance=ExtResource( 5 )]
+position = Vector2( -168, 32 )
+FRIEND_RANGE = 300
+AGGRO_RANGE = 150
+
+[node name="MeleeBug2" parent="Spawner/SpawnArea" index="4" instance=ExtResource( 5 )]
+position = Vector2( -112, 24 )
+FRIEND_RANGE = 300
+AGGRO_RANGE = 150
+
+[node name="BreakableRock" parent="." instance=ExtResource( 6 )]
+position = Vector2( 319.02, -39.296 )
+
+[node name="BreakableRock2" parent="." instance=ExtResource( 6 )]
+position = Vector2( 335.02, -15.296 )
 
 [editable path="Player"]
 [editable path="Spawner"]

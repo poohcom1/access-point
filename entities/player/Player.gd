@@ -212,7 +212,8 @@ func _input(event):
 	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
 			- int(Input.is_action_just_pressed("previous_weapon")))
 	
-	weapons[weapon_ind].use()
+	if weapons.size() > 0 and weapons[weapon_ind]:
+		weapons[weapon_ind].use()
 
 
 func _physics_process(_delta):
@@ -278,7 +279,9 @@ func _set_weapon(val):
 	weapon_ind = weapons.find(val)
 	
 func _get_weapon():
-	return weapons[weapon_ind]
+	if weapons.size() > 0:
+		return weapons[weapon_ind]
+	return null
 
 func on_death():
 	body_anim.visible = false

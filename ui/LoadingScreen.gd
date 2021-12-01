@@ -14,8 +14,6 @@ var _pause = false
 var current_stage: String
 
 func _ready():
-	if not _scene:
-		_scene = "res://stages/Stage1.tscn"
 	$Timer.connect("timeout", self, "_unpause_stage")
 
 func transition(scene: String, pause=false, hint=""):
@@ -31,7 +29,9 @@ func transition(scene: String, pause=false, hint=""):
 		hint_text.bbcode_text = hint
 
 func game_over():
-	current_stage = _scene
+	current_stage = GameManager.stage.filename
+	
+	
 	
 	transition("res://stages/menu/GameOver.tscn")
 

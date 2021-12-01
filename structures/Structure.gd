@@ -25,9 +25,9 @@ func _ready():
 	
 
 func on_hit(damage, _from=null, _type=""):
+	
 	health -= damage
 
-	
 	if not destroyed and health <= 0:
 		destroyed = true
 		emit_signal("destroyed")

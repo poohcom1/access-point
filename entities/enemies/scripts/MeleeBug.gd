@@ -17,7 +17,7 @@ export(AudioStream) var ATK_SFX
 # Fields
 var touching_target = false
 var was_touching := false # If touching player on the previous frame
-var is_attacking := false # Attack flag set from timer
+var blocker: DestructableStructure 
 
 # Navigation
 var retreating = false
@@ -96,17 +96,24 @@ func _physics_process(_delta):
 			
 			if target and target.is_in_group("friendly"):
 				var found_target = false
+
 				
-				for i in get_slide_count():
+				for i in range(get_slide_count()):
 					var collision = get_slide_collision(i)
 					if collision.collider == target and target.health > 0:
 						found_target = true
-						if attack_timer.is_stopped():
-							touching_target = true
-							_on_attack()
-							attack_timer.start(ATTACK_INTERVAL)
+						touching_target = true
 							
-						break
+					if collision.collider.is_in_group("blocker"):
+						found_target = true
+						blocker = collision.collider
+						
+					
+				if found_target:
+					if attack_timer.is_stopped():
+						
+						_on_attack()
+						attack_timer.start(ATTACK_INTERVAL)
 				if not found_target:
 					touching_target = false
 		State.Knockback:
@@ -120,10 +127,18 @@ func on_hit(dmg, from=null, type=""):
 		set_target(from)
 	
 func _on_attack():
+	var hit_something = false	
 	if touching_target and navigation_target.get_ref():
 		navigation_target.get_ref().on_hit(DAMAGE, self)
 		add_child(OneShotAudio2D.new(ATK_SFX))
-	else:
+		hit_something = true
+	
+	if is_instance_valid(blocker):
+		add_child(OneShotAudio2D.new(ATK_SFX))
+		blocker.on_hit(DAMAGE, self)
+		hit_something = true
+		
+	if not hit_something:
 		attack_timer.stop()
 	
 func on_death():
