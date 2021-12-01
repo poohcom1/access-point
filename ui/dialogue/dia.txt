@@ -1,30 +1,126 @@
 	{
-		"s": "MARS",
+		"s": "UNKNOWN",
 		"t":[
-		"Landed and ready to proceed"
+		"jlsdfe...oihieifje....ard...ars...mars come in over!"
 		]
 	},
 	{
 		"s": "MARS",
 		"t":[
-		"HQ do you read me?"
+		"This is Mars over", "Damn!", "I thought I lost you guys!"
+		]
+	},
+	{
+		"s": "HQ.",
+		"t":[
+		"Affirmative, there is some serious on-world jamming going on in this world"
 		]
 	},
 	{
 		"s": "MARS",
 		"t":[
-		"This is agent 067-Mars to all callsigns on this frequency", "Does anyone copy?"
+		"I'll say", "You had me worried for a bit", "I have been fighting non-stop here"
+		]
+	},
+	{
+		"s": "HQ",
+		"t":[
+		"We quite enjoyed the silence honestly"
 		]
 	},
 	{
 		"s": "MARS",
 		"t":[
-		"Shit!", "Stay on comms Agent Mars they said"
+		"I am sure you did", "Did we break through?"
+		]
+	},
+	{
+		"s": "HQ",
+		"t":[
+		"Unsure", "This could be a temporary state", "We have been getting more stable but there have been too many spikes to keep up sustained comms"
+		]
+	},
+	{
+		"s": "AEONIA",
+		"t":[
+		"Come in Mars", "The comms seem to be very clear now", "You must be almost to the base", "Just a little more"
 		]
 	},
 	{
 		"s": "MARS",
 		"t":[
-		"Proceeding to designated pickup position under auxiliary protocol 6B", "I will come back to haunt your asses if you write me off as dead before I make it"
+		"Copy that Aeonia", "Please hold for a minute"
+		]
+	},
+	{
+		"s": "HQ",
+		"t":[
+		"Mars you have strayed from the original LZ course", "Proceed to the designated coordinates as per your briefing", "We need you out of there for a proper debriefing", "Whatever it is you are fighting, we need to figure out what they are and what they want first"
+		]
+	},
+	{
+		"s": "MARS.",
+		"t":[
+		"HQ, I have reason to believe I am close to the command bunker the distress call was sent from", "I will proceed there before heading to the LZ"
+		]
+	},
+	{
+		"s": "HQ",
+		"t":[
+		"Negative Mars", "We need you to follow protocol", "Besides, we have deciphered more of the distress call", "It seems to be from a certain Commander Volas who reported that the bunker had been infiltrated and overrun" 
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"..."
+		]
+	},
+	{
+		"s": "HQ",
+		"t":[
+		"...Mars?"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"... this was in the initial transmission?"
+		]
+	},
+	{
+		"s": "HQ",
+		"t":[
+		"Affirmative", "There are mentions of creatures capable of mimicking speech but that has yet to be confirmed with our database but the distress call was clear on the point of the base having fallen"
+		]
+	},
+	{
+		"s": "AEONIA",
+		"t":[
+		"Hey, are you still there?", "Commander Volas wants to talk to you", "It seems he quite likes you huh?"
+		]
+	},
+	{
+		"s": "VOLAS",
+		"t":[
+		"Mars, I heard you are making progress and almost here", "We have cleared the hostile camps near the base", "Contact us when you get here and we will open the main entrance for you"
+		]
+	},
+	{
+		"s": "HQ",
+		"t":[
+		"From the transmission itself, we can assume that the base fell, and the commander managed to send out the transmission as a dying message in hopes that it will be able to get off world", "It was an unlikely bet, but it worked, and he managed to time it just right for us to receive it", "However, we need you on your guard as the base is likely to be a stronghold for whatever the fuck overran this planet", "For now, follow the coordinates for the LZ so we can regroup first"
+		]
+	},
+	{
+		"s": "MARS",
+		"t":[
+		"....."
+		]
+	},
+	{
+		"s": "AEONIA",
+		"t":[
+		"Hey, you haven't responded", "Is everything ok?", "Are you heading towards the base?"
 		]
 	},

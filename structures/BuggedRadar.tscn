@@ -28,11 +28,13 @@ func on_destroyed():
 			var next_radar = get_node(node)
 			radar.next_radars.append(next_radar.get_path())
 		
-	GameManager.add_to_scene(radar)
-	GameManager.minimap.add_radar(radar)
+	GameManager.stage.add_child(radar)
 	radar.global_position = global_position
 	
 	$BloodSpurt.play(\"spurt1\")
+	
+	yield(get_tree(), \"idle_frame\")
+	GameManager.minimap.add_radar(radar)
 
 func on_hit(dmg, _f=null, _t=\"\"):
 	.on_hit(dmg, _f, _t)

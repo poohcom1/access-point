@@ -212,7 +212,7 @@ func _input(event):
 	switch_weapon(int(Input.is_action_just_pressed("next_weapon"))
 			- int(Input.is_action_just_pressed("previous_weapon")))
 	
-	if weapons.size() > 0 and weapons[weapon_ind]:
+	if take_input and weapons.size() > 0 and weapons[weapon_ind]:
 		weapons[weapon_ind].use()
 
 

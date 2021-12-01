@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/ui/MenuFont.tres" type="DynamicFont" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+var go = false
+
+func _ready():
+	$Timer.connect(\"timeout\", self, \"end\")
+
+func _process(_delta):
+	if not go and Input.is_action_just_pressed(\"dismiss\"):
+		end()
+
+func end():
+	go = true
+	LoadingScreen.transition(\"res://stages/menu/MainMenu.tscn\")
+"
+
+[node name="End" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -104.0
+margin_top = -148.0
+margin_right = 100.0
+margin_bottom = -125.0
+custom_fonts/font = ExtResource( 1 )
+text = "To be continued"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Credits" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -104.0
+margin_top = -68.0
+margin_right = 117.0
+margin_bottom = -45.0
+custom_fonts/font = ExtResource( 1 )
+text = "thanks for playing!
+
+from 
+poohcom1
+koomah
+timid
+&
+JesuisBaguette"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0

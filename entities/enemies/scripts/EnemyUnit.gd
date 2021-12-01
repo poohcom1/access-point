@@ -293,6 +293,7 @@ func set_angle_animation(angle, anim="run", anim_node = anim_sprite):
 	anim_node.play("%s_%s" % [anim, diranim])
 
 func set_move_animation(anim_node = anim_sprite):
+	if not anim_node: return
 	#todo: Use idle anim when states are added
 	var moveanim = "run"
 	

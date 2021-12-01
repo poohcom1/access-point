@@ -6,7 +6,7 @@ class_name ProjectileUtil
 """
 	Creates a bullet given a scene, and attaches it to the tree root
 """
-static func create_bullet(BulletScn: PackedScene, parent: Node2D, start: Vector2, target: Vector2, override_speed=null) -> Bullet:
+static func create_bullet(BulletScn: PackedScene, _parent: Node2D, start: Vector2, target: Vector2, override_speed=null) -> Bullet:
 	var bullet = BulletScn.instance()
 	
 	bullet.angle = target.angle_to_point(start)
@@ -14,7 +14,7 @@ static func create_bullet(BulletScn: PackedScene, parent: Node2D, start: Vector2
 	if override_speed != null:
 		bullet.speed = override_speed
 	
-	parent.get_tree().root.call_deferred("add_child", bullet)
+	GameManager.stage.call_deferred("add_child", bullet)
 	
 	return bullet
 

@@ -83,7 +83,7 @@ func _process(delta):
 			var padding = end - text_position + 1
 			
 			var padding_str = ""
-			for i in range(padding):
+			for _i in range(padding):
 				padding_str += " "
 				
 			text_buffer += current_char
