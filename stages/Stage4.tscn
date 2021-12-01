@@ -81,40 +81,6 @@ tracks/0/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=6]
-length = 4.0
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Inner:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 2, 4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.486275, 0.247059, 0.435294, 1 ), Color( 1, 1, 1, 1 ) ]
-}
-
-[sub_resource type="Animation" id=7]
-resource_name = "bleed"
-length = 0.5
-tracks/0/type = "method"
-tracks/0/path = NodePath("BleedAnim:bleed")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0.1 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "_bleed"
-} ]
-}
-
 [sub_resource type="Animation" id=4]
 length = 4.0
 loop = true
@@ -133,6 +99,39 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=5]
 resource_name = "bleed"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/path = NodePath("BleedAnim:bleed")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_bleed"
+} ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Inner:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.486275, 0.247059, 0.435294, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=7]
 length = 0.5
 tracks/0/type = "method"
 tracks/0/path = NodePath("BleedAnim:bleed")
@@ -231,6 +230,7 @@ MELEE_PRIORITY = 3
 HEALER_PRIORITY = 2
 SUICIDE_PRIORITY = 0
 RANGE_PRIORITY = 0
+ENEMY_PRE_AGGRO = true
 
 [node name="Position2D" parent="Spawner2/SpawnArea" index="2"]
 position = Vector2( 124.349, 336.436 )
@@ -261,6 +261,7 @@ ENEMY_AMOUNT = 12
 MELEE_PRIORITY = 5
 HEALER_PRIORITY = 3
 RANGE_PRIORITY = 3
+ENEMY_PRE_AGGRO = true
 
 [node name="Position2D" parent="Spawner3/SpawnArea" index="2"]
 position = Vector2( -262.215, 201.588 )
@@ -294,10 +295,14 @@ position = Vector2( 3651.33, -1375.91 )
 [node name="SpawnArea" parent="Spawner5" index="0"]
 TRIGGERED = false
 SPAWN_COUNT = 5
-ENEMY_AMOUNT = 12
-MELEE_PRIORITY = 5
-HEALER_PRIORITY = 3
-RANGE_PRIORITY = 3
+SPAWN_INTERVAL = 10.0
+SPAWN_MIN_INTERVAL = 10.0
+ENEMY_AMOUNT = 8
+MELEE_PRIORITY = 4
+HEALER_PRIORITY = 1
+SUICIDE_PRIORITY = 2
+RANGE_PRIORITY = 1
+ENEMY_PRE_AGGRO = true
 
 [node name="Position2D" parent="Spawner5/SpawnArea" index="2"]
 position = Vector2( -803.564, -498.15 )
@@ -311,10 +316,10 @@ position = Vector2( -1282.13, -911.819 )
 scale = Vector2( 1.74227, 1.36903 )
 
 [node name="AnimationPlayer" parent="Spawner5" index="1"]
-anims/pulse = SubResource( 6 )
+anims/pulse = SubResource( 4 )
 
 [node name="BleedAnim" parent="Spawner5" index="7"]
-anims/bleed = SubResource( 7 )
+anims/bleed = SubResource( 5 )
 
 [node name="Spawner4" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1048.02, -609.776 )
@@ -328,6 +333,7 @@ MELEE_PRIORITY = 0
 HEALER_PRIORITY = 0
 SUICIDE_PRIORITY = 0
 RANGE_PRIORITY = 6
+ENEMY_PRE_AGGRO = true
 
 [node name="Position2D" parent="Spawner4/SpawnArea" index="2"]
 position = Vector2( -381.27, 184.127 )
@@ -337,20 +343,16 @@ position = Vector2( -528.944, 298.684 )
 scale = Vector2( 1.88, 1 )
 
 [node name="AnimationPlayer" parent="Spawner4" index="1"]
-anims/pulse = SubResource( 4 )
+anims/pulse = SubResource( 6 )
 
 [node name="BleedAnim" parent="Spawner4" index="7"]
-anims/bleed = SubResource( 5 )
+anims/bleed = SubResource( 7 )
 
 [node name="SuicideBug7" parent="." instance=ExtResource( 14 )]
 position = Vector2( -180.423, -1276.24 )
 SHOW_RANGE = true
 AGGRO_RANGE = 400
 ANIMATION_NODE = NodePath("../SuicideBug/AnimatedSprite")
-
-[node name="ArtilleryBug" parent="." instance=ExtResource( 15 )]
-position = Vector2( 671.324, -1635.24 )
-scale = Vector2( 1.88, 1 )
 
 [node name="SuicideBug5" parent="." instance=ExtResource( 14 )]
 position = Vector2( -158.539, -1213.77 )
@@ -398,6 +400,7 @@ MELEE_PRIORITY = 0
 HEALER_PRIORITY = 0
 SUICIDE_PRIORITY = 0
 RANGE_PRIORITY = 10
+ENEMY_PRE_AGGRO = true
 
 [node name="SpawnTrigger" parent="SpawnArea" instance=ExtResource( 5 )]
 position = Vector2( 633.896, -51.1128 )
@@ -413,10 +416,11 @@ MELEE_PRIORITY = 2
 HEALER_PRIORITY = 0
 SUICIDE_PRIORITY = 0
 RANGE_PRIORITY = 2
+ENEMY_PRE_AGGRO = true
 
 [node name="SpawnTrigger" parent="SpawnArea3" instance=ExtResource( 5 )]
-position = Vector2( 407.159, 406.852 )
-scale = Vector2( 2.08, 1.1423 )
+position = Vector2( 411.397, 82.6562 )
+scale = Vector2( 3.36, 2.5823 )
 
 [node name="SpawnArea5" parent="." instance=ExtResource( 17 )]
 position = Vector2( -2369.3, -2654.67 )
@@ -429,13 +433,14 @@ MELEE_PRIORITY = 2
 HEALER_PRIORITY = 2
 SUICIDE_PRIORITY = 2
 RANGE_PRIORITY = 2
+ENEMY_PRE_AGGRO = true
 
 [node name="SpawnTrigger" parent="SpawnArea5" instance=ExtResource( 5 )]
 position = Vector2( 992.127, 239.204 )
 scale = Vector2( 1.03293, 1.74125 )
 
 [node name="SpawnArea4" parent="." instance=ExtResource( 17 )]
-position = Vector2( -232.006, -2329.44 )
+position = Vector2( 700.322, -3405.85 )
 SPAWN_COUNT = 1
 SPAWN_INTERVAL = 1.0
 SPAWN_MIN_INTERVAL = 1.0
@@ -445,22 +450,41 @@ MELEE_PRIORITY = 0
 HEALER_PRIORITY = 2
 SUICIDE_PRIORITY = 0
 RANGE_PRIORITY = 2
+ENEMY_PRE_AGGRO = true
 
 [node name="SpawnTrigger" parent="SpawnArea4" instance=ExtResource( 5 )]
 position = Vector2( -383.808, 433.28 )
 scale = Vector2( 2.08, 1.1423 )
 
-[node name="SpawnArea2" parent="." instance=ExtResource( 17 )]
-position = Vector2( -622.131, -1908.28 )
+[node name="SpawnArea6" parent="." instance=ExtResource( 17 )]
+position = Vector2( -218.157, -2344.33 )
 SPAWN_COUNT = 1
 SPAWN_INTERVAL = 1.0
 SPAWN_MIN_INTERVAL = 1.0
+ENEMY_AMOUNT = 4
+ENEMY_MIN_AMOUNT = 0
+MELEE_PRIORITY = 0
+HEALER_PRIORITY = 2
+SUICIDE_PRIORITY = 0
+RANGE_PRIORITY = 2
+ENEMY_PRE_AGGRO = true
+
+[node name="SpawnTrigger" parent="SpawnArea6" instance=ExtResource( 5 )]
+position = Vector2( -390.165, 126.036 )
+scale = Vector2( 3.45594, 2.6623 )
+
+[node name="SpawnArea2" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1127.22, -2450.76 )
+SPAWN_COUNT = 5
+SPAWN_MIN_INTERVAL = 1.0
+ENEMY_AMOUNT = 2
 MELEE_PRIORITY = 0
 HEALER_PRIORITY = 0
 RANGE_PRIORITY = 10
+ENEMY_PRE_AGGRO = true
 
 [node name="SpawnTrigger" parent="SpawnArea2" instance=ExtResource( 5 )]
-position = Vector2( -303.981, 463.925 )
+position = Vector2( -823.814, -35.1844 )
 scale = Vector2( 1, 1.52 )
 
 [node name="BuggedRadar" parent="." instance=ExtResource( 18 )]
@@ -499,6 +523,18 @@ position = Vector2( -2400.51, -2758.94 )
 
 [node name="BuggedRadar4" parent="." instance=ExtResource( 18 )]
 position = Vector2( 1175.11, -1628.43 )
+
+[node name="ArtilleryBug" parent="." instance=ExtResource( 15 )]
+position = Vector2( 687.183, -1656.63 )
+
+[node name="ArtilleryBug2" parent="." instance=ExtResource( 15 )]
+position = Vector2( 2851.24, -1861.16 )
+
+[node name="ArtilleryBug3" parent="." instance=ExtResource( 15 )]
+position = Vector2( 689.144, -583.502 )
+
+[node name="ArtilleryBug4" parent="." instance=ExtResource( 15 )]
+position = Vector2( 689.144, -583.502 )
 
 [editable path="Player"]
 [editable path="Spawner2"]
