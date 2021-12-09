@@ -1,6 +1,12 @@
-# Access Point
-Isometric shooter for game-off 2021 built in Godot
 
+# Access Point
+Open-source isometric shooter for game-off 2021 built in Godot.
+
+[![CC BY 4.0][cc-by-image]][cc-by]
+
+All assets are licensed under a
+[Creative Commons Attribution 4.0 International License][cc-by]. You are free to use them in anyway you like as long as you give us credit.
+ 
 ## File Structure
 
 ### `assets`
@@ -41,3 +47,8 @@ All mobile enemies inherits from [`EnemyUnit.gd`](entities/enemies/scripts/Enemy
 
 ### Stages
 All stages' root node are Navigation2D nodes for the sake of simplicity. These root node's script inherits from [`StageInit`](stages/scripts/StageInit.gd), which deals with TileMap init and starting the stage from loading screen. It also deals with dialogues if required.
+ 
+
+[cc-by]: http://creativecommons.org/licenses/by/4.0/
+[cc-by-image]: https://i.creativecommons.org/l/by/4.0/88x31.png
+[cc-by-shield]: https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg
