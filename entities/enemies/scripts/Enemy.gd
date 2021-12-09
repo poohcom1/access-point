@@ -38,6 +38,7 @@ func _ready():
 	set_collision_layer_bit(GameManager.COL_PLAYER_BULLET, true)
 
 
+# Virtual function for receiving damage
 func on_hit(dmg: float, _from=null, _type: String = ""):
 	if health <= 0:
 		if not is_dead:
@@ -62,7 +63,7 @@ func on_hit(dmg: float, _from=null, _type: String = ""):
 		emit_signal("on_death")
 		on_death()
 
-
+# Virtual function to call on death
 func on_death():
 	pass
 	

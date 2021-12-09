@@ -130,14 +130,16 @@ func _init_pathfind():
 	
 # Default states
 
-# States Management
+## States Management
+
+### Override on_hit to aggro
 func on_hit(dmg, from=null, type: String = ""):
 	.on_hit(dmg, from, type)
 	
 	if state == State.Passive or state == State.Rallying:
 		to_aggro()
 		
-
+### Switching to aggro state
 func to_aggro(target=search_nearest_target()):
 	set_target(target)
 	_init_pathfind()
@@ -145,20 +147,24 @@ func to_aggro(target=search_nearest_target()):
 	
 	GameManager.emit_signal("aggro_alert", global_position, target)
 
+### Called from signal 
 func alert(_position, target):
 	if state == State.Passive and global_position.distance_squared_to(_position) < pow(FRIEND_RANGE, 2):
 		to_aggro(target)
 
+### Switching state and starting timer when needed (used for Knockback)
 func change_state_with_timer(new_state, timeout=0):
 	if timeout > 0:
 		state_timer.start(timeout)
 	state = new_state
 	
+### On stage timer ended
 func on_state_timeout():
 	match state:
 		State.Knockback:
 			state = State.Default
 
+### Called by other objects to deal knockback
 func on_hit_knockback(vector: Vector2, time = 0.1):
 	if not pause_state and state != State.Dead:
 		state = State.Knockback
@@ -170,21 +176,25 @@ func on_hit_knockback(vector: Vector2, time = 0.1):
 func _process(_delta):
 	if Engine.editor_hint or state == State.Dead: return
 	
+	## Search for target it passive or rallying
 	if state == State.Passive or state == State.Rallying:
 		
 		var nearest_target = search_nearest_target()
 
 		if nearest_target:
 			to_aggro(nearest_target)
-			
+	
+	## Show path line
 	if DEBUG_PATH:
 		debug_path.global_position = Vector2.ZERO
 		debug_path.points = path
 		
+	## Regular movement if rallying
 	if state == State.Rallying:
 		move_and_slide(navigate() * speed)
 		set_move_animation()
 	
+	## Check if target is dead
 	var target = navigation_target.get_ref()
 	if not target or (target and target.is_in_group("friendly") and target.health <= 0):
 		var new_target = search_nearest_target()
@@ -247,6 +257,7 @@ func navigate_with_sightline():
 			
 	return mv
 
+## Generates path 
 func generate_path(repeat=true):
 	#GameManager.static_counter += 1
 	#print_debug(GameManager.static_counter)
